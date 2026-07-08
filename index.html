@@ -698,28 +698,53 @@ body.menu-open { overflow: hidden; }
   .menu-binnen { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 680px) {
-  .header { padding-top: 24px; }
-  .case-blok { aspect-ratio: 4 / 5; }
-  .case-titel { font-size: clamp(30px, 8.5vw, 40px); }
-  .tegel-grid { grid-template-columns: 1fr; }
+  /* Figma mobiel (414px-basis): 10px beeldmarges i.p.v. 18px */
+  :root { --marge-beeld: 10px; }
+
+  /* Header → compacte pill (Figma: balk 380x46 met 17px zijmarge, zelfde blur als desktop).
+     Logo 12px binnen de balk (op 414: x=29), menu-knop 6px binnen de rechterrand. */
+  .header { padding-top: 24px; padding-left: 29px; padding-right: 23px; }
+  .header::before { top: 19px; left: 17px; right: 17px; height: 46px; border-radius: 23px; }
+  .menu-knop .menu-label { display: none; }   /* Figma mobiel: alleen hamburger, 55x37 pill */
+  .menu-knop { width: 55px; height: 37px; padding: 0; justify-content: center; }
+  .taalswitch { display: none; }              /* taalkeuze verhuist naar het open menu (Figma) */
+  body.menu-open .taalswitch { display: flex; position: absolute; top: 24px; left: 10px; }
+
+  /* Hero: zelfde pin-effect, maar eindstand met 10px marges (Figma) */
+  .hero-scroll { height: 170vh; }  /* mobiel: lichter, kortere pin */
+  .hero-inhoud { padding: 0 23px 31px; }
+  .hero-titel { font-size: clamp(38px, 10.2vw, 44px); }
+  .hero-cta .label, .more-cases .label { font-size: 15px; }
+  .hero-kader { top: calc(var(--p) * 10px); bottom: calc(var(--p) * 10px); }
+
+  /* Case-blokken: vierkant (Figma 394x394), tekst 23px van de rand, grotere titel */
+  .case-blok { aspect-ratio: 1 / 1; }
+  .case-inhoud { padding: 30px 23px 31px; }
+  .case-titel { font-size: clamp(34px, 10.2vw, 44px); }
+  .case-resultaat { font-size: clamp(16px, 5.3vw, 22px); margin-top: 14px; }
+  .case-resultaat .pijl-knop { width: 45px; height: 45px; }
+
+  /* Figma mobiel: geen kleine tegels; de 'More cases'-knop volgt direct op de 3 cases */
+  .tegel-grid { display: none; }
+
+  /* Intro + logo slider: titel iets groter, logo's compacter met kortere fade (Figma) */
+  .intro h2 { font-size: 29px; }
+  .logo-strip { zoom: 0.7; gap: 70px; }
+  .logo-slider {
+    -webkit-mask-image: linear-gradient(to right, transparent 10px, black 72px, black calc(100% - 72px), transparent calc(100% - 10px));
+    mask-image: linear-gradient(to right, transparent 10px, black 72px, black calc(100% - 72px), transparent calc(100% - 10px));
+  }
+
+  /* What we do: koppen compacter, subdiensten onder elkaar (Figma mobiel) */
+  .dienst-kop { font-size: 34px; line-height: 1.25; }
+  .dienst-items { flex-direction: column; align-items: flex-start; gap: 14px; margin-top: 14px; }
+
   .footer-kolommen { grid-template-columns: 1fr; }
   .menu-binnen { grid-template-columns: 1fr; padding-top: 110px; }
   .menu-kolom .groot a { font-size: 40px; }
   .menu-kolom .middel a { font-size: 30px; }
-  .hero-cta .label, .more-cases .label { font-size: 15px; }
   .nieuwsbrief { max-width: none; }
   .footer-onder .more-cases-klein { font-size: 16px; }
-  .hero-scroll { height: 170vh; }  /* mobiel: lichter, kortere pin */
-  .hero-inhoud { padding: 0 20px 28px; }
-  .header { padding-left: calc(var(--marge-beeld) + 20px); padding-right: calc(var(--marge-beeld) + 20px); }
-  .header::before { top: 15px; left: 12px; right: 12px; }  /* balk gecentreerd om de mobiele header (inhoud op 24..60) */
-  .case-inhoud { padding-left: 20px; padding-right: 20px; }
-  .logo-slider {
-    -webkit-mask-image: linear-gradient(to right, transparent 20px, black 90px, black calc(100% - 90px), transparent calc(100% - 20px));
-    mask-image: linear-gradient(to right, transparent 20px, black 90px, black calc(100% - 90px), transparent calc(100% - 20px));
-  }
-  .hero-kader { top: calc(var(--p) * 12px); bottom: calc(var(--p) * 12px); }
-  .dienst-kop { line-height: 1.4; }
 }
 
 /* Reduced motion: animaties uit */
@@ -1107,7 +1132,8 @@ document.querySelectorAll('img[src^="images/"]').forEach(function (img) {
 // achter het stilstaande beeld. Bij hover hoeft er dan alleen nog 'play' gestuurd
 // te worden — daardoor start ook de éérste hover meteen. Bij het verlaten fadet
 // de video uit en pauzeert hij. Het stilstaande beeld blijft altijd als fallback.
-if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+    window.matchMedia('(hover: hover)').matches) {  // touch-apparaten: geen hover, dus geen preload van 11 players
   function vimeoCommando(f, methode) {
     try {
       f.contentWindow.postMessage(JSON.stringify({ method: methode }), 'https://player.vimeo.com');
