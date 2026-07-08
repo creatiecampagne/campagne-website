@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campagne — Wanna be loved?</title>
+<meta name="description" content="Campagne is een strategisch en creatief bureau dat merken helpt groeien in een connected wereld.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://player.vimeo.com">
+<link rel="preconnect" href="https://i.vimeocdn.com">
+<link rel="preconnect" href="https://f.vimeocdn.com">
+<link rel="preconnect" href="https://vod-adaptive-ak.vimeocdn.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   CAMPAGNE — design tokens (waarden uit het Figma-ontwerp, 1440px basis)
+   ========================================================================== */
+:root {
+  --geel: #f9e000;               /* fallback; hero gebruikt de echte foto */
+  --roze: #d72655;               /* Send-knop, footer-tekst */
+  --bordeaux: #460f22;           /* footer-achtergrond */
+  --marquee-a: #d82756;          /* marquee gradient start */
+  --marquee-b: #490d1e;          /* marquee gradient einde */
+  --zwart: #000000;
+  --wit: #ffffff;
+  --grijs: #d8d8d8;              /* dividers, invoerveld */
+  --pill: #ebebeb;               /* taalswitch */
+  --donker: #121212;             /* TCF-blok */
+
+  --radius: 20px;                /* vaste hoekradius van alle blokken */
+  --radius-knop: 25px;
+  --marge-beeld: 18px;           /* buitenmarge/tussenruimte van beeldblokken (ontwerp: 18px) */
+  --marge-content: clamp(21px, 8.8vw, 127px);  /* Figma: 127px op 1440 */
+  --max-b: 1440px;
+
+  --font: 'Poppins', -apple-system, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  font-weight: 400;
+  color: var(--zwart);
+  background: var(--wit);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+.wrap { max-width: var(--max-b); margin: 0 auto; position: relative; }
+
+/* Zichtbare focus voor toetsenbordgebruik */
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 3px solid var(--roze);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  --pad-l: clamp(33px, 3.125vw, 45px);   /* Figma: logo x=45 op 1440 */
+  --pad-r: clamp(22px, 2.5vw, 36px);     /* Figma: knoppen 36 van rechts op 1440 */
+  padding: 36px var(--pad-r) 24px var(--pad-l);  /* top 36 (Figma) */
+  background: transparent;
+  transition: transform .35s ease;
+}
+/* De losse scrollbalk is een pseudo-element dat alleen in- en uitfadet.
+   Logo en knoppen staan in beide staten op (vrijwel) dezelfde plek — bij de
+   overgang beweegt er dus niets, enkel de achtergrond verschijnt of verdwijnt. */
+.header::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: calc(var(--pad-l) - 18px);        /* logo 18px binnen de balk (op 1440: 27px) */
+  right: calc(var(--pad-r) - 10px);       /* knoppen 10px binnen de balk (op 1440: 26px) */
+  height: 54px;
+  background: rgba(0, 0, 0, .6);
+  border-radius: 30px;                   /* Figma: radius 30 — bijna pill-vorm */
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  opacity: 0;
+  transition: opacity .35s ease;
+  z-index: -1;
+  pointer-events: none;
+}
+.header.scrolled::before { opacity: 1; }
+/* Omlaag scrollen: balk glijdt weg. Omhoog scrollen: balk komt terug. */
+.header.verborgen { transform: translateY(-160%); }
+/* Duw-staat: de hero-titel duwt de header 1:1 het beeld uit; transform volgt de scroll direct */
+.header.duwt { transition: none; }
+/* Menu open: overlay is wit, dus logo zwart en balk transparant */
+body.menu-open .header::before { opacity: 0; }
+body.menu-open .logo { color: #000; }
+.logo { color: var(--wit); }  /* Figma: wit logo op de hero */
+/* Intro-fade bij laden: logo van links, knoppen van rechts */
+.logo { opacity: 0; transform: translateX(-28px); }
+.header-knoppen { opacity: 0; transform: translateX(28px); }
+body.intro-klaar .logo,
+body.intro-klaar .header-knoppen {
+  opacity: 1; transform: translateX(0);
+  transition: opacity .9s ease, transform .9s cubic-bezier(.22,.61,.36,1);
+}
+body.intro-klaar .header-knoppen { transition-delay: .05s; }
+.logo-svg { display: block; }
+.logo .logo-svg { width: 175px; height: 27px; display: block; }  /* Figma: 175x27, ook zonder scroll */
+.header .logo-svg { transform: translateY(4px); }  /* optisch centreren: letterromp in het midden van de balk, staart (p/g) eronder — zoals Figma */
+
+.header-knoppen { display: flex; align-items: center; gap: 10px; }
+
+.menu-knop {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--zwart);
+  color: var(--wit);
+  font-size: 14px; font-weight: 500;
+  height: 36px; padding: 0 16px;
+  border-radius: var(--radius-knop);
+}
+.menu-knop .hamburger { display: inline-flex; flex-direction: column; gap: 6px; width: 18px; }
+.menu-knop .hamburger span { display: block; height: 1px; background: var(--wit); width: 100%; transition: all .25s ease; }
+.menu-knop .hamburger span:last-child { width: 10px; }
+/* Open-staat: hamburger wordt kruisje */
+body.menu-open .menu-knop .hamburger span:nth-child(1) { transform: translateY(3.5px) rotate(45deg); }
+body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-3.5px) rotate(-45deg); width: 100%; }
+
+.taalswitch {
+  position: relative;
+  display: flex; align-items: center;
+  background: var(--pill);
+  height: 36px; border-radius: 19px;
+  padding: 3px;
+}
+.taalswitch button {
+  position: relative; z-index: 1;
+  width: 32px; height: 30px;
+  font-size: 14px; font-weight: 500;
+  color: var(--zwart);
+  border-radius: 15px;
+  transition: color .2s ease;
+}
+.taalswitch button.actief { color: var(--wit); }
+.taalswitch::before {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 32px; height: 30px;
+  background: var(--zwart);
+  border-radius: 15px;
+  transition: transform .25s ease;
+}
+.taalswitch[data-taal="nl"]::before { transform: translateX(32px); }
+
+/* ==========================================================================
+   Hero — scroll-gestuurd (pin + krimp naar kader)
+   ========================================================================== */
+/* De scroll-sectie is hoog; de sticky laag blijft in beeld terwijl je scrollt.
+   --p (0..1) wordt door JS gezet op basis van hoever je door de sectie bent. */
+.hero-scroll {
+  position: relative;
+  height: 220vh;                 /* scroll-lengte van de animatie */
+  --p: 0;
+}
+.hero-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+.hero-kader {
+  position: absolute;
+  /* Interpoleer van fullscreen (0 marge, 0 radius) naar geboxed (21px marge, 20px radius) */
+  top: calc(var(--p) * 18px);
+  bottom: calc(var(--p) * 18px);
+  left: calc(var(--p) * var(--marge-beeld));
+  right: calc(var(--p) * var(--marge-beeld));
+  border-radius: calc(var(--p) * var(--radius));
+  overflow: hidden;
+  will-change: top, bottom, left, right;
+}
+.hero-vorm {
+  /* Vector "Achtergrond vorm" (aangeleverde Vector.svg, #EAE3D2): zit achter het
+     hero-kader en wordt zichtbaar in de 18px-marges zodra het kader naar geboxed
+     krimpt. Deze variant (632px hoog i.p.v. 779px) blijft binnen het hero-frame. */
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: auto;
+  display: block;
+  pointer-events: none;
+}
+.hero-video { position: absolute; inset: 0; overflow: hidden; }
+.hero-video img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.hero-video iframe {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  border: 0;
+  pointer-events: none;      /* scroll en klik gaan door de video heen */
+  /* Vimeo is 4:3; vul het kader op cover-formaat */
+  width: max(100%, calc(100svh * 1.3334));
+  height: max(100%, calc(100vw * 0.75));
+}
+.hero-kader::before {
+  /* Overlay verloop (boven) — Figma: zwart naar transparant, 27% */
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 238px;
+  background: linear-gradient(to bottom, rgba(0,0,0,.27), rgba(0,0,0,0));
+  z-index: 1;
+}
+.hero-inhoud {
+  position: absolute; inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 clamp(24px, 3.75vw, 54px) 47px;   /* ontwerp: tekst 54px van de kaderrand */
+  color: var(--wit);
+  /* Tekst scrollt van onder het kader naar binnen, gelijk op met de kadervorming.
+     Het kader (overflow hidden) snijdt de tekst af zolang die er nog onder hangt. */
+  transform: translateY(calc((1 - var(--p, 0)) * 95svh));
+  will-change: transform;
+}
+.hero-titel {
+  font-size: clamp(46px, 6.25vw, 90px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.0204em;
+  max-width: 11em;
+}
+.hero-intro {
+  margin-top: 24px;
+  font-size: clamp(15px, 1.25vw, 18px);
+  line-height: 1.55;
+  max-width: 580px;
+}
+.hero-cta {
+  display: flex; align-items: center; gap: 24px;
+  margin-top: clamp(36px, 6vh, 96px);
+}
+.hero-cta .label { font-size: 18px; font-weight: 800; white-space: nowrap; }
+.hero-cta .lijn { flex: 1; height: 1.5px; background: var(--wit); opacity: .9; }
+.pijl-knop {
+  flex: none;
+  width: 47px; height: 47px;
+  display: grid; place-items: center;
+}
+.pijl-svg { width: 100%; height: 100%; transition: transform .25s ease; }
+.pijl-knop:hover .pijl-svg, a:hover:not(.case-blok):not(.tegel) .pijl-knop .pijl-svg, .case-resultaat:hover .pijl-svg { transform: rotate(45deg); }
+
+/* ==========================================================================
+   Intro + logo slider
+   ========================================================================== */
+.intro {
+  padding: clamp(56px, 8vw, 96px) var(--marge-content) 0;
+}
+.intro h2 {
+  font-size: clamp(26px, 2.5vw, 36px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.logo-slider {
+  overflow: hidden;
+  /* Figma: dicht op de titel, ruime witruimte eronder */
+  padding: clamp(28px, 3vw, 48px) 0 clamp(80px, 9vw, 140px);
+  cursor: grab;
+  /* Figma: logo's binnen de contentmarge, met 256px verloop-fade aan beide zijden */
+  -webkit-mask-image: linear-gradient(to right, transparent var(--marge-content), black calc(var(--marge-content) + 70px), black calc(100% - var(--marge-content) - 70px), transparent calc(100% - var(--marge-content)));
+  mask-image: linear-gradient(to right, transparent var(--marge-content), black calc(var(--marge-content) + 70px), black calc(100% - var(--marge-content) - 70px), transparent calc(100% - var(--marge-content)));
+}
+.logo-slider.sleept { cursor: grabbing; }
+.logo-strip {
+  display: flex;
+  align-items: center;
+  gap: clamp(110px, 10.5vw, 150px);  /* max 3,5-4 logo's tegelijk in beeld */
+  width: max-content;
+  will-change: transform;
+}
+.logo-strip img { width: auto; pointer-events: none; }
+@keyframes schuif {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes schuif-terug {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+/* ==========================================================================
+   Case-blokken (groot)
+   ========================================================================== */
+.cases { display: flex; flex-direction: column; gap: var(--marge-beeld); padding: 0 var(--marge-beeld); }
+.case-blok {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 1404 / 724;   /* ontwerp: 1404x724 (18px marges) */
+  width: 100%;
+  color: var(--wit);
+  display: block;
+}
+.case-blok > img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform .6s ease;
+}
+.case-blok:has(.case-resultaat:hover) > img { transform: scale(1.03); }  /* hover alleen via subtitel */
+.case-blok::before {
+  /* Overlay verloop (links) — leesbaarheid van de tekst */
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(100deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.15) 55%, rgba(0,0,0,0) 75%);
+  z-index: 1;
+}
+.case-inhoud {
+  position: absolute; inset: 0;
+  z-index: 2;
+  display: flex; flex-direction: column;
+  /* ontwerp: 47px boven, 54px links, 62px onder */
+  padding: clamp(24px, 3.3vw, 47px) clamp(24px, 3.75vw, 54px) clamp(24px, 4.3vw, 62px);
+}
+.case-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 18px; font-weight: 800;     /* Figma: 18px ExtraBold */
+  letter-spacing: .02em;
+}
+.case-titel {
+  margin-top: auto;
+  font-size: clamp(38px, 5.56vw, 116px); /* Figma: 80px op 1440 breed */
+  font-weight: 800;
+  line-height: 0.99;                     /* Figma: 79.2px op 80px */
+  letter-spacing: -0.02em;
+}
+.case-resultaat {
+  display: flex; align-items: center; gap: 16px;
+  margin-top: clamp(10px, 1.4vw, 20px); /* Figma: subtitel direct onder de titel */
+  font-size: clamp(15px, 1.67vw, 24px);  /* Figma: 24px bij de foto-cases */
+  line-height: 1.25;
+  gap: 21px;                             /* Figma: 21px tussen pijl en tekst */
+  max-width: 21em;                       /* Figma: max 449px = 2 regels (ook Steinweg) */
+}
+.case-resultaat .pijl-knop { width: clamp(40px, 4.5vw, 63px); height: clamp(40px, 4.5vw, 63px); }  /* Figma: 63x63 */
+
+/* ==========================================================================
+   Kleine case-tegels
+   ========================================================================== */
+.tegels {
+  padding: var(--marge-beeld) var(--marge-beeld) 0;
+}
+.tegel-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--marge-beeld);
+}
+.tegel {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 456 / 341;   /* ontwerp: 456x341 */
+  display: block;
+}
+.tegel img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform .5s ease;
+}
+.tegel:hover img { transform: scale(1.05); }
+/* Tegel-inhoud: titel + labels zijn altijd zichtbaar. Bij hover
+   kleurt een overlay op 50% mee in --hover-kleur en schuiven subtitel + pijl
+   onder de labels tevoorschijn (de labels bewegen daarbij vanzelf iets omhoog). */
+.tegel::after {
+  content: '';
+  position: absolute; inset: 0;
+  z-index: 2;
+  background: var(--hover-kleur, var(--roze));
+  opacity: 0;
+  transition: opacity .3s ease;
+  pointer-events: none;
+}
+.tegel:hover::after { opacity: .5; }                    /* Figma: overlay op 50% */
+.tegel-inhoud {
+  position: absolute; inset: 0;
+  z-index: 3;
+  display: flex; flex-direction: column;
+  justify-content: space-between;
+  padding: 18px;                                        /* Figma: 18px inzet rondom */
+  color: var(--wit);
+}
+.tegel-titel { font-size: 18px; font-weight: 800; line-height: 1.4; max-width: 410px; }
+.tegel-labels { display: flex; flex-wrap: wrap; gap: 8px 9px; }  /* Figma: ±9px tussen labels */
+.tegel-labels span {
+  background: rgba(0, 0, 0, .4);                        /* Figma: zwart 40% */
+  border-radius: 4px;                                   /* Figma: 3.55px */
+  padding: 1px 6px;
+  font-size: 10px; line-height: 14px;                   /* Figma: 9.94px / 14.2px */
+  white-space: nowrap;
+}
+.tegel-sub {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 14px;
+  font-size: 14px; line-height: 20px;                   /* Figma: Poppins Regular 14/20 */
+  max-height: 0; margin-top: 0; opacity: 0;
+  overflow: hidden;
+  transition: max-height .35s ease, margin-top .35s ease, opacity .3s ease;
+}
+.tegel:hover .tegel-sub { max-height: 64px; margin-top: 3px; opacity: 1; }  /* ontwerp: labels 5px lager in de hover */
+.tegel-sub .onderschrift { max-width: 340px; }          /* Figma: subtitel ±339px breed */
+.tegel-sub .pijl-knop { flex: none; width: 45px; height: 45px; color: var(--wit); }  /* Figma: 45x45 */
+.tegel .pijl-svg { transition: transform .6s ease; }
+.tegel:hover .pijl-svg { transform: rotate(45deg); transition: transform .6s ease .35s; }
+
+.more-cases {
+  display: flex; align-items: center; gap: 24px;
+  /* Dicht op de tegels, ruimte naar het volgende blok, en smaller (Figma: 985px) */
+  padding: clamp(20px, 2.5vw, 32px) 0 clamp(56px, 6vw, 88px);
+  max-width: 985px;                      /* ontwerp: 985px, gecentreerd */
+  margin: 0 auto;
+}
+.more-cases .label { font-size: 18px; font-weight: 400; white-space: nowrap; }  /* Poppins Regular */
+.more-cases .lijn { flex: 1; height: 1px; background: var(--zwart); }  /* dunner: matcht tekst en pijl */
+.more-cases .pijl-knop { color: var(--zwart); }
+.footer .more-cases .pijl-knop { color: var(--roze); }
+
+/* ==========================================================================
+   Video-hover (cases, tegels, TCF/AMIN)
+   Vimeo-achtergrond fadet over het stilstaande beeld heen. Cover-formaat via
+   container-query-eenheden: 16:9 gevuld en bijgesneden, ongeacht blokvorm.
+   ========================================================================== */
+.blok-video {
+  position: absolute; inset: 0;
+  z-index: 0;                 /* boven het beeld, onder verloop-overlay en tekst */
+  overflow: hidden;
+  container-type: size;
+  opacity: 0;
+  transition: opacity .5s ease;
+  pointer-events: none;
+}
+.blok-video.zichtbaar { opacity: 1; }
+.blok-video iframe {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  border: 0;
+  width: max(100cqw, calc(100cqh * 1.7778));
+  height: max(100cqh, calc(100cqw * 0.5625));
+}
+
+/* ==========================================================================
+   What we do
+   ========================================================================== */
+.diensten {
+  padding: clamp(8px, 1vw, 16px) var(--marge-content) clamp(40px, 6vw, 80px);  /* witruimte boven = onder */
+}
+.dienst-groep { padding: clamp(20px, 3vw, 36px) 0; }
+.dienst-groep + .dienst-groep { border-top: 1px solid var(--grijs); }
+.dienst-kop {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-size: clamp(30px, 3vw, 42px);
+  font-weight: 800;
+  line-height: 70px;
+}
+.dienst-kop .icoon { flex: none; align-self: center; }  /* verticaal gecentreerd achter de titel */
+.icoon-s { width: 22px; height: 35px; }
+.icoon-b { width: 25px; height: 28px; }
+.icoon-a { width: 32px; height: 32px; }
+.dienst-items {
+  display: flex; flex-wrap: wrap;
+  gap: 14px clamp(24px, 4vw, 68px);
+  margin-top: 8px;
+}
+.dienst-item {
+  display: inline-flex; align-items: center; gap: 9px;   /* Figma: gap 9px */
+  font-size: 17px;
+}
+.dienst-item .mini-pijl {
+  width: 27px; height: 27px;                              /* Figma: 27x27 */
+  color: var(--zwart);
+  display: grid; place-items: center;
+  transition: transform .25s ease;
+}
+.dienst-item:hover .mini-pijl { transform: rotate(45deg); }
+
+/* ==========================================================================
+   TCF- en AMIN-blokken
+   ========================================================================== */
+.tcf-blok { background: #000; }                 /* Figma: zwart */
+.tcf-blok > img { object-fit: cover; }   /* Figma: achtergrond 1792x927 vult het blok af */
+.tcf-blok .case-resultaat, .amin-blok .case-resultaat { font-size: clamp(16px, 1.88vw, 27px); }  /* Figma: 27px */
+/* AMIN-achtergrond staat in Figma 110,7% breed en iets naar linksboven geschoven */
+.amin-blok > img { inset: auto; left: -7.3%; top: -7.6%; width: 110.7%; height: 110.5%; }
+
+/* ==========================================================================
+   Marquee
+   ========================================================================== */
+.marquee {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(40px, 6vw, 80px) 0;
+  background: var(--wit);
+  isolation: isolate;                      /* blend blijft binnen dit blok */
+  cursor: grab;
+}
+.marquee.sleept { cursor: grabbing; }
+/* Eén gradient over het hele blok (Figma): zwarte tekst + lighten-overlay.
+   Wit blijft wit, zwart wordt het verloop — alle woorden delen zo hetzelfde verloop. */
+.marquee::after {
+  content: '';
+  position: absolute; inset: 0;
+  z-index: 1;
+  background: linear-gradient(90deg, var(--marquee-a), var(--marquee-b));
+  mix-blend-mode: lighten;
+  pointer-events: none;
+}
+.marquee-rij {
+  display: flex;
+  width: max-content;
+  font-size: clamp(42px, 6.25vw, 90px);
+  font-weight: 800;
+  line-height: 1.19;                       /* Figma: 107px op 90px */
+  letter-spacing: -0.022em;                /* Figma: -2px op 90px */
+  white-space: nowrap;
+  color: var(--zwart);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y;                     /* verticaal scrollen blijft werken */
+  will-change: transform;
+}
+.marquee-rij span { padding-right: 1.4em; }  /* Figma: brede spaties tussen claims */
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.footer {
+  background: var(--bordeaux);
+  color: var(--roze);
+  padding: clamp(48px, 6.9vw, 99px) var(--marge-content) clamp(48px, 6vw, 90px);
+  /* Figma: 3 kolommen op x=128 / 631 / 933 */
+}
+.footer-kolommen {
+  display: grid;
+  grid-template-columns: 1.65fr 1fr 1.45fr;
+  gap: clamp(28px, 4vw, 64px);
+}
+.footer h3 { font-size: 22px; font-weight: 800; margin-bottom: 24px; }
+.footer p, .footer address { font-style: normal; font-size: 14px; line-height: 1.7; }
+.footer a:hover { text-decoration: underline; }
+.footer-logo { color: var(--roze); }
+.footer-logo .logo-svg { width: 165px; height: 26px; max-width: 100%; margin-bottom: 22px; }
+.footer-intro { max-width: 409px; }
+.footer-links { display: flex; flex-direction: column; gap: 11px; margin-top: 22px; }
+.footer-links a {
+  display: inline-flex; align-items: center; gap: 19px;
+  font-size: 14px;
+}
+.footer-links .pijl-knop { width: 28px; height: 28px; color: var(--roze); }  /* Figma: 28x28 */
+.socials { display: flex; gap: 18px; margin-top: 42px; }                     /* Figma: 32px, 18px tussenruimte */
+.socials a {
+  width: 32px; height: 32px;
+  border: 1.5px solid var(--roze);
+  border-radius: 8px;
+  display: grid; place-items: center;
+  transition: background .2s ease, color .2s ease;
+}
+.socials a:hover { background: var(--roze); color: var(--bordeaux); }
+.socials svg { width: 16px; height: 16px; fill: currentColor; }
+.nieuwsbrief-tekst { margin-bottom: 14px; }
+.nieuwsbrief {
+  position: relative;
+  max-width: 366px;                       /* Figma: veld 366x48, knop erin */
+}
+.nieuwsbrief input {
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-radius: 24px;
+  background: var(--grijs);
+  padding: 0 106px 0 20px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--bordeaux);
+}
+.nieuwsbrief button {
+  position: absolute;
+  right: 0; top: 0;
+  height: 48px;
+  width: 90px;                            /* Figma: 90x48 */
+  border-radius: 24px;
+  background: var(--roze);
+  color: var(--bordeaux);
+  font-size: 14px; font-weight: 500;
+  transition: filter .2s ease;
+}
+.nieuwsbrief button:hover { filter: brightness(1.1); }
+.nieuwsbrief-sub { margin-top: 12px; max-width: 236px; }
+.footer-onder { margin-top: clamp(40px, 5vw, 58px); }
+.footer-onder .more-cases-klein {
+  display: inline-flex; align-items: center; gap: 20px;
+  font-size: 18px; font-weight: 800;
+  color: var(--roze);
+}
+.footer-onder .pijl-knop { width: 45px; height: 45px; color: var(--roze); }  /* Figma: 45px */
+
+/* ==========================================================================
+   Menu-overlay (Figma: wit 85% over homepage)
+   ========================================================================== */
+.menu-overlay {
+  position: fixed; inset: 0;
+  z-index: 30;
+  background: rgba(255,255,255,.85);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease, visibility .3s ease;
+  overflow-y: auto;
+}
+body.menu-open .menu-overlay { opacity: 1; visibility: visible; }
+body.menu-open { overflow: hidden; }
+.menu-binnen {
+  padding: 133px var(--marge-content) 64px;   /* kolommen beginnen op y≈133 */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);      /* Figma: kolommen op 404px h-o-h */
+  gap: 40px;
+}
+.menu-kolom .kolom-label {
+  font-size: 14px; font-weight: 800;
+  margin-bottom: 28px;
+}
+.menu-kolom .groot a {
+  display: block;
+  font-size: clamp(40px, 4.2vw, 60px);        /* Figma: 60px ExtraBold */
+  font-weight: 800;
+  line-height: 1.32;                          /* Figma: items 70px h-o-h onder elkaar */
+  letter-spacing: -0.01em;
+  transition: opacity .2s ease;
+}
+.menu-kolom .middel a {
+  display: block;
+  font-size: clamp(30px, 2.8vw, 40px);        /* Figma: 40px */
+  font-weight: 800;
+  line-height: 1.35;
+  transition: opacity .2s ease;
+}
+.menu-kolom a:hover { opacity: .55; }
+.menu-sub {
+  margin: 10px 0 18px;
+  display: flex; flex-direction: column; gap: 10px;
+  padding-left: 36px;
+}
+.menu-sub a {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-size: 17px;                            /* Figma: 17px Regular */
+  font-weight: 400;
+}
+.menu-sub .mini-pijl {
+  width: 27px; height: 27px;
+  color: var(--zwart);
+  display: grid; place-items: center;
+}
+.menu-contact address { font-style: normal; font-size: 17px; line-height: 1.65; margin-bottom: 24px; }
+.menu-contact .menu-sub { padding-left: 0; }
+
+/* ==========================================================================
+   Placeholder-stijl als een beeld (nog) ontbreekt
+   ========================================================================== */
+.beeld-mist {
+  background: repeating-linear-gradient(45deg, #f2f2f2, #f2f2f2 12px, #e9e9e9 12px, #e9e9e9 24px);
+}
+.beeld-mist::before {
+  content: attr(data-label);
+  position: absolute; inset: auto 16px 16px 16px;
+  z-index: 3;
+  font-size: 13px; font-weight: 500;
+  color: #666;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .tegel-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-kolommen { grid-template-columns: 1fr 1fr; }
+  .menu-binnen { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 680px) {
+  .header { padding-top: 24px; }
+  .case-blok { aspect-ratio: 4 / 5; }
+  .case-titel { font-size: clamp(30px, 8.5vw, 40px); }
+  .tegel-grid { grid-template-columns: 1fr; }
+  .footer-kolommen { grid-template-columns: 1fr; }
+  .menu-binnen { grid-template-columns: 1fr; padding-top: 110px; }
+  .menu-kolom .groot a { font-size: 40px; }
+  .menu-kolom .middel a { font-size: 30px; }
+  .hero-cta .label, .more-cases .label { font-size: 15px; }
+  .nieuwsbrief { max-width: none; }
+  .footer-onder .more-cases-klein { font-size: 16px; }
+  .hero-scroll { height: 170vh; }  /* mobiel: lichter, kortere pin */
+  .hero-inhoud { padding: 0 20px 28px; }
+  .header { padding-left: calc(var(--marge-beeld) + 20px); padding-right: calc(var(--marge-beeld) + 20px); }
+  .header::before { top: 15px; left: 12px; right: 12px; }  /* balk gecentreerd om de mobiele header (inhoud op 24..60) */
+  .case-inhoud { padding-left: 20px; padding-right: 20px; }
+  .logo-slider {
+    -webkit-mask-image: linear-gradient(to right, transparent 20px, black 90px, black calc(100% - 90px), transparent calc(100% - 20px));
+    mask-image: linear-gradient(to right, transparent 20px, black 90px, black calc(100% - 90px), transparent calc(100% - 20px));
+  }
+  .hero-kader { top: calc(var(--p) * 12px); bottom: calc(var(--p) * 12px); }
+  .dienst-kop { line-height: 1.4; }
+}
+
+/* Reduced motion: animaties uit */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-rij { animation: none; }
+  .hero-scroll { height: 100svh; }
+  .hero-kader { top: 18px; bottom: 18px; left: var(--marge-beeld); right: var(--marge-beeld); border-radius: var(--radius); }
+  .hero-inhoud { transform: none !important; }
+  .hero-titel, .hero-intro, .hero-cta { transform: none; opacity: 1; }
+  .logo, .header-knoppen { opacity: 1 !important; transform: none !important; }
+  html { scroll-behavior: auto; }
+  .blok-video { display: none; }
+  * { transition-duration: .01ms !important; }
+}
+</style>
+</head>
+<body>
+<!-- Inline SVG-symbolen (logo, pijlen, dienst-iconen) — kleur via currentColor -->
+<svg width="0" height="0" style="position:absolute" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<symbol id="svg-logo" viewBox="0 0 230 36"><path fill-rule="evenodd" clip-rule="evenodd" d="M82.853 0C79.7082 0 76.8928 1.45241 75.0274 3.72752C73.1631 1.45241 70.3476 0 67.2029 0C61.601 0 57.043 4.60777 57.043 10.2696V24.6843H61.7115V10.2696C61.7115 7.20903 64.1742 4.7195 67.2029 4.7195C70.2304 4.7195 72.6942 7.20903 72.6942 10.2696V24.7429H77.3617V10.2696C77.3617 7.20903 79.8254 4.7195 82.853 4.7195C85.8805 4.7195 88.3443 7.20903 88.3443 10.2696V24.7429H93.0118V10.2696C93.0118 4.60777 88.4548 0 82.853 0Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M202.647 24.7136H197.978V10.2696C197.978 7.20903 195.516 4.7195 192.488 4.7195C189.459 4.7195 186.997 7.20903 186.997 10.2696V24.7136H182.328V10.2696C182.328 4.60777 186.886 0 192.488 0C198.089 0 202.647 4.60777 202.647 10.2696V24.7136Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M40.0164 19.9945C35.8502 19.9945 32.4609 16.5683 32.4609 12.3566C32.4609 8.14496 35.8502 4.71875 40.0164 4.71875C44.1826 4.71875 47.5718 8.14496 47.5718 12.3566C47.5718 15.4714 44.6292 19.9945 40.0164 19.9945ZM52.2399 11.9019C52.2399 5.21315 46.6046 0.000488281 40.0159 0.000488281C33.2765 0.000488281 27.793 5.54381 27.793 12.3567C27.793 19.1708 33.2765 24.7141 40.0159 24.7141C42.7922 24.7141 45.4157 23.7232 47.5713 21.8928V24.7434H52.2399V11.9019Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M137.813 19.9945C133.647 19.9945 130.258 16.5683 130.258 12.3566C130.258 8.14496 133.647 4.71875 137.813 4.71875C141.979 4.71875 145.369 8.14496 145.369 12.3566C145.369 15.4714 142.426 19.9945 137.813 19.9945ZM150.037 11.9019C150.037 5.1872 144.401 0.000488281 137.813 0.000488281C131.073 0.000488281 125.59 5.54381 125.59 12.3567C125.59 19.1708 131.073 24.7141 137.813 24.7141C140.589 24.7141 143.213 23.7232 145.368 21.8928V24.7141H150.037V11.9019Z" fill="currentColor"/>
+<mask id="logo-mask-p" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="97" y="0" width="25" height="36">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M97.4727 0.000488281H121.92V36H97.4727V0.000488281Z" fill="white"/>
+</mask>
+<g mask="url(#logo-mask-p)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M109.696 19.9945C105.53 19.9945 102.141 16.5683 102.141 12.3566C102.141 8.14496 105.53 4.71875 109.696 4.71875C113.862 4.71875 117.252 8.14496 117.252 12.3566C117.252 16.5683 113.862 19.9945 109.696 19.9945ZM109.696 0.000488281C103.198 0.000488281 97.4727 5.0845 97.4727 11.6266V36.0005H102.14V22.0598C104.221 23.7199 106.846 24.7141 109.696 24.7141C116.436 24.7141 121.92 19.1708 121.92 12.3567C121.92 5.54381 116.436 0.000488281 109.696 0.000488281Z" fill="currentColor"/>
+</g>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M165.927 19.9945C161.76 19.9945 158.371 16.5683 158.371 12.3566C158.371 8.14496 161.76 4.71875 165.927 4.71875C170.093 4.71875 173.482 8.14496 173.482 12.3566C173.482 16.5683 170.093 19.9945 165.927 19.9945ZM178.15 22.9807V12.1604C178.046 5.43773 172.602 0.000488281 165.927 0.000488281C159.187 0.000488281 153.703 5.54381 153.703 12.3567C153.703 19.1708 159.187 24.7141 165.927 24.7141C168.777 24.7141 171.402 23.7199 173.483 22.0598V23.0213L173.484 23.1071C173.561 25.2185 172.754 27.2894 171.27 28.7892C168.324 31.7674 163.53 31.7674 160.584 28.7892L158.934 27.1212L155.633 30.4572L157.283 32.1263C159.667 34.5345 162.797 35.7398 165.927 35.7398C169.057 35.7398 172.188 34.5345 174.57 32.1263C176.958 29.7123 178.261 26.3821 178.15 22.9807Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M24.447 2.52071C24.447 1.22629 23.4088 0.176758 22.1284 0.176758C20.8468 0.176758 19.8086 1.22629 19.8086 2.52071C19.8086 3.81513 20.8468 4.86466 22.1284 4.86466C23.4088 4.86466 24.447 3.81513 24.447 2.52071Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M19.7784 10.4133V12.773C19.7784 16.9147 16.4595 20.1603 12.2229 20.1603C8.0567 20.1603 4.66746 16.7341 4.66746 12.5225C4.66746 8.17426 7.71733 4.89476 11.7607 4.89476H13.8494C15.1991 4.89476 16.1089 3.72899 16.1089 2.53614C16.1089 1.34216 15.1935 0.176392 13.8494 0.176392H11.7607C5.16535 0.176392 0 5.59896 0 12.5225C0 19.3354 5.48351 24.8787 12.2229 24.8787C19.0773 24.8787 24.4469 19.5611 24.4469 12.773V10.4133H19.7784Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M210.801 10.4602H225.607C224.831 6.89185 222.087 4.46777 218.536 4.46777C215.967 4.46777 213.616 5.6674 212.087 7.75969C211.486 8.58125 211.055 9.49536 210.801 10.4602ZM218.541 24.8849C213.132 24.8849 208.476 21.4937 206.934 16.4108C205.748 12.5061 206.404 8.44005 208.733 5.2531C211.024 2.12143 214.689 0.251465 218.537 0.251465C225.017 0.251465 229.946 5.49798 230 12.4554C230.004 13.0377 229.773 13.6098 229.367 14.024C228.96 14.4393 228.396 14.6763 227.819 14.6763H210.784C210.825 14.8422 210.87 15.0081 210.92 15.1728C211.921 18.4693 214.978 20.6688 218.544 20.6688C218.574 20.6688 218.604 20.6688 218.635 20.6676C220.482 20.6485 221.98 20.0707 223.088 18.95L224.563 17.4592L227.511 20.4408L226.038 21.9316C224.157 23.832 221.612 24.8533 218.679 24.8838C218.633 24.8849 218.587 24.8849 218.541 24.8849Z" fill="currentColor"/></symbol>
+<symbol id="svg-pijl" viewBox="0 0 65 65">
+<path d="M23.3438 23.0063H41.4367V41.0993" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M21.5859 42.8554L41.435 23.0063" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M32.2203 63.6906C49.6008 63.6906 63.6906 49.6008 63.6906 32.2203C63.6906 14.8397 49.6008 0.75 32.2203 0.75C14.8397 0.75 0.75 14.8397 0.75 32.2203C0.75 49.6008 14.8397 63.6906 32.2203 63.6906Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+</symbol>
+<symbol id="svg-pijl-dik" viewBox="-1.2 -1.2 67.4 67.4">
+<path d="M23.3438 23.0063H41.4367V41.0993" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M21.5859 42.8554L41.435 23.0063" fill="none" stroke="currentColor" stroke-width="3.4" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M32.2203 63.6906C49.6008 63.6906 63.6906 49.6008 63.6906 32.2203C63.6906 14.8397 49.6008 0.75 32.2203 0.75C14.8397 0.75 0.75 14.8397 0.75 32.2203C0.75 49.6008 14.8397 63.6906 32.2203 63.6906Z" fill="none" stroke="currentColor" stroke-width="3.4" stroke-miterlimit="10" stroke-linecap="round"/>
+</symbol>
+<symbol id="icoon-strategie" viewBox="0 0 22 35"><path d="M21.6232 34.6551L21.146 33.8153C19.8231 31.4867 19.379 28.7653 19.8955 26.1511C20.1423 24.9036 20.4022 23.7548 20.6536 22.644C21.4061 19.3217 22.0001 16.6971 21.6262 14.142C20.5931 7.43649 17.2769 2.92104 11.2165 0L11.3903 3.53823C11.3975 3.68461 11.3431 3.82729 11.2405 3.93189C11.1376 4.03599 11.0053 4.09583 10.8488 4.08792C8.82139 4.02264 6.57046 6.3339 3.74957 9.26433C2.72858 10.3251 1.67297 11.4218 0.490021 12.5543C0.155461 12.8748 -0.0265323 13.3265 0.00314046 13.7627C0.112682 15.3613 0.630719 16.459 1.58692 17.118C1.98009 17.389 2.48502 17.4523 2.93679 17.2876C3.91599 16.9305 5.00152 16.2953 6.25519 15.3448C6.41963 15.2199 6.64168 15.2041 6.82144 15.3015C8.85279 16.4019 10.6881 15.7149 12.9548 13.008C13.1286 12.8011 13.432 12.7593 13.6536 12.9123C13.8766 13.0654 13.9466 13.3624 13.8153 13.5988C12.5767 15.8336 10.9432 17.9149 9.36316 19.9277C5.69759 24.5972 2.23156 29.0138 4.16153 34.6548H21.623L21.6232 34.6551Z" fill="#D72655"/></symbol>
+<symbol id="icoon-branding" viewBox="0 0 25 28"><path fill-rule="evenodd" clip-rule="evenodd" d="M25 15.1154C25 15.2509 24.9464 15.3779 24.8557 15.4711L12.7598 27.8539C12.566 28.0487 12.2567 28.0487 12.0628 27.8539L0.144342 15.6447C0.0536128 15.5516 0 15.4203 0 15.289V5.61228C0 5.47677 0.0536128 5.34972 0.144342 5.25655L5.13032 0.14928C5.32415 -0.0497599 5.63345 -0.0497599 5.82728 0.14928L12.4134 6.89545L18.9995 0.14928C19.1933 -0.0497599 19.5026 -0.0497599 19.6965 0.14928L24.8557 5.43018C24.9464 5.52335 25 5.65463 25 5.78591V15.1154Z" fill="#D72655"/></symbol>
+<symbol id="icoon-activatie" viewBox="0 0 32 32"><path d="M30.0945 0.00989415C28.3478 0.198546 21.8722 0.519005 14.5628 7.86325C11.0933 11.3493 8.76535 15.1973 8 18.2982L13.6675 23.9927C16.7526 23.2237 20.5834 20.8847 24.0529 17.3986C30.9776 10.4408 31.7608 3.55133 31.9169 1.80109C32.0098 0.759039 31.1288 -0.102552 30.0945 0.00989415Z" fill="#D72655"/><path d="M10.4259 16.8839L0.421758 15.8515C-0.0249039 15.8458 -0.153369 15.2967 0.214979 14.969L4.95582 10.7505C5.62927 10.1512 6.48159 9.8355 7.28919 9.88614L13.1531 10.2535L10.4259 16.8836V16.8839Z" fill="#D72655"/><path d="M15.0469 21.5239L16.0743 31.5757C16.08 32.0245 16.6265 32.1536 16.9526 31.7835L21.1512 27.0201C21.7475 26.3434 22.0618 25.487 22.0114 24.6756L21.6458 18.7837L15.0471 21.5239H15.0469Z" fill="#D72655"/><path d="M2.23416 30.2044C3.46644 30.0443 6.73191 29.6168 8.19517 29.2611C10.1995 28.7746 11.637 27.0904 11.8898 25.1093C11.9355 24.7503 11.5046 24.5366 11.2519 24.7943C10.5747 25.4848 9.57839 26.2347 8.9289 26.3159H5.68591V23.0577C5.74471 22.5881 6.14715 21.9377 6.62469 21.3564C6.81022 21.1302 7.00737 20.9148 7.19982 20.7244C7.4565 20.4704 7.24379 20.0375 6.88656 20.0835C4.91512 20.3369 3.23915 21.7816 2.75519 23.7944C2.40117 25.2647 1.97526 28.5455 1.81566 29.7839C1.78429 30.0284 1.99082 30.2359 2.23416 30.2044Z" fill="#D72655"/></symbol>
+</svg>
+
+<!-- ============================================================ HEADER -->
+<header class="header">
+  <a class="logo" href="#" aria-label="Campagne — home">
+    <svg class="logo-svg" role="img" aria-label="Campagne"><use href="#svg-logo"></use></svg>
+  </a>
+  <div class="header-knoppen">
+    <button class="menu-knop" type="button" aria-expanded="false" aria-controls="menu-overlay">
+      <span class="menu-label">Menu</span>
+      <span class="hamburger" aria-hidden="true"><span></span><span></span></span>
+    </button>
+    <div class="taalswitch" data-taal="nl" role="group" aria-label="Taalkeuze">
+      <button type="button" data-kies="en">EN</button>
+      <button type="button" data-kies="nl" class="actief">NL</button>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================ MENU-OVERLAY -->
+<nav class="menu-overlay" id="menu-overlay" aria-label="Hoofdmenu" aria-hidden="true">
+  <div class="menu-binnen">
+    <div class="menu-kolom">
+      <p class="kolom-label">What we do</p>
+      <div class="groot">
+        <a href="#diensten">Strategy</a>
+        <a href="#diensten">Branding</a>
+        <a href="#diensten">Activation</a>
+      </div>
+      <div class="menu-sub">
+        <a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Social content</a>
+        <a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Banners &amp; media</a>
+        <a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Print &amp; more</a>
+      </div>
+    </div>
+    <div class="menu-kolom">
+      <p class="kolom-label">Navigatie</p>
+      <div class="middel">
+        <a href="#cases">Cases</a>
+        <a href="#">Over ons</a>
+        <a href="#">Netwerk</a>
+      </div>
+      <div class="menu-sub">
+        <a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Social content</a>
+        <a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Banners &amp; media</a>
+      </div>
+      <div class="middel">
+        <a href="#">Vacatures</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+    <div class="menu-kolom menu-contact">
+      <p class="kolom-label">Contact</p>
+      <address>
+        Weena 250 (gebouw Weena 200)<br>
+        Toren C, 12e verdieping<br>
+        3012 NJ Rotterdam
+      </address>
+      <div class="menu-sub">
+        <a href="tel:0102928333"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> 010 - 292 83 33</a>
+        <a href="mailto:hello@campagne.nl"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> hello@campagne.nl</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main>
+<!-- ============================================================ HERO -->
+<section class="hero-scroll" id="hero-scroll" aria-label="Intro">
+  <div class="hero-sticky">
+    <!-- Achtergrondvorm — crème vlak met pijl-motief achter de header/hero -->
+    <svg class="hero-vorm" viewBox="0 0 1440 632" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M233.045 527.278C241.389 535.615 255.66 529.702 255.66 517.917V349.614C255.66 340.143 267.126 335.393 273.829 342.101L559.541 627.409C565.677 633.53 575.612 633.53 581.738 627.409L703.621 505.703C712.671 496.67 727.339 496.67 736.379 505.703L858.202 627.399C864.338 633.52 874.273 633.52 880.409 627.399L1166.11 341.992C1172.81 335.294 1184.28 340.034 1184.28 349.504V517.807C1184.28 529.603 1198.54 535.506 1206.9 527.168L1435.96 298.415C1438.45 295.931 1439.84 292.572 1439.85 289.054L1440.02 -0.02H0V289.054C0 292.562 1.39227 295.931 3.87845 298.415L233.045 527.268V527.278Z" fill="#EAE3D2"/>
+    </svg>
+    <div class="hero-kader">
+      <div class="hero-video">
+        <iframe src="https://player.vimeo.com/video/1207002799?background=1&autoplay=1&muted=1&loop=1&autopause=0&title=0&byline=0&portrait=0&badge=0&player_id=0&app_id=58479" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" referrerpolicy="strict-origin-when-cross-origin" title="Campagne showreel" loading="lazy"></iframe>
+      </div>
+      <div class="hero-inhoud">
+        <h1 class="hero-titel">Wanna<br>be loved?</h1>
+        <p class="hero-intro">Campagne is een strategisch en creatief bureau dat merken helpt groeien in een connected wereld. Met onze strategische inzichten, creatieve branding en krachtige campagnes helpen wij merken geliefder te worden</p>
+        <a class="hero-cta" href="#cases">
+          <span class="label">Show me how to be loved</span>
+          <span class="lijn" aria-hidden="true"></span>
+          <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ INTRO + LOGO'S -->
+<section class="intro">
+  <h2>Wij helpen merken geliefder te worden.</h2>
+</section>
+<div class="logo-slider" aria-label="Klanten van Campagne">
+  <div class="logo-strip" id="logo-strip">
+    <img loading="lazy" decoding="async" src="images/logo_de.png" style="height:72px" alt="Logo Douwe Egberts">
+    <img loading="lazy" decoding="async" src="images/logo_brugman.png" style="height:36px" alt="Logo Brugman">
+    <img loading="lazy" decoding="async" src="images/logo_allison.png" style="height:36px" alt="Logo Allison">
+    <img loading="lazy" decoding="async" src="images/logo_stl.png" style="height:28px" alt="Logo STL">
+    <img loading="lazy" decoding="async" src="images/logo_rt.png" style="height:45px" alt="Logo Rotterdam Topsport">
+    <img loading="lazy" decoding="async" src="images/logo_mkb.png" style="height:91px" alt="Logo MKB Brandstof">
+    <img loading="lazy" decoding="async" src="images/logo_steinweg.png" style="height:36px" alt="Logo Steinweg">
+    <img loading="lazy" decoding="async" src="images/logo_rijksoverheid.png" style="height:76px" alt="Logo Rijksoverheid">
+    <img loading="lazy" decoding="async" src="images/logo_maasstad.png" style="height:51px" alt="Logo Maasstad Ziekenhuis">
+    <img loading="lazy" decoding="async" src="images/logo_tij.png" style="height:53px" alt="Logo Rotterdams Tij">
+    <img loading="lazy" decoding="async" src="images/logo_svenson.png" style="height:16px" alt="Logo Svensson">
+    <img loading="lazy" decoding="async" src="images/logo_greenchoice.png" style="height:65px" alt="Logo Greenchoice">
+  </div>
+</div>
+
+<!-- ============================================================ CASES -->
+<section class="cases" id="cases">
+  <a class="case-blok" href="#" data-video="1208112683">
+    <img loading="lazy" decoding="async" src="images/tour.webp" alt="Wielrenners rijden door Rotterdam tijdens de Tour de France Femmes">
+    <div class="case-inhoud">
+      <span class="case-eyebrow">Tour de France Femmes</span>
+      <h2 class="case-titel">Rotterdam<br>turns yellow.</h2>
+      <p class="case-resultaat">
+        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+        415.000+ visitors for this legendary cycling event.
+      </p>
+    </div>
+  </a>
+  <a class="case-blok" href="#" data-video="1035168613">
+    <img loading="lazy" decoding="async" src="images/jun.webp" alt="Dirigent Jun Märkl in actie">
+    <div class="case-inhoud">
+      <span class="case-eyebrow">Jun Märkl and CVR</span>
+      <h2 class="case-titel">Introducing a<br>world-renowned<br>conductor.</h2>
+      <p class="case-resultaat">
+        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+        Visual portrait for the Indianapolis Orchestra.
+      </p>
+    </div>
+  </a>
+  <a class="case-blok" href="#" data-video="1035163552">
+    <img loading="lazy" decoding="async" src="images/steinweg.webp" alt="Medewerker van Steinweg in de Rotterdamse haven">
+    <div class="case-inhoud">
+      <span class="case-eyebrow">Steinweg</span>
+      <h2 class="case-titel">Recruiting<br>for the harbor.</h2>
+      <p class="case-resultaat">
+        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+        Social campaigning to get the right people working at Steinweg.
+      </p>
+    </div>
+  </a>
+</section>
+
+<!-- ============================================================ KLEINE TEGELS -->
+<section class="tegels">
+  <div class="tegel-grid">
+    <a class="tegel" href="#" style="--hover-kleur:#69a63a" data-video="1208112682"><img loading="lazy" decoding="async" src="images/brugman.webp" alt="Case Brugman">
+      <div class="tegel-inhoud">
+        <p class="tegel-titel">Brugman keukens &amp; badkamers</p>
+        <div class="tegel-onder">
+          <p class="tegel-labels"><span>strategie</span><span>concept</span><span>content</span><span>video</span><span>social</span></p>
+          <p class="tegel-sub"><span class="onderschrift">Nieuwe positionering Brugman: betrouwbaar, behulpzaam en duurzaam.</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span></p>
+        </div>
+      </div></a>
+    <a class="tegel" href="#" style="--hover-kleur:#004437" data-video="1208112714"><img loading="lazy" decoding="async" src="images/asp.webp" alt="Case Air So Pure">
+      <div class="tegel-inhoud">
+        <p class="tegel-titel">Air So Pure</p>
+        <div class="tegel-onder">
+          <p class="tegel-labels"><span>strategie</span><span>concept</span><span>branding</span><span>website</span><span>foto</span></p>
+          <p class="tegel-sub"><span class="onderschrift">Nieuwe positionering voor marktleider in luchtzuiverende planten.</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span></p>
+        </div>
+      </div></a>
+    <a class="tegel" href="#" style="--hover-kleur:#7f66f9" data-video="1130950548"><img loading="lazy" decoding="async" src="images/kw.webp" alt="Case Klimaat Week">
+      <div class="tegel-inhoud">
+        <p class="tegel-titel">Klimaat Week</p>
+        <div class="tegel-onder">
+          <p class="tegel-labels"><span>branding</span><span>content</span><span>video</span><span>social</span></p>
+          <p class="tegel-sub"><span class="onderschrift">Nieuwe naam. Nieuw gezicht. Zelfde missie: Nederland in beweging krijgen.</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span></p>
+        </div>
+      </div></a>
+    <a class="tegel" href="#" style="--hover-kleur:#154274"><img loading="lazy" decoding="async" src="images/nlsa.webp" alt="Case Netherlands Space Agency">
+      <div class="tegel-inhoud">
+        <p class="tegel-titel">Netherlands Space Agency</p>
+        <div class="tegel-onder">
+          <p class="tegel-labels"><span>branding</span><span>website</span></p>
+          <p class="tegel-sub"><span class="onderschrift">Lancering nieuwe identiteit NLSA Nederlandse ruimtevaart</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span></p>
+        </div>
+      </div></a>
+    <a class="tegel" href="#" style="--hover-kleur:#ff8a15" data-video="1045329201"><img loading="lazy" decoding="async" src="images/wizz.webp" alt="Case WiZZ">
+      <div class="tegel-inhoud">
+        <p class="tegel-titel">WiZZ</p>
+        <div class="tegel-onder">
+          <p class="tegel-labels"><span>Arbeidsmarktcommunicatie</span><span>media</span><span>strategie</span><span>concept</span></p>
+          <p class="tegel-sub"><span class="onderschrift">Medewerkers werven voor Nederlandse openbare zwembaden</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span></p>
+        </div>
+      </div></a>
+    <a class="tegel" href="#" style="--hover-kleur:#0091bb" data-video="1208112711"><img loading="lazy" decoding="async" src="images/liquin.webp" alt="Case Liquin">
+      <div class="tegel-inhoud">
+        <p class="tegel-titel">Liquin</p>
+        <div class="tegel-onder">
+          <p class="tegel-labels"><span>strategie</span><span>concept</span><span>branding</span><span>website</span><span>foto</span><span>video</span></p>
+          <p class="tegel-sub"><span class="onderschrift">Van Vopak naar Liquin. Complete rebranding in 1,5 maand tijd.</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span></p>
+        </div>
+      </div></a>
+  </div>
+  <a class="more-cases" href="#">
+    <span class="label">Mooooooooore cases</span>
+    <span class="lijn" aria-hidden="true"></span>
+    <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+  </a>
+</section>
+
+<!-- ============================================================ WHAT WE DO -->
+<section class="diensten" id="diensten">
+  <div class="dienst-groep">
+    <h2 class="dienst-kop">Strategie <svg class="icoon icoon-s" aria-hidden="true"><use href="#icoon-strategie"></use></svg></h2>
+    <div class="dienst-items">
+      <a class="dienst-item" href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Merk strategie</a>
+      <a class="dienst-item" href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Marketing strategie</a>
+      <a class="dienst-item" href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Social strategie</a>
+      <a class="dienst-item" href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Creatieve strategie</a>
+    </div>
+  </div>
+  <div class="dienst-groep">
+    <h2 class="dienst-kop">Branding <svg class="icoon icoon-b" aria-hidden="true"><use href="#icoon-branding"></use></svg></h2>
+    <div class="dienst-items">
+      <a class="dienst-item" href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Employer branding</a>
+      <a class="dienst-item" href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Corporate identity</a>
+      <a class="dienst-item" href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Brand positionering</a>
+      <a class="dienst-item" href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Campagne design</a>
+    </div>
+  </div>
+  <div class="dienst-groep">
+    <h2 class="dienst-kop">Activatie <svg class="icoon icoon-a" aria-hidden="true"><use href="#icoon-activatie"></use></svg></h2>
+    <div class="dienst-items">
+      <a class="dienst-item" href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Customer experience</a>
+      <a class="dienst-item" href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Content productie</a>
+      <a class="dienst-item" href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Events</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ TCF BLOK -->
+<section class="cases">
+  <a class="case-blok tcf-blok" href="#" data-video="1208112684">
+    <img loading="lazy" decoding="async" src="images/creative-family.webp" alt="Netwerk-illustratie van The Creative Family">
+    <div class="case-inhoud">
+      <span class="case-eyebrow">One big stack of creativity</span>
+      <h2 class="case-titel">It&rsquo;s all in the<br>Creative Family.</h2>
+      <p class="case-resultaat">
+        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+        Alle disciplines binnen het creatieve speelveld.
+      </p>
+    </div>
+  </a>
+
+<!-- ============================================================ AMIN BLOK -->
+  <a class="case-blok amin-blok" href="#" data-video="1208112681">
+    <img loading="lazy" decoding="async" src="images/amin.webp" alt="Het AMIN Allies team">
+    <div class="case-inhoud">
+      <span class="case-eyebrow">Campagne and 60+ agencies</span>
+      <h2 class="case-titel">AMIN gives<br>you the world!</h2>
+      <p class="case-resultaat">
+        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+        Collaboration and international reach.
+      </p>
+    </div>
+  </a>
+</section>
+
+<!-- ============================================================ MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-rij"><span>64 partners</span><span>Wanna be loved?</span><span>64 partners</span><span>Wanna be loved?</span><span>64 partners</span><span>Wanna be loved?</span></div>
+  <div class="marquee-rij rechts"><span>Hartje Rotterdam</span><span>Alles onder 1 dak</span><span>Hartje Rotterdam</span><span>Alles onder 1 dak</span><span>Hartje Rotterdam</span><span>Alles onder 1 dak</span></div>
+  <div class="marquee-rij"><span>32 years of experience</span><span>45 actieve clients</span><span>32 years of experience</span><span>45 actieve clients</span><span>32 years of experience</span><span>45 actieve clients</span></div>
+  <div class="marquee-rij rechts"><span>5.400 bakkies per/jaar</span><span>12 beurs stands</span><span>5.400 bakkies per/jaar</span><span>12 beurs stands</span><span>5.400 bakkies per/jaar</span><span>12 beurs stands</span></div>
+</div>
+
+<!-- ============================================================ FOOTER -->
+<footer class="footer" id="contact">
+  <div class="footer-kolommen">
+    <div class="footer-logo">
+      <svg class="logo-svg" role="img" aria-label="Campagne"><use href="#svg-logo"></use></svg>
+      <p class="footer-intro">Given attention, grabbing it and keeping it is essential. We help brands grow in a connected world &mdash; with strategy, branding and campaigns that make people care.</p>
+    </div>
+    <div>
+      <h3>Contact</h3>
+      <address>
+        Charloisse Lagedijk 536<br>
+        3084 LG Rotterdam
+      </address>
+      <div class="footer-links">
+        <a href="tel:0102928333"><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span> 010 - 292 83 33</a>
+        <a href="mailto:hello@campagne.nl"><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span> hello@campagne.nl</a>
+      </div>
+      <div class="socials">
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.9-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 4 4 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zm0 3.6a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-10.5a1.4 1.4 0 1 0 0 2.9 1.4 1.4 0 0 0 0-2.9z"/></svg></a>
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M13.5 21v-8.2h2.8l.4-3.2h-3.2V7.6c0-.9.3-1.6 1.6-1.6h1.7V3.2c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.4H7.3v3.2h2.8V21h3.4z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1-.02 5 2.5 2.5 0 0 1 .02-5zM3 9h4v12H3zM9 9h3.8v1.7h.1c.5-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21h-4v-5.5c0-1.3 0-3-1.9-3s-2.2 1.4-2.2 2.9V21H9z"/></svg></a>
+      </div>
+    </div>
+    <div>
+      <h3>Stay up to date!</h3>
+      <p class="nieuwsbrief-tekst">Sign me up!</p>
+      <form class="nieuwsbrief" onsubmit="return false">
+        <input type="email" placeholder="mymail@company.com" aria-label="Jouw e-mailadres">
+        <button type="submit">Send</button>
+      </form>
+      <p class="nieuwsbrief-sub">And receive our newsletter once every 3 months.</p>
+    </div>
+  </div>
+  <div class="footer-onder">
+    <a class="more-cases-klein" href="#cases">
+      Mooooooooore cases
+      <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+    </a>
+  </div>
+</footer>
+</main>
+
+<script>
+// Nette placeholder tonen als een afbeelding ontbreekt (bijv. bestandsnaam klopt niet)
+function beeldMist(img) {
+  var ouder = img.closest('.case-blok, .tegel, .hero-video');
+  if (ouder) {
+    ouder.classList.add('beeld-mist');
+    if (!ouder.hasAttribute('data-label')) {
+      ouder.setAttribute('data-label', 'Beeld: ' + img.getAttribute('src').replace('images/', '') + ' ontbreekt');
+    }
+  }
+  img.style.visibility = 'hidden';
+}
+document.querySelectorAll('img[src^="images/"]').forEach(function (img) {
+  if (img.complete && img.naturalWidth === 0) beeldMist(img);      // al mislukt voordat dit script draaide
+  else img.addEventListener('error', function () { beeldMist(img); });
+});
+
+// Video-hover: Vimeo-achtergrond afspelen bij hover — bij de grote cases en
+// TCF/AMIN via de subtitel-knop (zelfde trigger als de zoom), bij de tegels op
+// de hele tegel. De iframes worden NA het laden van de pagina alvast gespreid
+// aangemaakt (video's blijven gelinkt via Vimeo, dus de site zelf blijft licht):
+// de player start kort, bouwt zijn buffer op en wordt direct gepauzeerd, onzichtbaar
+// achter het stilstaande beeld. Bij hover hoeft er dan alleen nog 'play' gestuurd
+// te worden — daardoor start ook de éérste hover meteen. Bij het verlaten fadet
+// de video uit en pauzeert hij. Het stilstaande beeld blijft altijd als fallback.
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  function vimeoCommando(f, methode) {
+    try {
+      f.contentWindow.postMessage(JSON.stringify({ method: methode }), 'https://player.vimeo.com');
+    } catch (e) { /* player nog niet klaar — geen probleem */ }
+  }
+  var preloaders = [];
+  document.querySelectorAll('[data-video]').forEach(function (blok) {
+    var isTegel = blok.classList.contains('tegel');
+    var trigger = isTegel ? blok : (blok.querySelector('.case-resultaat') || blok);
+    var laag = null, frame = null, geladen = false, wegTimer = null, hovert = false;
+    function maakFrame() {
+      if (laag) return;
+      laag = document.createElement('div');
+      laag.className = 'blok-video';
+      frame = document.createElement('iframe');
+      frame.src = 'https://player.vimeo.com/video/' + blok.getAttribute('data-video') +
+        '?background=1&autoplay=1&muted=1&loop=1&autopause=0&title=0&byline=0&portrait=0&badge=0';
+      frame.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; encrypted-media');
+      frame.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+      frame.setAttribute('aria-hidden', 'true');
+      frame.tabIndex = -1;
+      frame.addEventListener('load', function () {
+        geladen = true;
+        if (hovert) {
+          // gebruiker hovert al terwijl de player nog laadde: direct tonen
+          vimeoCommando(frame, 'play');
+          if (laag) requestAnimationFrame(function () { if (laag) laag.classList.add('zichtbaar'); });
+        } else {
+          // preload: player is gestart (buffer staat klaar) — direct weer pauzeren.
+          // Een paar herhalingen omdat de player-API vlak na 'load' soms nog opstart.
+          vimeoCommando(frame, 'pause');
+          setTimeout(function () { if (!hovert) vimeoCommando(frame, 'pause'); }, 500);
+          setTimeout(function () { if (!hovert) vimeoCommando(frame, 'pause'); }, 1500);
+        }
+      });
+      laag.appendChild(frame);
+      blok.appendChild(laag);
+    }
+    function speel() {
+      hovert = true;
+      clearTimeout(wegTimer);
+      maakFrame();                       // vangnet als de preload nog niet liep
+      laag.classList.add('zichtbaar');
+      if (geladen) {
+        vimeoCommando(frame, 'play');
+        // nogmaals voor het geval de pauze-herhaling van de preload net onderweg was
+        setTimeout(function () { if (hovert) vimeoCommando(frame, 'play'); }, 250);
+      }
+    }
+    function stop() {
+      hovert = false;
+      if (!laag) return;
+      laag.classList.remove('zichtbaar');
+      wegTimer = setTimeout(function () {
+        if (frame && geladen) vimeoCommando(frame, 'pause');
+      }, 550);
+    }
+    trigger.addEventListener('mouseenter', speel);
+    blok.addEventListener('mouseleave', stop);
+    preloaders.push(maakFrame);
+  });
+  // Preload gespreid starten zodra de pagina volledig geladen is, zodat de
+  // players het laden van beelden en fonts niet in de weg zitten.
+  function startPreload() {
+    preloaders.forEach(function (laad, i) {
+      setTimeout(laad, 600 + i * 350);
+    });
+  }
+  if (document.readyState === 'complete') startPreload();
+  else window.addEventListener('load', startPreload);
+}
+
+// Intro-fade bij laden starten (na een korte tel zodat de pagina staat)
+requestAnimationFrame(function () {
+  setTimeout(function () { document.body.classList.add('intro-klaar'); }, 200);
+});
+
+// Hero scroll-animatie: --p (0..1) over de sectie; tekst hangt in CSS direct aan --p
+var heroScroll = document.getElementById('hero-scroll');
+function heroProgressie() {
+  if (!heroScroll) return;
+  var top = heroScroll.offsetTop;
+  var totaal = heroScroll.offsetHeight - window.innerHeight;
+  var p = totaal > 0 ? Math.min(Math.max((window.scrollY - top) / totaal, 0), 1) : 0;
+  heroScroll.style.setProperty('--p', p.toFixed(4));
+}
+window.addEventListener('scroll', heroProgressie, { passive: true });
+window.addEventListener('resize', heroProgressie);
+heroProgressie();
+
+// Header-gedrag in drie zones:
+// 1. In de hero-pin: transparante hero-header, altijd zichtbaar.
+// 2. Net voorbij de pin: de "Wanna be loved?"-titel duwt de header 1:1 het beeld
+//    uit — zonder achtergrond erachter.
+// 3. Voorbij de hero: verborgen bij omlaag scrollen; pas bij omhoog scrollen
+//    verschijnt de losse balk mét achtergrond.
+var header = document.querySelector('.header');
+var heroTitel = document.querySelector('.hero-titel');
+var vorigeY = window.scrollY;
+var duwActief = true;   // false = header "losgelaten" na omhoog scrollen vanaf beneden
+function bijScroll() {
+  var y = window.scrollY;
+  var omhoog = y < vorigeY - 2;
+  var omlaag = y > vorigeY + 2;
+  vorigeY = y;
+  if (document.body.classList.contains('menu-open')) return;
+  var heroEinde = heroScroll ? heroScroll.offsetTop + heroScroll.offsetHeight - window.innerHeight : 0;
+  var heroWeg = heroScroll ? y >= heroScroll.offsetTop + heroScroll.offsetHeight : y > 60;
+  if (y <= heroEinde) {
+    // Zone 1: hero-header
+    duwActief = true;
+    header.classList.remove('scrolled', 'verborgen', 'duwt');
+    header.style.transform = '';
+  } else if (!heroWeg) {
+    // Zone 2: duwzone
+    header.classList.remove('verborgen');
+    if (header.classList.contains('scrolled')) {
+      // Van beneden omhoog de hero in: alleen de balk-achtergrond uitfaden;
+      // logo en knoppen blijven gewoon staan.
+      header.classList.remove('scrolled');
+      duwActief = false;
+    }
+    var titelTop = heroTitel ? heroTitel.getBoundingClientRect().top : 0;
+    var hoogte = header.offsetHeight || 100;
+    // Pas als de titel weer onder de header zit, neemt de duw-logica het weer over.
+    if (!duwActief && titelTop > hoogte + 10) duwActief = true;
+    header.classList.add('duwt');
+    if (duwActief) {
+      // De titel schuift de header 1:1 het beeld uit (en trekt hem ook weer terug).
+      header.style.transform = 'translateY(' + Math.min(0, titelTop - hoogte).toFixed(1) + 'px)';
+    } else {
+      header.style.transform = '';
+    }
+  } else {
+    // Zone 3: voorbij de hero
+    duwActief = true;
+    header.classList.remove('duwt');
+    header.style.transform = '';
+    if (omhoog) {
+      header.classList.add('scrolled');
+      header.classList.remove('verborgen');
+    } else if (omlaag || !header.classList.contains('scrolled')) {
+      header.classList.add('verborgen');
+    }
+  }
+}
+window.addEventListener('scroll', bijScroll, { passive: true });
+bijScroll();
+
+// Logo slider: zelfde mechaniek als de frases — schuift vanzelf, sleepbaar, met momentum
+(function () {
+  var strip = document.getElementById('logo-strip');
+  if (!strip) return;
+  strip.innerHTML += strip.innerHTML;  // inhoud dupliceren voor naadloze loop
+  var houder = strip.parentElement;
+  var magBewegen = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var basis = -0.4, x = 0, v = basis, halve = 0;
+  var sleepStart = null, sleepBasis = 0, laatsteX = 0, laatsteT = 0, gooiV = 0;
+  function meetHalve() { halve = strip.scrollWidth / 2; }
+  window.addEventListener('load', meetHalve);
+  window.addEventListener('resize', meetHalve);
+  meetHalve();
+  function stap() {
+    if (sleepStart === null && magBewegen) {
+      x += v;
+      v += (basis - v) * 0.035;         // na een gooi ebt de vaart weg naar de basissnelheid
+    }
+    if (halve > 0) {
+      while (x <= -halve) x += halve;   // naadloos terugzetten
+      while (x > 0) x -= halve;
+    }
+    strip.style.transform = 'translateX(' + x + 'px)';
+    requestAnimationFrame(stap);
+  }
+  requestAnimationFrame(stap);
+  houder.addEventListener('pointerdown', function (e) {
+    sleepStart = e.clientX; sleepBasis = x;
+    laatsteX = e.clientX; laatsteT = performance.now(); gooiV = 0;
+    houder.classList.add('sleept');
+    houder.setPointerCapture(e.pointerId);
+    e.preventDefault();
+  });
+  houder.addEventListener('pointermove', function (e) {
+    if (sleepStart === null) return;
+    x = sleepBasis + (e.clientX - sleepStart);
+    var nu = performance.now(), dt = nu - laatsteT;
+    if (dt > 0) gooiV = (e.clientX - laatsteX) / dt * 16.7;  // px per frame
+    laatsteX = e.clientX; laatsteT = nu;
+  });
+  function loslaten() {
+    if (sleepStart === null) return;
+    sleepStart = null;
+    houder.classList.remove('sleept');
+    v = Math.max(-30, Math.min(30, gooiV));  // gooi-snelheid meenemen, met een plafond
+  }
+  houder.addEventListener('pointerup', loslaten);
+  houder.addEventListener('pointercancel', loslaten);
+})();
+
+// Marquee: JS-gestuurd — schuift vanzelf, is sleepbaar en heeft momentum bij een "gooi"
+(function () {
+  var marquee = document.querySelector('.marquee');
+  if (!marquee) return;
+  var magBewegen = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  marquee.querySelectorAll('.marquee-rij').forEach(function (rij) {
+    rij.innerHTML += rij.innerHTML;         // extra kopie voor een naadloze loop
+    var basis = (rij.classList.contains('rechts') ? 1 : -1) * 0.6;  // om-en-om richting
+    var x = 0, v = basis, cyclus = 0;
+    var sleepStart = null, sleepBasis = 0, laatsteX = 0, laatsteT = 0, gooiV = 0;
+    function meet() { cyclus = rij.scrollWidth / 6; }  // 6 herhalingen van het patroon
+    window.addEventListener('load', meet);
+    window.addEventListener('resize', meet);
+    meet();
+    function stap() {
+      if (sleepStart === null && magBewegen) {
+        x += v;
+        v += (basis - v) * 0.035;           // na een gooi ebt de vaart langzaam weg naar de basissnelheid
+      }
+      if (cyclus > 0) {
+        while (x <= -cyclus) x += cyclus;   // naadloos terugzetten
+        while (x > 0) x -= cyclus;
+      }
+      rij.style.transform = 'translateX(' + x + 'px)';
+      requestAnimationFrame(stap);
+    }
+    requestAnimationFrame(stap);
+    rij.addEventListener('pointerdown', function (e) {
+      sleepStart = e.clientX; sleepBasis = x;
+      laatsteX = e.clientX; laatsteT = performance.now(); gooiV = 0;
+      marquee.classList.add('sleept');
+      rij.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+    rij.addEventListener('pointermove', function (e) {
+      if (sleepStart === null) return;
+      x = sleepBasis + (e.clientX - sleepStart);
+      var nu = performance.now(), dt = nu - laatsteT;
+      if (dt > 0) gooiV = (e.clientX - laatsteX) / dt * 16.7;  // px per frame
+      laatsteX = e.clientX; laatsteT = nu;
+    });
+    function loslaten() {
+      if (sleepStart === null) return;
+      sleepStart = null;
+      marquee.classList.remove('sleept');
+      v = Math.max(-30, Math.min(30, gooiV));  // gooi-snelheid meenemen, met een plafond
+    }
+    rij.addEventListener('pointerup', loslaten);
+    rij.addEventListener('pointercancel', loslaten);
+  });
+})();
+
+// Menu openen/sluiten
+var menuKnop = document.querySelector('.menu-knop');
+var overlay = document.getElementById('menu-overlay');
+function zetMenu(open) {
+  document.body.classList.toggle('menu-open', open);
+  menuKnop.setAttribute('aria-expanded', open);
+  overlay.setAttribute('aria-hidden', !open);
+  menuKnop.querySelector('.menu-label').textContent = open ? 'Close' : 'Menu';
+}
+menuKnop.addEventListener('click', function () {
+  zetMenu(!document.body.classList.contains('menu-open'));
+});
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') zetMenu(false);
+});
+overlay.querySelectorAll('a').forEach(function (a) {
+  a.addEventListener('click', function () { zetMenu(false); });
+});
+
+// Taalswitch (visueel; koppel later aan echte vertalingen)
+document.querySelectorAll('.taalswitch button').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var ts = b.closest('.taalswitch');
+    ts.setAttribute('data-taal', b.dataset.kies);
+    ts.querySelectorAll('button').forEach(function (x) { x.classList.toggle('actief', x === b); });
+  });
+});
+</script>
+</body>
+</html>
