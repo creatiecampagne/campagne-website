@@ -318,7 +318,8 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   object-fit: cover;
   transition: transform .6s ease;
 }
-.case-blok:has(.case-resultaat:hover) > img { transform: scale(1.03); }  /* hover alleen via subtitel */
+.case-blok:has(.case-titel:hover) > img,
+.case-blok:has(.case-resultaat:hover) > img { transform: scale(1.03); }  /* hover via hoofdtitel of subtitel+pijl */
 .case-blok::before {
   /* Overlay verloop (links) — leesbaarheid van de tekst */
   content: '';
@@ -340,6 +341,7 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
 }
 .case-titel {
   margin-top: auto;
+  width: fit-content;                    /* hoverzone = alleen de tekst zelf, niet de lege ruimte ernaast */
   font-size: clamp(38px, 5.56vw, 116px); /* Figma: 80px op 1440 breed */
   font-weight: 800;
   line-height: 0.99;                     /* Figma: 79.2px op 80px */
@@ -1114,7 +1116,9 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   var preloaders = [];
   document.querySelectorAll('[data-video]').forEach(function (blok) {
     var isTegel = blok.classList.contains('tegel');
-    var trigger = isTegel ? blok : (blok.querySelector('.case-resultaat') || blok);
+    // Grote blokken: hover start op de hoofdtitel én op de subtitel+pijlbol
+    var triggers = isTegel ? [blok] : Array.prototype.slice.call(blok.querySelectorAll('.case-titel, .case-resultaat'));
+    if (!triggers.length) triggers = [blok];
     var laag = null, frame = null, geladen = false, wegTimer = null, hovert = false;
     function maakFrame() {
       if (laag) return;
@@ -1163,7 +1167,7 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         if (frame && geladen) vimeoCommando(frame, 'pause');
       }, 550);
     }
-    trigger.addEventListener('mouseenter', speel);
+    triggers.forEach(function (t) { t.addEventListener('mouseenter', speel); });
     blok.addEventListener('mouseleave', stop);
     preloaders.push(maakFrame);
   });
