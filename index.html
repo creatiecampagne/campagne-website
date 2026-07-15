@@ -198,7 +198,7 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   display: block;
   pointer-events: none;
 }
-.hero-video { position: absolute; inset: 0; overflow: hidden; }
+.hero-video { position: absolute; inset: 0; overflow: hidden; container-type: size; }
 .hero-video img {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
@@ -209,9 +209,10 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   transform: translate(-50%, -50%);
   border: 0;
   pointer-events: none;      /* scroll en klik gaan door de video heen */
-  /* Vimeo is 4:3; vul het kader op cover-formaat */
-  width: max(100%, calc(100svh * 1.3334));
-  height: max(100%, calc(100vw * 0.75));
+  /* Video is 16:9 (Vimeo 426x240); cover t.o.v. het kader zelf via container-
+     eenheden — vult het kader op elk schermformaat, ook tijdens het krimpen */
+  width: max(100cqw, calc(100cqh * 1.7778));
+  height: max(100cqh, calc(100cqw * 0.5625));
 }
 .hero-kader::before {
   /* Overlay verloop (boven) — Figma: zwart naar transparant, 27% */
@@ -676,6 +677,28 @@ body.menu-open { overflow: hidden; }
 .menu-contact .menu-sub { padding-left: 0; }
 
 /* ==========================================================================
+   Laadscherm — zwarte overlay met logo-animatie + laadpercentage
+   ========================================================================== */
+body.laadt { overflow: hidden; }
+.laadscherm {
+  position: fixed; inset: 0;
+  z-index: 100;
+  background: #000;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity .6s ease, visibility .6s ease;
+}
+.laadscherm.klaar { opacity: 0; visibility: hidden; pointer-events: none; }
+.laad-animatie { width: min(340px, 55vw); height: auto; display: block; }
+.laad-procent {
+  position: absolute;
+  bottom: 36px; left: 0; right: 0;
+  text-align: center;
+  color: var(--wit);
+  font-size: 14px; font-weight: 500;
+  font-variant-numeric: tabular-nums;   /* cijfers verspringen niet */
+}
+
+/* ==========================================================================
    Placeholder-stijl als een beeld (nog) ontbreekt
    ========================================================================== */
 .beeld-mist {
@@ -749,6 +772,7 @@ body.menu-open { overflow: hidden; }
 
 /* Reduced motion: animaties uit */
 @media (prefers-reduced-motion: reduce) {
+  .laadscherm { display: none; }
   .marquee-rij { animation: none; }
   .hero-scroll { height: 100svh; }
   .hero-kader { top: 18px; bottom: 18px; left: var(--marge-beeld); right: var(--marge-beeld); border-radius: var(--radius); }
@@ -761,7 +785,13 @@ body.menu-open { overflow: hidden; }
 }
 </style>
 </head>
-<body>
+<body class="laadt">
+<!-- Laadscherm: zwart, logo-animatie gecentreerd, laadpercentage onderin -->
+<div class="laadscherm" id="laadscherm" aria-hidden="true">
+  <video class="laad-animatie" autoplay muted loop playsinline src="images/loader.mp4"></video>
+  <p class="laad-procent" id="laad-procent">0%</p>
+</div>
+<noscript><style>.laadscherm{display:none} body.laadt{overflow:auto}</style></noscript>
 <!-- Inline SVG-symbolen (logo, pijlen, dienst-iconen) — kleur via currentColor -->
 <svg width="0" height="0" style="position:absolute" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 <symbol id="svg-logo" viewBox="0 0 230 36"><path fill-rule="evenodd" clip-rule="evenodd" d="M82.853 0C79.7082 0 76.8928 1.45241 75.0274 3.72752C73.1631 1.45241 70.3476 0 67.2029 0C61.601 0 57.043 4.60777 57.043 10.2696V24.6843H61.7115V10.2696C61.7115 7.20903 64.1742 4.7195 67.2029 4.7195C70.2304 4.7195 72.6942 7.20903 72.6942 10.2696V24.7429H77.3617V10.2696C77.3617 7.20903 79.8254 4.7195 82.853 4.7195C85.8805 4.7195 88.3443 7.20903 88.3443 10.2696V24.7429H93.0118V10.2696C93.0118 4.60777 88.4548 0 82.853 0Z" fill="currentColor"/>
@@ -1208,10 +1238,58 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
   else window.addEventListener('load', startPreload);
 }
 
-// Intro-fade bij laden starten (na een korte tel zodat de pagina staat)
-requestAnimationFrame(function () {
-  setTimeout(function () { document.body.classList.add('intro-klaar'); }, 200);
-});
+// Laadscherm: het percentage loopt soepel op naar een doel dat per laadstap
+// stijgt (DOM 25, fonts 20, hero-video 30, volledige pagina 25). Daarna fadet
+// de overlay weg en start de intro-fade van logo en knoppen.
+(function () {
+  var scherm = document.getElementById('laadscherm');
+  var procentEl = document.getElementById('laad-procent');
+  function klaarmaken() {
+    document.body.classList.remove('laadt');
+    document.body.classList.add('intro-klaar');
+    if (scherm) {
+      scherm.classList.add('klaar');
+      setTimeout(function () { scherm.remove(); }, 700);
+    }
+  }
+  if (!scherm || !procentEl ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    klaarmaken();
+    return;
+  }
+  var doel = 0, getoond = 0, af = false;
+  var stappen = { dom: 25, fonts: 20, hero: 30, load: 25 };
+  var gehaald = {};
+  function stap(naam) {
+    if (gehaald[naam]) return;
+    gehaald[naam] = true;
+    doel = Math.min(100, doel + stappen[naam]);
+  }
+  if (document.readyState !== 'loading') stap('dom');
+  else document.addEventListener('DOMContentLoaded', function () { stap('dom'); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { stap('fonts'); });
+  else stap('fonts');
+  var heroFrame = document.querySelector('.hero-video iframe');
+  if (heroFrame) heroFrame.addEventListener('load', function () { stap('hero'); });
+  else stap('hero');
+  if (document.readyState === 'complete') stap('load');
+  else window.addEventListener('load', function () { stap('load'); });
+  // Vangnet: nooit langer dan 8 seconden wachten (trage verbinding, blocker)
+  setTimeout(function () { doel = 100; }, 8000);
+  function tik() {
+    if (af) return;
+    getoond += (doel - getoond) * 0.09;
+    if (doel >= 100 && getoond > 99.2) {
+      af = true;
+      procentEl.textContent = '100%';
+      setTimeout(klaarmaken, 250);
+      return;
+    }
+    procentEl.textContent = Math.round(getoond) + '%';
+    requestAnimationFrame(tik);
+  }
+  requestAnimationFrame(tik);
+})();
 
 // Hero scroll-animatie: --p (0..1) over de sectie; tekst hangt in CSS direct aan --p
 var heroScroll = document.getElementById('hero-scroll');
@@ -1292,7 +1370,7 @@ bijScroll();
   strip.innerHTML += strip.innerHTML;  // inhoud dupliceren voor naadloze loop
   var houder = strip.parentElement;
   var magBewegen = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var basis = -0.4, x = 0, v = basis, halve = 0;
+  var basis = -0.2, x = 0, v = basis, halve = 0;  /* 2026-07-15: gehalveerd */
   var sleepStart = null, sleepBasis = 0, laatsteX = 0, laatsteT = 0, gooiV = 0;
   function meetHalve() { halve = strip.scrollWidth / 2; }
   window.addEventListener('load', meetHalve);
