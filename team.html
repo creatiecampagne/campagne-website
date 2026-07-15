@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Over ons — Campagne</title>
+<meta name="description" content="Wij zijn Campagne, creatief communicatiebureau uit hartje Rotterdam. Maak kennis met de Cupido's achter jouw werk.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://player.vimeo.com">
+<link rel="preconnect" href="https://i.vimeocdn.com">
+<link rel="preconnect" href="https://f.vimeocdn.com">
+<link rel="preconnect" href="https://vod-adaptive-ak.vimeocdn.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   CAMPAGNE — design tokens (identiek aan index.html, 1440px basis)
+   ========================================================================== */
+:root {
+  --geel: #f9e000;
+  --roze: #d72655;
+  --bordeaux: #460f22;
+  --marquee-a: #d82756;
+  --marquee-b: #490d1e;
+  --zwart: #000000;
+  --wit: #ffffff;
+  --grijs: #d8d8d8;
+  --pill: #ebebeb;
+  --donker: #121212;
+
+  --radius: 20px;
+  --radius-knop: 25px;
+  --marge-beeld: 18px;
+  --marge-content: clamp(21px, 8.8vw, 127px);
+  --max-b: 1440px;
+
+  --font: 'Poppins', -apple-system, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  font-weight: 400;
+  color: var(--zwart);
+  background: var(--wit);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 3px solid var(--roze);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Gedeelde sectiekop (Figma: Poppins ExtraBold 42, gecentreerd) */
+.sectie-kop {
+  font-size: clamp(26px, 2.92vw, 42px);
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Header — zelfde balk als de homepage (zonder laadscherm-intro)
+   ========================================================================== */
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  --pad-l: clamp(33px, 3.125vw, 45px);
+  --pad-r: clamp(22px, 2.5vw, 36px);
+  padding: 36px var(--pad-r) 24px var(--pad-l);
+  background: transparent;
+  transition: transform .35s ease;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: calc(var(--pad-l) - 18px);
+  right: calc(var(--pad-r) - 10px);
+  height: 54px;
+  background: rgba(0, 0, 0, .6);
+  border-radius: 30px;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  opacity: 0;
+  transition: opacity .35s ease;
+  z-index: -1;
+  pointer-events: none;
+}
+.header.scrolled::before { opacity: 1; }
+.header.verborgen { transform: translateY(-160%); }
+.header.duwt { transition: none; }
+body.menu-open .header::before { opacity: 0; }
+body.menu-open .logo { color: #000; }
+.logo { color: var(--wit); }
+.logo { opacity: 0; transform: translateX(-28px); }
+.header-knoppen { opacity: 0; transform: translateX(28px); }
+body.intro-klaar .logo,
+body.intro-klaar .header-knoppen {
+  opacity: 1; transform: translateX(0);
+  transition: opacity .9s ease, transform .9s cubic-bezier(.22,.61,.36,1);
+}
+body.intro-klaar .header-knoppen { transition-delay: .05s; }
+.logo-svg { display: block; }
+.logo .logo-svg { width: 175px; height: 27px; display: block; }
+.header .logo-svg { transform: translateY(4px); }
+
+.header-knoppen { display: flex; align-items: center; gap: 10px; }
+
+.menu-knop {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--zwart);
+  color: var(--wit);
+  font-size: 14px; font-weight: 500;
+  height: 36px; padding: 0 16px;
+  border-radius: var(--radius-knop);
+}
+.menu-knop .hamburger { display: inline-flex; flex-direction: column; gap: 6px; width: 18px; }
+.menu-knop .hamburger span { display: block; height: 1px; background: var(--wit); width: 100%; transition: all .25s ease; }
+.menu-knop .hamburger span:last-child { width: 10px; }
+body.menu-open .menu-knop .hamburger span:nth-child(1) { transform: translateY(3.5px) rotate(45deg); }
+body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-3.5px) rotate(-45deg); width: 100%; }
+
+.taalswitch {
+  position: relative;
+  display: flex; align-items: center;
+  background: var(--pill);
+  height: 36px; border-radius: 19px;
+  padding: 3px;
+}
+.taalswitch button {
+  position: relative; z-index: 1;
+  width: 32px; height: 30px;
+  font-size: 14px; font-weight: 500;
+  color: var(--zwart);
+  border-radius: 15px;
+  transition: color .2s ease;
+}
+.taalswitch button.actief { color: var(--wit); }
+.taalswitch::before {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 32px; height: 30px;
+  background: var(--zwart);
+  border-radius: 15px;
+  transition: transform .25s ease;
+}
+.taalswitch[data-taal="nl"]::before { transform: translateX(32px); }
+
+/* ==========================================================================
+   Hero — teampagina (Figma 99:285): kader staat vast in de eindstand
+   (18px marge, radius 20), géén krimp-animatie. Titel + intro scrollen het
+   venster in via --p, zoals de homepage, over een kortere scroll-sectie.
+   ========================================================================== */
+.hero-scroll {
+  position: relative;
+  height: 150vh;
+  --p: 0;
+}
+.hero-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+.hero-vorm {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: auto;
+  display: block;
+  pointer-events: none;
+}
+.hero-kader {
+  position: absolute;
+  top: 18px; bottom: 18px;
+  left: var(--marge-beeld); right: var(--marge-beeld);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--donker);
+}
+.hero-video { position: absolute; inset: 0; overflow: hidden; container-type: size; }
+.hero-video img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.hero-video iframe {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  border: 0;
+  pointer-events: none;
+  width: max(100cqw, calc(100cqh * 1.7778));
+  height: max(100cqh, calc(100cqw * 0.5625));
+}
+.hero-kader::before {
+  /* Overlay verloop (boven) — Figma 99:292 */
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 238px;
+  background: linear-gradient(to bottom, rgba(0,0,0,.27), rgba(0,0,0,0));
+  z-index: 1;
+}
+.hero-inhoud {
+  position: absolute; inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 clamp(24px, 3.75vw, 54px) clamp(36px, 4.65vw, 67px);  /* Figma: intro 67px van de kaderrand */
+  color: var(--wit);
+  transform: translateY(calc((1 - var(--p, 0)) * 95svh));
+  will-change: transform;
+}
+.hero-titel {
+  font-size: clamp(42px, 4.86vw, 70px);   /* Figma: 70px */
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.0262em;               /* Figma: -1.84px op 70px */
+  max-width: 10em;
+}
+.hero-intro {
+  margin-top: 36px;                        /* Figma: intro op 36px onder de titel */
+  font-size: clamp(15px, 1.25vw, 18px);
+  line-height: 1.556;                      /* Figma: 28px op 18px */
+  max-width: 581px;
+}
+
+/* ==========================================================================
+   Intro tekst team (Figma 104:3) — 2 kolommen van 581px op 1440
+   ========================================================================== */
+.tekstblok {
+  padding: clamp(64px, 7.8vw, 112px) var(--marge-content) 0;
+}
+.tekstblok .kolommen {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: clamp(20px, 1.74vw, 25px);
+  row-gap: 0;
+}
+.tekstblok h2 {
+  grid-column: 1 / -1;
+  font-size: clamp(26px, 2.92vw, 42px);   /* Figma: 42px ExtraBold */
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;                     /* Figma: tekst 16px onder de kop */
+}
+.tekstblok h3 {
+  grid-column: 1 / -1;
+  font-size: clamp(19px, 1.67vw, 24px);   /* Figma: 24px ExtraBold */
+  font-weight: 800;
+  line-height: 1.3;
+  margin-top: clamp(36px, 4vw, 57px);      /* Figma: 57px boven 'Wanna be loved?' */
+  margin-bottom: 16px;
+}
+.tekstblok p {
+  font-size: 16px;
+  line-height: 1.75;                       /* Figma: 28px op 16px */
+  max-width: 581px;
+}
+.tekstblok p.zwaar { font-weight: 600; }   /* Figma: eerste alinea SemiBold */
+
+/* ==========================================================================
+   Strategie / Branding / Activatie (Figma 104:2) — drie witte kaarten met
+   zwarte rand; zelfde hoogte in rust (576), bij hover groeit het vlak (647)
+   en verschijnt de 'Vertel me meer'-regel. De rij reserveert de hover-hoogte
+   zodat de rest van de pagina niet verspringt.
+   ========================================================================== */
+.sba { padding: clamp(64px, 8vw, 115px) var(--marge-beeld) 0; }
+.sba-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--marge-beeld);
+  align-items: start;
+  min-height: 647px;                       /* hover-hoogte gereserveerd */
+}
+.sba-tegel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-height: 576px;                       /* Figma: rust-hoogte */
+  background: var(--wit);
+  border: 1px solid var(--zwart);
+  border-radius: var(--radius);
+  padding: clamp(48px, 4.7vw, 68px) clamp(24px, 2.5vw, 36px) 26px;  /* Figma: icoon op 68 van boven */
+  overflow: hidden;
+}
+.sba-icoon {
+  height: 65px;                            /* Figma: iconen 62–65px hoog */
+  display: grid; place-items: center;
+  color: var(--roze);
+}
+.icoon-s { width: 42px; height: 65px; }    /* Figma 99:371: 41.7x65 */
+.icoon-b { width: 55px; height: 62px; }    /* Figma 100:2265: 55x61.6 */
+.icoon-a { width: 62px; height: 62px; }    /* Figma 100:2267: 62x62 */
+.sba-tegel h2 {
+  margin-top: 6px;                         /* Figma: titel op ~139 van boven */
+  font-size: clamp(30px, 2.92vw, 42px);    /* Figma: 42px ExtraBold */
+  font-weight: 800;
+  line-height: 70px;
+  letter-spacing: -0.01em;
+}
+.sba-tegel .sba-tekst {
+  margin-top: 19px;                        /* Figma: tekst op 227 van boven */
+  max-width: 384px;                        /* Figma: 383px */
+  font-size: 16px;
+  line-height: 2.25;                       /* Figma: 36px op 16px */
+}
+.sba-knop {
+  display: flex; align-items: center; gap: 20px;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 24px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height .4s cubic-bezier(.22,.61,.36,1), opacity .3s ease, padding-top .4s cubic-bezier(.22,.61,.36,1);
+}
+.sba-tegel:hover .sba-knop,
+.sba-tegel:focus-within .sba-knop,
+.sba-tegel:focus .sba-knop {
+  max-height: 71px;                        /* Figma: 576 → 647 = +71px */
+  opacity: 1;
+  transition: max-height .4s cubic-bezier(.22,.61,.36,1), opacity .3s ease .12s, padding-top .4s cubic-bezier(.22,.61,.36,1);
+}
+.sba-knop .label { font-size: 18px; font-weight: 800; white-space: nowrap; }  /* Figma: 18px ExtraBold */
+.sba-knop .lijn { flex: 1; height: 1.5px; background: var(--zwart); }
+.sba-knop .pijl-knop { width: 47px; height: 47px; color: var(--zwart); }      /* Figma: 47x47 */
+
+/* ==========================================================================
+   Teamslider (Figma 100:2500) — 'De Cupido's achter jouw werk'
+   Eén kaart actief in het midden (456x560, recht), buren gekanteld -15°
+   (435x490), buitenste -35° (425x441). Oneindige loop: kaarten animeren
+   links en rechts het beeld in en uit. Slepen met de muis of via de pijlen.
+   Alle maten schalen mee via --u (paginabreedte / 1440).
+   ========================================================================== */
+.team {
+  padding: clamp(64px, 8vw, 118px) 0 0;
+  overflow: hidden;
+}
+.team-kop {
+  position: relative;
+  padding: 0 var(--marge-content);
+}
+.team-kop .team-pijl {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: clamp(40px, 4.6vw, 66px);
+  height: clamp(40px, 4.6vw, 66px);
+  display: grid; place-items: center;
+  color: var(--zwart);
+}
+.team-kop .pijl-links  { left: calc(var(--marge-content) - 6px); }
+.team-kop .pijl-rechts { right: calc(var(--marge-content) - 6px); }
+.team-pijl .pijl-svg { width: 47px; height: 47px; max-width: 100%; max-height: 100%; transition: transform .25s ease; }
+.team-pijl.pijl-rechts .pijl-svg { transform: rotate(45deg); }               /* Figma: pijl wijst naar rechts */
+.team-pijl.pijl-links  .pijl-svg { transform: scaleX(-1) rotate(45deg); }    /* gespiegeld: wijst naar links */
+.team-pijl.pijl-rechts:hover .pijl-svg { transform: rotate(45deg) scale(1.08); }
+.team-pijl.pijl-links:hover  .pijl-svg { transform: scaleX(-1) rotate(45deg) scale(1.08); }
+
+.team-stage {
+  --u: 1;
+  position: relative;
+  height: calc(620px * var(--u));
+  margin-top: clamp(16px, 2.2vw, 31px);    /* Figma: kaarten 31px onder de kop */
+  cursor: grab;
+  touch-action: pan-y;
+}
+.team-stage.sleept { cursor: grabbing; }
+.team-binnen {
+  position: absolute; inset: 0;
+  transition: transform .45s cubic-bezier(.22,.61,.36,1);
+}
+.team-stage.sleept .team-binnen { transition: none; }
+
+.team-kaart {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: calc(var(--w, 456px) * var(--u));
+  height: calc(var(--h, 560px) * var(--u));
+  transform: translate(calc(-50% + var(--x, 0px) * var(--u)), -50%) rotate(var(--rot, 0deg));
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--pill);
+  user-select: none;
+  -webkit-user-select: none;
+  transition: transform .6s cubic-bezier(.22,.61,.36,1), width .6s cubic-bezier(.22,.61,.36,1), height .6s cubic-bezier(.22,.61,.36,1), opacity .45s ease;
+  will-change: transform, width, height, opacity;
+}
+.team-kaart img.kaart-foto {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+.team-kaart::after {
+  /* subtiel verloop onderin voor leesbaarheid van labels/iconen */
+  content: '';
+  position: absolute; left: 0; right: 0; bottom: 0;
+  height: 34%;
+  background: linear-gradient(to top, rgba(0,0,0,.22), rgba(0,0,0,0));
+  pointer-events: none;
+}
+.kaart-naam {
+  position: absolute;
+  top: calc(17px * var(--u));
+  left: calc(18px * var(--u));
+  right: calc(18px * var(--u));
+  z-index: 2;
+  color: var(--wit);
+}
+.kaart-naam .naam { font-weight: 800; font-size: calc(18px * var(--u)); line-height: 2.22; }   /* Figma: 18/40 */
+.kaart-naam .functie { font-weight: 400; font-size: calc(16px * var(--u)); line-height: 1.75; } /* Figma: 16/28 */
+.team-kaart.niveau-1 .kaart-naam .naam { font-size: calc(13.4px * var(--u)); }
+.team-kaart.niveau-1 .kaart-naam .functie { font-size: calc(11.9px * var(--u)); }
+.team-kaart.niveau-2 .kaart-naam .naam, .team-kaart.niveau-3 .kaart-naam .naam { font-size: calc(11px * var(--u)); }
+.team-kaart.niveau-2 .kaart-naam .functie, .team-kaart.niveau-3 .kaart-naam .functie { font-size: calc(9.8px * var(--u)); }
+
+.kaart-labels {
+  position: absolute;
+  left: calc(18px * var(--u));
+  right: calc(72px * var(--u));
+  bottom: calc(28px * var(--u));           /* Figma: labels 31px van onder */
+  z-index: 2;
+  display: flex; flex-wrap: wrap; gap: calc(8px * var(--u));
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+.team-kaart.actief .kaart-labels { opacity: 1; transition-delay: .15s; }
+.kaart-labels span {
+  background: rgba(0, 0, 0, .4);           /* Figma: zwart 40% */
+  border-radius: 4px;                      /* Figma: 3.55px */
+  padding: 1px 8px;
+  font-size: calc(10px * var(--u));        /* Figma: 9.94px */
+  line-height: calc(14.2px * var(--u));
+  color: var(--wit);
+  white-space: nowrap;
+}
+.kaart-contact {
+  position: absolute;
+  right: calc(18px * var(--u));
+  bottom: calc(16px * var(--u));           /* Figma: iconen 46px, 16px van onder */
+  z-index: 2;
+  display: flex; gap: calc(8px * var(--u));
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+.team-kaart.actief .kaart-contact { opacity: 1; transition-delay: .15s; }
+.kaart-contact a {
+  width: calc(46px * var(--u)); height: calc(46px * var(--u));
+  border: 1.5px solid var(--wit);
+  border-radius: 50%;
+  display: grid; place-items: center;
+  color: var(--wit);
+  transition: background .2s ease, color .2s ease;
+}
+.kaart-contact a:hover { background: var(--wit); color: var(--zwart); }
+.kaart-contact svg { width: 45%; height: 45%; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.kaart-pijl {
+  /* pijltje op de niet-actieve kaarten (Figma: ~40px, rechtsonder) */
+  position: absolute;
+  right: calc(24px * var(--u));
+  bottom: calc(24px * var(--u));
+  z-index: 2;
+  width: calc(40px * var(--u)); height: calc(40px * var(--u));
+  color: var(--wit);
+  opacity: 1;
+  transition: opacity .35s ease;
+  pointer-events: none;
+}
+.team-kaart.actief .kaart-pijl { opacity: 0; }
+.kaart-pijl .pijl-svg { width: 100%; height: 100%; }
+
+/* ==========================================================================
+   Partners blok (Figma 100:2509) — halve caseblokken (690x472) met
+   video-hover, zoals de grote tiles van de homepage
+   ========================================================================== */
+.partners { padding: clamp(64px, 7vw, 100px) var(--marge-beeld) 0; }
+.partners .sectie-kop { margin-bottom: clamp(20px, 2.4vw, 35px); }
+.partners-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(18px, 1.67vw, 24px);          /* Figma: 24px tussen de blokken */
+}
+.partner-blok {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 690 / 472;
+  display: block;
+  color: var(--wit);
+}
+.partner-blok > img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform .6s ease;
+}
+.partner-blok:hover > img { transform: scale(1.03); }
+.tcf-blok { background: #000; }
+.partner-blok::before {
+  /* Overlay verloop (links) — Figma: zwart → transparant, multiply 38% */
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,.12) 42%, rgba(0,0,0,0) 60%);
+  z-index: 1;
+}
+.partner-inhoud {
+  position: absolute; inset: 0;
+  z-index: 2;
+  display: flex; flex-direction: column;
+  padding: clamp(20px, 2.5vw, 33px) clamp(20px, 2.5vw, 36px) clamp(20px, 2.5vw, 36px);
+}
+.partner-eyebrow {
+  font-size: clamp(14px, 1.25vw, 18px);    /* Figma: 18px ExtraBold */
+  font-weight: 800;
+  letter-spacing: .02em;
+}
+.partner-titel {
+  margin-top: auto;
+  width: fit-content;
+  font-size: clamp(24px, 2.92vw, 42px);    /* Figma: 42px ExtraBold */
+  font-weight: 800;
+  line-height: 1;                          /* Figma: 42px op 42px */
+  letter-spacing: -0.01em;
+  max-width: 452px;
+}
+.partner-resultaat {
+  display: flex; align-items: center;
+  gap: clamp(12px, 1.3vw, 19px);           /* Figma: 19px tussen pijl en tekst */
+  margin-top: clamp(10px, 1.2vw, 17px);    /* Figma: 17px onder de titel */
+  font-size: clamp(14px, 1.25vw, 18px);    /* Figma: 18px */
+  line-height: 1.33;                       /* Figma: 24px op 18px */
+  max-width: 26em;
+}
+.partner-resultaat .pijl-knop { width: clamp(40px, 3.8vw, 55px); height: clamp(40px, 3.8vw, 55px); }  /* Figma: 55x55 */
+
+/* Video-hover laag (zelfde mechaniek als de homepage) */
+.blok-video {
+  position: absolute; inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  container-type: size;
+  opacity: 0;
+  transition: opacity .5s ease;
+  pointer-events: none;
+}
+.blok-video.zichtbaar { opacity: 1; }
+.blok-video iframe {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  border: 0;
+  width: max(100cqw, calc(100cqh * 1.7778));
+  height: max(100cqh, calc(100cqw * 0.5625));
+}
+
+/* ==========================================================================
+   Logo slider (Figma 99:302) — als homepage, kop gecentreerd
+   ========================================================================== */
+.intro {
+  padding: clamp(64px, 7.3vw, 105px) var(--marge-content) 0;
+}
+.logo-slider {
+  overflow: hidden;
+  padding: clamp(28px, 3vw, 48px) 0 clamp(56px, 6.5vw, 93px);
+  cursor: grab;
+  -webkit-mask-image: linear-gradient(to right, transparent var(--marge-content), black calc(var(--marge-content) + 70px), black calc(100% - var(--marge-content) - 70px), transparent calc(100% - var(--marge-content)));
+  mask-image: linear-gradient(to right, transparent var(--marge-content), black calc(var(--marge-content) + 70px), black calc(100% - var(--marge-content) - 70px), transparent calc(100% - var(--marge-content)));
+}
+.logo-slider.sleept { cursor: grabbing; }
+.logo-strip {
+  display: flex;
+  align-items: center;
+  gap: clamp(110px, 10.5vw, 150px);
+  width: max-content;
+  will-change: transform;
+}
+.logo-strip img { width: auto; pointer-events: none; }
+
+/* ==========================================================================
+   Marquee (statements) — identiek aan de homepage
+   ========================================================================== */
+.marquee {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(40px, 6vw, 80px) 0;
+  background: var(--wit);
+  isolation: isolate;
+  cursor: grab;
+}
+.marquee.sleept { cursor: grabbing; }
+.marquee::after {
+  content: '';
+  position: absolute; inset: 0;
+  z-index: 1;
+  background: linear-gradient(90deg, var(--marquee-a), var(--marquee-b));
+  mix-blend-mode: lighten;
+  pointer-events: none;
+}
+.marquee-rij {
+  display: flex;
+  width: max-content;
+  font-size: clamp(42px, 6.25vw, 90px);
+  font-weight: 800;
+  line-height: 1.19;
+  letter-spacing: -0.022em;
+  white-space: nowrap;
+  color: var(--zwart);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y;
+  will-change: transform;
+}
+.marquee-rij span { padding-right: 1.4em; }
+
+/* ==========================================================================
+   Footer — identiek aan de homepage; onderste link is 'Contact us!'
+   ========================================================================== */
+.footer {
+  background: var(--bordeaux);
+  color: var(--roze);
+  padding: clamp(48px, 6.9vw, 99px) var(--marge-content) clamp(48px, 6vw, 90px);
+}
+.footer-kolommen {
+  display: grid;
+  grid-template-columns: 1.65fr 1fr 1.45fr;
+  gap: clamp(28px, 4vw, 64px);
+}
+.footer h3 { font-size: 22px; font-weight: 800; margin-bottom: 24px; }
+.footer p, .footer address { font-style: normal; font-size: 14px; line-height: 1.7; }
+.footer a:hover { text-decoration: underline; }
+.footer-logo { color: var(--roze); }
+.footer-logo .logo-svg { width: 165px; height: 26px; max-width: 100%; margin-bottom: 22px; }
+.footer-intro { max-width: 409px; }
+.footer-links { display: flex; flex-direction: column; gap: 11px; margin-top: 22px; }
+.footer-links a {
+  display: inline-flex; align-items: center; gap: 19px;
+  font-size: 14px;
+}
+.footer-links .pijl-knop { width: 28px; height: 28px; color: var(--roze); }
+.socials { display: flex; gap: 18px; margin-top: 42px; }
+.socials a {
+  width: 32px; height: 32px;
+  border: 1.5px solid var(--roze);
+  border-radius: 8px;
+  display: grid; place-items: center;
+  transition: background .2s ease, color .2s ease;
+}
+.socials a:hover { background: var(--roze); color: var(--bordeaux); }
+.socials svg { width: 16px; height: 16px; fill: currentColor; }
+.nieuwsbrief-tekst { margin-bottom: 14px; }
+.nieuwsbrief { position: relative; max-width: 366px; }
+.nieuwsbrief input {
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-radius: 24px;
+  background: var(--grijs);
+  padding: 0 106px 0 20px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--bordeaux);
+}
+.nieuwsbrief button {
+  position: absolute;
+  right: 0; top: 0;
+  height: 48px;
+  width: 90px;
+  border-radius: 24px;
+  background: var(--roze);
+  color: var(--bordeaux);
+  font-size: 14px; font-weight: 500;
+  transition: filter .2s ease;
+}
+.nieuwsbrief button:hover { filter: brightness(1.1); }
+.nieuwsbrief-sub { margin-top: 12px; max-width: 236px; }
+.footer-onder { margin-top: clamp(40px, 5vw, 58px); }
+.footer-onder .more-cases-klein {
+  display: inline-flex; align-items: center; gap: 20px;
+  font-size: 18px; font-weight: 800;
+  color: var(--roze);
+}
+.footer-onder .pijl-knop { width: 45px; height: 45px; color: var(--roze); }
+
+/* Pijl-knoppen (gedeeld) */
+.pijl-knop {
+  flex: none;
+  width: 47px; height: 47px;
+  display: grid; place-items: center;
+}
+.pijl-svg { width: 100%; height: 100%; transition: transform .25s ease; }
+a:hover .pijl-knop .pijl-svg, .sba-tegel:hover .sba-knop .pijl-svg { transform: rotate(45deg); }
+.mini-pijl {
+  width: 27px; height: 27px;
+  color: var(--zwart);
+  display: grid; place-items: center;
+}
+
+/* ==========================================================================
+   Menu-overlay — identiek aan de homepage, 'Over ons' gelinkt
+   ========================================================================== */
+.menu-overlay {
+  position: fixed; inset: 0;
+  z-index: 30;
+  background: rgba(255,255,255,.85);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease, visibility .3s ease;
+  overflow-y: auto;
+}
+body.menu-open .menu-overlay { opacity: 1; visibility: visible; }
+body.menu-open { overflow: hidden; }
+.menu-binnen {
+  padding: 133px var(--marge-content) 64px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+.menu-kolom .kolom-label { font-size: 14px; font-weight: 800; margin-bottom: 28px; }
+.menu-kolom .groot a {
+  display: block;
+  font-size: clamp(40px, 4.2vw, 60px);
+  font-weight: 800;
+  line-height: 1.32;
+  letter-spacing: -0.01em;
+  transition: opacity .2s ease;
+}
+.menu-kolom .middel a {
+  display: block;
+  font-size: clamp(30px, 2.8vw, 40px);
+  font-weight: 800;
+  line-height: 1.35;
+  transition: opacity .2s ease;
+}
+.menu-kolom a:hover { opacity: .55; }
+.menu-sub {
+  margin: 10px 0 18px;
+  display: flex; flex-direction: column; gap: 10px;
+  padding-left: 36px;
+}
+.menu-sub a {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-size: 17px;
+  font-weight: 400;
+}
+.menu-contact address { font-style: normal; font-size: 17px; line-height: 1.65; margin-bottom: 24px; }
+.menu-contact .menu-sub { padding-left: 0; }
+
+/* Placeholder-stijl als een beeld (nog) ontbreekt */
+.beeld-mist {
+  background: repeating-linear-gradient(45deg, #f2f2f2, #f2f2f2 12px, #e9e9e9 12px, #e9e9e9 24px);
+}
+.beeld-mist::before {
+  content: attr(data-label);
+  position: absolute; inset: auto 16px 16px 16px;
+  z-index: 3;
+  font-size: 13px; font-weight: 500;
+  color: #666;
+}
+.team-kaart.beeld-mist::after { display: none; }
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 1180px) {
+  /* SBA: vaste Figma-hoogtes loslaten zodra de kolommen te smal worden */
+  .sba-grid { min-height: 0; }
+  .sba-tegel { min-height: 0; padding-bottom: 26px; }
+  .sba-tegel .sba-tekst { line-height: 1.9; }
+}
+@media (max-width: 1024px) {
+  .sba-grid { grid-template-columns: 1fr; }
+  .footer-kolommen { grid-template-columns: 1fr 1fr; }
+  .menu-binnen { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 820px) {
+  .partners-grid { grid-template-columns: 1fr; }
+  .partner-blok { aspect-ratio: 690 / 500; }
+}
+@media (max-width: 680px) {
+  :root { --marge-beeld: 10px; }
+  .header { padding-top: 24px; padding-left: 29px; padding-right: 23px; }
+  .header::before { top: 19px; left: 17px; right: 17px; height: 46px; border-radius: 23px; }
+  .menu-knop .menu-label { display: none; }
+  .menu-knop { width: 55px; height: 37px; padding: 0; justify-content: center; }
+  .taalswitch { display: none; }
+  body.menu-open .taalswitch { display: flex; position: absolute; top: 24px; left: 10px; }
+
+  .hero-scroll { height: 130vh; }
+  .hero-kader { top: 10px; bottom: 10px; }
+  .hero-inhoud { padding: 0 23px 31px; }
+  .hero-titel { font-size: clamp(36px, 9.6vw, 42px); }
+  .hero-intro { margin-top: 20px; }
+
+  .logo-strip { zoom: 0.7; gap: 70px; }
+  .logo-slider {
+    -webkit-mask-image: linear-gradient(to right, transparent 10px, black 72px, black calc(100% - 72px), transparent calc(100% - 10px));
+    mask-image: linear-gradient(to right, transparent 10px, black 72px, black calc(100% - 72px), transparent calc(100% - 10px));
+  }
+
+  .footer-kolommen { grid-template-columns: 1fr; }
+  .menu-binnen { grid-template-columns: 1fr; padding-top: 110px; }
+  .menu-kolom .groot a { font-size: 40px; }
+  .menu-kolom .middel a { font-size: 30px; }
+  .nieuwsbrief { max-width: none; }
+  .footer-onder .more-cases-klein { font-size: 16px; }
+
+  .tekstblok .kolommen { grid-template-columns: 1fr; }
+}
+
+/* Reduced motion: animaties uit */
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll { height: 100svh; }
+  .hero-inhoud { transform: none !important; }
+  .logo, .header-knoppen { opacity: 1 !important; transform: none !important; }
+  html { scroll-behavior: auto; }
+  .blok-video { display: none; }
+  * { transition-duration: .01ms !important; }
+}
+</style>
+</head>
+<body>
+<!-- Inline SVG-symbolen (logo, pijlen, dienst-iconen, contact-iconen) -->
+<svg width="0" height="0" style="position:absolute" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<symbol id="svg-logo" viewBox="0 0 230 36"><path fill-rule="evenodd" clip-rule="evenodd" d="M82.853 0C79.7082 0 76.8928 1.45241 75.0274 3.72752C73.1631 1.45241 70.3476 0 67.2029 0C61.601 0 57.043 4.60777 57.043 10.2696V24.6843H61.7115V10.2696C61.7115 7.20903 64.1742 4.7195 67.2029 4.7195C70.2304 4.7195 72.6942 7.20903 72.6942 10.2696V24.7429H77.3617V10.2696C77.3617 7.20903 79.8254 4.7195 82.853 4.7195C85.8805 4.7195 88.3443 7.20903 88.3443 10.2696V24.7429H93.0118V10.2696C93.0118 4.60777 88.4548 0 82.853 0Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M202.647 24.7136H197.978V10.2696C197.978 7.20903 195.516 4.7195 192.488 4.7195C189.459 4.7195 186.997 7.20903 186.997 10.2696V24.7136H182.328V10.2696C182.328 4.60777 186.886 0 192.488 0C198.089 0 202.647 4.60777 202.647 10.2696V24.7136Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M40.0164 19.9945C35.8502 19.9945 32.4609 16.5683 32.4609 12.3566C32.4609 8.14496 35.8502 4.71875 40.0164 4.71875C44.1826 4.71875 47.5718 8.14496 47.5718 12.3566C47.5718 15.4714 44.6292 19.9945 40.0164 19.9945ZM52.2399 11.9019C52.2399 5.21315 46.6046 0.000488281 40.0159 0.000488281C33.2765 0.000488281 27.793 5.54381 27.793 12.3567C27.793 19.1708 33.2765 24.7141 40.0159 24.7141C42.7922 24.7141 45.4157 23.7232 47.5713 21.8928V24.7434H52.2399V11.9019Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M137.813 19.9945C133.647 19.9945 130.258 16.5683 130.258 12.3566C130.258 8.14496 133.647 4.71875 137.813 4.71875C141.979 4.71875 145.369 8.14496 145.369 12.3566C145.369 15.4714 142.426 19.9945 137.813 19.9945ZM150.037 11.9019C150.037 5.1872 144.401 0.000488281 137.813 0.000488281C131.073 0.000488281 125.59 5.54381 125.59 12.3567C125.59 19.1708 131.073 24.7141 137.813 24.7141C140.589 24.7141 143.213 23.7232 145.368 21.8928V24.7141H150.037V11.9019Z" fill="currentColor"/>
+<mask id="logo-mask-p" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="97" y="0" width="25" height="36">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M97.4727 0.000488281H121.92V36H97.4727V0.000488281Z" fill="white"/>
+</mask>
+<g mask="url(#logo-mask-p)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M109.696 19.9945C105.53 19.9945 102.141 16.5683 102.141 12.3566C102.141 8.14496 105.53 4.71875 109.696 4.71875C113.862 4.71875 117.252 8.14496 117.252 12.3566C117.252 16.5683 113.862 19.9945 109.696 19.9945ZM109.696 0.000488281C103.198 0.000488281 97.4727 5.0845 97.4727 11.6266V36.0005H102.14V22.0598C104.221 23.7199 106.846 24.7141 109.696 24.7141C116.436 24.7141 121.92 19.1708 121.92 12.3567C121.92 5.54381 116.436 0.000488281 109.696 0.000488281Z" fill="currentColor"/>
+</g>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M165.927 19.9945C161.76 19.9945 158.371 16.5683 158.371 12.3566C158.371 8.14496 161.76 4.71875 165.927 4.71875C170.093 4.71875 173.482 8.14496 173.482 12.3566C173.482 16.5683 170.093 19.9945 165.927 19.9945ZM178.15 22.9807V12.1604C178.046 5.43773 172.602 0.000488281 165.927 0.000488281C159.187 0.000488281 153.703 5.54381 153.703 12.3567C153.703 19.1708 159.187 24.7141 165.927 24.7141C168.777 24.7141 171.402 23.7199 173.483 22.0598V23.0213L173.484 23.1071C173.561 25.2185 172.754 27.2894 171.27 28.7892C168.324 31.7674 163.53 31.7674 160.584 28.7892L158.934 27.1212L155.633 30.4572L157.283 32.1263C159.667 34.5345 162.797 35.7398 165.927 35.7398C169.057 35.7398 172.188 34.5345 174.57 32.1263C176.958 29.7123 178.261 26.3821 178.15 22.9807Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M24.447 2.52071C24.447 1.22629 23.4088 0.176758 22.1284 0.176758C20.8468 0.176758 19.8086 1.22629 19.8086 2.52071C19.8086 3.81513 20.8468 4.86466 22.1284 4.86466C23.4088 4.86466 24.447 3.81513 24.447 2.52071Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M19.7784 10.4133V12.773C19.7784 16.9147 16.4595 20.1603 12.2229 20.1603C8.0567 20.1603 4.66746 16.7341 4.66746 12.5225C4.66746 8.17426 7.71733 4.89476 11.7607 4.89476H13.8494C15.1991 4.89476 16.1089 3.72899 16.1089 2.53614C16.1089 1.34216 15.1935 0.176392 13.8494 0.176392H11.7607C5.16535 0.176392 0 5.59896 0 12.5225C0 19.3354 5.48351 24.8787 12.2229 24.8787C19.0773 24.8787 24.4469 19.5611 24.4469 12.773V10.4133H19.7784Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M210.801 10.4602H225.607C224.831 6.89185 222.087 4.46777 218.536 4.46777C215.967 4.46777 213.616 5.6674 212.087 7.75969C211.486 8.58125 211.055 9.49536 210.801 10.4602ZM218.541 24.8849C213.132 24.8849 208.476 21.4937 206.934 16.4108C205.748 12.5061 206.404 8.44005 208.733 5.2531C211.024 2.12143 214.689 0.251465 218.537 0.251465C225.017 0.251465 229.946 5.49798 230 12.4554C230.004 13.0377 229.773 13.6098 229.367 14.024C228.96 14.4393 228.396 14.6763 227.819 14.6763H210.784C210.825 14.8422 210.87 15.0081 210.92 15.1728C211.921 18.4693 214.978 20.6688 218.544 20.6688C218.574 20.6688 218.604 20.6688 218.635 20.6676C220.482 20.6485 221.98 20.0707 223.088 18.95L224.563 17.4592L227.511 20.4408L226.038 21.9316C224.157 23.832 221.612 24.8533 218.679 24.8838C218.633 24.8849 218.587 24.8849 218.541 24.8849Z" fill="currentColor"/></symbol>
+<symbol id="svg-pijl" viewBox="0 0 65 65">
+<path d="M23.3438 23.0063H41.4367V41.0993" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M21.5859 42.8554L41.435 23.0063" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M32.2203 63.6906C49.6008 63.6906 63.6906 49.6008 63.6906 32.2203C63.6906 14.8397 49.6008 0.75 32.2203 0.75C14.8397 0.75 0.75 14.8397 0.75 32.2203C0.75 49.6008 14.8397 63.6906 32.2203 63.6906Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+</symbol>
+<symbol id="svg-pijl-dik" viewBox="-1.2 -1.2 67.4 67.4">
+<path d="M23.3438 23.0063H41.4367V41.0993" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M21.5859 42.8554L41.435 23.0063" fill="none" stroke="currentColor" stroke-width="3.4" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M32.2203 63.6906C49.6008 63.6906 63.6906 49.6008 63.6906 32.2203C63.6906 14.8397 49.6008 0.75 32.2203 0.75C14.8397 0.75 0.75 14.8397 0.75 32.2203C0.75 49.6008 14.8397 63.6906 32.2203 63.6906Z" fill="none" stroke="currentColor" stroke-width="3.4" stroke-miterlimit="10" stroke-linecap="round"/>
+</symbol>
+<symbol id="icoon-strategie" viewBox="0 0 22 35"><path d="M21.6232 34.6551L21.146 33.8153C19.8231 31.4867 19.379 28.7653 19.8955 26.1511C20.1423 24.9036 20.4022 23.7548 20.6536 22.644C21.4061 19.3217 22.0001 16.6971 21.6262 14.142C20.5931 7.43649 17.2769 2.92104 11.2165 0L11.3903 3.53823C11.3975 3.68461 11.3431 3.82729 11.2405 3.93189C11.1376 4.03599 11.0053 4.09583 10.8488 4.08792C8.82139 4.02264 6.57046 6.3339 3.74957 9.26433C2.72858 10.3251 1.67297 11.4218 0.490021 12.5543C0.155461 12.8748 -0.0265323 13.3265 0.00314046 13.7627C0.112682 15.3613 0.630719 16.459 1.58692 17.118C1.98009 17.389 2.48502 17.4523 2.93679 17.2876C3.91599 16.9305 5.00152 16.2953 6.25519 15.3448C6.41963 15.2199 6.64168 15.2041 6.82144 15.3015C8.85279 16.4019 10.6881 15.7149 12.9548 13.008C13.1286 12.8011 13.432 12.7593 13.6536 12.9123C13.8766 13.0654 13.9466 13.3624 13.8153 13.5988C12.5767 15.8336 10.9432 17.9149 9.36316 19.9277C5.69759 24.5972 2.23156 29.0138 4.16153 34.6548H21.623L21.6232 34.6551Z" fill="currentColor"/></symbol>
+<symbol id="icoon-branding" viewBox="0 0 25 28"><path fill-rule="evenodd" clip-rule="evenodd" d="M25 15.1154C25 15.2509 24.9464 15.3779 24.8557 15.4711L12.7598 27.8539C12.566 28.0487 12.2567 28.0487 12.0628 27.8539L0.144342 15.6447C0.0536128 15.5516 0 15.4203 0 15.289V5.61228C0 5.47677 0.0536128 5.34972 0.144342 5.25655L5.13032 0.14928C5.32415 -0.0497599 5.63345 -0.0497599 5.82728 0.14928L12.4134 6.89545L18.9995 0.14928C19.1933 -0.0497599 19.5026 -0.0497599 19.6965 0.14928L24.8557 5.43018C24.9464 5.52335 25 5.65463 25 5.78591V15.1154Z" fill="currentColor"/></symbol>
+<symbol id="icoon-activatie" viewBox="0 0 32 32"><path d="M30.0945 0.00989415C28.3478 0.198546 21.8722 0.519005 14.5628 7.86325C11.0933 11.3493 8.76535 15.1973 8 18.2982L13.6675 23.9927C16.7526 23.2237 20.5834 20.8847 24.0529 17.3986C30.9776 10.4408 31.7608 3.55133 31.9169 1.80109C32.0098 0.759039 31.1288 -0.102552 30.0945 0.00989415Z" fill="currentColor"/><path d="M10.4259 16.8839L0.421758 15.8515C-0.0249039 15.8458 -0.153369 15.2967 0.214979 14.969L4.95582 10.7505C5.62927 10.1512 6.48159 9.8355 7.28919 9.88614L13.1531 10.2535L10.4259 16.8836V16.8839Z" fill="currentColor"/><path d="M15.0469 21.5239L16.0743 31.5757C16.08 32.0245 16.6265 32.1536 16.9526 31.7835L21.1512 27.0201C21.7475 26.3434 22.0618 25.487 22.0114 24.6756L21.6458 18.7837L15.0471 21.5239H15.0469Z" fill="currentColor"/><path d="M2.23416 30.2044C3.46644 30.0443 6.73191 29.6168 8.19517 29.2611C10.1995 28.7746 11.637 27.0904 11.8898 25.1093C11.9355 24.7503 11.5046 24.5366 11.2519 24.7943C10.5747 25.4848 9.57839 26.2347 8.9289 26.3159H5.68591V23.0577C5.74471 22.5881 6.14715 21.9377 6.62469 21.3564C6.81022 21.1302 7.00737 20.9148 7.19982 20.7244C7.4565 20.4704 7.24379 20.0375 6.88656 20.0835C4.91512 20.3369 3.23915 21.7816 2.75519 23.7944C2.40117 25.2647 1.97526 28.5455 1.81566 29.7839C1.78429 30.0284 1.99082 30.2359 2.23416 30.2044Z" fill="currentColor"/></symbol>
+<symbol id="icoon-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3.5 7l8.5 6 8.5-6"/></symbol>
+<symbol id="icoon-tel" viewBox="0 0 24 24"><path d="M5.5 3h3l1.7 4.3-2.1 1.6a13 13 0 0 0 6 6l1.6-2.1L20 14.5v3a2.5 2.5 0 0 1-2.7 2.5C9.6 19.4 4.6 14.4 4 6.7A2.5 2.5 0 0 1 5.5 3z"/></symbol>
+</svg>
+
+<!-- ============================================================ HEADER -->
+<header class="header">
+  <a class="logo" href="index.html" aria-label="Campagne — home">
+    <svg class="logo-svg" role="img" aria-label="Campagne"><use href="#svg-logo"></use></svg>
+  </a>
+  <div class="header-knoppen">
+    <button class="menu-knop" type="button" aria-expanded="false" aria-controls="menu-overlay">
+      <span class="menu-label">Menu</span>
+      <span class="hamburger" aria-hidden="true"><span></span><span></span></span>
+    </button>
+    <div class="taalswitch" data-taal="nl" role="group" aria-label="Taalkeuze">
+      <button type="button" data-kies="en">EN</button>
+      <button type="button" data-kies="nl" class="actief">NL</button>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================ MENU-OVERLAY -->
+<nav class="menu-overlay" id="menu-overlay" aria-label="Hoofdmenu" aria-hidden="true">
+  <div class="menu-binnen">
+    <div class="menu-kolom">
+      <p class="kolom-label">What we do</p>
+      <div class="groot">
+        <a href="index.html#diensten">Strategy</a>
+        <a href="index.html#diensten">Branding</a>
+        <a href="index.html#diensten">Activation</a>
+      </div>
+      <div class="menu-sub">
+        <a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Social content</a>
+        <a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Banners &amp; media</a>
+        <a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Print &amp; more</a>
+      </div>
+    </div>
+    <div class="menu-kolom">
+      <p class="kolom-label">Navigatie</p>
+      <div class="middel">
+        <a href="index.html#cases">Cases</a>
+        <a href="team.html">Over ons</a>
+        <a href="#">Netwerk</a>
+      </div>
+      <div class="menu-sub">
+        <a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Social content</a>
+        <a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Banners &amp; media</a>
+      </div>
+      <div class="middel">
+        <a href="#">Vacatures</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+    </div>
+    <div class="menu-kolom menu-contact">
+      <p class="kolom-label">Contact</p>
+      <address>
+        Weena 250 (gebouw Weena 200)<br>
+        Toren C, 12e verdieping<br>
+        3012 NJ Rotterdam
+      </address>
+      <div class="menu-sub">
+        <a href="tel:0102928333"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> 010 - 292 83 33</a>
+        <a href="mailto:hello@campagne.nl"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> hello@campagne.nl</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main>
+<!-- ============================================================ HERO (Figma 99:285) -->
+<section class="hero-scroll" id="hero-scroll" aria-label="Over ons">
+  <div class="hero-sticky">
+    <svg class="hero-vorm" viewBox="0 0 1440 632" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M233.045 527.278C241.389 535.615 255.66 529.702 255.66 517.917V349.614C255.66 340.143 267.126 335.393 273.829 342.101L559.541 627.409C565.677 633.53 575.612 633.53 581.738 627.409L703.621 505.703C712.671 496.67 727.339 496.67 736.379 505.703L858.202 627.399C864.338 633.52 874.273 633.52 880.409 627.399L1166.11 341.992C1172.81 335.294 1184.28 340.034 1184.28 349.504V517.807C1184.28 529.603 1198.54 535.506 1206.9 527.168L1435.96 298.415C1438.45 295.931 1439.84 292.572 1439.85 289.054L1440.02 -0.02H0V289.054C0 292.562 1.39227 295.931 3.87845 298.415L233.045 527.268V527.278Z" fill="#EAE3D2"/>
+    </svg>
+    <div class="hero-kader">
+      <div class="hero-video">
+        <img loading="eager" decoding="async" src="images/team-header.webp" alt="Het team van Campagne">
+        <iframe src="https://player.vimeo.com/video/1210167864?background=1&autoplay=1&muted=1&loop=1&autopause=0&title=0&byline=0&portrait=0&badge=0&player_id=0&app_id=58479" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" referrerpolicy="strict-origin-when-cross-origin" title="Campagne team" loading="lazy"></iframe>
+      </div>
+      <div class="hero-inhoud">
+        <h1 class="hero-titel">Wij maken<br>merken geliefd</h1>
+        <p class="hero-intro">Wij zijn Campagne, creatief communicatiebureau uit hartje Rotterdam. Merken geliefder maken, dat is wat leuk vinden. Als strategische merkkeuze om andere merken voor te blijven. Dat doen we met creativiteit, menselijkheid en aandacht.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ INTRO TEKST TEAM (Figma 104:3) -->
+<section class="tekstblok">
+  <div class="kolommen">
+    <h2>Wij zijn campagne</h2>
+    <p class="zwaar">Een merkvoorsprong nemen kan in vele vormen. Je kunt naamsbekendheid opbouwen, voorkeur creëren of gedrag veranderen bij de mensen die je wilt bereiken. In bijzondere situaties willen mensen zelfs meer voor je betalen, komen ze terug en vertellen ze enthousiast over jou bij anderen.</p>
+    <p>Eén ding is zeker. Geliefder worden als merk gaat niet van vandaag op morgen. Het vergt commitment, een lange termijn visie en een creatieve partner aan je zijde. Daarom werken we met duidelijke parameters die continu worden gevoed, gemonitord en aangescherpt. Altijd langs een overkoepelend toetsingskader, dat alles samenbrengt en scherp houdt met één enkele vraag: Wanna be loved?</p>
+    <h3>Wanna be loved?</h3>
+    <p>Niet als inhoudsloze hunker naar snelle likes, maar als uitnodiging aan merken om betekenisvoller te zijn in het leven van mensen. Met een communicatiemethode die creativiteit en menselijkheid toevoegt als doorslaggevende factor. Want creativiteit en menselijkheid maken complexe vraagstukken begrijpelijk, positioneren je merk onderscheidend en laten je opvallen en overtuigen in een wereld van ‘veel van hetzelfde’. Wij geloven dat in een wereld vol technologie en AI, creativiteit en menselijkheid doorslaggevend zijn voor succes. En omgekeerd, dat je technologie/AI heel goed kunt gebruiken om creativiteit te versnellen (effectiever) en processen zo efficiënt mogelijk in te richten (voordeliger).</p>
+    <p>Niet als inhoudsloze hunker naar snelle likes, maar als uitnodiging aan merken om betekenisvoller te zijn in het leven van mensen. Met een communicatiemethode die creativiteit en menselijkheid toevoegt als doorslaggevende factor. Want creativiteit en menselijkheid maken complexe vraagstukken begrijpelijk, positioneren je merk onderscheidend en laten je opvallen en overtuigen in een wereld van ‘veel van hetzelfde’. Wij geloven dat in een wereld vol technologie en AI, creativiteit en menselijkheid doorslaggevend zijn voor succes. En omgekeerd, dat je technologie/AI heel goed kunt gebruiken om creativiteit te versnellen (effectiever) en processen zo efficiënt mogelijk in te richten (voordeliger).</p>
+  </div>
+</section>
+
+<!-- ============================================================ STRATEGIE / BRANDING / ACTIVATIE (Figma 104:2) -->
+<section class="sba" id="diensten">
+  <div class="sba-grid">
+    <a class="sba-tegel" href="index.html#diensten">
+      <span class="sba-icoon"><svg class="icoon-s" aria-hidden="true"><use href="#icoon-strategie"></use></svg></span>
+      <h2>Strategie</h2>
+      <p class="sba-tekst">Geliefder worden begint met een goed doordacht plan waarin je definieert wie je bent en wat je het beste kunt. Zo positioneer je jezelf slim en stippel je samen een route uit naar het gewenste doel. Vanuit de businesscase werken we je merk verder uit naar een positionering, marketingplan, social strategie, contentplan en communicatieplanning.</p>
+      <span class="sba-knop">
+        <span class="label">Vertel me meer</span>
+        <span class="lijn" aria-hidden="true"></span>
+        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+      </span>
+    </a>
+    <a class="sba-tegel" href="index.html#diensten">
+      <span class="sba-icoon"><svg class="icoon-b" aria-hidden="true"><use href="#icoon-branding"></use></svg></span>
+      <h2>Branding</h2>
+      <p class="sba-tekst">Val op in de massa Het verhaal van jouw DNA verbindt, inspireert en laat een blijvende indruk achter. Wij brengen merken tot leven, maken ze onvergetelijk door strategische positionering, visuele aantrekkingskracht en messaging. Of je nu een nieuwe identiteit wilt opbouwen of een bestaande wilt versterken, wij zorgen ervoor dat je merk straalt en impact maakt.</p>
+      <span class="sba-knop">
+        <span class="label">Vertel me meer</span>
+        <span class="lijn" aria-hidden="true"></span>
+        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+      </span>
+    </a>
+    <a class="sba-tegel" href="index.html#diensten">
+      <span class="sba-icoon"><svg class="icoon-a" aria-hidden="true"><use href="#icoon-activatie"></use></svg></span>
+      <h2>Activatie</h2>
+      <p class="sba-tekst">Breng je merk tot leven met strategische activatie. Van het creëren van onvergetelijke klantbelevingen en het organiseren van spectaculaire evenementen tot het leveren van impactvolle content via digitale en traditionele platforms: wij maken jouw merk geliefder. Door verbinding te zoeken met de juiste doelgroep en engagement te stimuleren.</p>
+      <span class="sba-knop">
+        <span class="label">Vertel me meer</span>
+        <span class="lijn" aria-hidden="true"></span>
+        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+      </span>
+    </a>
+  </div>
+</section>
+
+<!-- ============================================================ TEAM (Figma 100:2500) — data uit team.json (CMS) -->
+<section class="team" id="team">
+  <div class="team-kop">
+    <h2 class="sectie-kop">De Cupido’s achter jouw werk</h2>
+    <button class="team-pijl pijl-links" type="button" aria-label="Vorig teamlid"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></button>
+    <button class="team-pijl pijl-rechts" type="button" aria-label="Volgend teamlid"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></button>
+  </div>
+  <div class="team-stage" id="team-stage" aria-label="Teamleden">
+    <div class="team-binnen" id="team-binnen"><!-- kaarten via JS uit team.json --></div>
+  </div>
+</section>
+
+<!-- ============================================================ PARTNERS (Figma 100:2509) -->
+<section class="partners" id="partners">
+  <h2 class="sectie-kop">Met onze partners</h2>
+  <div class="partners-grid">
+    <a class="partner-blok tcf-blok" href="#" data-video="1208112684">
+      <img loading="lazy" decoding="async" src="images/creative-family.webp" alt="Netwerk-illustratie van The Creative Family">
+      <div class="partner-inhoud">
+        <span class="partner-eyebrow">One big stack of creativity</span>
+        <h3 class="partner-titel">It&rsquo;s all in the<br>Creative Family.</h3>
+        <p class="partner-resultaat">
+          <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+          Alle disciplines binnen het<br>creatieve speelveld.
+        </p>
+      </div>
+    </a>
+    <a class="partner-blok amin-blok" href="#" data-video="1208112681">
+      <img loading="lazy" decoding="async" src="images/amin.webp" alt="Het AMIN Allies team">
+      <div class="partner-inhoud">
+        <span class="partner-eyebrow">Campagne and 60+ agencies</span>
+        <h3 class="partner-titel">AMIN gives<br>you the world!</h3>
+        <p class="partner-resultaat">
+          <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+          Collaboration and<br>international reach.
+        </p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ============================================================ INTRO + LOGO'S (Figma 99:302, kop gecentreerd) -->
+<section class="intro">
+  <h2 class="sectie-kop">Wij helpen merken geliefder te worden.</h2>
+</section>
+<div class="logo-slider" aria-label="Klanten van Campagne">
+  <div class="logo-strip" id="logo-strip">
+    <img loading="lazy" decoding="async" src="images/logo_de.png" style="height:72px" alt="Logo Douwe Egberts">
+    <img loading="lazy" decoding="async" src="images/logo_brugman.png" style="height:36px" alt="Logo Brugman">
+    <img loading="lazy" decoding="async" src="images/logo_allison.png" style="height:36px" alt="Logo Allison">
+    <img loading="lazy" decoding="async" src="images/logo_stl.png" style="height:28px" alt="Logo STL">
+    <img loading="lazy" decoding="async" src="images/logo_rt.png" style="height:45px" alt="Logo Rotterdam Topsport">
+    <img loading="lazy" decoding="async" src="images/logo_mkb.png" style="height:61px" alt="Logo MKB Brandstof">
+    <img loading="lazy" decoding="async" src="images/logo_steinweg.png" style="height:36px" alt="Logo Steinweg">
+    <img loading="lazy" decoding="async" src="images/logo_rijksoverheid.png" style="height:76px" alt="Logo Rijksoverheid">
+    <img loading="lazy" decoding="async" src="images/logo_maasstad.png" style="height:51px" alt="Logo Maasstad Ziekenhuis">
+    <img loading="lazy" decoding="async" src="images/logo_tij.png" style="height:53px" alt="Logo Rotterdams Tij">
+    <img loading="lazy" decoding="async" src="images/logo_svenson.png" style="height:16px" alt="Logo Svensson">
+    <img loading="lazy" decoding="async" src="images/logo_greenchoice.png" style="height:65px" alt="Logo Greenchoice">
+  </div>
+</div>
+
+<!-- ============================================================ MARQUEE (statements, als homepage) -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-rij"><span>64 partners</span><span>Wanna be loved?</span><span>64 partners</span><span>Wanna be loved?</span><span>64 partners</span><span>Wanna be loved?</span></div>
+  <div class="marquee-rij rechts"><span>Hartje Rotterdam</span><span>Alles onder 1 dak</span><span>Hartje Rotterdam</span><span>Alles onder 1 dak</span><span>Hartje Rotterdam</span><span>Alles onder 1 dak</span></div>
+  <div class="marquee-rij"><span>32 years of experience</span><span>45 actieve clients</span><span>32 years of experience</span><span>45 actieve clients</span><span>32 years of experience</span><span>45 actieve clients</span></div>
+  <div class="marquee-rij rechts"><span>5.400 bakkies per/jaar</span><span>12 beurs stands</span><span>5.400 bakkies per/jaar</span><span>12 beurs stands</span><span>5.400 bakkies per/jaar</span><span>12 beurs stands</span></div>
+</div>
+
+<!-- ============================================================ FOOTER -->
+<footer class="footer" id="contact">
+  <div class="footer-kolommen">
+    <div class="footer-logo">
+      <svg class="logo-svg" role="img" aria-label="Campagne"><use href="#svg-logo"></use></svg>
+      <p class="footer-intro">Given attention, grabbing it and keeping it is essential. We help brands grow in a connected world &mdash; with strategy, branding and campaigns that make people care.</p>
+    </div>
+    <div>
+      <h3>Contact</h3>
+      <address>
+        Charloisse Lagedijk 536<br>
+        3084 LG Rotterdam
+      </address>
+      <div class="footer-links">
+        <a href="tel:0102928333"><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span> 010 - 292 83 33</a>
+        <a href="mailto:hello@campagne.nl"><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span> hello@campagne.nl</a>
+      </div>
+      <div class="socials">
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.9-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 4 4 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zm0 3.6a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-10.5a1.4 1.4 0 1 0 0 2.9 1.4 1.4 0 0 0 0-2.9z"/></svg></a>
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M13.5 21v-8.2h2.8l.4-3.2h-3.2V7.6c0-.9.3-1.6 1.6-1.6h1.7V3.2c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.4H7.3v3.2h2.8V21h3.4z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1-.02 5 2.5 2.5 0 0 1 .02-5zM3 9h4v12H3zM9 9h3.8v1.7h.1c.5-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21h-4v-5.5c0-1.3 0-3-1.9-3s-2.2 1.4-2.2 2.9V21H9z"/></svg></a>
+      </div>
+    </div>
+    <div>
+      <h3>Stay up to date!</h3>
+      <p class="nieuwsbrief-tekst">Sign me up!</p>
+      <form class="nieuwsbrief" onsubmit="return false">
+        <input type="email" placeholder="mymail@company.com" aria-label="Jouw e-mailadres">
+        <button type="submit">Send</button>
+      </form>
+      <p class="nieuwsbrief-sub">And receive our newsletter once every 3 months.</p>
+    </div>
+  </div>
+  <div class="footer-onder">
+    <a class="more-cases-klein" href="mailto:hello@campagne.nl">
+      Contact us!
+      <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+    </a>
+  </div>
+</footer>
+</main>
+
+<!-- Fallback-teamdata: gebruikt als team.json niet geladen kan worden
+     (bijv. bij lokaal openen via dubbelklik). Live leest de pagina team.json. -->
+<script type="application/json" id="team-fallback">
+{"leden":[
+  {"naam":"Vincent Loopstra","functie":"Creative","eigenschappen":["illustrator","kleuren en vormen","kleurrijke sokken"],"mail":"vincent@campagne.nl","telefoon":"010 - 292 83 33","foto":"images/team/vincent-loopstra.webp"},
+  {"naam":"Teamlid Twee","functie":"Strateeg","eigenschappen":["merkstrategie","onderzoek","koffie"],"mail":"twee@campagne.nl","telefoon":"010 - 292 83 33","foto":"images/team/teamlid-twee.webp"},
+  {"naam":"Teamlid Drie","functie":"Designer","eigenschappen":["branding","motion","typografie"],"mail":"drie@campagne.nl","telefoon":"","foto":"images/team/teamlid-drie.webp"},
+  {"naam":"Teamlid Vier","functie":"Content creator","eigenschappen":["video","social","fotografie"],"mail":"vier@campagne.nl","telefoon":"010 - 292 83 33","foto":"images/team/teamlid-vier.webp"},
+  {"naam":"Teamlid Vijf","functie":"Accountmanager","eigenschappen":["klantcontact","planning","bakkies"],"mail":"vijf@campagne.nl","telefoon":"010 - 292 83 33","foto":"images/team/teamlid-vijf.webp"},
+  {"naam":"Teamlid Zes","functie":"Copywriter","eigenschappen":["concept","copy","woordgrappen"],"mail":"zes@campagne.nl","telefoon":"","foto":"images/team/teamlid-zes.webp"},
+  {"naam":"Teamlid Zeven","functie":"Developer","eigenschappen":["website","techniek","pixels"],"mail":"zeven@campagne.nl","telefoon":"010 - 292 83 33","foto":"images/team/teamlid-zeven.webp"},
+  {"naam":"Teamlid Acht","functie":"Producer","eigenschappen":["events","productie","regelneef"],"mail":"acht@campagne.nl","telefoon":"010 - 292 83 33","foto":"images/team/teamlid-acht.webp"}
+]}
+</script>
+
+<script>
+// Intro-fade van logo en knoppen (geen laadscherm op deze pagina)
+document.addEventListener('DOMContentLoaded', function () {
+  requestAnimationFrame(function () { document.body.classList.add('intro-klaar'); });
+});
+
+// Nette placeholder als een afbeelding ontbreekt
+function beeldMist(img) {
+  var ouder = img.closest('.team-kaart, .partner-blok, .hero-video');
+  if (ouder) {
+    ouder.classList.add('beeld-mist');
+    if (!ouder.hasAttribute('data-label')) {
+      ouder.setAttribute('data-label', 'Beeld: ' + img.getAttribute('src').replace('images/', '') + ' ontbreekt');
+    }
+  }
+  img.style.visibility = 'hidden';
+}
+document.querySelectorAll('img[src^="images/"]').forEach(function (img) {
+  if (img.complete && img.naturalWidth === 0) beeldMist(img);
+  else img.addEventListener('error', function () { beeldMist(img); });
+});
+
+// Menu-overlay openen/sluiten
+(function () {
+  var knop = document.querySelector('.menu-knop');
+  var overlay = document.getElementById('menu-overlay');
+  knop.addEventListener('click', function () {
+    var open = document.body.classList.toggle('menu-open');
+    knop.setAttribute('aria-expanded', open ? 'true' : 'false');
+    overlay.setAttribute('aria-hidden', open ? 'false' : 'true');
+  });
+  overlay.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      document.body.classList.remove('menu-open');
+      knop.setAttribute('aria-expanded', 'false');
+      overlay.setAttribute('aria-hidden', 'true');
+    });
+  });
+})();
+
+// Taalswitch (visueel, zoals op de homepage)
+document.querySelectorAll('.taalswitch button').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var ts = b.closest('.taalswitch');
+    ts.setAttribute('data-taal', b.getAttribute('data-kies'));
+    ts.querySelectorAll('button').forEach(function (x) { x.classList.toggle('actief', x === b); });
+  });
+});
+
+// Hero scroll-animatie: --p (0..1) over de sectie — zelfde mechaniek als de homepage
+var heroScroll = document.getElementById('hero-scroll');
+function heroProgressie() {
+  if (!heroScroll) return;
+  var top = heroScroll.offsetTop;
+  var totaal = heroScroll.offsetHeight - window.innerHeight;
+  var p = totaal > 0 ? Math.min(Math.max((window.scrollY - top) / totaal, 0), 1) : 0;
+  heroScroll.style.setProperty('--p', p.toFixed(4));
+}
+window.addEventListener('scroll', heroProgressie, { passive: true });
+window.addEventListener('resize', heroProgressie);
+heroProgressie();
+
+// Header-gedrag in drie zones (zoals de homepage)
+(function () {
+  var header = document.querySelector('.header');
+  var heroTitel = document.querySelector('.hero-titel');
+  var vorigeY = window.scrollY;
+  var duwActief = true;
+  function bijScroll() {
+    var y = window.scrollY;
+    var omhoog = y < vorigeY - 2;
+    var omlaag = y > vorigeY + 2;
+    vorigeY = y;
+    if (document.body.classList.contains('menu-open')) return;
+    var heroEinde = heroScroll ? heroScroll.offsetTop + heroScroll.offsetHeight - window.innerHeight : 0;
+    var heroWeg = heroScroll ? y >= heroScroll.offsetTop + heroScroll.offsetHeight : y > 60;
+    if (y <= heroEinde) {
+      duwActief = true;
+      header.classList.remove('scrolled', 'verborgen', 'duwt');
+      header.style.transform = '';
+    } else if (!heroWeg) {
+      header.classList.remove('verborgen');
+      if (header.classList.contains('scrolled')) {
+        header.classList.remove('scrolled');
+        duwActief = false;
+      }
+      var titelTop = heroTitel ? heroTitel.getBoundingClientRect().top : 0;
+      var hoogte = header.offsetHeight || 100;
+      if (!duwActief && titelTop > hoogte + 10) duwActief = true;
+      header.classList.add('duwt');
+      if (duwActief) {
+        header.style.transform = 'translateY(' + Math.min(0, titelTop - hoogte).toFixed(1) + 'px)';
+      } else {
+        header.style.transform = '';
+      }
+    } else {
+      duwActief = true;
+      header.classList.remove('duwt');
+      header.style.transform = '';
+      if (omhoog) {
+        header.classList.add('scrolled');
+        header.classList.remove('verborgen');
+      } else if (omlaag || !header.classList.contains('scrolled')) {
+        header.classList.add('verborgen');
+      }
+    }
+  }
+  window.addEventListener('scroll', bijScroll, { passive: true });
+  bijScroll();
+})();
+
+// Video-hover op de partnerblokken (zelfde mechaniek als de homepage; hier is
+// het hele blok de trigger). Preload gespreid na het laden van de pagina.
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+    window.matchMedia('(hover: hover)').matches) {
+  (function () {
+    function vimeoCommando(f, methode) {
+      try {
+        f.contentWindow.postMessage(JSON.stringify({ method: methode }), 'https://player.vimeo.com');
+      } catch (e) { /* player nog niet klaar */ }
+    }
+    var preloaders = [];
+    document.querySelectorAll('[data-video]').forEach(function (blok) {
+      var laag = null, frame = null, geladen = false, wegTimer = null, hovert = false;
+      function maakFrame() {
+        if (laag) return;
+        laag = document.createElement('div');
+        laag.className = 'blok-video';
+        frame = document.createElement('iframe');
+        frame.src = 'https://player.vimeo.com/video/' + blok.getAttribute('data-video') +
+          '?background=1&autoplay=1&muted=1&loop=1&autopause=0&title=0&byline=0&portrait=0&badge=0';
+        frame.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; encrypted-media');
+        frame.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+        frame.setAttribute('aria-hidden', 'true');
+        frame.tabIndex = -1;
+        frame.addEventListener('load', function () {
+          geladen = true;
+          if (hovert) {
+            vimeoCommando(frame, 'play');
+            if (laag) requestAnimationFrame(function () { if (laag) laag.classList.add('zichtbaar'); });
+          } else {
+            vimeoCommando(frame, 'pause');
+            setTimeout(function () { if (!hovert) vimeoCommando(frame, 'pause'); }, 500);
+            setTimeout(function () { if (!hovert) vimeoCommando(frame, 'pause'); }, 1500);
+          }
+        });
+        laag.appendChild(frame);
+        blok.appendChild(laag);
+      }
+      function speel() {
+        hovert = true;
+        clearTimeout(wegTimer);
+        maakFrame();
+        laag.classList.add('zichtbaar');
+        if (geladen) {
+          vimeoCommando(frame, 'play');
+          setTimeout(function () { if (hovert) vimeoCommando(frame, 'play'); }, 250);
+        }
+      }
+      function stop() {
+        hovert = false;
+        if (!laag) return;
+        laag.classList.remove('zichtbaar');
+        wegTimer = setTimeout(function () {
+          if (frame && geladen) vimeoCommando(frame, 'pause');
+        }, 550);
+      }
+      blok.addEventListener('mouseenter', speel);
+      blok.addEventListener('mouseleave', stop);
+      preloaders.push(maakFrame);
+    });
+    function startPreload() {
+      preloaders.forEach(function (laad, i) { setTimeout(laad, 600 + i * 350); });
+    }
+    if (document.readyState === 'complete') startPreload();
+    else window.addEventListener('load', startPreload);
+  })();
+}
+
+// Logo slider: schuift vanzelf, sleepbaar met momentum (als homepage, halve snelheid)
+(function () {
+  var strip = document.getElementById('logo-strip');
+  if (!strip) return;
+  strip.innerHTML += strip.innerHTML;
+  var houder = strip.parentElement;
+  var magBewegen = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var basis = -0.2, x = 0, v = basis, halve = 0;
+  var sleepStart = null, sleepBasis = 0, laatsteX = 0, laatsteT = 0, gooiV = 0;
+  function meetHalve() { halve = strip.scrollWidth / 2; }
+  window.addEventListener('load', meetHalve);
+  window.addEventListener('resize', meetHalve);
+  meetHalve();
+  function stap() {
+    if (sleepStart === null && magBewegen) {
+      x += v;
+      v += (basis - v) * 0.035;
+    }
+    if (halve > 0) {
+      while (x <= -halve) x += halve;
+      while (x > 0) x -= halve;
+    }
+    strip.style.transform = 'translateX(' + x + 'px)';
+    requestAnimationFrame(stap);
+  }
+  requestAnimationFrame(stap);
+  houder.addEventListener('pointerdown', function (e) {
+    sleepStart = e.clientX; sleepBasis = x;
+    laatsteX = e.clientX; laatsteT = performance.now(); gooiV = 0;
+    houder.classList.add('sleept');
+    houder.setPointerCapture(e.pointerId);
+    e.preventDefault();
+  });
+  houder.addEventListener('pointermove', function (e) {
+    if (sleepStart === null) return;
+    x = sleepBasis + (e.clientX - sleepStart);
+    var nu = performance.now(), dt = nu - laatsteT;
+    if (dt > 0) gooiV = (e.clientX - laatsteX) / dt * 16.7;
+    laatsteX = e.clientX; laatsteT = nu;
+  });
+  function loslaten() {
+    if (sleepStart === null) return;
+    sleepStart = null;
+    houder.classList.remove('sleept');
+    v = Math.max(-30, Math.min(30, gooiV));
+  }
+  houder.addEventListener('pointerup', loslaten);
+  houder.addEventListener('pointercancel', loslaten);
+})();
+
+// Marquee: schuift vanzelf, sleepbaar met momentum (als homepage)
+(function () {
+  var marquee = document.querySelector('.marquee');
+  if (!marquee) return;
+  var magBewegen = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  marquee.querySelectorAll('.marquee-rij').forEach(function (rij) {
+    rij.innerHTML += rij.innerHTML;
+    var basis = (rij.classList.contains('rechts') ? 1 : -1) * 0.6;
+    var x = 0, v = basis, cyclus = 0;
+    var sleepStart = null, sleepBasis = 0, laatsteX = 0, laatsteT = 0, gooiV = 0;
+    function meet() { cyclus = rij.scrollWidth / 6; }
+    window.addEventListener('load', meet);
+    window.addEventListener('resize', meet);
+    meet();
+    function stap() {
+      if (sleepStart === null && magBewegen) {
+        x += v;
+        v += (basis - v) * 0.035;
+      }
+      if (cyclus > 0) {
+        while (x <= -cyclus) x += cyclus;
+        while (x > 0) x -= cyclus;
+      }
+      rij.style.transform = 'translateX(' + x + 'px)';
+      requestAnimationFrame(stap);
+    }
+    requestAnimationFrame(stap);
+    rij.addEventListener('pointerdown', function (e) {
+      sleepStart = e.clientX; sleepBasis = x;
+      laatsteX = e.clientX; laatsteT = performance.now(); gooiV = 0;
+      marquee.classList.add('sleept');
+      rij.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+    rij.addEventListener('pointermove', function (e) {
+      if (sleepStart === null) return;
+      x = sleepBasis + (e.clientX - sleepStart);
+      var nu = performance.now(), dt = nu - laatsteT;
+      if (dt > 0) gooiV = (e.clientX - laatsteX) / dt * 16.7;
+      laatsteX = e.clientX; laatsteT = nu;
+    });
+    function loslaten() {
+      if (sleepStart === null) return;
+      sleepStart = null;
+      marquee.classList.remove('sleept');
+      v = Math.max(-30, Math.min(30, gooiV));
+    }
+    rij.addEventListener('pointerup', loslaten);
+    rij.addEventListener('pointercancel', loslaten);
+  });
+})();
+
+// ============================================================ TEAMSLIDER
+// Oneindig loopende slider (Figma 100:2500): de actieve kaart staat recht in
+// het midden (456x560), de buren staan gekanteld op -15° (435x490), de
+// buitenste op -35° (425x441); alles daarbuiten staat onzichtbaar klaar in de
+// coulissen en animeert het beeld in en uit. Data uit team.json (CMS-bron).
+(function () {
+  var stage = document.getElementById('team-stage');
+  var binnen = document.getElementById('team-binnen');
+  var knopVorige = document.querySelector('.team-kop .pijl-links');
+  var knopVolgende = document.querySelector('.team-kop .pijl-rechts');
+  if (!stage || !binnen) return;
+
+  // Posities per afstand tot de actieve kaart (Figma-maten op 1440-basis)
+  var NIVEAUS = [
+    { w: 456, h: 560, x: 0,   rot: 0,   z: 30, o: 1 },
+    { w: 435, h: 490, x: 342, rot: -15, z: 20, o: 1 },
+    { w: 425, h: 441, x: 560, rot: -35, z: 10, o: 1 },
+    { w: 425, h: 441, x: 800, rot: -35, z: 5,  o: 0 }   // coulissen (onzichtbaar)
+  ];
+
+  var kaarten = [], n = 0, actief = 0;
+
+  function ontsnap(t) {
+    return String(t == null ? '' : t)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function maakKaart(lid) {
+    var art = document.createElement('article');
+    art.className = 'team-kaart';
+    var eig = (lid.eigenschappen || []).map(function (e) { return '<span>' + ontsnap(e) + '</span>'; }).join('');
+    var contact = '';
+    if (lid.mail) contact += '<a href="mailto:' + ontsnap(lid.mail) + '" aria-label="Mail ' + ontsnap(lid.naam) + '"><svg aria-hidden="true"><use href="#icoon-mail"></use></svg></a>';
+    if (lid.telefoon) contact += '<a href="tel:' + ontsnap(String(lid.telefoon).replace(/[^\d+]/g, '')) + '" aria-label="Bel ' + ontsnap(lid.naam) + '"><svg aria-hidden="true"><use href="#icoon-tel"></use></svg></a>';
+    art.innerHTML =
+      '<img class="kaart-foto" loading="lazy" decoding="async" src="' + ontsnap(lid.foto) + '" alt="' + ontsnap(lid.naam) + '">' +
+      '<div class="kaart-naam"><span class="naam">' + ontsnap(lid.naam) + '</span><br><span class="functie">' + ontsnap(lid.functie) + '</span></div>' +
+      (eig ? '<p class="kaart-labels">' + eig + '</p>' : '') +
+      (contact ? '<div class="kaart-contact">' + contact + '</div>' : '') +
+      '<span class="kaart-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>';
+    var img = art.querySelector('img');
+    img.addEventListener('error', function () { beeldMist(img); });
+    return art;
+  }
+
+  function meetU() {
+    var u = Math.min(1, Math.max(0.5, stage.clientWidth / 1440));
+    stage.style.setProperty('--u', u);
+    return u;
+  }
+
+  function afstandTot(i) {
+    var d = (i - actief) % n;
+    if (d > n / 2) d -= n;
+    if (d < -n / 2) d += n;
+    return d;
+  }
+
+  function leg() {
+    meetU();
+    kaarten.forEach(function (k, i) {
+      var d = afstandTot(i);
+      var niveau = Math.min(Math.abs(d), 3);
+      var s = NIVEAUS[niveau];
+      var kant = d < 0 ? -1 : 1;
+      k.style.setProperty('--w', s.w + 'px');
+      k.style.setProperty('--h', s.h + 'px');
+      k.style.setProperty('--x', (kant * s.x) + 'px');
+      k.style.setProperty('--rot', s.rot + 'deg');
+      k.style.zIndex = s.z;
+      k.style.opacity = s.o;
+      k.classList.remove('niveau-0', 'niveau-1', 'niveau-2', 'niveau-3', 'actief');
+      k.classList.add('niveau-' + niveau);
+      if (d === 0) k.classList.add('actief');
+      k.setAttribute('aria-hidden', d === 0 ? 'false' : 'true');
+      // alleen de actieve kaart is aanklikbaar op de contactlinks
+      k.querySelectorAll('.kaart-contact a').forEach(function (a) { a.tabIndex = d === 0 ? 0 : -1; });
+    });
+  }
+
+  function gaNaar(i) {
+    if (!n) return;
+    actief = ((i % n) + n) % n;
+    leg();
+  }
+
+  function bouw(data) {
+    binnen.innerHTML = '';
+    kaarten = [];
+    (data.leden || []).forEach(function (lid) {
+      var k = maakKaart(lid);
+      binnen.appendChild(k);
+      kaarten.push(k);
+    });
+    n = kaarten.length;
+    kaarten.forEach(function (k, i) {
+      k.addEventListener('click', function (e) {
+        if (versleept) { e.preventDefault(); return; }
+        var d = afstandTot(i);
+        if (d !== 0) { e.preventDefault(); gaNaar(actief + d); }
+      });
+    });
+    gaNaar(0);
+  }
+
+  // Slepen met de muis: de hele groep beweegt mee; bij loslaten schuift de
+  // slider het passende aantal kaarten door (oneindig, met wrap).
+  var sleepStart = null, versleept = false, sleepDx = 0;
+  stage.addEventListener('pointerdown', function (e) {
+    if (!n) return;
+    sleepStart = e.clientX; sleepDx = 0; versleept = false;
+    stage.classList.add('sleept');
+    stage.setPointerCapture(e.pointerId);
+  });
+  stage.addEventListener('pointermove', function (e) {
+    if (sleepStart === null) return;
+    sleepDx = e.clientX - sleepStart;
+    if (Math.abs(sleepDx) > 6) versleept = true;
+    if (versleept) binnen.style.transform = 'translateX(' + (sleepDx * 0.55) + 'px)';
+  });
+  function loslaten() {
+    if (sleepStart === null) return;
+    sleepStart = null;
+    stage.classList.remove('sleept');
+    binnen.style.transform = '';
+    if (!versleept) return;
+    var u = meetU();
+    var stapBreedte = 342 * u;                       // afstand tussen actief en buur
+    var stappen = -Math.round(sleepDx / stapBreedte);
+    if (stappen === 0 && Math.abs(sleepDx) > 50) stappen = sleepDx < 0 ? 1 : -1;
+    if (stappen !== 0) gaNaar(actief + stappen);
+    setTimeout(function () { versleept = false; }, 50);
+  }
+  stage.addEventListener('pointerup', loslaten);
+  stage.addEventListener('pointercancel', loslaten);
+
+  if (knopVorige) knopVorige.addEventListener('click', function () { gaNaar(actief - 1); });
+  if (knopVolgende) knopVolgende.addEventListener('click', function () { gaNaar(actief + 1); });
+  window.addEventListener('resize', leg);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') gaNaar(actief - 1);
+    if (e.key === 'ArrowRight') gaNaar(actief + 1);
+  });
+
+  // Data: eerst team.json (CMS-bron), anders de fallback in de pagina
+  function fallback() {
+    try {
+      bouw(JSON.parse(document.getElementById('team-fallback').textContent));
+    } catch (fout) { /* geen data — sectie blijft leeg */ }
+  }
+  if (window.location.protocol === 'file:') { fallback(); }
+  else {
+    fetch('team.json', { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(bouw)
+      .catch(fallback);
+  }
+})();
+</script>
+</body>
+</html>
