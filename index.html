@@ -694,6 +694,7 @@ body.laadt { overflow: hidden; }
   bottom: 36px; left: 0; right: 0;
   text-align: center;
   color: var(--wit);
+  font-family: var(--font);             /* Poppins */
   font-size: 14px; font-weight: 500;
   font-variant-numeric: tabular-nums;   /* cijfers verspringen niet */
 }
@@ -788,7 +789,7 @@ body.laadt { overflow: hidden; }
 <body class="laadt">
 <!-- Laadscherm: zwart, logo-animatie gecentreerd, laadpercentage onderin -->
 <div class="laadscherm" id="laadscherm" aria-hidden="true">
-  <video class="laad-animatie" autoplay muted loop playsinline src="images/loader.mp4"></video>
+  <video class="laad-animatie" autoplay muted playsinline src="images/images-loader.mp4"></video><!-- geen loop: blijft op het laatste frame staan -->
   <p class="laad-procent" id="laad-procent">0%</p>
 </div>
 <noscript><style>.laadscherm{display:none} body.laadt{overflow:auto}</style></noscript>
@@ -1269,9 +1270,34 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
   else document.addEventListener('DOMContentLoaded', function () { stap('dom'); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { stap('fonts'); });
   else stap('fonts');
+  // Hero-stap pas afvinken als de Vimeo-player écht speelt (event 'playing'
+  // of 'timeupdate' via postMessage), niet al bij het laden van de player-
+  // pagina — anders verdwijnt de overlay terwijl de video nog zwart is.
   var heroFrame = document.querySelector('.hero-video iframe');
-  if (heroFrame) heroFrame.addEventListener('load', function () { stap('hero'); });
-  else stap('hero');
+  if (heroFrame) {
+    var heroSpeelt = false;
+    window.addEventListener('message', function (e) {
+      if (heroSpeelt || e.origin !== 'https://player.vimeo.com') return;
+      if (e.source !== heroFrame.contentWindow) return;   // alleen de hero-player, niet de hover-preloads
+      var d = e.data;
+      if (typeof d === 'string') { try { d = JSON.parse(d); } catch (fout) { return; } }
+      if (d && (d.event === 'playing' || d.event === 'timeupdate')) {
+        heroSpeelt = true;
+        stap('hero');
+      }
+    });
+    function heroAbonneer() {
+      ['playing', 'timeupdate'].forEach(function (ev) {
+        try {
+          heroFrame.contentWindow.postMessage(JSON.stringify({ method: 'addEventListener', value: ev }), 'https://player.vimeo.com');
+        } catch (fout) { /* player nog niet klaar — geen probleem */ }
+      });
+    }
+    heroFrame.addEventListener('load', heroAbonneer);
+    heroAbonneer();                       // voor het geval de player al geladen is
+    setTimeout(heroAbonneer, 1500);       // herkansingen; dubbel abonneren kan geen kwaad
+    setTimeout(heroAbonneer, 4000);
+  } else stap('hero');
   if (document.readyState === 'complete') stap('load');
   else window.addEventListener('load', function () { stap('load'); });
   // Vangnet: nooit langer dan 8 seconden wachten (trage verbinding, blocker)
