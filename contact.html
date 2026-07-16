@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Campagne</title>
+<meta name="description" content="Wanna be loved? Neem contact op met Campagne, creatief communicatiebureau uit hartje Rotterdam.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&display=swap" rel="stylesheet">
+<!-- three.js voor het 3D-beeldmerk (zelfde CDN-aanpak als Google Fonts: extern, licht voor de repo) -->
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"}}
+</script>
+<style>
+/* ==========================================================================
+   CAMPAGNE — design tokens (identiek aan index.html/team.html, 1440px basis)
+   ========================================================================== */
+:root {
+  --geel: #f9e000;
+  --roze: #d72655;
+  --bordeaux: #460f22;
+  --marquee-a: #d82756;
+  --marquee-b: #490d1e;
+  --zwart: #000000;
+  --wit: #ffffff;
+  --grijs: #d8d8d8;
+  --pill: #ebebeb;
+  --donker: #121212;
+
+  --radius: 20px;
+  --radius-knop: 25px;
+  --marge-beeld: 18px;
+  --marge-content: clamp(21px, 8.8vw, 127px);
+  --max-b: 1440px;
+
+  --font: 'Poppins', -apple-system, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  font-weight: 400;
+  color: var(--zwart);
+  background: var(--wit);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--roze);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Alleen voor screenreaders (paginatitel) */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Gedeelde sectiekop (Figma: Poppins ExtraBold 42, gecentreerd) */
+.sectie-kop {
+  font-size: clamp(26px, 2.92vw, 42px);
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Header — zelfde balk als de andere pagina's. Deze pagina heeft een witte
+   hero, dus het logo is hier zwart; zodra de donkere scrollbalk verschijnt
+   wordt het logo wit.
+   ========================================================================== */
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  --pad-l: clamp(33px, 3.125vw, 45px);
+  --pad-r: clamp(22px, 2.5vw, 36px);
+  padding: 36px var(--pad-r) 24px var(--pad-l);
+  background: transparent;
+  transition: transform .35s ease;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: calc(var(--pad-l) - 18px);
+  right: calc(var(--pad-r) - 10px);
+  height: 54px;
+  background: rgba(0, 0, 0, .6);
+  border-radius: 30px;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  opacity: 0;
+  transition: opacity .35s ease;
+  z-index: -1;
+  pointer-events: none;
+}
+.header.scrolled::before { opacity: 1; }
+.header.verborgen { transform: translateY(-160%); }
+body.menu-open .header::before { opacity: 0; }
+body.menu-open .logo { color: #000; }
+.logo { color: var(--zwart); transition: color .35s ease; }   /* witte hero: zwart logo */
+.header.scrolled .logo { color: var(--wit); }                 /* donkere balk: wit logo */
+.logo { opacity: 0; transform: translateX(-28px); }
+.header-knoppen { opacity: 0; transform: translateX(28px); }
+body.intro-klaar .logo,
+body.intro-klaar .header-knoppen {
+  opacity: 1; transform: translateX(0);
+  transition: opacity .9s ease, transform .9s cubic-bezier(.22,.61,.36,1), color .35s ease;
+}
+body.intro-klaar .header-knoppen { transition-delay: .05s; }
+.logo-svg { display: block; }
+.logo .logo-svg { width: 175px; height: 27px; display: block; }
+.header .logo-svg { transform: translateY(4px); }
+
+.header-knoppen { display: flex; align-items: center; gap: 10px; }
+
+.menu-knop {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--zwart);
+  color: var(--wit);
+  font-size: 14px; font-weight: 500;
+  height: 36px; padding: 0 16px;
+  border-radius: var(--radius-knop);
+}
+.menu-knop .hamburger { display: inline-flex; flex-direction: column; gap: 6px; width: 18px; }
+.menu-knop .hamburger span { display: block; height: 1px; background: var(--wit); width: 100%; transition: all .25s ease; }
+.menu-knop .hamburger span:last-child { width: 10px; }
+body.menu-open .menu-knop .hamburger span:nth-child(1) { transform: translateY(3.5px) rotate(45deg); }
+body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-3.5px) rotate(-45deg); width: 100%; }
+
+.taalswitch {
+  position: relative;
+  display: flex; align-items: center;
+  background: var(--pill);
+  height: 36px; border-radius: 19px;
+  padding: 3px;
+}
+.taalswitch button {
+  position: relative; z-index: 1;
+  width: 32px; height: 30px;
+  font-size: 14px; font-weight: 500;
+  color: var(--zwart);
+  border-radius: 15px;
+  transition: color .2s ease;
+}
+.taalswitch button.actief { color: var(--wit); }
+.taalswitch::before {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 32px; height: 30px;
+  background: var(--zwart);
+  border-radius: 15px;
+  transition: transform .25s ease;
+}
+.taalswitch[data-taal="nl"]::before { transform: translateX(32px); }
+
+/* ==========================================================================
+   Contact-hero — witte fold met het 3D-beeldmerk in het midden; het hart
+   draait om zijn eigen as mee met de muis. Contactgegevens links en rechts.
+   ========================================================================== */
+.contact-hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: clamp(96px, 14svh, 150px) var(--marge-content) clamp(72px, 11svh, 110px);
+}
+.contact-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-areas: "links hart rechts";
+  align-items: center;
+  gap: clamp(20px, 3vw, 48px);
+}
+.contact-info { display: flex; flex-direction: column; }
+.contact-info.links  { grid-area: links; justify-self: start; }
+.contact-info.rechts { grid-area: rechts; justify-self: end; }
+.contact-info .kolom-label { font-size: 14px; font-weight: 800; margin-bottom: 22px; }
+.contact-info address { font-style: normal; font-size: 17px; line-height: 1.65; }
+.contact-links { margin-top: 22px; display: flex; flex-direction: column; gap: 12px; }
+.contact-links a {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-size: 17px;
+}
+.contact-links .mini-pijl { transition: transform .25s ease; }
+.contact-links a:hover .mini-pijl { transform: rotate(45deg); }
+
+/* Socials op wit: zelfde blokjes als de footer, maar in zwart */
+.socials-licht { display: flex; gap: 14px; margin-top: 28px; }
+.socials-licht a {
+  width: 32px; height: 32px;
+  border: 1.5px solid var(--zwart);
+  border-radius: 8px;
+  display: grid; place-items: center;
+  color: var(--zwart);
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+.socials-licht a:hover { background: var(--roze); border-color: var(--roze); color: var(--wit); }
+.socials-licht svg { width: 16px; height: 16px; fill: currentColor; }
+
+/* Het 3D-hart */
+.hart-houder {
+  grid-area: hart;
+  position: relative;
+  width: min(42vw, 62svh, 620px);
+  aspect-ratio: 1 / 1;
+  justify-self: center;
+}
+#hart-3d { position: absolute; inset: 0; opacity: 0; transition: opacity .9s ease; }
+#hart-3d.klaar { opacity: 1; }
+#hart-3d canvas { width: 100% !important; height: 100% !important; display: block; }
+/* Reserve-hart als WebGL of het .glb-bestand niet beschikbaar is */
+.hart-fallback {
+  position: absolute; inset: 12%;
+  display: none;
+  color: var(--roze);
+}
+.hart-houder.fout .hart-fallback { display: block; }
+.hart-fallback svg { width: 100%; height: 100%; }
+
+/* Scroll-cue onderin de fold */
+.scroll-cue {
+  position: absolute;
+  left: 50%; bottom: 26px;
+  transform: translateX(-50%);
+  width: 47px; height: 47px;
+  color: var(--zwart);
+  display: grid; place-items: center;
+}
+.scroll-cue .pijl-svg { transform: rotate(135deg); transition: transform .25s ease; }
+.scroll-cue:hover .pijl-svg { transform: rotate(135deg) scale(1.1); }
+
+/* ==========================================================================
+   Contactformulier — onder het hart, opgemaakt in de stijl van de site
+   ========================================================================== */
+.contact-formulier {
+  padding: clamp(40px, 5vw, 64px) var(--marge-content) clamp(72px, 8vw, 120px);
+}
+.formulier-binnen { max-width: 900px; margin: 0 auto; text-align: center; }
+.formulier-intro {
+  margin: 18px auto 0;
+  max-width: 620px;
+  font-size: 16px;
+  line-height: 1.75;
+}
+.contactform {
+  margin-top: clamp(32px, 4vw, 48px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  text-align: left;
+}
+.contactform input,
+.contactform textarea {
+  width: 100%;
+  border: none;
+  background: var(--pill);
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--zwart);
+}
+.contactform input {
+  height: 54px;
+  border-radius: 27px;
+  padding: 0 24px;
+}
+.contactform textarea {
+  grid-column: 1 / -1;
+  min-height: 190px;
+  border-radius: var(--radius);
+  padding: 18px 24px;
+  resize: vertical;
+  line-height: 1.6;
+}
+.contactform ::placeholder { color: #767676; opacity: 1; }
+.form-onder {
+  grid-column: 1 / -1;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px;
+  margin-top: 6px;
+}
+.form-note { font-size: 13px; line-height: 1.6; color: #666; max-width: 460px; }
+.verstuur {
+  flex: none;
+  height: 54px;
+  padding: 0 46px;
+  border-radius: 27px;
+  background: var(--roze);
+  color: var(--wit);
+  font-size: 16px; font-weight: 500;
+  transition: filter .2s ease;
+}
+.verstuur:hover { filter: brightness(1.12); }
+.form-dank {
+  grid-column: 1 / -1;
+  display: none;
+  font-size: 16px; font-weight: 600;
+  color: var(--roze);
+  text-align: center;
+}
+.contactform.verstuurd .form-dank { display: block; }
+
+/* ==========================================================================
+   Werkvloer — één lange foto in een 'box' (zelfde kaders als de andere
+   pagina's: 18px marge, radius 20). Slepen of scrollen om erdoorheen te gaan.
+   ========================================================================== */
+.werkvloer { padding: 0 0 clamp(72px, 8vw, 120px); }
+.werkvloer .sectie-kop { margin-bottom: clamp(20px, 2.4vw, 35px); }
+.werkvloer-box {
+  position: relative;
+  margin: 0 var(--marge-beeld);
+  border-radius: var(--radius);
+  overflow: hidden;
+  height: clamp(300px, 42vw, 560px);
+  background: var(--pill);
+  cursor: grab;
+  touch-action: pan-y;
+}
+.werkvloer-box.sleept { cursor: grabbing; }
+.werkvloer-strip {
+  position: absolute;
+  top: 0; bottom: 0; left: 0;
+  display: flex;
+  will-change: transform;
+}
+.werkvloer-strip img {
+  height: 100%;
+  width: auto;
+  flex: none;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ==========================================================================
+   Footer — identiek aan de andere pagina's
+   ========================================================================== */
+.footer {
+  background: var(--bordeaux);
+  color: var(--roze);
+  padding: clamp(48px, 6.9vw, 99px) var(--marge-content) clamp(48px, 6vw, 90px);
+}
+.footer-kolommen {
+  display: grid;
+  grid-template-columns: 1.65fr 1fr 1.45fr;
+  gap: clamp(28px, 4vw, 64px);
+}
+.footer h3 { font-size: 22px; font-weight: 800; margin-bottom: 24px; }
+.footer p, .footer address { font-style: normal; font-size: 14px; line-height: 1.7; }
+.footer a:hover { text-decoration: underline; }
+.footer-logo { color: var(--roze); }
+.footer-logo .logo-svg { width: 165px; height: 26px; max-width: 100%; margin-bottom: 22px; }
+.footer-intro { max-width: 409px; }
+.footer-links { display: flex; flex-direction: column; gap: 11px; margin-top: 22px; }
+.footer-links a {
+  display: inline-flex; align-items: center; gap: 19px;
+  font-size: 14px;
+}
+.footer-links .pijl-knop { width: 28px; height: 28px; color: var(--roze); }
+.socials { display: flex; gap: 18px; margin-top: 42px; }
+.socials a {
+  width: 32px; height: 32px;
+  border: 1.5px solid var(--roze);
+  border-radius: 8px;
+  display: grid; place-items: center;
+  transition: background .2s ease, color .2s ease;
+}
+.socials a:hover { background: var(--roze); color: var(--bordeaux); }
+.socials svg { width: 16px; height: 16px; fill: currentColor; }
+.nieuwsbrief-tekst { margin-bottom: 14px; }
+.nieuwsbrief { position: relative; max-width: 366px; }
+.nieuwsbrief input {
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-radius: 24px;
+  background: var(--grijs);
+  padding: 0 106px 0 20px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--bordeaux);
+}
+.nieuwsbrief button {
+  position: absolute;
+  right: 0; top: 0;
+  height: 48px;
+  width: 90px;
+  border-radius: 24px;
+  background: var(--roze);
+  color: var(--bordeaux);
+  font-size: 14px; font-weight: 500;
+  transition: filter .2s ease;
+}
+.nieuwsbrief button:hover { filter: brightness(1.1); }
+.nieuwsbrief-sub { margin-top: 12px; max-width: 236px; }
+.footer-onder { margin-top: clamp(40px, 5vw, 58px); }
+.footer-onder .more-cases-klein {
+  display: inline-flex; align-items: center; gap: 20px;
+  font-size: 18px; font-weight: 800;
+  color: var(--roze);
+}
+.footer-onder .pijl-knop { width: 45px; height: 45px; color: var(--roze); }
+
+/* Pijl-knoppen (gedeeld) */
+.pijl-knop {
+  flex: none;
+  width: 47px; height: 47px;
+  display: grid; place-items: center;
+}
+.pijl-svg { width: 100%; height: 100%; transition: transform .25s ease; }
+a:hover .pijl-knop .pijl-svg { transform: rotate(45deg); }
+.mini-pijl {
+  width: 27px; height: 27px;
+  color: var(--zwart);
+  display: grid; place-items: center;
+}
+
+/* ==========================================================================
+   Menu-overlay — identiek aan de andere pagina's
+   ========================================================================== */
+.menu-overlay {
+  position: fixed; inset: 0;
+  z-index: 30;
+  background: rgba(255,255,255,.85);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease, visibility .3s ease;
+  overflow-y: auto;
+}
+body.menu-open .menu-overlay { opacity: 1; visibility: visible; }
+body.menu-open { overflow: hidden; }
+.menu-binnen {
+  padding: 133px var(--marge-content) 64px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+.menu-kolom .kolom-label { font-size: 14px; font-weight: 800; margin-bottom: 28px; }
+.menu-kolom .groot a {
+  display: block;
+  font-size: clamp(40px, 4.2vw, 60px);
+  font-weight: 800;
+  line-height: 1.32;
+  letter-spacing: -0.01em;
+  transition: opacity .2s ease;
+}
+.menu-kolom .middel a {
+  display: block;
+  font-size: clamp(30px, 2.8vw, 40px);
+  font-weight: 800;
+  line-height: 1.35;
+  transition: opacity .2s ease;
+}
+.menu-kolom a:hover { opacity: .55; }
+.menu-sub {
+  margin: 10px 0 18px;
+  display: flex; flex-direction: column; gap: 10px;
+  padding-left: 36px;
+}
+.menu-sub a {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-size: 17px;
+  font-weight: 400;
+}
+.menu-contact address { font-style: normal; font-size: 17px; line-height: 1.65; margin-bottom: 24px; }
+.menu-contact .menu-sub { padding-left: 0; }
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .footer-kolommen { grid-template-columns: 1fr 1fr; }
+  .menu-binnen { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 900px) {
+  /* Fold: hart bovenaan, gegevens er in twee kolommen onder */
+  .contact-hero { align-items: flex-start; padding-top: clamp(88px, 13svh, 120px); }
+  .contact-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "hart hart"
+      "links rechts";
+    row-gap: clamp(28px, 5vw, 40px);
+  }
+  .hart-houder { width: min(64vw, 48svh, 460px); }
+  .contact-info.rechts { justify-self: start; }
+}
+@media (max-width: 680px) {
+  :root { --marge-beeld: 10px; }
+  .header { padding-top: 24px; padding-left: 29px; padding-right: 23px; }
+  .header::before { top: 19px; left: 17px; right: 17px; height: 46px; border-radius: 23px; }
+  .menu-knop .menu-label { display: none; }
+  .menu-knop { width: 55px; height: 37px; padding: 0; justify-content: center; }
+  .taalswitch { display: none; }
+  body.menu-open .taalswitch { display: flex; position: absolute; top: 24px; left: 10px; }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "hart"
+      "links"
+      "rechts";
+  }
+  .hart-houder { width: min(78vw, 42svh, 380px); }
+  .scroll-cue { display: none; }
+
+  .contactform { grid-template-columns: 1fr; }
+  .form-onder { flex-direction: column; align-items: flex-start; }
+
+  .werkvloer-box { height: clamp(240px, 62vw, 340px); }
+
+  .footer-kolommen { grid-template-columns: 1fr; }
+  .menu-binnen { grid-template-columns: 1fr; padding-top: 110px; }
+  .menu-kolom .groot a { font-size: 40px; }
+  .menu-kolom .middel a { font-size: 30px; }
+  .nieuwsbrief { max-width: none; }
+  .footer-onder .more-cases-klein { font-size: 16px; }
+}
+
+/* Reduced motion: animaties uit */
+@media (prefers-reduced-motion: reduce) {
+  .logo, .header-knoppen { opacity: 1 !important; transform: none !important; }
+  html { scroll-behavior: auto; }
+  * { transition-duration: .01ms !important; }
+}
+</style>
+</head>
+<body>
+<!-- Inline SVG-symbolen (logo, pijlen) — kleur via currentColor -->
+<svg width="0" height="0" style="position:absolute" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<symbol id="svg-logo" viewBox="0 0 230 36"><path fill-rule="evenodd" clip-rule="evenodd" d="M82.853 0C79.7082 0 76.8928 1.45241 75.0274 3.72752C73.1631 1.45241 70.3476 0 67.2029 0C61.601 0 57.043 4.60777 57.043 10.2696V24.6843H61.7115V10.2696C61.7115 7.20903 64.1742 4.7195 67.2029 4.7195C70.2304 4.7195 72.6942 7.20903 72.6942 10.2696V24.7429H77.3617V10.2696C77.3617 7.20903 79.8254 4.7195 82.853 4.7195C85.8805 4.7195 88.3443 7.20903 88.3443 10.2696V24.7429H93.0118V10.2696C93.0118 4.60777 88.4548 0 82.853 0Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M202.647 24.7136H197.978V10.2696C197.978 7.20903 195.516 4.7195 192.488 4.7195C189.459 4.7195 186.997 7.20903 186.997 10.2696V24.7136H182.328V10.2696C182.328 4.60777 186.886 0 192.488 0C198.089 0 202.647 4.60777 202.647 10.2696V24.7136Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M40.0164 19.9945C35.8502 19.9945 32.4609 16.5683 32.4609 12.3566C32.4609 8.14496 35.8502 4.71875 40.0164 4.71875C44.1826 4.71875 47.5718 8.14496 47.5718 12.3566C47.5718 15.4714 44.6292 19.9945 40.0164 19.9945ZM52.2399 11.9019C52.2399 5.21315 46.6046 0.000488281 40.0159 0.000488281C33.2765 0.000488281 27.793 5.54381 27.793 12.3567C27.793 19.1708 33.2765 24.7141 40.0159 24.7141C42.7922 24.7141 45.4157 23.7232 47.5713 21.8928V24.7434H52.2399V11.9019Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M137.813 19.9945C133.647 19.9945 130.258 16.5683 130.258 12.3566C130.258 8.14496 133.647 4.71875 137.813 4.71875C141.979 4.71875 145.369 8.14496 145.369 12.3566C145.369 15.4714 142.426 19.9945 137.813 19.9945ZM150.037 11.9019C150.037 5.1872 144.401 0.000488281 137.813 0.000488281C131.073 0.000488281 125.59 5.54381 125.59 12.3567C125.59 19.1708 131.073 24.7141 137.813 24.7141C140.589 24.7141 143.213 23.7232 145.368 21.8928V24.7141H150.037V11.9019Z" fill="currentColor"/>
+<mask id="logo-mask-p" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="97" y="0" width="25" height="36">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M97.4727 0.000488281H121.92V36H97.4727V0.000488281Z" fill="white"/>
+</mask>
+<g mask="url(#logo-mask-p)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M109.696 19.9945C105.53 19.9945 102.141 16.5683 102.141 12.3566C102.141 8.14496 105.53 4.71875 109.696 4.71875C113.862 4.71875 117.252 8.14496 117.252 12.3566C117.252 16.5683 113.862 19.9945 109.696 19.9945ZM109.696 0.000488281C103.198 0.000488281 97.4727 5.0845 97.4727 11.6266V36.0005H102.14V22.0598C104.221 23.7199 106.846 24.7141 109.696 24.7141C116.436 24.7141 121.92 19.1708 121.92 12.3567C121.92 5.54381 116.436 0.000488281 109.696 0.000488281Z" fill="currentColor"/>
+</g>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M165.927 19.9945C161.76 19.9945 158.371 16.5683 158.371 12.3566C158.371 8.14496 161.76 4.71875 165.927 4.71875C170.093 4.71875 173.482 8.14496 173.482 12.3566C173.482 16.5683 170.093 19.9945 165.927 19.9945ZM178.15 22.9807V12.1604C178.046 5.43773 172.602 0.000488281 165.927 0.000488281C159.187 0.000488281 153.703 5.54381 153.703 12.3567C153.703 19.1708 159.187 24.7141 165.927 24.7141C168.777 24.7141 171.402 23.7199 173.483 22.0598V23.0213L173.484 23.1071C173.561 25.2185 172.754 27.2894 171.27 28.7892C168.324 31.7674 163.53 31.7674 160.584 28.7892L158.934 27.1212L155.633 30.4572L157.283 32.1263C159.667 34.5345 162.797 35.7398 165.927 35.7398C169.057 35.7398 172.188 34.5345 174.57 32.1263C176.958 29.7123 178.261 26.3821 178.15 22.9807Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M24.447 2.52071C24.447 1.22629 23.4088 0.176758 22.1284 0.176758C20.8468 0.176758 19.8086 1.22629 19.8086 2.52071C19.8086 3.81513 20.8468 4.86466 22.1284 4.86466C23.4088 4.86466 24.447 3.81513 24.447 2.52071Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M19.7784 10.4133V12.773C19.7784 16.9147 16.4595 20.1603 12.2229 20.1603C8.0567 20.1603 4.66746 16.7341 4.66746 12.5225C4.66746 8.17426 7.71733 4.89476 11.7607 4.89476H13.8494C15.1991 4.89476 16.1089 3.72899 16.1089 2.53614C16.1089 1.34216 15.1935 0.176392 13.8494 0.176392H11.7607C5.16535 0.176392 0 5.59896 0 12.5225C0 19.3354 5.48351 24.8787 12.2229 24.8787C19.0773 24.8787 24.4469 19.5611 24.4469 12.773V10.4133H19.7784Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M210.801 10.4602H225.607C224.831 6.89185 222.087 4.46777 218.536 4.46777C215.967 4.46777 213.616 5.6674 212.087 7.75969C211.486 8.58125 211.055 9.49536 210.801 10.4602ZM218.541 24.8849C213.132 24.8849 208.476 21.4937 206.934 16.4108C205.748 12.5061 206.404 8.44005 208.733 5.2531C211.024 2.12143 214.689 0.251465 218.537 0.251465C225.017 0.251465 229.946 5.49798 230 12.4554C230.004 13.0377 229.773 13.6098 229.367 14.024C228.96 14.4393 228.396 14.6763 227.819 14.6763H210.784C210.825 14.8422 210.87 15.0081 210.92 15.1728C211.921 18.4693 214.978 20.6688 218.544 20.6688C218.574 20.6688 218.604 20.6688 218.635 20.6676C220.482 20.6485 221.98 20.0707 223.088 18.95L224.563 17.4592L227.511 20.4408L226.038 21.9316C224.157 23.832 221.612 24.8533 218.679 24.8838C218.633 24.8849 218.587 24.8849 218.541 24.8849Z" fill="currentColor"/></symbol>
+<symbol id="svg-pijl" viewBox="0 0 65 65">
+<path d="M23.3438 23.0063H41.4367V41.0993" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M21.5859 42.8554L41.435 23.0063" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M32.2203 63.6906C49.6008 63.6906 63.6906 49.6008 63.6906 32.2203C63.6906 14.8397 49.6008 0.75 32.2203 0.75C14.8397 0.75 0.75 14.8397 0.75 32.2203C0.75 49.6008 14.8397 63.6906 32.2203 63.6906Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+</symbol>
+<symbol id="svg-pijl-dik" viewBox="-1.2 -1.2 67.4 67.4">
+<path d="M23.3438 23.0063H41.4367V41.0993" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M21.5859 42.8554L41.435 23.0063" fill="none" stroke="currentColor" stroke-width="3.4" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M32.2203 63.6906C49.6008 63.6906 63.6906 49.6008 63.6906 32.2203C63.6906 14.8397 49.6008 0.75 32.2203 0.75C14.8397 0.75 0.75 14.8397 0.75 32.2203C0.75 49.6008 14.8397 63.6906 32.2203 63.6906Z" fill="none" stroke="currentColor" stroke-width="3.4" stroke-miterlimit="10" stroke-linecap="round"/>
+</symbol>
+</svg>
+
+<!-- ============================================================ HEADER -->
+<header class="header">
+  <a class="logo" href="index.html" aria-label="Campagne — home">
+    <svg class="logo-svg" role="img" aria-label="Campagne"><use href="#svg-logo"></use></svg>
+  </a>
+  <div class="header-knoppen">
+    <button class="menu-knop" type="button" aria-expanded="false" aria-controls="menu-overlay">
+      <span class="menu-label">Menu</span>
+      <span class="hamburger" aria-hidden="true"><span></span><span></span></span>
+    </button>
+    <div class="taalswitch" data-taal="nl" role="group" aria-label="Taalkeuze">
+      <button type="button" data-kies="en">EN</button>
+      <button type="button" data-kies="nl" class="actief">NL</button>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================ MENU-OVERLAY -->
+<nav class="menu-overlay" id="menu-overlay" aria-label="Hoofdmenu" aria-hidden="true">
+  <div class="menu-binnen">
+    <div class="menu-kolom">
+      <p class="kolom-label">What we do</p>
+      <div class="groot">
+        <a href="index.html#diensten">Strategy</a>
+        <a href="index.html#diensten">Branding</a>
+        <a href="index.html#diensten">Activation</a>
+      </div>
+      <div class="menu-sub">
+        <a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Social content</a>
+        <a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Banners &amp; media</a>
+        <a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Print &amp; more</a>
+      </div>
+    </div>
+    <div class="menu-kolom">
+      <p class="kolom-label">Navigatie</p>
+      <div class="middel">
+        <a href="index.html#cases">Cases</a>
+        <a href="team.html">Over ons</a>
+        <a href="#">Netwerk</a>
+      </div>
+      <div class="menu-sub">
+        <a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Social content</a>
+        <a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Banners &amp; media</a>
+      </div>
+      <div class="middel">
+        <a href="#">Vacatures</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+    <div class="menu-kolom menu-contact">
+      <p class="kolom-label">Contact</p>
+      <address>
+        Weena 250 (gebouw Weena 200)<br>
+        Toren C, 12e verdieping<br>
+        3012 NJ Rotterdam
+      </address>
+      <div class="menu-sub">
+        <a href="tel:0102928333"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> 010 - 292 83 33</a>
+        <a href="mailto:hello@campagne.nl"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> hello@campagne.nl</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main>
+<!-- ============================================================ CONTACT-HERO -->
+<section class="contact-hero" aria-label="Contact">
+  <h1 class="sr-only">Contact — Campagne</h1>
+  <div class="contact-grid">
+
+    <!-- Links van het hart: bezoekadres -->
+    <div class="contact-info links">
+      <p class="kolom-label">Kom langs</p>
+      <address>
+        Weena 250 (gebouw Weena 200)<br>
+        Toren C, 12e verdieping<br>
+        3012 NJ Rotterdam
+      </address>
+      <div class="contact-links">
+        <a href="https://www.google.com/maps/dir//Weena+250,+3012+NJ+Rotterdam" target="_blank" rel="noopener"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Route</a>
+      </div>
+    </div>
+
+    <!-- Het 3D-beeldmerk: volgt de muis, draait om zijn eigen as -->
+    <div class="hart-houder" id="hart-houder">
+      <div id="hart-3d" aria-hidden="true"></div>
+      <div class="hart-fallback" aria-hidden="true">
+        <svg viewBox="0 0 25 28" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M25 15.1154C25 15.2509 24.9464 15.3779 24.8557 15.4711L12.7598 27.8539C12.566 28.0487 12.2567 28.0487 12.0628 27.8539L0.144342 15.6447C0.0536128 15.5516 0 15.4203 0 15.289V5.61228C0 5.47677 0.0536128 5.34972 0.144342 5.25655L5.13032 0.14928C5.32415 -0.0497599 5.63345 -0.0497599 5.82728 0.14928L12.4134 6.89545L18.9995 0.14928C19.1933 -0.0497599 19.5026 -0.0497599 19.6965 0.14928L24.8557 5.43018C24.9464 5.52335 25 5.65463 25 5.78591V15.1154Z" fill="currentColor"/></svg>
+      </div>
+    </div>
+
+    <!-- Rechts van het hart: say hello -->
+    <div class="contact-info rechts">
+      <p class="kolom-label">Say hello</p>
+      <div class="contact-links" style="margin-top:0">
+        <a href="tel:0102928333"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> 010 - 292 83 33</a>
+        <a href="mailto:hello@campagne.nl"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> hello@campagne.nl</a>
+      </div>
+      <div class="socials-licht">
+        <a href="https://www.instagram.com/campagne_/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.9-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 4 4 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zm0 3.6a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-10.5a1.4 1.4 0 1 0 0 2.9 1.4 1.4 0 0 0 0-2.9z"/></svg></a>
+        <a href="https://www.facebook.com/campagnerotterdam" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M13.5 21v-8.2h2.8l.4-3.2h-3.2V7.6c0-.9.3-1.6 1.6-1.6h1.7V3.2c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.4H7.3v3.2h2.8V21h3.4z"/></svg></a>
+        <a href="https://www.linkedin.com/company/campagnerotterdam" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1-.02 5 2.5 2.5 0 0 1 .02-5zM3 9h4v12H3zM9 9h3.8v1.7h.1c.5-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21h-4v-5.5c0-1.3 0-3-1.9-3s-2.2 1.4-2.2 2.9V21H9z"/></svg></a>
+      </div>
+    </div>
+  </div>
+
+  <a class="scroll-cue" href="#formulier" aria-label="Naar het contactformulier">
+    <svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg>
+  </a>
+</section>
+
+<!-- ============================================================ CONTACTFORMULIER -->
+<section class="contact-formulier" id="formulier">
+  <div class="formulier-binnen">
+    <h2 class="sectie-kop">Wanna be loved?</h2>
+    <p class="formulier-intro">Strategisch inzicht, creatieve genialiteit en resultaten die er toe doen. Vertel ons waar jouw merk van droomt &mdash; we denken graag met je mee.</p>
+    <!-- Koppel 'action' later aan een formulierdienst (bijv. Formspree) of eigen backend.
+         Zolang die er niet is, opent versturen een e-mail naar hello@campagne.nl. -->
+    <form class="contactform" id="contactform" novalidate>
+      <label class="sr-only" for="veld-naam">Naam</label>
+      <input id="veld-naam" name="naam" type="text" placeholder="Naam*" autocomplete="name" required>
+      <label class="sr-only" for="veld-email">E-mailadres</label>
+      <input id="veld-email" name="email" type="email" placeholder="E-mailadres*" autocomplete="email" required>
+      <label class="sr-only" for="veld-bericht">Bericht</label>
+      <textarea id="veld-bericht" name="bericht" placeholder="Vertel ons over je merk, project of vraag&hellip;"></textarea>
+      <div class="form-onder">
+        <p class="form-note">Liever direct contact? Bel <a href="tel:0102928333"><strong>010 - 292 83 33</strong></a> of mail naar <a href="mailto:hello@campagne.nl"><strong>hello@campagne.nl</strong></a>.</p>
+        <button class="verstuur" type="submit">Send</button>
+      </div>
+      <p class="form-dank" role="status">Dankjewel! Je mailprogramma opent met je bericht &mdash; versturen maar. &#10084;</p>
+    </form>
+  </div>
+</section>
+
+<!-- ============================================================ WERKVLOER (lange foto in box) -->
+<section class="werkvloer" aria-label="Onze werkvloer">
+  <h2 class="sectie-kop">Hartje Rotterdam</h2>
+  <div class="werkvloer-box" id="werkvloer-box">
+    <!-- Vijf foto's zonder tussenruimte: oogt als één lange foto waar je doorheen sleept -->
+    <div class="werkvloer-strip" id="werkvloer-strip">
+      <img src="images/Campagne-werkvloer.jpg" alt="De zithoek van Campagne met de groene wand" draggable="false">
+      <img src="images/Campagne-werkvloer-creatie.jpg" alt="Twee collega's overleggen achter een laptop" draggable="false">
+      <img src="images/Campagne-werkvloer-overleg.jpg" alt="Gezamenlijk ontbijt op de werkvloer" draggable="false">
+      <img src="images/Campagne-werkvloer-content-overleg.jpg" alt="Overleg bij een werkplek op kantoor" draggable="false">
+      <img src="images/Campagne-werkvloer-lunch.jpg" alt="Twee collega's werken samen aan tafel" draggable="false">
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============================================================ FOOTER -->
+<footer class="footer">
+  <div class="footer-kolommen">
+    <div class="footer-logo">
+      <svg class="logo-svg" role="img" aria-label="Campagne"><use href="#svg-logo"></use></svg>
+      <p class="footer-intro">Given attention, grabbing it and keeping it is essential. We help brands grow in a connected world &mdash; with strategy, branding and campaigns that make people care.</p>
+    </div>
+    <div>
+      <h3>Contact</h3>
+      <address>
+        Weena 250 (gebouw Weena 200)<br>
+        Toren C, 12e verdieping<br>
+        3012 NJ Rotterdam
+      </address>
+      <div class="footer-links">
+        <a href="tel:0102928333"><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span> 010 - 292 83 33</a>
+        <a href="mailto:hello@campagne.nl"><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span> hello@campagne.nl</a>
+      </div>
+      <div class="socials">
+        <a href="https://www.instagram.com/campagne_/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.9-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 4 4 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zm0 3.6a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-10.5a1.4 1.4 0 1 0 0 2.9 1.4 1.4 0 0 0 0-2.9z"/></svg></a>
+        <a href="https://www.facebook.com/campagnerotterdam" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M13.5 21v-8.2h2.8l.4-3.2h-3.2V7.6c0-.9.3-1.6 1.6-1.6h1.7V3.2c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.4H7.3v3.2h2.8V21h3.4z"/></svg></a>
+        <a href="https://www.linkedin.com/company/campagnerotterdam" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1-.02 5 2.5 2.5 0 0 1 .02-5zM3 9h4v12H3zM9 9h3.8v1.7h.1c.5-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21h-4v-5.5c0-1.3 0-3-1.9-3s-2.2 1.4-2.2 2.9V21H9z"/></svg></a>
+      </div>
+    </div>
+    <div>
+      <h3>Stay up to date!</h3>
+      <p class="nieuwsbrief-tekst">Sign me up!</p>
+      <form class="nieuwsbrief" onsubmit="return false">
+        <input type="email" placeholder="mymail@company.com" aria-label="Jouw e-mailadres">
+        <button type="submit">Send</button>
+      </form>
+      <p class="nieuwsbrief-sub">And receive our newsletter once every 3 months.</p>
+    </div>
+  </div>
+  <div class="footer-onder">
+    <a class="more-cases-klein" href="index.html#cases">
+      Mooooooooore cases
+      <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+    </a>
+  </div>
+</footer>
+
+<script>
+// Intro-fade van logo en knoppen (zelfde als team.html — geen laadscherm hier)
+document.addEventListener('DOMContentLoaded', function () {
+  requestAnimationFrame(function () { document.body.classList.add('intro-klaar'); });
+});
+
+// Header: bovenaan transparant (zwart logo op wit), omlaag scrollen = balk weg,
+// omhoog scrollen = donkere balk mét wit logo terug.
+var header = document.querySelector('.header');
+var vorigeY = window.scrollY;
+function bijScroll() {
+  var y = window.scrollY;
+  var omhoog = y < vorigeY - 2;
+  var omlaag = y > vorigeY + 2;
+  vorigeY = y;
+  if (document.body.classList.contains('menu-open')) return;
+  if (y <= 80) {
+    header.classList.remove('scrolled', 'verborgen');
+  } else if (omhoog) {
+    header.classList.add('scrolled');
+    header.classList.remove('verborgen');
+  } else if (omlaag || !header.classList.contains('scrolled')) {
+    header.classList.add('verborgen');
+  }
+}
+window.addEventListener('scroll', bijScroll, { passive: true });
+bijScroll();
+
+// Menu openen/sluiten
+var menuKnop = document.querySelector('.menu-knop');
+var overlay = document.getElementById('menu-overlay');
+function zetMenu(open) {
+  document.body.classList.toggle('menu-open', open);
+  menuKnop.setAttribute('aria-expanded', open);
+  overlay.setAttribute('aria-hidden', !open);
+  menuKnop.querySelector('.menu-label').textContent = open ? 'Close' : 'Menu';
+}
+menuKnop.addEventListener('click', function () {
+  zetMenu(!document.body.classList.contains('menu-open'));
+});
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') zetMenu(false);
+});
+overlay.querySelectorAll('a').forEach(function (a) {
+  a.addEventListener('click', function () { zetMenu(false); });
+});
+
+// Taalswitch (visueel; koppel later aan echte vertalingen)
+document.querySelectorAll('.taalswitch button').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var ts = b.closest('.taalswitch');
+    ts.setAttribute('data-taal', b.dataset.kies);
+    ts.querySelectorAll('button').forEach(function (x) { x.classList.toggle('actief', x === b); });
+  });
+});
+
+// Contactformulier: zolang er geen backend is, opent versturen het
+// mailprogramma met het bericht voor hello@campagne.nl.
+var contactform = document.getElementById('contactform');
+contactform.addEventListener('submit', function (e) {
+  e.preventDefault();
+  var naam = document.getElementById('veld-naam').value.trim();
+  var email = document.getElementById('veld-email').value.trim();
+  var bericht = document.getElementById('veld-bericht').value.trim();
+  if (!naam) { document.getElementById('veld-naam').focus(); return; }
+  if (!email || email.indexOf('@') < 1) { document.getElementById('veld-email').focus(); return; }
+  var onderwerp = 'Wanna be loved? — bericht van ' + naam;
+  var body = bericht + '\n\n' + naam + '\n' + email;
+  window.location.href = 'mailto:hello@campagne.nl?subject=' + encodeURIComponent(onderwerp) + '&body=' + encodeURIComponent(body);
+  contactform.classList.add('verstuurd');
+});
+
+// Werkvloer: één lange foto in een box — schuift langzaam vanzelf (pingpong),
+// en is sleepbaar met momentum, net als de sliders op de andere pagina's.
+(function () {
+  var box = document.getElementById('werkvloer-box');
+  var strip = document.getElementById('werkvloer-strip');
+  if (!box || !strip) return;
+  // Vangnet: mist een foto (nog) in images/, laad dan hetzelfde beeld
+  // rechtstreeks van campagne.nl zodat de strip altijd compleet is.
+  strip.querySelectorAll('img').forEach(function (img) {
+    img.addEventListener('error', function () {
+      if (img.dataset.reserve) return;   // niet blijven proberen
+      img.dataset.reserve = '1';
+      img.src = 'https://campagne.nl/wp-content/uploads/2026/02/' +
+        img.getAttribute('src').split('/').pop();
+    });
+  });
+  var magBewegen = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var x = 0, v = 0, richting = -1, basis = 0.35;
+  var sleepStart = null, sleepBasis = 0, laatsteX = 0, laatsteT = 0, gooiV = 0, hovert = false;
+  function maxSchuif() { return Math.max(0, strip.scrollWidth - box.clientWidth); }
+  function stap() {
+    var m = maxSchuif();
+    if (sleepStart === null) {
+      if (Math.abs(v) > 0.05) {
+        // momentum na een gooi ebt weg
+        x += v;
+        v *= 0.94;
+      } else if (magBewegen && !hovert && m > 0) {
+        // rustige autoloop: heen en weer door de lange foto
+        x += richting * basis;
+        if (x <= -m) richting = 1;
+        if (x >= 0) richting = -1;
+      }
+    }
+    if (x < -m) x = -m;
+    if (x > 0) x = 0;
+    strip.style.transform = 'translateX(' + x + 'px)';
+    requestAnimationFrame(stap);
+  }
+  requestAnimationFrame(stap);
+  box.addEventListener('mouseenter', function () { hovert = true; });
+  box.addEventListener('mouseleave', function () { hovert = false; });
+  box.addEventListener('pointerdown', function (e) {
+    sleepStart = e.clientX; sleepBasis = x; v = 0;
+    laatsteX = e.clientX; laatsteT = performance.now(); gooiV = 0;
+    box.classList.add('sleept');
+    box.setPointerCapture(e.pointerId);
+    e.preventDefault();
+  });
+  box.addEventListener('pointermove', function (e) {
+    if (sleepStart === null) return;
+    x = sleepBasis + (e.clientX - sleepStart);
+    var nu = performance.now(), dt = nu - laatsteT;
+    if (dt > 0) gooiV = (e.clientX - laatsteX) / dt * 16.7;
+    laatsteX = e.clientX; laatsteT = nu;
+  });
+  function loslaten() {
+    if (sleepStart === null) return;
+    sleepStart = null;
+    box.classList.remove('sleept');
+    v = Math.max(-30, Math.min(30, gooiV));
+  }
+  box.addEventListener('pointerup', loslaten);
+  box.addEventListener('pointercancel', loslaten);
+})();
+</script>
+
+<script type="module">
+// ==========================================================================
+// 3D-beeldmerk — three.js. Het hart staat vast in het midden en draait om
+// zijn eigen as richting de muis. Belichting: neutraal wit licht + zachte
+// omgeving zodat het roze (#D72655) kleurgetrouw blijft, met een subtiele
+// glans (clearcoat uit het .glb) en een zachte slagschaduw eronder.
+// ==========================================================================
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+var houder = document.getElementById('hart-houder');
+var laag = document.getElementById('hart-3d');
+
+function faal() { houder.classList.add('fout'); if (laag) laag.style.display = 'none'; }
+
+try {
+  var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.NeutralToneMapping;   // kleurgetrouw, geen roze-verschuiving
+  renderer.toneMappingExposure = 1.0;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  laag.appendChild(renderer.domElement);
+
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
+  camera.position.set(0, 0.6, 26);
+  camera.lookAt(0, 0, 0);
+
+  // Zachte studio-omgeving voor de glans (clearcoat) — subtiel gehouden
+  var pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  scene.environmentIntensity = 0.55;
+
+  // Wit hoofdlicht met zachte schaduw + lichte invulling, alles neutraal wit
+  var key = new THREE.DirectionalLight(0xffffff, 1.35);
+  key.position.set(3.5, 13, 9);
+  key.castShadow = true;
+  key.shadow.mapSize.set(1024, 1024);
+  key.shadow.radius = 24;                 // extra zacht: schaduw als subtiele veeg
+  key.shadow.bias = -0.0006;
+  key.shadow.camera.left = -10; key.shadow.camera.right = 10;
+  key.shadow.camera.top = 10; key.shadow.camera.bottom = -10;
+  key.shadow.camera.near = 1; key.shadow.camera.far = 40;
+  scene.add(key);
+  var fill = new THREE.DirectionalLight(0xffffff, 0.35);
+  fill.position.set(-7, 2, 7);
+  scene.add(fill);
+  var hemel = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.25);
+  scene.add(hemel);
+
+  // Vloer die alleen de zachte schaduw toont
+  var schaduwVloer = new THREE.Mesh(
+    new THREE.PlaneGeometry(60, 60),
+    new THREE.ShadowMaterial({ opacity: 0.09 })
+  );
+  schaduwVloer.rotation.x = -Math.PI / 2;
+  schaduwVloer.position.y = -5.9;
+  schaduwVloer.receiveShadow = true;
+  scene.add(schaduwVloer);
+
+  var draaier = new THREE.Group();   // draait richting de muis
+  scene.add(draaier);
+
+  new GLTFLoader().load('images/logo_WBL_web.glb', function (gltf) {
+    var model = gltf.scene;
+    // Het beeldmerk ligt in het .glb plat (dun langs de Y-as): rechtop zetten
+    // zodat de voorkant naar de bezoeker wijst.
+    model.rotation.x = Math.PI / 2;
+    model.traverse(function (o) {
+      if (o.isMesh) { o.castShadow = true; o.receiveShadow = false; }
+    });
+    // Centreren en passend schalen binnen het kader
+    var doos = new THREE.Box3().setFromObject(model);
+    var midden = doos.getCenter(new THREE.Vector3());
+    var maat = doos.getSize(new THREE.Vector3());
+    model.position.sub(midden);
+    var schaal = 10.2 / Math.max(maat.x, maat.y, maat.z);
+    draaier.scale.setScalar(schaal);
+    draaier.add(model);
+    laag.classList.add('klaar');
+  }, undefined, faal);
+
+  // Muis volgen: doelrotatie uit de muispositie, soepel er naartoe (lerp)
+  var doelX = 0, doelY = 0;
+  var magBewegen = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var laatsteMuis = 0;
+  window.addEventListener('mousemove', function (e) {
+    laatsteMuis = performance.now();
+    var nx = (e.clientX / window.innerWidth) * 2 - 1;    // -1 .. 1
+    var ny = (e.clientY / window.innerHeight) * 2 - 1;
+    doelY = nx * 0.55;    // om de eigen (verticale) as naar de muis
+    doelX = ny * 0.30;    // licht meekantelen omhoog/omlaag
+  }, { passive: true });
+
+  function maat() {
+    var b = laag.getBoundingClientRect();
+    var w = Math.max(1, b.width), h = Math.max(1, b.height);
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener('resize', maat);
+  maat();
+
+  var klok = new THREE.Clock();
+  renderer.setAnimationLoop(function () {
+    var t = klok.getElapsedTime();
+    if (magBewegen && performance.now() - laatsteMuis > 4000) {
+      // even geen muis (of touchscreen): rustig zwaaien
+      doelY = Math.sin(t * 0.6) * 0.3;
+      doelX = Math.sin(t * 0.45) * 0.1;
+    }
+    if (magBewegen) {
+      draaier.rotation.y += (doelY - draaier.rotation.y) * 0.075;
+      draaier.rotation.x += (doelX - draaier.rotation.x) * 0.075;
+    }
+    renderer.render(scene, camera);
+  });
+} catch (fout) {
+  faal();
+}
+</script>
+</body>
+</html>
