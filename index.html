@@ -690,6 +690,8 @@ body.laadt { overflow: hidden; }
   transition: opacity .6s ease, visibility .6s ease;
 }
 .laadscherm.klaar { opacity: 0; visibility: hidden; pointer-events: none; }
+/* Al gezien in deze sessie: overlay meteen weg, zonder fade */
+html.laadscherm-gezien .laadscherm { display: none; }
 .laad-animatie { width: min(340px, 55vw); height: auto; display: block; }
 .laad-procent {
   position: absolute;
@@ -787,6 +789,17 @@ body.laadt { overflow: hidden; }
   * { transition-duration: .01ms !important; }
 }
 </style>
+<script>
+// Laadscherm alleen bij het eerste bezoek in deze browsersessie: is hij al
+// gezien, dan krijgt <html> een klasse die de overlay verbergt vóór er iets
+// getekend wordt (geen zwarte flits). Nieuwe sessie (browser dicht en weer
+// open) = animatie weer één keer.
+try {
+  if (sessionStorage.getItem('laadschermGezien')) {
+    document.documentElement.classList.add('laadscherm-gezien');
+  }
+} catch (fout) { /* privémodus zonder storage — laadscherm gewoon tonen */ }
+</script>
 </head>
 <body class="laadt">
 <!-- Laadscherm: zwart, logo-animatie gecentreerd, laadpercentage onderin -->
@@ -1275,7 +1288,15 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
       setTimeout(function () { scherm.remove(); }, 700);
     }
   }
-  if (!scherm || !procentEl ||
+  // Al gezien in deze browsersessie? Dan overslaan (en de animatie-video niet
+  // eens laden). Zo niet: nu markeren als gezien voor de volgende paginalast.
+  var alGezien = document.documentElement.classList.contains('laadscherm-gezien');
+  try { sessionStorage.setItem('laadschermGezien', '1'); } catch (fout) { /* geen storage — geen probleem */ }
+  if (alGezien && scherm) {
+    var laadVideo = scherm.querySelector('.laad-animatie');
+    if (laadVideo) { laadVideo.removeAttribute('src'); laadVideo.load(); }
+  }
+  if (!scherm || !procentEl || alGezien ||
       window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     klaarmaken();
     return;
