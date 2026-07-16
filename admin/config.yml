@@ -1,0 +1,38 @@
+# Sveltia CMS — configuratie Campagne website
+# Opslaan in het CMS = een git-commit naar deze repo; Netlify bouwt en
+# publiceert daarna automatisch (~1 min).
+
+backend:
+  name: github
+  repo: creatiecampagne/campagne-website
+  branch: main
+
+# Waar geüploade foto's terechtkomen (pad in de repo) en hoe de site ze aanroept
+media_folder: images/team
+public_folder: images/team
+
+collections:
+  - name: website
+    label: Website
+    files:
+      - name: team
+        label: Teamleden
+        file: team.json
+        format: json
+        fields:
+          - label: Teamleden
+            name: leden
+            label_singular: Teamlid
+            widget: list
+            summary: "{{fields.naam}} — {{fields.functie}}"
+            fields:
+              - { label: Naam, name: naam, widget: string }
+              - { label: Functie / titel, name: functie, widget: string }
+              - label: Eigenschappen
+                name: eigenschappen
+                widget: list
+                hint: "Korte labels op de kaart, bijv. 'illustrator' — 3 stuks past het mooist"
+                field: { label: Eigenschap, name: eigenschap, widget: string }
+              - { label: E-mailadres, name: mail, widget: string, required: false, hint: "Mail-icoon op de kaart; leeg = geen icoon" }
+              - { label: Telefoonnummer, name: telefoon, widget: string, required: false, hint: "Bel-icoon op de kaart; leeg = geen icoon" }
+              - { label: Foto, name: foto, widget: image, hint: "Vierkant portret, 760×760" }
