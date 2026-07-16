@@ -205,6 +205,8 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
      marge vangt alleen de lege canvasrand op, zodat er duidelijk lucht
      tussen beeldmerk en titel blijft */
   margin-top: clamp(-44px, -4svh, -22px);
+  /* Titel schuift (net als het hart) een stukje mee omhoog, dicht op het beeldmerk */
+  transform: translateY(clamp(-44px, -3.7svh, -20px));
   font-size: clamp(32px, 4.9vw, 72px);
   font-weight: 800;
   line-height: 1.2;
@@ -238,13 +240,13 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
 .hart-houder {
   grid-area: hart;
   position: relative;
-  width: min(54vw, 66svh, 760px);
+  width: min(57vw, 70svh, 800px);
   aspect-ratio: 1 / 1;
   justify-self: center;
   z-index: 1;
   pointer-events: none;
   /* Het beeldmerk een flink stuk omhoog, los van de titel eronder */
-  transform: translateY(clamp(-84px, -6.5svh, -40px));
+  transform: translateY(clamp(-104px, -8.7svh, -56px));
 }
 #hart-3d { position: absolute; inset: 0; opacity: 0; transition: opacity .9s ease; }
 #hart-3d.klaar { opacity: 1; }
@@ -535,7 +537,7 @@ body.menu-open { overflow: hidden; }
   }
   .contact-info { transform: none; }
   .hart-houder { width: min(74vw, 52svh, 560px); transform: none; }
-  .wbl-kop { margin-top: clamp(-36px, -4vw, -12px); }
+  .wbl-kop { margin-top: clamp(-36px, -4vw, -12px); transform: none; }
   .contact-info.rechts { justify-self: start; }
 }
 @media (max-width: 680px) {
