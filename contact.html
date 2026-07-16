@@ -186,23 +186,28 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   grid-template-columns: 1fr min(34vw, 440px) 1fr;
   grid-template-areas:
     "links hart rechts"
-    ".     wbl  .";
+    "wbl   wbl  wbl";
   align-items: center;
-  gap: 0 clamp(20px, 3vw, 48px);   /* geen rij-afstand: de titel schuift tegen het hart aan */
+  gap: 0 clamp(20px, 3vw, 48px);
 }
-.contact-info { display: flex; flex-direction: column; position: relative; z-index: 2; }
+.contact-info {
+  display: flex; flex-direction: column; position: relative; z-index: 2;
+  /* Contactgegevens links en rechts een stukje hoger dan het midden */
+  transform: translateY(clamp(-24px, -1.8svh, -10px));
+}
 .contact-info.links  { grid-area: links; justify-self: start; }
 .contact-info.rechts { grid-area: rechts; justify-self: end; }
 .contact-info .kolom-label { font-size: 24px; font-weight: 800; line-height: 1.3; margin-bottom: 22px; }
 /* 'Wanna be loved?' direct onder het roterende hart, boven de scroll-cue */
 .wbl-kop {
   grid-area: wbl;
-  /* Negatieve marge: het canvas heeft rondom wat lege ruimte, zo sluit de
-     titel vlak aan op het beeldmerk zelf */
-  margin-top: max(-34px, -4svh);
-  font-size: clamp(26px, 2.92vw, 42px);
+  /* Het hart staat hoger (translateY op .hart-houder); een licht negatieve
+     marge vangt alleen de lege canvasrand op, zodat er duidelijk lucht
+     tussen beeldmerk en titel blijft */
+  margin-top: clamp(-44px, -4svh, -22px);
+  font-size: clamp(32px, 4.9vw, 72px);
   font-weight: 800;
-  line-height: 1.25;
+  line-height: 1.2;
   letter-spacing: -0.02em;
   text-align: center;
 }
@@ -238,6 +243,8 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   justify-self: center;
   z-index: 1;
   pointer-events: none;
+  /* Het beeldmerk een flink stuk omhoog, los van de titel eronder */
+  transform: translateY(clamp(-84px, -6.5svh, -40px));
 }
 #hart-3d { position: absolute; inset: 0; opacity: 0; transition: opacity .9s ease; }
 #hart-3d.klaar { opacity: 1; }
@@ -526,8 +533,9 @@ body.menu-open { overflow: hidden; }
       "links rechts";
     row-gap: clamp(28px, 5vw, 40px);
   }
-  .hart-houder { width: min(74vw, 52svh, 560px); }
-  .wbl-kop { margin-top: clamp(-52px, -6vw, -24px); }
+  .contact-info { transform: none; }
+  .hart-houder { width: min(74vw, 52svh, 560px); transform: none; }
+  .wbl-kop { margin-top: clamp(-36px, -4vw, -12px); }
   .contact-info.rechts { justify-self: start; }
 }
 @media (max-width: 680px) {
