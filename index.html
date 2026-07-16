@@ -1241,13 +1241,33 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
   else window.addEventListener('load', startPreload);
 }
 
-// Laadscherm: het percentage loopt soepel op naar een doel dat per laadstap
-// stijgt (DOM 25, fonts 20, hero-video 30, volledige pagina 25). Daarna fadet
-// de overlay weg en start de intro-fade van logo en knoppen.
+// Laadscherm: wacht alleen op wat je bij binnenkomst écht ziet — DOM, fonts,
+// de logo-animatie (die speelt altijd eerst helemaal af: dat is de minimale
+// wachttijd) en de hero-video. Alles verderop de pagina laadt gewoon door
+// terwijl je al kijkt en telt niet mee in het percentage. De hero-video
+// buffert achter de overlay maar staat op pauze; pas als de overlay weggaat
+// start hij vanaf 0, zodat je nooit midden in de video binnenkomt.
 (function () {
   var scherm = document.getElementById('laadscherm');
   var procentEl = document.getElementById('laad-procent');
+  var heroFrame = document.querySelector('.hero-video iframe');
+  function heroCommando(methode, waarde) {
+    if (!heroFrame) return;
+    try {
+      var bericht = { method: methode };
+      if (waarde !== undefined) bericht.value = waarde;
+      heroFrame.contentWindow.postMessage(JSON.stringify(bericht), 'https://player.vimeo.com');
+    } catch (fout) { /* player nog niet klaar — geen probleem */ }
+  }
+  var heroGestart = false;
+  function startHero() {
+    if (heroGestart) return;
+    heroGestart = true;
+    heroCommando('setCurrentTime', 0);    // altijd vanaf het begin
+    heroCommando('play');
+  }
   function klaarmaken() {
+    startHero();                          // video start pas zodra de overlay weggaat
     document.body.classList.remove('laadt');
     document.body.classList.add('intro-klaar');
     if (scherm) {
@@ -1261,7 +1281,7 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
     return;
   }
   var doel = 0, getoond = 0, af = false;
-  var stappen = { dom: 25, fonts: 20, hero: 30, load: 25 };
+  var stappen = { dom: 15, fonts: 10, logo: 25, hero: 50 };
   var gehaald = {};
   function stap(naam) {
     if (gehaald[naam]) return;
@@ -1272,19 +1292,30 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
   else document.addEventListener('DOMContentLoaded', function () { stap('dom'); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { stap('fonts'); });
   else stap('fonts');
+  // Logo-animatie: eerst helemaal afspelen — de minimale wachttijd.
+  var animatie = scherm.querySelector('.laad-animatie');
+  if (animatie) {
+    animatie.addEventListener('ended', function () { stap('logo'); });
+    animatie.addEventListener('error', function () { stap('logo'); });
+    setTimeout(function () { stap('logo'); }, 3500);   // vangnet als 'ended' uitblijft
+  } else stap('logo');
   // Hero-stap pas afvinken als de Vimeo-player écht speelt (event 'playing'
-  // of 'timeupdate' via postMessage), niet al bij het laden van de player-
-  // pagina — anders verdwijnt de overlay terwijl de video nog zwart is.
-  var heroFrame = document.querySelector('.hero-video iframe');
+  // of 'timeupdate' via postMessage) — dan is de video gebufferd. We pauzeren
+  // hem meteen en zetten hem terug naar 0, zodat hij netjes wacht tot de
+  // overlay weg is in plaats van alvast op de achtergrond af te spelen.
   if (heroFrame) {
-    var heroSpeelt = false;
+    var heroKlaar = false;
     window.addEventListener('message', function (e) {
-      if (heroSpeelt || e.origin !== 'https://player.vimeo.com') return;
+      if (e.origin !== 'https://player.vimeo.com') return;
       if (e.source !== heroFrame.contentWindow) return;   // alleen de hero-player, niet de hover-preloads
       var d = e.data;
       if (typeof d === 'string') { try { d = JSON.parse(d); } catch (fout) { return; } }
-      if (d && (d.event === 'playing' || d.event === 'timeupdate')) {
-        heroSpeelt = true;
+      if (!heroKlaar && d && (d.event === 'playing' || d.event === 'timeupdate')) {
+        heroKlaar = true;
+        if (!heroGestart) {
+          heroCommando('pause');
+          heroCommando('setCurrentTime', 0);
+        }
         stap('hero');
       }
     });
@@ -1300,8 +1331,6 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
     setTimeout(heroAbonneer, 1500);       // herkansingen; dubbel abonneren kan geen kwaad
     setTimeout(heroAbonneer, 4000);
   } else stap('hero');
-  if (document.readyState === 'complete') stap('load');
-  else window.addEventListener('load', function () { stap('load'); });
   // Vangnet: nooit langer dan 8 seconden wachten (trage verbinding, blocker)
   setTimeout(function () { doel = 100; }, 8000);
   function tik() {
