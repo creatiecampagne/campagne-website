@@ -3,15 +3,23 @@
     {
       "naam": "Vincent Loopstra",
       "functie": "Creative",
-      "eigenschappen": ["illustrator", "kleuren en vormen", "kleurrijke sokken"],
+      "eigenschappen": [
+        "illustrator",
+        "kleuren en vormen",
+        "kleurrijke sokken"
+      ],
       "mail": "vincent@campagne.nl",
       "telefoon": "010 - 292 83 33",
-      "foto": "images/team/vincent-loopstra.webp"
+      "foto": "/images/team/Vincent-819x1024.jpg"
     },
     {
       "naam": "Teamlid Twee",
       "functie": "Strateeg",
-      "eigenschappen": ["merkstrategie", "onderzoek", "koffie"],
+      "eigenschappen": [
+        "merkstrategie",
+        "onderzoek",
+        "koffie"
+      ],
       "mail": "twee@campagne.nl",
       "telefoon": "010 - 292 83 33",
       "foto": "images/team/teamlid-twee.webp"
@@ -19,7 +27,11 @@
     {
       "naam": "Teamlid Drie",
       "functie": "Designer",
-      "eigenschappen": ["branding", "motion", "typografie"],
+      "eigenschappen": [
+        "branding",
+        "motion",
+        "typografie"
+      ],
       "mail": "drie@campagne.nl",
       "telefoon": "",
       "foto": "images/team/teamlid-drie.webp"
@@ -27,7 +39,11 @@
     {
       "naam": "Teamlid Vier",
       "functie": "Content creator",
-      "eigenschappen": ["video", "social", "fotografie"],
+      "eigenschappen": [
+        "video",
+        "social",
+        "fotografie"
+      ],
       "mail": "vier@campagne.nl",
       "telefoon": "010 - 292 83 33",
       "foto": "images/team/teamlid-vier.webp"
@@ -35,7 +51,11 @@
     {
       "naam": "Teamlid Vijf",
       "functie": "Accountmanager",
-      "eigenschappen": ["klantcontact", "planning", "bakkies"],
+      "eigenschappen": [
+        "klantcontact",
+        "planning",
+        "bakkies"
+      ],
       "mail": "vijf@campagne.nl",
       "telefoon": "010 - 292 83 33",
       "foto": "images/team/teamlid-vijf.webp"
@@ -43,7 +63,11 @@
     {
       "naam": "Teamlid Zes",
       "functie": "Copywriter",
-      "eigenschappen": ["concept", "copy", "woordgrappen"],
+      "eigenschappen": [
+        "concept",
+        "copy",
+        "woordgrappen"
+      ],
       "mail": "zes@campagne.nl",
       "telefoon": "",
       "foto": "images/team/teamlid-zes.webp"
@@ -51,7 +75,11 @@
     {
       "naam": "Teamlid Zeven",
       "functie": "Developer",
-      "eigenschappen": ["website", "techniek", "pixels"],
+      "eigenschappen": [
+        "website",
+        "techniek",
+        "pixels"
+      ],
       "mail": "zeven@campagne.nl",
       "telefoon": "010 - 292 83 33",
       "foto": "images/team/teamlid-zeven.webp"
@@ -59,7 +87,11 @@
     {
       "naam": "Teamlid Acht",
       "functie": "Producer",
-      "eigenschappen": ["events", "productie", "regelneef"],
+      "eigenschappen": [
+        "events",
+        "productie",
+        "regelneef"
+      ],
       "mail": "acht@campagne.nl",
       "telefoon": "010 - 292 83 33",
       "foto": "images/team/teamlid-acht.webp"
