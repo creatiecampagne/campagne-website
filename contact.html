@@ -177,20 +177,35 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   min-height: 100svh;
   display: flex;
   align-items: center;
-  padding: clamp(96px, 14svh, 150px) var(--marge-content) clamp(72px, 11svh, 110px);
+  padding: clamp(88px, 12svh, 132px) var(--marge-content) clamp(64px, 10svh, 100px);
 }
 .contact-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  grid-template-areas: "links hart rechts";
+  /* Middenkolom is een vaste 'spacer'; het hart mag daar ruim overheen groeien */
+  grid-template-columns: 1fr min(34vw, 440px) 1fr;
+  grid-template-areas:
+    "links hart rechts"
+    ".     wbl  .";
   align-items: center;
-  gap: clamp(20px, 3vw, 48px);
+  gap: 0 clamp(20px, 3vw, 48px);   /* geen rij-afstand: de titel schuift tegen het hart aan */
 }
-.contact-info { display: flex; flex-direction: column; }
+.contact-info { display: flex; flex-direction: column; position: relative; z-index: 2; }
 .contact-info.links  { grid-area: links; justify-self: start; }
 .contact-info.rechts { grid-area: rechts; justify-self: end; }
-.contact-info .kolom-label { font-size: 14px; font-weight: 800; margin-bottom: 22px; }
+.contact-info .kolom-label { font-size: 24px; font-weight: 800; line-height: 1.3; margin-bottom: 22px; }
+/* 'Wanna be loved?' direct onder het roterende hart, boven de scroll-cue */
+.wbl-kop {
+  grid-area: wbl;
+  /* Negatieve marge: het canvas heeft rondom wat lege ruimte, zo sluit de
+     titel vlak aan op het beeldmerk zelf */
+  margin-top: max(-34px, -4svh);
+  font-size: clamp(26px, 2.92vw, 42px);
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  text-align: center;
+}
 .contact-info address { font-style: normal; font-size: 17px; line-height: 1.65; }
 .contact-links { margin-top: 22px; display: flex; flex-direction: column; gap: 12px; }
 .contact-links a {
@@ -213,13 +228,16 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
 .socials-licht a:hover { background: var(--roze); border-color: var(--roze); color: var(--wit); }
 .socials-licht svg { width: 16px; height: 16px; fill: currentColor; }
 
-/* Het 3D-hart */
+/* Het 3D-hart — groter dan zijn kolom: het canvas is transparant en klikt
+   niet (pointer-events: none), dus het mag ruim over de spacer heen vallen */
 .hart-houder {
   grid-area: hart;
   position: relative;
-  width: min(42vw, 62svh, 620px);
+  width: min(54vw, 66svh, 760px);
   aspect-ratio: 1 / 1;
   justify-self: center;
+  z-index: 1;
+  pointer-events: none;
 }
 #hart-3d { position: absolute; inset: 0; opacity: 0; transition: opacity .9s ease; }
 #hart-3d.klaar { opacity: 1; }
@@ -297,15 +315,23 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
 .form-note { font-size: 13px; line-height: 1.6; color: #666; max-width: 460px; }
 .verstuur {
   flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;   /* tekst links, pijl rechts */
+  gap: 24px;
+  min-width: 200px;
   height: 54px;
-  padding: 0 46px;
+  padding: 0 9px 0 28px;
   border-radius: 27px;
   background: var(--roze);
   color: var(--wit);
   font-size: 16px; font-weight: 500;
+  text-align: left;
   transition: filter .2s ease;
 }
+.verstuur .pijl-knop { width: 38px; height: 38px; color: var(--wit); }
 .verstuur:hover { filter: brightness(1.12); }
+.verstuur:hover .pijl-svg { transform: rotate(45deg); }
 .form-dank {
   grid-column: 1 / -1;
   display: none;
@@ -490,16 +516,18 @@ body.menu-open { overflow: hidden; }
   .menu-binnen { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 900px) {
-  /* Fold: hart bovenaan, gegevens er in twee kolommen onder */
+  /* Fold: hart bovenaan, titel eronder, gegevens er in twee kolommen onder */
   .contact-hero { align-items: flex-start; padding-top: clamp(88px, 13svh, 120px); }
   .contact-grid {
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
       "hart hart"
+      "wbl wbl"
       "links rechts";
     row-gap: clamp(28px, 5vw, 40px);
   }
-  .hart-houder { width: min(64vw, 48svh, 460px); }
+  .hart-houder { width: min(74vw, 52svh, 560px); }
+  .wbl-kop { margin-top: clamp(-52px, -6vw, -24px); }
   .contact-info.rechts { justify-self: start; }
 }
 @media (max-width: 680px) {
@@ -515,10 +543,11 @@ body.menu-open { overflow: hidden; }
     grid-template-columns: 1fr;
     grid-template-areas:
       "hart"
+      "wbl"
       "links"
       "rechts";
   }
-  .hart-houder { width: min(78vw, 42svh, 380px); }
+  .hart-houder { width: min(88vw, 46svh, 440px); }
   .scroll-cue { display: none; }
 
   .contactform { grid-template-columns: 1fr; }
@@ -675,6 +704,9 @@ body.menu-open { overflow: hidden; }
         <a href="https://www.linkedin.com/company/campagnerotterdam" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1-.02 5 2.5 2.5 0 0 1 .02-5zM3 9h4v12H3zM9 9h3.8v1.7h.1c.5-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21h-4v-5.5c0-1.3 0-3-1.9-3s-2.2 1.4-2.2 2.9V21H9z"/></svg></a>
       </div>
     </div>
+
+    <!-- Direct onder het hart, boven de scroll-cue -->
+    <h2 class="wbl-kop">Wanna be loved?</h2>
   </div>
 
   <a class="scroll-cue" href="#formulier" aria-label="Naar het contactformulier">
@@ -685,7 +717,7 @@ body.menu-open { overflow: hidden; }
 <!-- ============================================================ CONTACTFORMULIER -->
 <section class="contact-formulier" id="formulier">
   <div class="formulier-binnen">
-    <h2 class="sectie-kop">Wanna be loved?</h2>
+    <h2 class="sectie-kop">Hartje Rotterdam</h2>
     <p class="formulier-intro">Strategisch inzicht, creatieve genialiteit en resultaten die er toe doen. Vertel ons waar jouw merk van droomt &mdash; we denken graag met je mee.</p>
     <!-- Koppel 'action' later aan een formulierdienst (bijv. Formspree) of eigen backend.
          Zolang die er niet is, opent versturen een e-mail naar hello@campagne.nl. -->
@@ -698,7 +730,10 @@ body.menu-open { overflow: hidden; }
       <textarea id="veld-bericht" name="bericht" placeholder="Vertel ons over je merk, project of vraag&hellip;"></textarea>
       <div class="form-onder">
         <p class="form-note">Liever direct contact? Bel <a href="tel:0102928333"><strong>010 - 292 83 33</strong></a> of mail naar <a href="mailto:hello@campagne.nl"><strong>hello@campagne.nl</strong></a>.</p>
-        <button class="verstuur" type="submit">Send</button>
+        <button class="verstuur" type="submit">
+          <span>Send</span>
+          <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+        </button>
       </div>
       <p class="form-dank" role="status">Dankjewel! Je mailprogramma opent met je bericht &mdash; versturen maar. &#10084;</p>
     </form>
@@ -707,7 +742,6 @@ body.menu-open { overflow: hidden; }
 
 <!-- ============================================================ WERKVLOER (lange foto in box) -->
 <section class="werkvloer" aria-label="Onze werkvloer">
-  <h2 class="sectie-kop">Hartje Rotterdam</h2>
   <div class="werkvloer-box" id="werkvloer-box">
     <!-- Vijf foto's zonder tussenruimte: oogt als één lange foto waar je doorheen sleept -->
     <div class="werkvloer-strip" id="werkvloer-strip">
@@ -835,12 +869,15 @@ contactform.addEventListener('submit', function (e) {
   contactform.classList.add('verstuurd');
 });
 
-// Werkvloer: één lange foto in een box — schuift langzaam vanzelf (pingpong),
-// en is sleepbaar met momentum, net als de sliders op de andere pagina's.
+// Werkvloer: de foto's loopen oneindig door (strip is gedupliceerd voor een
+// naadloze loop) en de beweging loopt gewoon door als je muis over de box
+// gaat. Slepen werkt zoals bij de andere sliders: met momentum, waarna de
+// vaart terugzakt naar de rustige basissnelheid.
 (function () {
   var box = document.getElementById('werkvloer-box');
   var strip = document.getElementById('werkvloer-strip');
   if (!box || !strip) return;
+  strip.innerHTML += strip.innerHTML;   // inhoud dupliceren voor een naadloze loop
   // Vangnet: mist een foto (nog) in images/, laad dan hetzelfde beeld
   // rechtstreeks van campagne.nl zodat de strip altijd compleet is.
   strip.querySelectorAll('img').forEach(function (img) {
@@ -852,31 +889,28 @@ contactform.addEventListener('submit', function (e) {
     });
   });
   var magBewegen = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var x = 0, v = 0, richting = -1, basis = 0.35;
-  var sleepStart = null, sleepBasis = 0, laatsteX = 0, laatsteT = 0, gooiV = 0, hovert = false;
-  function maxSchuif() { return Math.max(0, strip.scrollWidth - box.clientWidth); }
+  var basis = -0.35, x = 0, v = basis, halve = 0;
+  var sleepStart = null, sleepBasis = 0, laatsteX = 0, laatsteT = 0, gooiV = 0;
+  function meetHalve() { halve = strip.scrollWidth / 2; }
+  window.addEventListener('load', meetHalve);
+  window.addEventListener('resize', meetHalve);
+  strip.querySelectorAll('img').forEach(function (img) {
+    img.addEventListener('load', meetHalve);   // breedte klopt pas als de foto's er zijn
+  });
+  meetHalve();
   function stap() {
-    var m = maxSchuif();
-    if (sleepStart === null) {
-      if (Math.abs(v) > 0.05) {
-        // momentum na een gooi ebt weg
-        x += v;
-        v *= 0.94;
-      } else if (magBewegen && !hovert && m > 0) {
-        // rustige autoloop: heen en weer door de lange foto
-        x += richting * basis;
-        if (x <= -m) richting = 1;
-        if (x >= 0) richting = -1;
-      }
+    if (sleepStart === null && magBewegen) {
+      x += v;
+      v += (basis - v) * 0.035;   // na een gooi ebt de vaart weg naar de basissnelheid
     }
-    if (x < -m) x = -m;
-    if (x > 0) x = 0;
+    if (halve > 0) {
+      while (x <= -halve) x += halve;   // naadloos terugzetten: oneindige loop
+      while (x > 0) x -= halve;
+    }
     strip.style.transform = 'translateX(' + x + 'px)';
     requestAnimationFrame(stap);
   }
   requestAnimationFrame(stap);
-  box.addEventListener('mouseenter', function () { hovert = true; });
-  box.addEventListener('mouseleave', function () { hovert = false; });
   box.addEventListener('pointerdown', function (e) {
     sleepStart = e.clientX; sleepBasis = x; v = 0;
     laatsteX = e.clientX; laatsteT = performance.now(); gooiV = 0;
@@ -895,7 +929,7 @@ contactform.addEventListener('submit', function (e) {
     if (sleepStart === null) return;
     sleepStart = null;
     box.classList.remove('sleept');
-    v = Math.max(-30, Math.min(30, gooiV));
+    v = Math.max(-30, Math.min(30, gooiV));   // gooi-snelheid meenemen, met een plafond
   }
   box.addEventListener('pointerup', loslaten);
   box.addEventListener('pointercancel', loslaten);
@@ -907,7 +941,7 @@ contactform.addEventListener('submit', function (e) {
 // 3D-beeldmerk — three.js. Het hart staat vast in het midden en draait om
 // zijn eigen as richting de muis. Belichting: neutraal wit licht + zachte
 // omgeving zodat het roze (#D72655) kleurgetrouw blijft, met een subtiele
-// glans (clearcoat uit het .glb) en een zachte slagschaduw eronder.
+// glans (clearcoat uit het .glb). Geen slagschaduw.
 // ==========================================================================
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
@@ -924,8 +958,6 @@ try {
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.NeutralToneMapping;   // kleurgetrouw, geen roze-verschuiving
   renderer.toneMappingExposure = 1.0;
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   laag.appendChild(renderer.domElement);
 
   var scene = new THREE.Scene();
@@ -938,32 +970,15 @@ try {
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
   scene.environmentIntensity = 0.55;
 
-  // Wit hoofdlicht met zachte schaduw + lichte invulling, alles neutraal wit
+  // Wit hoofdlicht + lichte invulling, alles neutraal wit (geen slagschaduw)
   var key = new THREE.DirectionalLight(0xffffff, 1.35);
   key.position.set(3.5, 13, 9);
-  key.castShadow = true;
-  key.shadow.mapSize.set(1024, 1024);
-  key.shadow.radius = 24;                 // extra zacht: schaduw als subtiele veeg
-  key.shadow.bias = -0.0006;
-  key.shadow.camera.left = -10; key.shadow.camera.right = 10;
-  key.shadow.camera.top = 10; key.shadow.camera.bottom = -10;
-  key.shadow.camera.near = 1; key.shadow.camera.far = 40;
   scene.add(key);
   var fill = new THREE.DirectionalLight(0xffffff, 0.35);
   fill.position.set(-7, 2, 7);
   scene.add(fill);
   var hemel = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.25);
   scene.add(hemel);
-
-  // Vloer die alleen de zachte schaduw toont
-  var schaduwVloer = new THREE.Mesh(
-    new THREE.PlaneGeometry(60, 60),
-    new THREE.ShadowMaterial({ opacity: 0.09 })
-  );
-  schaduwVloer.rotation.x = -Math.PI / 2;
-  schaduwVloer.position.y = -5.9;
-  schaduwVloer.receiveShadow = true;
-  scene.add(schaduwVloer);
 
   var draaier = new THREE.Group();   // draait richting de muis
   scene.add(draaier);
@@ -973,15 +988,13 @@ try {
     // Het beeldmerk ligt in het .glb plat (dun langs de Y-as): rechtop zetten
     // zodat de voorkant naar de bezoeker wijst.
     model.rotation.x = Math.PI / 2;
-    model.traverse(function (o) {
-      if (o.isMesh) { o.castShadow = true; o.receiveShadow = false; }
-    });
-    // Centreren en passend schalen binnen het kader
+    // Centreren en passend schalen binnen het kader (het hart vult het
+    // kader nu bijna helemaal; het kader zelf is ook flink groter)
     var doos = new THREE.Box3().setFromObject(model);
     var midden = doos.getCenter(new THREE.Vector3());
     var maat = doos.getSize(new THREE.Vector3());
     model.position.sub(midden);
-    var schaal = 10.2 / Math.max(maat.x, maat.y, maat.z);
+    var schaal = 12.4 / Math.max(maat.x, maat.y, maat.z);
     draaier.scale.setScalar(schaal);
     draaier.add(model);
     laag.classList.add('klaar');
@@ -995,8 +1008,8 @@ try {
     laatsteMuis = performance.now();
     var nx = (e.clientX / window.innerWidth) * 2 - 1;    // -1 .. 1
     var ny = (e.clientY / window.innerHeight) * 2 - 1;
-    doelY = nx * 0.55;    // om de eigen (verticale) as naar de muis
-    doelX = ny * 0.30;    // licht meekantelen omhoog/omlaag
+    doelY = nx * 0.85;    // om de eigen (verticale) as naar de muis
+    doelX = ny * 0.45;    // duidelijk meekantelen omhoog/omlaag
   }, { passive: true });
 
   function maat() {
@@ -1014,8 +1027,8 @@ try {
     var t = klok.getElapsedTime();
     if (magBewegen && performance.now() - laatsteMuis > 4000) {
       // even geen muis (of touchscreen): rustig zwaaien
-      doelY = Math.sin(t * 0.6) * 0.3;
-      doelX = Math.sin(t * 0.45) * 0.1;
+      doelY = Math.sin(t * 0.6) * 0.4;
+      doelX = Math.sin(t * 0.45) * 0.15;
     }
     if (magBewegen) {
       draaier.rotation.y += (doelY - draaier.rotation.y) * 0.075;
