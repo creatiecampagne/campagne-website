@@ -1,0 +1,64 @@
+{
+  "logos": [
+    {
+      "naam": "Douwe Egberts",
+      "beeld": "images/logos/logo_de.png",
+      "hoogte": 72
+    },
+    {
+      "naam": "Brugman",
+      "beeld": "images/logos/logo_brugman.png",
+      "hoogte": 36
+    },
+    {
+      "naam": "Allison",
+      "beeld": "images/logos/logo_allison.png",
+      "hoogte": 36
+    },
+    {
+      "naam": "STL",
+      "beeld": "images/logos/logo_stl.png",
+      "hoogte": 28
+    },
+    {
+      "naam": "Rotterdam Topsport",
+      "beeld": "images/logos/logo_rt.png",
+      "hoogte": 45
+    },
+    {
+      "naam": "MKB Brandstof",
+      "beeld": "images/logos/logo_mkb.png",
+      "hoogte": 61
+    },
+    {
+      "naam": "Steinweg",
+      "beeld": "images/logos/logo_steinweg.png",
+      "hoogte": 36
+    },
+    {
+      "naam": "Rijksoverheid",
+      "beeld": "images/logos/logo_rijksoverheid.png",
+      "hoogte": 76
+    },
+    {
+      "naam": "Maasstad Ziekenhuis",
+      "beeld": "images/logos/logo_maasstad.png",
+      "hoogte": 51
+    },
+    {
+      "naam": "Rotterdams Tij",
+      "beeld": "images/logos/logo_tij.png",
+      "hoogte": 53
+    },
+    {
+      "naam": "Svensson",
+      "beeld": "images/logos/logo_svenson.png",
+      "hoogte": 16
+    },
+    {
+      "naam": "Greenchoice",
+      "beeld": "images/logos/logo_greenchoice.png",
+      "hoogte": 65
+    }
+  ]
+}

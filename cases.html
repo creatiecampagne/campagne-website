@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campagne — Wanna be loved?</title>
-<meta name="description" content="Campagne is een strategisch en creatief bureau dat merken helpt groeien in een connected wereld.">
+<title>Cases — Campagne</title>
+<meta name="description" content="Het werk van Campagne: strategie, branding en activatie voor merken als Brugman, Liquin, Air So Pure en de Tour de France Femmes.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://player.vimeo.com">
 <link rel="preconnect" href="https://i.vimeocdn.com">
@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://vod-adaptive-ak.vimeocdn.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap" rel="stylesheet">
+<link rel="prefetch" href="index.html">
 <link rel="prefetch" href="about.html">
 <link rel="prefetch" href="team.json" as="fetch" crossorigin="anonymous">
 <style>
@@ -164,41 +165,25 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
 .taalswitch[data-taal="nl"]::before { transform: translateX(32px); }
 
 /* ==========================================================================
-   Hero — scroll-gestuurd (pin + krimp naar kader)
+   Hero — vast kader van 1404x620 binnen een marge van 18px (zelfde opzet als
+   strategy.html). Geen scroll-animatie: titel en intro staan meteen op hun
+   plek, rechtsonder in het beeld staat het kruimelpad.
    ========================================================================== */
-/* De scroll-sectie is hoog; de sticky laag blijft in beeld terwijl je scrollt.
-   --p (0..1) wordt door JS gezet op basis van hoever je door de sectie bent. */
-.hero-scroll {
-  position: relative;
-  height: 220vh;                 /* scroll-lengte van de animatie */
-  --p: 0;
-}
-.hero-sticky {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-  overflow: hidden;
-}
-.hero-kader {
-  position: absolute;
-  /* Interpoleer van fullscreen (0 marge, 0 radius) naar geboxed (21px marge, 20px radius) */
-  top: calc(var(--p) * 18px);
-  bottom: calc(var(--p) * 18px);
-  left: calc(var(--p) * var(--marge-beeld));
-  right: calc(var(--p) * var(--marge-beeld));
-  border-radius: calc(var(--p) * var(--radius));
-  overflow: hidden;
-  will-change: top, bottom, left, right;
-}
+.hero { position: relative; padding: 18px var(--marge-beeld) 0; }
 .hero-vorm {
-  /* Vector "Achtergrond vorm" (aangeleverde Vector.svg, #EAE3D2): zit achter het
-     hero-kader en wordt zichtbaar in de 18px-marges zodra het kader naar geboxed
-     krimpt. Deze variant (632px hoog i.p.v. 779px) blijft binnen het hero-frame. */
+  /* Achtergrondvorm — 1440x632, steekt uit in de marges */
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: auto;
   display: block;
   pointer-events: none;
+}
+.hero-kader {
+  position: relative;
+  aspect-ratio: 1404 / 620;                /* Figma: beeldcontainer 1404x620 */
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--donker);
 }
 .hero-video { position: absolute; inset: 0; overflow: hidden; container-type: size; }
 .hero-video img {
@@ -210,17 +195,16 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   position: absolute; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   border: 0;
-  pointer-events: none;      /* scroll en klik gaan door de video heen */
-  /* Video is 16:9 (Vimeo 426x240); cover t.o.v. het kader zelf via container-
-     eenheden — vult het kader op elk schermformaat, ook tijdens het krimpen */
+  pointer-events: none;
+  /* Video is 16:9; cover t.o.v. het kader via container-eenheden */
   width: max(100cqw, calc(100cqh * 1.7778));
   height: max(100cqh, calc(100cqw * 0.5625));
 }
 .hero-kader::before {
-  /* Overlay verloop (boven) — Figma: zwart naar transparant, 27% */
+  /* Overlay verloop (boven) — leesbaarheid van de header/knoppen */
   content: '';
   position: absolute; top: 0; left: 0; right: 0;
-  height: 238px;
+  height: 182px;
   background: linear-gradient(to bottom, rgba(0,0,0,.27), rgba(0,0,0,0));
   z-index: 1;
 }
@@ -230,135 +214,52 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 0 clamp(24px, 3.75vw, 54px) 47px;   /* ontwerp: tekst 54px van de kaderrand */
+  padding: 0 clamp(24px, 3.75vw, 54px) clamp(24px, 2.9vw, 42px);   /* tekst 54px van de kaderrand */
   color: var(--wit);
-  /* Tekst scrollt van onder het kader naar binnen, gelijk op met de kadervorming.
-     Het kader (overflow hidden) snijdt de tekst af zolang die er nog onder hangt. */
-  transform: translateY(calc((1 - var(--p, 0)) * 95svh));
-  will-change: transform;
 }
 .hero-titel {
-  font-size: clamp(46px, 6.25vw, 90px);
+  font-size: clamp(42px, 4.86vw, 70px);    /* Figma: 70px ExtraBold */
   font-weight: 800;
   line-height: 1;
-  letter-spacing: -0.0204em;
-  max-width: 11em;
+  letter-spacing: -0.0262em;
+  max-width: 10em;
 }
 .hero-intro {
-  margin-top: 24px;
+  margin-top: 36px;                        /* Figma: intro 36px onder de titel */
   font-size: clamp(15px, 1.25vw, 18px);
-  line-height: 1.55;
-  max-width: 580px;
+  line-height: 1.556;
+  max-width: 581px;
 }
-.hero-cta {
-  display: flex; align-items: center; gap: 24px;
-  margin-top: clamp(36px, 6vh, 96px);
+
+/* Kruimelpad — rechtsonder in het beeld, 14px Medium; huidige pagina ExtraBold */
+.hero-kruimels {
+  position: absolute;
+  right: clamp(20px, 3.85vw, 55px);
+  bottom: clamp(20px, 3.1vw, 45px);
+  z-index: 3;
+  color: var(--wit);
+  font-size: 14px;
+  line-height: 20px;
 }
-.hero-cta .label { font-size: 18px; font-weight: 800; white-space: nowrap; }
-.hero-cta .lijn { flex: 1; height: 1.5px; background: var(--wit); opacity: .9; }
+.hero-kruimels ol {
+  display: flex; align-items: center;
+  gap: 10px;
+  list-style: none; margin: 0; padding: 0;
+}
+.hero-kruimels li { font-weight: 500; opacity: .8; }
+.hero-kruimels .scheiding { opacity: .55; }
+.hero-kruimels li:last-child { font-weight: 800; opacity: 1; }
+.hero-kruimels a { transition: opacity .2s ease; }
+.hero-kruimels a:hover { text-decoration: underline; }
+.hero-kruimels li:has(a:hover) { opacity: 1; }
+
 .pijl-knop {
   flex: none;
   width: 47px; height: 47px;
   display: grid; place-items: center;
 }
 .pijl-svg { width: 100%; height: 100%; transition: transform .25s ease; }
-.pijl-knop:hover .pijl-svg, a:hover:not(.case-blok):not(.tegel) .pijl-knop .pijl-svg, .case-resultaat:hover .pijl-svg { transform: rotate(45deg); }
-
-/* ==========================================================================
-   Intro + logo slider
-   ========================================================================== */
-.intro {
-  padding: clamp(56px, 8vw, 96px) var(--marge-content) 0;
-}
-.intro h2 {
-  font-size: clamp(26px, 2.5vw, 36px);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-.logo-slider {
-  overflow: hidden;
-  /* Figma: dicht op de titel, ruime witruimte eronder */
-  padding: clamp(28px, 3vw, 48px) 0 clamp(80px, 9vw, 140px);
-  cursor: grab;
-  /* Figma: logo's binnen de contentmarge, met 256px verloop-fade aan beide zijden */
-  -webkit-mask-image: linear-gradient(to right, transparent var(--marge-content), black calc(var(--marge-content) + 70px), black calc(100% - var(--marge-content) - 70px), transparent calc(100% - var(--marge-content)));
-  mask-image: linear-gradient(to right, transparent var(--marge-content), black calc(var(--marge-content) + 70px), black calc(100% - var(--marge-content) - 70px), transparent calc(100% - var(--marge-content)));
-}
-.logo-slider.sleept { cursor: grabbing; }
-.logo-strip {
-  display: flex;
-  align-items: center;
-  gap: clamp(110px, 10.5vw, 150px);  /* max 3,5-4 logo's tegelijk in beeld */
-  width: max-content;
-  will-change: transform;
-}
-.logo-strip img { width: auto; pointer-events: none; }
-@keyframes schuif {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-@keyframes schuif-terug {
-  from { transform: translateX(-50%); }
-  to   { transform: translateX(0); }
-}
-
-/* ==========================================================================
-   Case-blokken (groot)
-   ========================================================================== */
-.cases { display: flex; flex-direction: column; gap: var(--marge-beeld); padding: 0 var(--marge-beeld); }
-.case-blok {
-  position: relative;
-  border-radius: var(--radius);
-  overflow: hidden;
-  aspect-ratio: 1404 / 724;   /* ontwerp: 1404x724 (18px marges) */
-  width: 100%;
-  color: var(--wit);
-  display: block;
-}
-.case-blok > img {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform .6s ease;
-}
-.case-blok:has(.case-titel:hover) > img,
-.case-blok:has(.case-resultaat:hover) > img { transform: scale(1.03); }  /* hover via hoofdtitel of subtitel+pijl */
-.case-blok::before {
-  /* Overlay verloop (links) — leesbaarheid van de tekst */
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(100deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.15) 55%, rgba(0,0,0,0) 75%);
-  z-index: 1;
-}
-.case-inhoud {
-  position: absolute; inset: 0;
-  z-index: 2;
-  display: flex; flex-direction: column;
-  /* ontwerp: 47px boven, 54px links, 62px onder */
-  padding: clamp(24px, 3.3vw, 47px) clamp(24px, 3.75vw, 54px) clamp(24px, 4.3vw, 62px);
-}
-.case-eyebrow {
-  display: inline-flex; align-items: center; gap: 10px;
-  font-size: 18px; font-weight: 800;     /* Figma: 18px ExtraBold */
-  letter-spacing: .02em;
-}
-.case-titel {
-  margin-top: auto;
-  width: fit-content;                    /* hoverzone = alleen de tekst zelf, niet de lege ruimte ernaast */
-  font-size: clamp(38px, 5.56vw, 116px); /* Figma: 80px op 1440 breed */
-  font-weight: 800;
-  line-height: 0.99;                     /* Figma: 79.2px op 80px */
-  letter-spacing: -0.02em;
-}
-.case-resultaat {
-  display: flex; align-items: center; gap: 16px;
-  margin-top: clamp(10px, 1.4vw, 20px); /* Figma: subtitel direct onder de titel */
-  font-size: clamp(15px, 1.67vw, 24px);  /* Figma: 24px bij de foto-cases */
-  line-height: 1.25;
-  gap: 21px;                             /* Figma: 21px tussen pijl en tekst */
-  max-width: 21em;                       /* Figma: max 449px = 2 regels (ook Steinweg) */
-}
-.case-resultaat .pijl-knop { width: clamp(40px, 4.5vw, 63px); height: clamp(40px, 4.5vw, 63px); }  /* Figma: 63x63 */
+.pijl-knop:hover .pijl-svg, a:hover:not(.tegel) .pijl-knop .pijl-svg { transform: rotate(45deg); }
 
 /* ==========================================================================
    Kleine case-tegels
@@ -499,15 +400,6 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   transition: transform .25s ease;
 }
 .dienst-item:hover .mini-pijl { transform: rotate(45deg); }
-
-/* ==========================================================================
-   TCF- en AMIN-blokken
-   ========================================================================== */
-.tcf-blok { background: #000; }                 /* Figma: zwart */
-.tcf-blok > img { object-fit: cover; }   /* Figma: achtergrond 1792x927 vult het blok af */
-.tcf-blok .case-resultaat, .amin-blok .case-resultaat { font-size: clamp(16px, 1.88vw, 27px); }  /* Figma: 27px */
-/* AMIN-achtergrond staat in Figma 110,7% breed en iets naar linksboven geschoven */
-.amin-blok > img { inset: auto; left: -7.3%; top: -7.6%; width: 110.7%; height: 110.5%; }
 
 /* ==========================================================================
    Marquee
@@ -808,29 +700,14 @@ html.laadscherm-gezien .laadscherm { display: none; }
   body.menu-open .taalswitch { display: flex; position: absolute; top: 24px; left: 10px; }
 
   /* Hero: zelfde pin-effect, maar eindstand met 10px marges (Figma) */
-  .hero-scroll { height: 170vh; }  /* mobiel: lichter, kortere pin */
   .hero-inhoud { padding: 0 23px 31px; }
-  .hero-titel { font-size: clamp(38px, 10.2vw, 44px); }
-  .hero-cta .label, .more-cases .label { font-size: 15px; }
-  .hero-kader { top: calc(var(--p) * 10px); bottom: calc(var(--p) * 10px); }
-
-  /* Case-blokken: vierkant (Figma 394x394), tekst 23px van de rand, grotere titel */
-  .case-blok { aspect-ratio: 1 / 1; }
-  .case-inhoud { padding: 30px 23px 31px; }
-  .case-titel { font-size: clamp(34px, 10.2vw, 44px); }
-  .case-resultaat { font-size: clamp(16px, 5.3vw, 22px); margin-top: 14px; }
-  .case-resultaat .pijl-knop { width: 45px; height: 45px; }
+  .hero-titel { font-size: clamp(36px, 9.6vw, 42px); }
+  .hero-intro { margin-top: 20px; }
 
   /* Figma mobiel: geen kleine tegels; de 'More cases'-knop volgt direct op de 3 cases */
   .tegel-grid { display: none; }
 
   /* Intro + logo slider: titel iets groter, logo's compacter met kortere fade (Figma) */
-  .intro h2 { font-size: 29px; }
-  .logo-strip { zoom: 0.7; gap: 70px; }
-  .logo-slider {
-    -webkit-mask-image: linear-gradient(to right, transparent 10px, black 72px, black calc(100% - 72px), transparent calc(100% - 10px));
-    mask-image: linear-gradient(to right, transparent 10px, black 72px, black calc(100% - 72px), transparent calc(100% - 10px));
-  }
 
   /* What we do: koppen compacter, subdiensten onder elkaar (Figma mobiel) */
   .dienst-kop { font-size: 34px; line-height: 1.25; }
@@ -849,14 +726,187 @@ html.laadscherm-gezien .laadscherm { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .laadscherm { display: none; }
   .marquee-rij { animation: none; }
-  .hero-scroll { height: 100svh; }
-  .hero-kader { top: 18px; bottom: 18px; left: var(--marge-beeld); right: var(--marge-beeld); border-radius: var(--radius); }
-  .hero-inhoud { transform: none !important; }
-  .hero-titel, .hero-intro, .hero-cta { transform: none; opacity: 1; }
   .logo, .header-knoppen { opacity: 1 !important; transform: none !important; }
   html { scroll-behavior: auto; }
   .blok-video { display: none; }
   * { transition-duration: .01ms !important; }
+}
+
+/* ==========================================================================
+   Cases-overzicht (cases.html) — kop met filterbalk, CTA-tegel
+   Bouwt voort op .cases / .tegels / .tegel-grid van de homepage; hier staan
+   alleen de aanvullingen die de overzichtspagina nodig heeft.
+   ========================================================================== */
+.cases-kop {
+  display: flex; flex-wrap: wrap;
+  align-items: center; justify-content: space-between;
+  gap: 18px clamp(24px, 3vw, 48px);
+  /* uitgelijnd met de tegels eronder: die staan op de beeldmarge, niet de contentmarge */
+  padding: clamp(56px, 7vw, 96px) calc(var(--marge-content) - var(--marge-beeld)) clamp(20px, 2.4vw, 32px);
+}
+.cases-kop h2 {
+  font-size: clamp(26px, 2.5vw, 36px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* Filteren: tegels vallen uit de grid zodra ze niet bij de discipline horen */
+.tegel.verborgen, .tegel-cta.verborgen { display: none; }
+
+/* Het grid is het laatste blok van de pagina — witruimte naar de marquee */
+.cases-overzicht { padding-bottom: clamp(56px, 6vw, 88px); }
+
+/* CTA-tegel — zelfde maat en radius als een case-tegel, maar zonder beeld */
+.tegel-cta {
+  position: relative;
+  border-radius: var(--radius);
+  aspect-ratio: 456 / 341;
+  background: var(--roze);
+  color: var(--wit);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 18px;
+  overflow: hidden;
+}
+.tegel-cta .kop {
+  font-size: clamp(24px, 2.2vw, 32px);
+  font-weight: 800; line-height: 1.05; letter-spacing: -0.02em;
+  max-width: 8em;
+}
+.tegel-cta .onder {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  margin-top: 12px;
+  font-size: 14px; line-height: 20px;
+}
+.tegel-cta .pijl-knop { width: 45px; height: 45px; color: var(--wit); }
+
+
+/* Filterbalk — eigen dropdown in plaats van een <select>, zodat het paneel
+   dezelfde taal spreekt als de menu-overlay: wit-transparant vlak met blur en
+   regels van 17px. Links ervan verschijnt de telling zodra er gefilterd wordt,
+   rechts een knop om het filter in één klik te wissen. */
+.filterbalk { display: flex; align-items: center; gap: 14px; }
+
+/* Telling — staat vóór het filter en is er alleen tijdens het filteren */
+.filter-telling { font-size: 15px; font-weight: 500; white-space: nowrap; opacity: .55; }
+.filter-telling[hidden] { display: none; }
+
+.filter { position: relative; display: flex; align-items: center; gap: 8px; }
+
+/* Knop: pill zoals de menuknop in de header. Zodra er gefilterd wordt (of het
+   paneel openstaat) wordt hij zwart, net als een actieve staat elders. */
+.filter-knop {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--pill);
+  color: var(--zwart);
+  height: 44px; padding: 0 18px;
+  border-radius: var(--radius-knop);
+  font-size: 15px; font-weight: 500;
+  transition: background .25s ease, color .25s ease;
+}
+.filter-knop .keuze { font-weight: 800; }
+.filter-knop .chevron {
+  width: 12px; height: 8px;
+  display: block;
+  transition: transform .25s ease;
+}
+.filter-knop:hover { background: #dcdcdc; }
+.filter.open .filter-knop,
+.filter.gefilterd .filter-knop { background: var(--zwart); color: var(--wit); }
+.filter.open .filter-knop .chevron { transform: rotate(180deg); }
+
+/* Wisknop — zelfde ronde maat als de pijlbollen in de tegels */
+.filter-wis {
+  flex: none;
+  width: 44px; height: 44px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--pill);
+  color: var(--zwart);
+  transition: background .25s ease, color .25s ease;
+}
+.filter-wis:hover { background: var(--roze); color: var(--wit); }
+.filter-wis svg { width: 13px; height: 13px; display: block; }
+.filter-wis[hidden] { display: none; }
+
+/* Paneel — wit 92% met blur, zoals de menu-overlay */
+.filter-paneel {
+  position: absolute; top: calc(100% + 10px); right: 0;
+  z-index: 30;
+  min-width: 214px;
+  max-height: min(70vh, 520px);
+  overflow-y: auto;
+  background: rgba(255,255,255,.92);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  border-radius: var(--radius);
+  box-shadow: 0 18px 50px rgba(0,0,0,.16);
+  padding: 20px 26px 22px;
+}
+.filter-paneel[hidden] { display: none; }
+/* Disciplines en tags staan zonder kopje onder elkaar; het kleine verschil in
+   witruimte houdt de twee groepen wel uit elkaar. */
+.filter-groep + .filter-groep { margin-top: 14px; }
+.filter-groep ul { list-style: none; margin: 0; padding: 0; }
+
+/* Regels als de menu-items: 17px Regular, actieve keuze ExtraBold */
+.filter-optie {
+  display: block;
+  width: 100%;
+  padding: 5px 0;
+  text-align: left;
+  font-size: 17px; font-weight: 400;
+  line-height: 1.35;
+  color: var(--zwart);
+  transition: opacity .2s ease;
+}
+.filter-optie:hover { opacity: .55; }
+.filter-optie.actief { font-weight: 800; }
+
+/* Tegel is nu een <article>; de hele tegel blijft klikbaar via deze laag.
+   Hij ligt boven titel en subtitel, maar onder de tags. */
+.tegel-link { position: absolute; inset: 0; z-index: 4; }
+.tegel-inhoud { pointer-events: none; }          /* klikken gaat door naar de linklaag */
+.tegel-labels { position: relative; z-index: 5; pointer-events: auto; }
+
+/* Tags in de tegels: zelfde chip als voorheen, nu aanklikbaar om te filteren */
+.tegel-labels .tag {
+  background: rgba(0, 0, 0, .4);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 10px; line-height: 14px;
+  color: var(--wit);
+  white-space: nowrap;
+  transition: background .2s ease;
+}
+.tegel-labels .tag:hover { background: rgba(0, 0, 0, .75); }
+.tegel-labels .tag.actief { background: var(--roze); }
+
+/* Melding als een filter niets oplevert */
+.geen-cases {
+  padding: clamp(32px, 4vw, 56px) 0;
+  text-align: center;
+  font-size: 16px;
+}
+.geen-cases[hidden] { display: none; }
+
+/* Geen rode focusring rond de filterknoppen: die valt in dit blok te hard op.
+   Toetsenbordgebruik blijft zichtbaar via een subtiele ring in dezelfde tint. */
+.filter-knop:focus-visible, .filter-wis:focus-visible, .filter-optie:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, .35);
+  border-radius: var(--radius-knop);
+}
+
+@media (max-width: 900px) {
+  .cases-kop { flex-direction: column; align-items: flex-start; }
+  .filterbalk { width: 100%; }
+  .filter-paneel { right: auto; left: 0; }
+}
+@media (max-width: 680px) {
+  /* Op de homepage vervallen de tegels op mobiel; op het overzicht zijn ze
+     juist de kern van de pagina — dus hier wel tonen, in één kolom. */
+  .cases-overzicht .tegel-grid { display: grid; grid-template-columns: 1fr; }
+  .cases-kop { padding-left: 0; padding-right: 0; }
 }
 </style>
 <script>
@@ -871,7 +921,7 @@ try {
 } catch (fout) { /* privémodus zonder storage — laadscherm gewoon tonen */ }
 </script>
 </head>
-<body class="laadt">
+<body class="laadt cases-pagina">
 <!-- Laadscherm: zwart, logo-animatie gecentreerd, laadpercentage onderin -->
 <div class="laadscherm" id="laadscherm" aria-hidden="true">
   <video class="laad-animatie" autoplay muted playsinline src="images/images-loader.mp4"></video><!-- geen loop: blijft op het laatste frame staan -->
@@ -955,7 +1005,7 @@ try {
 
 <!-- ============================================================ HEADER -->
 <header class="header">
-  <a class="logo" href="#" aria-label="Campagne — home">
+  <a class="logo" href="index.html" aria-label="Campagne — home">
     <svg class="logo-svg" role="img" aria-label="Campagne"><use href="#svg-logo"></use></svg>
   </a>
   <div class="header-knoppen">
@@ -985,9 +1035,9 @@ try {
             <ul class="menu-sub-lijst">
             <li><a href="strategy.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Strategie overzicht</a></li>
             <li><a href="merk-strategie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Merk strategie</a></li>
-            <li><a href="#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Marketing strategie</a></li>
-            <li><a href="#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Social strategie</a></li>
-            <li><a href="#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Creatieve strategie</a></li>
+            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Marketing strategie</a></li>
+            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Social strategie</a></li>
+            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Creatieve strategie</a></li>
             </ul>
           </div></div>
         </li>
@@ -996,9 +1046,9 @@ try {
           <div class="menu-sub-wrap" id="menu-sub-branding"><div class="menu-sub">
             <ul class="menu-sub-lijst">
             <li><a href="branding.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Branding overzicht</a></li>
-            <li><a href="#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Employer branding</a></li>
-            <li><a href="#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Corporate identity</a></li>
-            <li><a href="#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Brand positionering</a></li>
+            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Employer branding</a></li>
+            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Corporate identity</a></li>
+            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Brand positionering</a></li>
             <li><a href="branding.html#campagne-design"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Campagne design</a></li>
             </ul>
           </div></div>
@@ -1008,9 +1058,9 @@ try {
           <div class="menu-sub-wrap" id="menu-sub-activation"><div class="menu-sub">
             <ul class="menu-sub-lijst">
             <li><a href="activatie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Activatie overzicht</a></li>
-            <li><a href="#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Customer experience</a></li>
-            <li><a href="#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Content productie</a></li>
-            <li><a href="#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Events</a></li>
+            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Customer experience</a></li>
+            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Content productie</a></li>
+            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Events</a></li>
             </ul>
           </div></div>
         </li>
@@ -1066,202 +1116,146 @@ try {
 
 <main>
 <!-- ============================================================ HERO -->
-<section class="hero-scroll" id="hero-scroll" aria-label="Intro">
-  <div class="hero-sticky">
-    <!-- Achtergrondvorm — crème vlak met pijl-motief achter de header/hero -->
+<section class="hero" id="hero" aria-label="Ons werk">
     <svg class="hero-vorm" viewBox="0 0 1440 632" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <path d="M233.045 527.278C241.389 535.615 255.66 529.702 255.66 517.917V349.614C255.66 340.143 267.126 335.393 273.829 342.101L559.541 627.409C565.677 633.53 575.612 633.53 581.738 627.409L703.621 505.703C712.671 496.67 727.339 496.67 736.379 505.703L858.202 627.399C864.338 633.52 874.273 633.52 880.409 627.399L1166.11 341.992C1172.81 335.294 1184.28 340.034 1184.28 349.504V517.807C1184.28 529.603 1198.54 535.506 1206.9 527.168L1435.96 298.415C1438.45 295.931 1439.84 292.572 1439.85 289.054L1440.02 -0.02H0V289.054C0 292.562 1.39227 295.931 3.87845 298.415L233.045 527.268V527.278Z" fill="#EAE3D2"/>
     </svg>
-    <div class="hero-kader">
-      <div class="hero-video">
-        <iframe src="https://player.vimeo.com/video/1207002799?background=1&autoplay=1&muted=1&loop=1&autopause=0&title=0&byline=0&portrait=0&badge=0&player_id=0&app_id=58479" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" referrerpolicy="strict-origin-when-cross-origin" title="Campagne showreel" loading="lazy"></iframe>
-      </div>
-      <div class="hero-inhoud">
-        <h1 class="hero-titel">Wanna<br>be loved?</h1>
-        <p class="hero-intro">Campagne is een strategisch en creatief bureau dat merken helpt groeien in een connected wereld. Met onze strategische inzichten, creatieve branding en krachtige campagnes helpen wij merken geliefder te worden</p>
-        <a class="hero-cta" href="#cases">
-          <span class="label">Show me how to be loved</span>
-          <span class="lijn" aria-hidden="true"></span>
-          <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
-        </a>
-      </div>
+  <div class="hero-kader">
+    <div class="hero-video">
+      <img loading="eager" decoding="async" src="images/cases/tour.webp" alt="Wielrenners rijden door Rotterdam tijdens de Tour de France Femmes">
+      <iframe src="https://player.vimeo.com/video/1207002799?background=1&autoplay=1&muted=1&loop=1&autopause=0&title=0&byline=0&portrait=0&badge=0&player_id=0&app_id=58479" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" referrerpolicy="strict-origin-when-cross-origin" title="Campagne showreel" loading="lazy"></iframe>
+    </div>
+    <div class="hero-inhoud">
+      <nav class="hero-kruimels" aria-label="Kruimelpad">
+        <ol>
+          <li><a href="index.html">Home</a></li>
+          <li class="scheiding" aria-hidden="true">&mdash;</li>
+          <li><span aria-current="page">Ons werk</span></li>
+        </ol>
+      </nav>
+      <h1 class="hero-titel">Ons werk</h1>
+      <p class="hero-intro">Van idee tot resultaat: in deze cases zie je hoe wij strategie vertalen naar impact. Elk project laat zien hoe creativiteit en slimme planning samenkomen. Laat je inspireren door de resultaten die we samen met onze klanten hebben bereikt.</p>
     </div>
   </div>
 </section>
 
-<!-- ============================================================ INTRO + LOGO'S -->
-<section class="intro">
-  <h2>Wij helpen merken geliefder te worden.</h2>
-</section>
-<div class="logo-slider" aria-label="Klanten van Campagne">
-  <div class="logo-strip" id="logo-strip">
-    <img loading="lazy" decoding="async" src="images/logos/logo_de.png" style="height:72px" alt="Logo Douwe Egberts">
-    <img loading="lazy" decoding="async" src="images/logos/logo_brugman.png" style="height:36px" alt="Logo Brugman">
-    <img loading="lazy" decoding="async" src="images/logos/logo_allison.png" style="height:36px" alt="Logo Allison">
-    <img loading="lazy" decoding="async" src="images/logos/logo_stl.png" style="height:28px" alt="Logo STL">
-    <img loading="lazy" decoding="async" src="images/logos/logo_rt.png" style="height:45px" alt="Logo Rotterdam Topsport">
-    <img loading="lazy" decoding="async" src="images/logos/logo_mkb.png" style="height:61px" alt="Logo MKB Brandstof">
-    <img loading="lazy" decoding="async" src="images/logos/logo_steinweg.png" style="height:36px" alt="Logo Steinweg">
-    <img loading="lazy" decoding="async" src="images/logos/logo_rijksoverheid.png" style="height:76px" alt="Logo Rijksoverheid">
-    <img loading="lazy" decoding="async" src="images/logos/logo_maasstad.png" style="height:51px" alt="Logo Maasstad Ziekenhuis">
-    <img loading="lazy" decoding="async" src="images/logos/logo_tij.png" style="height:53px" alt="Logo Rotterdams Tij">
-    <img loading="lazy" decoding="async" src="images/logos/logo_svenson.png" style="height:16px" alt="Logo Svensson">
-    <img loading="lazy" decoding="async" src="images/logos/logo_greenchoice.png" style="height:65px" alt="Logo Greenchoice">
+<!-- ============================================================ ALLE CASES + FILTER -->
+<section class="tegels cases-overzicht" id="alle-cases">
+  <div class="cases-kop">
+    <h2>Werk waar wij van houden.</h2>
+    <div class="filterbalk">
+      <p class="filter-telling" aria-live="polite" hidden></p>
+      <div class="filter">
+        <button class="filter-knop" type="button" aria-expanded="false" aria-controls="filter-paneel" aria-haspopup="listbox">
+          <span class="tekst">Filter op</span>
+          <span class="keuze">Alles</span>
+          <svg class="chevron" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5 6 6.5 11 1.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="filter-wis" type="button" hidden aria-label="Filter wissen">
+          <svg viewBox="0 0 13 13" aria-hidden="true"><path d="M1 1l11 11M12 1L1 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+        <!-- Groepen en opties worden gevuld met de tags die op de tegels staan -->
+        <div class="filter-paneel" id="filter-paneel" role="listbox" hidden></div>
+      </div>
+    </div>
   </div>
-</div>
-
-<!-- ============================================================ CASES -->
-<section class="cases" id="cases">
-  <a class="case-blok" href="case-tdff.html" data-video="1208112683">
-    <img loading="lazy" decoding="async" src="images/cases/tour.webp" alt="Wielrenners rijden door Rotterdam tijdens de Tour de France Femmes">
-    <div class="case-inhoud">
-      <span class="case-eyebrow">Tour de France Femmes</span>
-      <h2 class="case-titel">Rotterdam<br>turns yellow.</h2>
-      <p class="case-resultaat">
-        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
-        415.000+ visitors for this legendary cycling event.
-      </p>
-    </div>
-  </a>
-  <a class="case-blok" href="case-jun-markl-cvr.html" data-video="1035168613">
-    <img loading="lazy" decoding="async" src="images/cases/jun.webp" alt="Dirigent Jun Märkl in actie">
-    <div class="case-inhoud">
-      <span class="case-eyebrow">Jun Märkl and CVR</span>
-      <h2 class="case-titel">Introducing a<br>world-renowned<br>conductor.</h2>
-      <p class="case-resultaat">
-        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
-        Visual portrait for the Indianapolis Orchestra.
-      </p>
-    </div>
-  </a>
-  <a class="case-blok" href="case-steinweg.html" data-video="1035163552">
-    <img loading="lazy" decoding="async" src="images/cases/steinweg.webp" alt="Medewerker van Steinweg in de Rotterdamse haven">
-    <div class="case-inhoud">
-      <span class="case-eyebrow">Steinweg</span>
-      <h2 class="case-titel">Recruiting<br>for the harbor.</h2>
-      <p class="case-resultaat">
-        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
-        Social campaigning to get the right people working at Steinweg.
-      </p>
-    </div>
-  </a>
-</section>
-
-<!-- ============================================================ KLEINE TEGELS -->
-<section class="tegels">
   <div class="tegel-grid">
-    <a class="tegel" href="case-brugman.html" style="--hover-kleur:#69a63a" data-video="1208112682"><img loading="lazy" decoding="async" src="images/cases/brugman.webp" alt="Case Brugman">
+    <article class="tegel" style="--hover-kleur:#f9e000" data-disciplines="strategie activation" data-video="1208112683"><img loading="lazy" decoding="async" src="images/cases/tour.webp" alt="Case Tour de France Femmes">
+      <div class="tegel-inhoud">
+        <p class="tegel-titel">Tour de France Femmes</p>
+        <div class="tegel-onder">
+          <p class="tegel-labels"><button type="button" class="tag" data-tag="strategie">strategie</button><button type="button" class="tag" data-tag="concept">concept</button><button type="button" class="tag" data-tag="content">content</button><button type="button" class="tag" data-tag="video">video</button><button type="button" class="tag" data-tag="social">social</button><button type="button" class="tag" data-tag="media">media</button></p>
+          <p class="tegel-sub"><span class="onderschrift">415.000+ bezoekers voor dit legendarische wielerevenement.</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span></p>
+        </div>
+      </div>
+      <a class="tegel-link" href="case-tdff.html" aria-label="Bekijk case Tour de France Femmes"></a>
+    </article>
+    <article class="tegel" style="--hover-kleur:#7a1f3d" data-disciplines="activation" data-video="1035168613"><img loading="lazy" decoding="async" src="images/cases/jun.webp" alt="Case Jun Märkl en het Concertgebouw">
+      <div class="tegel-inhoud">
+        <p class="tegel-titel">Jun Märkl &amp; CVR</p>
+        <div class="tegel-onder">
+          <p class="tegel-labels"><button type="button" class="tag" data-tag="concept">concept</button><button type="button" class="tag" data-tag="content">content</button><button type="button" class="tag" data-tag="video">video</button><button type="button" class="tag" data-tag="foto">foto</button></p>
+          <p class="tegel-sub"><span class="onderschrift">Visueel portret van een wereldberoemde dirigent.</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span></p>
+        </div>
+      </div>
+      <a class="tegel-link" href="case-jun-markl-cvr.html" aria-label="Bekijk case Jun Märkl en CVR"></a>
+    </article>
+    <article class="tegel" style="--hover-kleur:#0f4c81" data-disciplines="strategie activation" data-video="1035163552"><img loading="lazy" decoding="async" src="images/cases/steinweg.webp" alt="Case Steinweg">
+      <div class="tegel-inhoud">
+        <p class="tegel-titel">Steinweg</p>
+        <div class="tegel-onder">
+          <p class="tegel-labels"><button type="button" class="tag" data-tag="arbeidsmarktcommunicatie">arbeidsmarktcommunicatie</button><button type="button" class="tag" data-tag="strategie">strategie</button><button type="button" class="tag" data-tag="social">social</button><button type="button" class="tag" data-tag="media">media</button></p>
+          <p class="tegel-sub"><span class="onderschrift">Social campagne om de juiste mensen aan de haven te binden.</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span></p>
+        </div>
+      </div>
+      <a class="tegel-link" href="case-steinweg.html" aria-label="Bekijk case Steinweg"></a>
+    </article>
+    <article class="tegel" style="--hover-kleur:#69a63a" data-disciplines="strategie activation" data-video="1208112682"><img loading="lazy" decoding="async" src="images/cases/brugman.webp" alt="Case Brugman">
       <div class="tegel-inhoud">
         <p class="tegel-titel">Brugman keukens &amp; badkamers</p>
         <div class="tegel-onder">
-          <p class="tegel-labels"><span>strategie</span><span>concept</span><span>content</span><span>video</span><span>social</span></p>
+          <p class="tegel-labels"><button type="button" class="tag" data-tag="strategie">strategie</button><button type="button" class="tag" data-tag="concept">concept</button><button type="button" class="tag" data-tag="content">content</button><button type="button" class="tag" data-tag="video">video</button><button type="button" class="tag" data-tag="social">social</button></p>
           <p class="tegel-sub"><span class="onderschrift">Nieuwe positionering Brugman: betrouwbaar, behulpzaam en duurzaam.</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span></p>
         </div>
-      </div></a>
-    <a class="tegel" href="case-air-so-pure.html" style="--hover-kleur:#004437" data-video="1208112714"><img loading="lazy" decoding="async" src="images/cases/asp.webp" alt="Case Air So Pure">
+      </div>
+      <a class="tegel-link" href="case-brugman.html" aria-label="Bekijk case Brugman keukens en badkamers"></a>
+    </article>
+    <article class="tegel" style="--hover-kleur:#004437" data-disciplines="strategie branding" data-video="1208112714"><img loading="lazy" decoding="async" src="images/cases/asp.webp" alt="Case Air So Pure">
       <div class="tegel-inhoud">
         <p class="tegel-titel">Air So Pure</p>
         <div class="tegel-onder">
-          <p class="tegel-labels"><span>strategie</span><span>concept</span><span>branding</span><span>website</span><span>foto</span></p>
+          <p class="tegel-labels"><button type="button" class="tag" data-tag="strategie">strategie</button><button type="button" class="tag" data-tag="concept">concept</button><button type="button" class="tag" data-tag="branding">branding</button><button type="button" class="tag" data-tag="website">website</button><button type="button" class="tag" data-tag="foto">foto</button></p>
           <p class="tegel-sub"><span class="onderschrift">Nieuwe positionering voor marktleider in luchtzuiverende planten.</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span></p>
         </div>
-      </div></a>
-    <a class="tegel" href="case-klimaat-week.html" style="--hover-kleur:#7f66f9" data-video="1130950548"><img loading="lazy" decoding="async" src="images/cases/kw.webp" alt="Case Klimaat Week">
+      </div>
+      <a class="tegel-link" href="case-air-so-pure.html" aria-label="Bekijk case Air So Pure"></a>
+    </article>
+    <article class="tegel" style="--hover-kleur:#7f66f9" data-disciplines="branding activation" data-video="1130950548"><img loading="lazy" decoding="async" src="images/cases/kw.webp" alt="Case Klimaat Week">
       <div class="tegel-inhoud">
         <p class="tegel-titel">Klimaat Week</p>
         <div class="tegel-onder">
-          <p class="tegel-labels"><span>branding</span><span>content</span><span>video</span><span>social</span></p>
+          <p class="tegel-labels"><button type="button" class="tag" data-tag="branding">branding</button><button type="button" class="tag" data-tag="content">content</button><button type="button" class="tag" data-tag="video">video</button><button type="button" class="tag" data-tag="social">social</button></p>
           <p class="tegel-sub"><span class="onderschrift">Nieuwe naam. Nieuw gezicht. Zelfde missie: Nederland in beweging krijgen.</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span></p>
         </div>
-      </div></a>
-    <a class="tegel" href="case-netherlands-space-agency.html" style="--hover-kleur:#154274"><img loading="lazy" decoding="async" src="images/cases/nlsa.webp" alt="Case Netherlands Space Agency">
+      </div>
+      <a class="tegel-link" href="case-klimaat-week.html" aria-label="Bekijk case Klimaat Week"></a>
+    </article>
+    <article class="tegel" style="--hover-kleur:#154274" data-disciplines="branding"><img loading="lazy" decoding="async" src="images/cases/nlsa.webp" alt="Case Netherlands Space Agency">
       <div class="tegel-inhoud">
         <p class="tegel-titel">Netherlands Space Agency</p>
         <div class="tegel-onder">
-          <p class="tegel-labels"><span>branding</span><span>website</span></p>
+          <p class="tegel-labels"><button type="button" class="tag" data-tag="branding">branding</button><button type="button" class="tag" data-tag="website">website</button></p>
           <p class="tegel-sub"><span class="onderschrift">Lancering nieuwe identiteit NLSA Nederlandse ruimtevaart</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span></p>
         </div>
-      </div></a>
-    <a class="tegel" href="case-wizz.html" style="--hover-kleur:#ff8a15" data-video="1045329201"><img loading="lazy" decoding="async" src="images/cases/wizz.webp" alt="Case WiZZ">
+      </div>
+      <a class="tegel-link" href="case-netherlands-space-agency.html" aria-label="Bekijk case Netherlands Space Agency"></a>
+    </article>
+    <article class="tegel" style="--hover-kleur:#ff8a15" data-disciplines="strategie activation" data-video="1045329201"><img loading="lazy" decoding="async" src="images/cases/wizz.webp" alt="Case WiZZ">
       <div class="tegel-inhoud">
         <p class="tegel-titel">WiZZ</p>
         <div class="tegel-onder">
-          <p class="tegel-labels"><span>Arbeidsmarktcommunicatie</span><span>media</span><span>strategie</span><span>concept</span></p>
+          <p class="tegel-labels"><button type="button" class="tag" data-tag="arbeidsmarktcommunicatie">arbeidsmarktcommunicatie</button><button type="button" class="tag" data-tag="media">media</button><button type="button" class="tag" data-tag="strategie">strategie</button><button type="button" class="tag" data-tag="concept">concept</button></p>
           <p class="tegel-sub"><span class="onderschrift">Medewerkers werven voor Nederlandse openbare zwembaden</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span></p>
         </div>
-      </div></a>
-    <a class="tegel" href="case-liquin.html" style="--hover-kleur:#0091bb" data-video="1208112711"><img loading="lazy" decoding="async" src="images/cases/liquin.webp" alt="Case Liquin">
+      </div>
+      <a class="tegel-link" href="case-wizz.html" aria-label="Bekijk case WiZZ"></a>
+    </article>
+    <article class="tegel" style="--hover-kleur:#0091bb" data-disciplines="strategie branding activation" data-video="1208112711"><img loading="lazy" decoding="async" src="images/cases/liquin.webp" alt="Case Liquin">
       <div class="tegel-inhoud">
         <p class="tegel-titel">Liquin</p>
         <div class="tegel-onder">
-          <p class="tegel-labels"><span>strategie</span><span>concept</span><span>branding</span><span>website</span><span>foto</span><span>video</span></p>
+          <p class="tegel-labels"><button type="button" class="tag" data-tag="strategie">strategie</button><button type="button" class="tag" data-tag="concept">concept</button><button type="button" class="tag" data-tag="branding">branding</button><button type="button" class="tag" data-tag="website">website</button><button type="button" class="tag" data-tag="foto">foto</button><button type="button" class="tag" data-tag="video">video</button></p>
           <p class="tegel-sub"><span class="onderschrift">Van Vopak naar Liquin. Complete rebranding in 1,5 maand tijd.</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span></p>
         </div>
-      </div></a>
+      </div>
+      <a class="tegel-link" href="case-liquin.html" aria-label="Bekijk case Liquin"></a>
+    </article>
+    <a class="tegel-cta" href="contact.html">
+      <p class="kop">Wanna be loved?</p>
+      <p class="onder"><span>Vertel ons waar jouw merk van droomt.</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span></p>
+    </a>
   </div>
-  <a class="more-cases" href="cases.html">
-    <span class="label">Mooooooooore cases</span>
-    <span class="lijn" aria-hidden="true"></span>
-    <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
-  </a>
-</section>
-
-<!-- ============================================================ WHAT WE DO -->
-<section class="diensten" id="diensten">
-  <div class="dienst-groep">
-    <h2 class="dienst-kop"><a href="strategy.html">Strategie <svg class="icoon icoon-s" aria-hidden="true"><use href="#icoon-strategie"></use></svg></a></h2>
-    <div class="dienst-items">
-      <a class="dienst-item" href="merk-strategie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Merk strategie</a>
-      <a class="dienst-item" href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Marketing strategie</a>
-      <a class="dienst-item" href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Social strategie</a>
-      <a class="dienst-item" href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Creatieve strategie</a>
-    </div>
-  </div>
-  <div class="dienst-groep">
-    <h2 class="dienst-kop">Branding <svg class="icoon icoon-b" aria-hidden="true"><use href="#icoon-branding"></use></svg></h2>
-    <div class="dienst-items">
-      <a class="dienst-item" href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Employer branding</a>
-      <a class="dienst-item" href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Corporate identity</a>
-      <a class="dienst-item" href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Brand positionering</a>
-      <a class="dienst-item" href="branding.html#campagne-design"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Campagne design</a>
-    </div>
-  </div>
-  <div class="dienst-groep">
-    <h2 class="dienst-kop">Activatie <svg class="icoon icoon-a" aria-hidden="true"><use href="#icoon-activatie"></use></svg></h2>
-    <div class="dienst-items">
-      <a class="dienst-item" href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Customer experience</a>
-      <a class="dienst-item" href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Content productie</a>
-      <a class="dienst-item" href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Events</a>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================ TCF BLOK -->
-<section class="cases">
-  <a class="case-blok tcf-blok" href="#" data-video="1208112684">
-    <img loading="lazy" decoding="async" src="images/creative-family.webp" alt="Netwerk-illustratie van The Creative Family">
-    <div class="case-inhoud">
-      <span class="case-eyebrow">One big stack of creativity</span>
-      <h2 class="case-titel">It&rsquo;s all in the<br>Creative Family.</h2>
-      <p class="case-resultaat">
-        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
-        Alle disciplines binnen het creatieve speelveld.
-      </p>
-    </div>
-  </a>
-
-<!-- ============================================================ AMIN BLOK -->
-  <a class="case-blok amin-blok" href="#" data-video="1208112681">
-    <img loading="lazy" decoding="async" src="images/amin.webp" alt="Het AMIN Allies team">
-    <div class="case-inhoud">
-      <span class="case-eyebrow">Campagne and 60+ agencies</span>
-      <h2 class="case-titel">AMIN gives<br>you the world!</h2>
-      <p class="case-resultaat">
-        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
-        Collaboration and international reach.
-      </p>
-    </div>
-  </a>
+  <p class="geen-cases" hidden>Geen cases met dit label. <button type="button" class="alles-terug">Toon alles</button></p>
 </section>
 
 <!-- ============================================================ MARQUEE -->
@@ -1317,7 +1311,7 @@ try {
 <script>
 // Nette placeholder tonen als een afbeelding ontbreekt (bijv. bestandsnaam klopt niet)
 function beeldMist(img) {
-  var ouder = img.closest('.case-blok, .tegel, .hero-video');
+  var ouder = img.closest('.tegel, .hero-video');
   if (ouder) {
     ouder.classList.add('beeld-mist');
     if (!ouder.hasAttribute('data-label')) {
@@ -1348,10 +1342,7 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
   }
   var preloaders = [];
   document.querySelectorAll('[data-video]').forEach(function (blok) {
-    var isTegel = blok.classList.contains('tegel');
-    // Grote blokken: hover start op de hoofdtitel én op de subtitel+pijlbol
-    var triggers = isTegel ? [blok] : Array.prototype.slice.call(blok.querySelectorAll('.case-titel, .case-resultaat'));
-    if (!triggers.length) triggers = [blok];
+    var triggers = [blok];   // op deze pagina is de hele tegel de hover-trigger
     var laag = null, frame = null, geladen = false, wegTimer = null, hovert = false;
     function maakFrame() {
       if (laag) return;
@@ -1530,126 +1521,33 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
   requestAnimationFrame(tik);
 })();
 
-// Hero scroll-animatie: --p (0..1) over de sectie; tekst hangt in CSS direct aan --p
-var heroScroll = document.getElementById('hero-scroll');
-function heroProgressie() {
-  if (!heroScroll) return;
-  var top = heroScroll.offsetTop;
-  var totaal = heroScroll.offsetHeight - window.innerHeight;
-  var p = totaal > 0 ? Math.min(Math.max((window.scrollY - top) / totaal, 0), 1) : 0;
-  heroScroll.style.setProperty('--p', p.toFixed(4));
-}
-window.addEventListener('scroll', heroProgressie, { passive: true });
-window.addEventListener('resize', heroProgressie);
-heroProgressie();
 
-// Header-gedrag in drie zones:
-// 1. In de hero-pin: transparante hero-header, altijd zichtbaar.
-// 2. Net voorbij de pin: de "Wanna be loved?"-titel duwt de header 1:1 het beeld
-//    uit — zonder achtergrond erachter.
-// 3. Voorbij de hero: verborgen bij omlaag scrollen; pas bij omhoog scrollen
-//    verschijnt de losse balk mét achtergrond.
-var header = document.querySelector('.header');
-var heroTitel = document.querySelector('.hero-titel');
-var vorigeY = window.scrollY;
-var duwActief = true;   // false = header "losgelaten" na omhoog scrollen vanaf beneden
-function bijScroll() {
-  var y = window.scrollY;
-  var omhoog = y < vorigeY - 2;
-  var omlaag = y > vorigeY + 2;
-  vorigeY = y;
-  if (document.body.classList.contains('menu-open')) return;
-  var heroEinde = heroScroll ? heroScroll.offsetTop + heroScroll.offsetHeight - window.innerHeight : 0;
-  var heroWeg = heroScroll ? y >= heroScroll.offsetTop + heroScroll.offsetHeight : y > 60;
-  if (y <= heroEinde) {
-    // Zone 1: hero-header
-    duwActief = true;
-    header.classList.remove('scrolled', 'verborgen', 'duwt');
-    header.style.transform = '';
-  } else if (!heroWeg) {
-    // Zone 2: duwzone
-    header.classList.remove('verborgen');
-    if (header.classList.contains('scrolled')) {
-      // Van beneden omhoog de hero in: alleen de balk-achtergrond uitfaden;
-      // logo en knoppen blijven gewoon staan.
-      header.classList.remove('scrolled');
-      duwActief = false;
-    }
-    var titelTop = heroTitel ? heroTitel.getBoundingClientRect().top : 0;
-    var hoogte = header.offsetHeight || 100;
-    // Pas als de titel weer onder de header zit, neemt de duw-logica het weer over.
-    if (!duwActief && titelTop > hoogte + 10) duwActief = true;
-    header.classList.add('duwt');
-    if (duwActief) {
-      // De titel schuift de header 1:1 het beeld uit (en trekt hem ook weer terug).
-      header.style.transform = 'translateY(' + Math.min(0, titelTop - hoogte).toFixed(1) + 'px)';
-    } else {
-      header.style.transform = '';
-    }
-  } else {
-    // Zone 3: voorbij de hero
-    duwActief = true;
-    header.classList.remove('duwt');
-    header.style.transform = '';
-    if (omhoog) {
+
+// Header-gedrag in twee zones: boven de hero transparant, daarna verschijnt de
+// balk bij omhoog scrollen en schuift hij weg bij omlaag scrollen.
+(function () {
+  var header = document.querySelector('.header');
+  var hero = document.querySelector('.hero');
+  var vorigeY = window.scrollY;
+  function bijScroll() {
+    var y = window.scrollY;
+    var omhoog = y < vorigeY - 2;
+    var omlaag = y > vorigeY + 2;
+    vorigeY = y;
+    if (document.body.classList.contains('menu-open')) return;
+    var heroWeg = hero ? y >= hero.offsetTop + hero.offsetHeight - 80 : y > 60;
+    if (!heroWeg) {
+      header.classList.remove('scrolled', 'verborgen');
+    } else if (omhoog) {
       header.classList.add('scrolled');
       header.classList.remove('verborgen');
     } else if (omlaag || !header.classList.contains('scrolled')) {
       header.classList.add('verborgen');
     }
   }
-}
-window.addEventListener('scroll', bijScroll, { passive: true });
-bijScroll();
-
-// Logo slider: zelfde mechaniek als de frases — schuift vanzelf, sleepbaar, met momentum
-(function () {
-  var strip = document.getElementById('logo-strip');
-  if (!strip) return;
-  strip.innerHTML += strip.innerHTML;  // inhoud dupliceren voor naadloze loop
-  var houder = strip.parentElement;
-  var magBewegen = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var basis = -0.2, x = 0, v = basis, halve = 0;  /* 2026-07-15: gehalveerd */
-  var sleepStart = null, sleepBasis = 0, laatsteX = 0, laatsteT = 0, gooiV = 0;
-  function meetHalve() { halve = strip.scrollWidth / 2; }
-  window.addEventListener('load', meetHalve);
-  window.addEventListener('resize', meetHalve);
-  meetHalve();
-  function stap() {
-    if (sleepStart === null && magBewegen) {
-      x += v;
-      v += (basis - v) * 0.035;         // na een gooi ebt de vaart weg naar de basissnelheid
-    }
-    if (halve > 0) {
-      while (x <= -halve) x += halve;   // naadloos terugzetten
-      while (x > 0) x -= halve;
-    }
-    strip.style.transform = 'translateX(' + x + 'px)';
-    requestAnimationFrame(stap);
-  }
-  requestAnimationFrame(stap);
-  houder.addEventListener('pointerdown', function (e) {
-    sleepStart = e.clientX; sleepBasis = x;
-    laatsteX = e.clientX; laatsteT = performance.now(); gooiV = 0;
-    houder.classList.add('sleept');
-    houder.setPointerCapture(e.pointerId);
-    e.preventDefault();
-  });
-  houder.addEventListener('pointermove', function (e) {
-    if (sleepStart === null) return;
-    x = sleepBasis + (e.clientX - sleepStart);
-    var nu = performance.now(), dt = nu - laatsteT;
-    if (dt > 0) gooiV = (e.clientX - laatsteX) / dt * 16.7;  // px per frame
-    laatsteX = e.clientX; laatsteT = nu;
-  });
-  function loslaten() {
-    if (sleepStart === null) return;
-    sleepStart = null;
-    houder.classList.remove('sleept');
-    v = Math.max(-30, Math.min(30, gooiV));  // gooi-snelheid meenemen, met een plafond
-  }
-  houder.addEventListener('pointerup', loslaten);
-  houder.addEventListener('pointercancel', loslaten);
+  window.addEventListener('scroll', bijScroll, { passive: true });
+  window.addEventListener('resize', bijScroll);
+  bijScroll();
 })();
 
 // Marquee: JS-gestuurd — schuift vanzelf, is sleepbaar en heeft momentum bij een "gooi"
@@ -1766,6 +1664,159 @@ document.querySelectorAll('.taalswitch button').forEach(function (b) {
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') setTimeout(resetAlsDicht, 0);
   });
+})();
+
+// Casefilter: een eigen dropdown (geen <select>, zodat het paneel dezelfde
+// opmaak kan krijgen als de menu-overlay). De opties worden hier uit het grid
+// opgehaald, dus een nieuwe case neemt zijn tags vanzelf mee. De tags in de
+// tegels zijn zelf ook knoppen: erop klikken filtert direct. De CTA-tegel
+// blijft altijd staan.
+(function () {
+  function startCaseFilter() {
+  var filter = document.querySelector('.filter');
+  var grid = document.querySelector('.tegel-grid');
+  if (!filter || !grid) return;
+
+  var knop = filter.querySelector('.filter-knop');
+  var keuzeTekst = knop.querySelector('.keuze');
+  var wisKnop = filter.querySelector('.filter-wis');
+  var paneel = filter.querySelector('.filter-paneel');
+  var telling = document.querySelector('.filter-telling');
+  var melding = document.querySelector('.geen-cases');
+  var tegels = Array.prototype.slice.call(grid.querySelectorAll('.tegel'));
+  var disciplines = [
+    { waarde: 'strategie',  naam: 'Strategie' },
+    { waarde: 'branding',   naam: 'Branding' },
+    { waarde: 'activation', naam: 'Activation' }
+  ];
+
+  // Per tegel de zoektermen verzamelen: disciplines + tags, alles kleingemaakt
+  tegels.forEach(function (t) {
+    var disc = (t.getAttribute('data-disciplines') || '').toLowerCase().split(/\s+/);
+    var tags = Array.prototype.map.call(t.querySelectorAll('.tag'), function (k) {
+      return k.dataset.tag;
+    });
+    t.termen = disc.concat(tags).filter(Boolean);
+  });
+
+  // ---- paneel opbouwen
+  function optie(lijst, waarde, naam) {
+    var li = document.createElement('li');
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'filter-optie';
+    b.dataset.filter = waarde;
+    b.setAttribute('role', 'option');
+    b.setAttribute('aria-selected', 'false');
+    b.textContent = naam;
+    li.appendChild(b);
+    lijst.appendChild(li);
+  }
+  function groep(items) {
+    if (!items.length) return;
+    var blok = document.createElement('div');
+    blok.className = 'filter-groep';
+    var lijst = document.createElement('ul');
+    items.forEach(function (i) { optie(lijst, i.waarde, i.naam); });
+    blok.appendChild(lijst);
+    paneel.appendChild(blok);
+  }
+  function heeftCases(term) {
+    return tegels.some(function (t) { return t.termen.indexOf(term) !== -1; });
+  }
+
+  // Geen 'Alle cases'-regel: het filter staat standaard uit en gaat uit via het
+  // kruisje of door nog eens op een actieve tag te klikken.
+  groep(disciplines.filter(function (d) { return heeftCases(d.waarde); }));
+
+  // Tags op volgorde van hoe vaak ze voorkomen; disciplines slaan we over,
+  // die staan al in de groep hierboven.
+  var alDekkend = disciplines.map(function (d) { return d.waarde; });
+  var tagTelling = {};
+  tegels.forEach(function (t) {
+    t.termen.forEach(function (term) {
+      if (alDekkend.indexOf(term) !== -1) return;
+      tagTelling[term] = (tagTelling[term] || 0) + 1;
+    });
+  });
+  groep(Object.keys(tagTelling)
+    .sort(function (a, b) { return tagTelling[b] - tagTelling[a] || a.localeCompare(b); })
+    .map(function (term) {
+      return { waarde: term, naam: term.charAt(0).toUpperCase() + term.slice(1) };
+    }));
+
+  var opties = Array.prototype.slice.call(paneel.querySelectorAll('.filter-optie'));
+
+  // ---- openen en sluiten
+  function zetOpen(open) {
+    filter.classList.toggle('open', open);
+    paneel.hidden = !open;
+    knop.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  knop.addEventListener('click', function () { zetOpen(paneel.hidden); });
+  document.addEventListener('click', function (e) {
+    if (!filter.contains(e.target)) zetOpen(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !paneel.hidden) { zetOpen(false); knop.focus(); }
+  });
+
+  // ---- filteren
+  function pasToe(keuze, verschuif) {
+    var raak = 0;
+    tegels.forEach(function (t) {
+      var toon = keuze === 'alles' || t.termen.indexOf(keuze) !== -1;
+      t.classList.toggle('verborgen', !toon);
+      if (toon) raak++;
+      Array.prototype.forEach.call(t.querySelectorAll('.tag'), function (k) {
+        k.classList.toggle('actief', k.dataset.tag === keuze);
+      });
+    });
+
+    var gekozen = opties.filter(function (o) { return o.dataset.filter === keuze; })[0];
+    opties.forEach(function (o) {
+      var actief = o === gekozen;
+      o.classList.toggle('actief', actief);
+      o.setAttribute('aria-selected', actief ? 'true' : 'false');
+    });
+
+    var actiefFilter = keuze !== 'alles';
+    keuzeTekst.textContent = gekozen ? gekozen.textContent.trim() : 'Alles';
+    filter.classList.toggle('gefilterd', actiefFilter);
+    wisKnop.hidden = !actiefFilter;
+    if (telling) {
+      telling.hidden = !actiefFilter;
+      telling.textContent = raak + (raak === 1 ? ' case' : ' cases');
+    }
+    if (melding) melding.hidden = raak > 0;
+    if (verschuif) document.getElementById('alle-cases').scrollIntoView({ block: 'start' });
+  }
+
+  paneel.addEventListener('click', function (e) {
+    var optie = e.target.closest('.filter-optie');
+    if (!optie) return;
+    pasToe(optie.dataset.filter, false);
+    zetOpen(false);
+    knop.focus();
+  });
+
+  wisKnop.addEventListener('click', function () { pasToe('alles', false); });
+
+  // Tags in de tegels: klikken filtert, nogmaals klikken zet het filter uit
+  grid.addEventListener('click', function (e) {
+    var tag = e.target.closest('.tag');
+    if (!tag) return;
+    e.preventDefault();
+    pasToe(tag.classList.contains('actief') ? 'alles' : tag.dataset.tag, true);
+  });
+
+  var terug = document.querySelector('.alles-terug');
+  if (terug) terug.addEventListener('click', function () { pasToe('alles', false); });
+
+  pasToe('alles', false);
+  }
+  if (window.CampagneCMSReady) window.CampagneCMSReady.then(startCaseFilter);
+  else document.addEventListener('campagne:cms-ready', startCaseFilter, { once: true });
 })();
 </script>
 <script src="cms-data.js"></script>
