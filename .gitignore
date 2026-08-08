@@ -1,0 +1,8 @@
+# macOS zet in elke map een verborgen bestandje met vensterinstellingen.
+# Dat hoort niet in een repository en al helemaal niet op een website.
+.DS_Store
+._*
+
+# Node-hulpbestanden (alleen lokaal, nooit nodig op de server)
+node_modules/
+package-lock.json

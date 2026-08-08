@@ -1,0 +1,57 @@
+# Maakt automatisch de case- en dienstpagina's zodra er iets in het CMS wordt
+# opgeslagen. Sveltia doet een commit op de JSON-bestanden, deze workflow draait
+# de generator en commit de gemaakte pagina's terug. Daarna publiceert GitHub
+# Pages ze zoals altijd.
+#
+# Handmatig draaien kan ook: tabblad Actions → deze workflow → "Run workflow".
+
+name: Pagina's genereren
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'cases.json'
+      - 'diensten.json'
+      - 'templates/**'
+      - 'index.html'
+      - 'tools/genereer-paginas.py'
+      - '.github/workflows/genereer-paginas.yml'
+  workflow_dispatch:
+
+# Nodig om de gegenereerde pagina's te kunnen terugcommitten
+permissions:
+  contents: write
+
+# Bij snel achter elkaar opslaan telt alleen de laatste run
+concurrency:
+  group: paginas-genereren
+  cancel-in-progress: true
+
+jobs:
+  genereren:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repo ophalen
+        uses: actions/checkout@v4
+
+      - name: Python klaarzetten
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Pagina's genereren
+        run: python3 tools/genereer-paginas.py
+
+      - name: Wijzigingen terugcommitten
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "Niets veranderd — geen commit nodig."
+            exit 0
+          fi
+          git config user.name  "Campagne paginagenerator"
+          git config user.email "actions@github.com"
+          git add -A
+          # [skip ci] voorkomt dat deze commit de workflow opnieuw start
+          git commit -m "Pagina's bijgewerkt vanuit het CMS [skip ci]"
+          git push
