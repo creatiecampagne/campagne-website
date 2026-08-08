@@ -52,16 +52,18 @@ collections:
             name: cases
             label_singular: Case
             widget: list
-            summary: "{{fields.klantnaam}} — {{fields.titel}}"
+            summary: "{{fields.naam}}"
             fields:
+              # --- Basis ---
               - { label: Actief, name: actief, widget: boolean, default: true }
+              - { label: Naam van de case, name: naam, widget: string, hint: "Staat op de tegels, boven de grote blokken en in het kruimelpad" }
               - { label: Slug, name: slug, widget: string, hint: "Uniek, kleine letters en streepjes. Niet wijzigen na livegang zonder links mee te wijzigen." }
-              - { label: Klantnaam, name: klantnaam, widget: string }
               - { label: Opdrachtgever, name: klant, widget: string, required: false, hint: "Op de detailpagina onder 'Klant'. Leeg = dezelfde naam als hierboven." }
-              - { label: Campagnetitel, name: titel, widget: text, hint: "Nieuwe regel = regelafbreking op grote homepage-tegel." }
-              - { label: Resultaatregel, name: resultaatregel, widget: text }
-              - { label: Titel op cases-overzicht, name: overzicht_titel, widget: string, required: false }
-              - { label: Resultaat op cases-overzicht, name: overzicht_resultaat, widget: text, required: false }
+              # --- Tegel op homepage en cases-overzicht ---
+              - { label: Tegelbeeld, name: tegelbeeld, widget: image }
+              - { label: Alt-tekst tegelbeeld, name: tegelbeeld_alt, widget: string, required: false, hint: "Korte omschrijving voor schermlezers en Google" }
+              - { label: Hover-video Vimeo-ID, name: hover_video, widget: string, required: false }
+              - { label: Merkkleur, name: merkkleur, widget: color, default: "#d72655" }
               - label: Tags
                 name: tags
                 widget: list
@@ -71,19 +73,17 @@ collections:
                 widget: select
                 multiple: true
                 required: false
-                options: [strategie, branding, activation]
-              - { label: Merkkleur, name: merkkleur, widget: color, default: "#d72655" }
-              - { label: Tegelbeeld, name: tegelbeeld, widget: image }
-              - { label: Alt-tekst tegelbeeld, name: tegelbeeld_alt, widget: string, required: false, hint: "Korte omschrijving voor schermlezers en Google" }
-              - { label: Hover-video Vimeo-ID, name: hover_video, widget: string, required: false }
-              - { label: Detailpagina-bestand, name: detailpagina, widget: string, required: false, hint: "Bijv. case-tdff.html. Leeg = tegel linkt niet door." }
+                options: [arbeidsmarktcommunicatie, branding, concept, content, event, foto, media, social, strategie, video, website]
+              # --- Groot homepage-blok en de hero van de detailpagina ---
+              - { label: Campagnetitel, name: titel, widget: text, hint: "Grote titel op het homepage-blok en in de hero. Nieuwe regel = regelafbreking." }
+              - { label: Resultaatregel, name: resultaat, widget: text, hint: "Regel naast de pijl — op de tegels, het homepage-blok en in de hero. Nieuwe regel = regelafbreking." }
+              # --- Detailpagina ---
               - { label: Detailpagina automatisch aanmaken, name: pagina_aanmaken, widget: boolean, default: true, hint: "Aan = er wordt automatisch een detailpagina gemaakt (case-<slug>.html) en de tegel linkt erheen." }
+              - { label: Detailpagina-bestand, name: detailpagina, widget: string, required: false, hint: "Bijv. case-tdff.html. Leeg = tegel linkt niet door." }
               - { label: Meta-omschrijving, name: meta_omschrijving, widget: text, required: false, hint: "Regel die Google onder de titel toont. Leeg = automatisch afgeleid." }
               - { label: Hero-beeld, name: hero_beeld, widget: image, required: false }
               - { label: Alt-tekst herobeeld, name: hero_alt, widget: string, required: false }
               - { label: Hero-video Vimeo-ID, name: hero_video, widget: string, required: false }
-              - { label: Hero-titel, name: hero_titel, widget: text, required: false }
-              - { label: Hero-resultaat, name: hero_resultaat, widget: text, required: false }
               - { label: Onderwerp, name: onderwerp, widget: text, required: false }
               - { label: Verhaal boven de vouw, name: verhaal, widget: text, required: false }
               - label: Disciplines op detailpagina
@@ -93,6 +93,30 @@ collections:
                 fields:
                   - { label: Titel, name: titel, widget: string }
                   - { label: Tekst, name: tekst, widget: text }
+              # --- Engelse vertaling (leeg veld = de Nederlandse tekst wordt gebruikt) ---
+              - label: Engelse vertaling
+                name: en
+                widget: object
+                collapsed: true
+                hint: "Alleen tekst. Beeld, kleur, video en slug zijn voor beide talen hetzelfde en vul je hierboven in."
+                fields:
+                  - { label: Naam van de case, name: naam, widget: string, required: false }
+                  - { label: Engelse slug, name: slug, widget: string, required: false, hint: "Bestandsnaam van de Engelse pagina, bijv. rotterdam-turns-yellow. Leeg = dezelfde als het Nederlands." }
+                  - { label: Opdrachtgever, name: klant, widget: string, required: false }
+                  - { label: Campagnetitel, name: titel, widget: text, required: false, hint: "Nieuwe regel = regelafbreking" }
+                  - { label: Resultaatregel, name: resultaat, widget: text, required: false }
+                  - { label: Alt-tekst tegelbeeld, name: tegelbeeld_alt, widget: string, required: false }
+                  - { label: Alt-tekst herobeeld, name: hero_alt, widget: string, required: false }
+                  - { label: Onderwerp, name: onderwerp, widget: text, required: false }
+                  - { label: Verhaal boven de vouw, name: verhaal, widget: text, required: false }
+                  - { label: Meta-omschrijving, name: meta_omschrijving, widget: text, required: false }
+                  - label: Disciplines op detailpagina
+                    name: disciplines_detail
+                    widget: list
+                    required: false
+                    fields:
+                      - { label: Titel, name: titel, widget: string }
+                      - { label: Tekst, name: tekst, widget: text }
 
       - name: logos
         label: Logo-slider
@@ -132,41 +156,91 @@ collections:
               - { label: Alt-tekst headerbeeld, name: headerbeeld_alt, widget: string, required: false }
               - { label: Intro-titel overzicht, name: intro_titel, widget: text }
               - { label: Intro-tekst overzicht, name: intro_tekst, widget: text, required: false }
+              # --- Engelse vertaling (leeg = Nederlandse tekst) ---
+              - label: Engelse vertaling
+                name: en
+                widget: object
+                collapsed: true
+                fields:
+                  - { label: Naam, name: naam, widget: string, required: false }
+                  - { label: Menulabel, name: menu_label, widget: string, required: false }
+                  - { label: Intro-titel overzicht, name: intro_titel, widget: text, required: false }
+                  - { label: Intro-tekst overzicht, name: intro_tekst, widget: text, required: false }
           - label: Onderwerpen
             name: diensten
             label_singular: Onderwerp
             widget: list
             summary: "{{fields.groep}} — {{fields.titel}}"
             fields:
+              # --- Basis: bepaalt waar het onderwerp overal verschijnt ---
               - { label: Actief, name: actief, widget: boolean, default: true }
-              - { label: Titel, name: titel, widget: string }
+              - { label: Titel, name: titel, widget: text, hint: "Naam in het menu en op de homepage, én de grote titel in de hero. Nieuwe regel = regelafbreking in de hero." }
               - { label: Slug, name: slug, widget: string }
               - { label: Groep, name: groep, widget: select, options: [Strategie, Branding, Activatie] }
-              - { label: Detailpagina-bestand, name: detailpagina, widget: string, required: false, hint: "Bijv. merk-strategie.html. Leeg zolang er nog geen stub is." }
+              # --- Eigen detailpagina ---
               - { label: Eigen detailpagina aanmaken, name: pagina_aanmaken, widget: boolean, default: false, hint: "Aan = dit onderwerp krijgt een eigen pagina. Uit = het onderwerp verwijst naar de overzichtspagina." }
+              - { label: Detailpagina-bestand, name: detailpagina, widget: string, required: false, hint: "Bijv. merk-strategie.html. Leeg zolang er nog geen stub is." }
               - { label: Meta-omschrijving, name: meta_omschrijving, widget: text, required: false }
-              - { label: Hero-titel, name: hero_titel, widget: text, required: false, hint: "Grote titel in de hero. Leeg = dezelfde als de titel. Nieuwe regel = regelafbreking." }
-              - { label: Kop boven de cases, name: cases_kop, widget: string, required: false }
-              - { label: Tekst bij de contactknop, name: cta_tekst, widget: text, required: false, hint: "Nieuwe regel = regelafbreking" }
+              # --- Hero bovenaan de pagina ---
               - { label: Headerbeeld, name: headerbeeld, widget: image, required: false }
               - { label: Alt-tekst headerbeeld, name: headerbeeld_alt, widget: string, required: false }
+              # --- Intro (ook de tekst in de box op de overzichtspagina) ---
               - { label: Introtitel, name: introtitel, widget: text }
               - { label: Introtekst, name: introtekst, widget: text, required: false }
+              # --- Brede foto ---
               - { label: Brede foto, name: brede_foto, widget: image, required: false }
               - { label: Alt-tekst brede foto, name: brede_foto_alt, widget: string, required: false }
+              # --- Quote ---
               - { label: Quote, name: quote, widget: text, required: false }
               - { label: Quote-bron, name: quote_bron, widget: string, required: false }
-              - { label: Bloktitel, name: bloktitel, widget: string, required: false }
+              # --- Tekstblok met staand beeld ---
+              - { label: Bloktitel, name: bloktitel, widget: string, required: false, hint: "Leeg = dezelfde als de titel hierboven." }
               - { label: Bloktekst, name: bloktekst, widget: text, required: false, hint: "Gebruik een lege regel voor een nieuwe alinea." }
+              - { label: Tekst bij de contactknop, name: cta_tekst, widget: text, required: false, hint: "Nieuwe regel = regelafbreking" }
               - { label: Staand beeld, name: staand_beeld, widget: image, required: false }
               - { label: Alt-tekst staand beeld, name: staand_beeld_alt, widget: string, required: false }
+              # --- Cases onderaan de pagina ---
+              - { label: Kop boven de cases, name: cases_kop, widget: string, required: false, hint: "Leeg = '<titel> in actie: succesverhalen.'" }
               - label: Cases onderaan
                 name: cases
                 widget: relation
                 collection: website
                 file: cases
-                search_fields: ["{{cases.*.klantnaam}}", "{{cases.*.slug}}"]
+                search_fields: ["{{cases.*.naam}}", "{{cases.*.slug}}"]
                 value_field: "{{cases.*.slug}}"
-                display_fields: ["{{cases.*.klantnaam}}"]
+                display_fields: ["{{cases.*.naam}}"]
                 multiple: true
                 required: false
+              # --- Engelse vertaling (leeg veld = de Nederlandse tekst wordt gebruikt) ---
+              - label: Engelse vertaling
+                name: en
+                widget: object
+                collapsed: true
+                hint: "Alleen tekst. Beeld, slug en instellingen gelden voor beide talen."
+                fields:
+                  - { label: Titel, name: titel, widget: text, required: false, hint: "Nieuwe regel = regelafbreking in de hero" }
+                  - { label: Engelse slug, name: slug, widget: string, required: false, hint: "Bestandsnaam van de Engelse pagina, bijv. brand-strategy. Leeg = dezelfde als het Nederlands." }
+                  - { label: Introtitel, name: introtitel, widget: text, required: false }
+                  - { label: Introtekst, name: introtekst, widget: text, required: false }
+                  - { label: Quote, name: quote, widget: text, required: false }
+                  - { label: Quote-bron, name: quote_bron, widget: string, required: false }
+                  - { label: Bloktitel, name: bloktitel, widget: string, required: false }
+                  - { label: Bloktekst, name: bloktekst, widget: text, required: false }
+                  - { label: Tekst bij de contactknop, name: cta_tekst, widget: text, required: false }
+                  - { label: Kop boven de cases, name: cases_kop, widget: string, required: false }
+                  - { label: Meta-omschrijving, name: meta_omschrijving, widget: text, required: false }
+
+      # ------------------------------------------------------------------
+      # 5. INSTELLINGEN — gebruikt voor de deelkaarten (Open Graph)
+      # ------------------------------------------------------------------
+      - name: instellingen
+        label: Instellingen
+        file: instellingen.json
+        format: json
+        media_folder: images
+        public_folder: images
+        fields:
+          - { label: Adres van de website, name: site_url, widget: string, hint: "Zonder slash op het eind. Nu de GitHub-versie; na de verhuizing naar campagne.nl hier aanpassen." }
+          - { label: Naam van de site, name: site_naam, widget: string }
+          - { label: Standaard deelbeeld, name: deelbeeld, widget: image, hint: "Verschijnt bij het delen van een link in WhatsApp, LinkedIn of Slack. Liggend, 1200x630 pixels." }
+          - { label: Alt-tekst deelbeeld, name: deelbeeld_alt, widget: string, required: false }

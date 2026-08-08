@@ -1,8 +1,139 @@
+/* ==========================================================================
+   Hero-video soepel laten starten
+   --------------------------------------------------------------------------
+   De Vimeo-player heeft een seconde of twee nodig voordat er beeld is. Tot die
+   tijd stond er een zwart kader, wat bij het wisselen van pagina opvalt.
+   Nu blijft het stilstaande beeld staan en schuift de video eroverheen zodra
+   hij daadwerkelijk speelt. Lukt dat onverhoopt niet, dan komt de video na een
+   paar seconden alsnog in beeld — je ziet dus nooit een leeg kader.
+   ========================================================================== */
 (function () {
   'use strict';
 
+  var wachtenden = [];
+
+  // Eerst luisteren, dan pas opbouwen: mocht er in de opbouw iets misgaan, dan
+  // blijft het bericht van de player alsnog binnenkomen.
+  window.addEventListener('message', function (bericht) {
+    if (bericht.origin !== 'https://player.vimeo.com') return;
+    var data = bericht.data;
+    if (typeof data === 'string') {
+      try { data = JSON.parse(data); } catch (fout) { return; }
+    }
+    if (!data || !data.event) return;
+
+    var bron = wachtenden.filter(function (w) { return w.frame.contentWindow === bericht.source; });
+    var doelen = bron.length ? bron : wachtenden;
+
+    if (data.event === 'ready') {
+      doelen.forEach(function (w) { w.abonneer(); });
+    } else if (data.event === 'play' || data.event === 'playing' || data.event === 'timeupdate') {
+      doelen.forEach(function (w) { w.speelt(); });
+    }
+  });
+
+  var houders = Array.prototype.slice.call(document.querySelectorAll('.hero-video'));
+  if (!houders.length) return;
+
+  houders.forEach(function (houder) {
+    var frame = houder.querySelector('iframe');
+    var poster = houder.querySelector('img');
+
+    // Ontbreekt het posterbeeld, verberg het dan; een kapot-beeldicoon is
+    // lelijker dan het donkere kader dat eronder zit.
+    if (poster) {
+      poster.addEventListener('error', function () { poster.style.display = 'none'; });
+    }
+    if (!frame) return;
+
+    var afgerond = false;
+    function speelt() {
+      if (afgerond) return;
+      afgerond = true;
+      houder.classList.add('video-speelt');
+    }
+
+    function abonneer() {
+      ['play', 'playing', 'timeupdate'].forEach(function (gebeurtenis) {
+        try {
+          frame.contentWindow.postMessage(
+            JSON.stringify({ method: 'addEventListener', value: gebeurtenis }),
+            'https://player.vimeo.com');
+        } catch (fout) { /* player nog niet bereikbaar; het vangnet vangt dit op */ }
+      });
+    }
+
+    wachtenden.push({ frame: frame, speelt: speelt, abonneer: abonneer });
+
+    // Vangnet: nooit langer dan 3 seconden op de player wachten.
+    frame.addEventListener('load', function () { abonneer(); setTimeout(speelt, 3000); });
+    if (frame.contentWindow) abonneer();
+    setTimeout(speelt, 6000);
+  });
+
+})();
+
+/* ==========================================================================
+   Volgende pagina alvast ophalen bij hover
+   --------------------------------------------------------------------------
+   Zodra de muis boven een interne link hangt (of een vinger hem aanraakt),
+   haalt de browser die pagina vast op. Klik je daarna, dan staat de HTML er al
+   en begint de hero-video meteen te laden in plaats van na de pagina-overgang.
+   ========================================================================== */
+(function () {
+  'use strict';
+
+  var gehaald = {};
+
+  function haalOp(adres) {
+    if (!adres || gehaald[adres]) return;
+    gehaald[adres] = true;
+    var link = document.createElement('link');
+    link.rel = 'prefetch';
+    link.href = adres;
+    document.head.appendChild(link);
+  }
+
+  function bekijk(gebeurtenis) {
+    var anker = gebeurtenis.target.closest ? gebeurtenis.target.closest('a[href]') : null;
+    if (!anker) return;
+    var adres = anker.getAttribute('href');
+    if (!adres || adres.charAt(0) === '#' ||
+        adres.indexOf('mailto:') === 0 || adres.indexOf('tel:') === 0) return;
+    if (anker.hostname && anker.hostname !== window.location.hostname) return;
+    if (adres.indexOf('.html') === -1) return;
+    haalOp(anker.href);
+  }
+
+  // Alleen op apparaten met een muis: op mobiel kost vooruit ophalen data
+  // zonder dat er een hover-moment is om het te verdienen.
+  if (window.matchMedia('(hover: hover)').matches) {
+    document.addEventListener('mouseover', bekijk, { passive: true });
+  }
+})();
+
+(function () {
+  'use strict';
+
+  // Engelse pagina's staan in /en/, dus de JSON-bestanden liggen een map hoger.
+  // De generator zet daarvoor data-basis="../" op het <html>-element.
+  var BASIS = document.documentElement.getAttribute('data-basis') || '';
+  var TAAL = (document.documentElement.lang || 'nl').toLowerCase().slice(0, 2);
+
+  // Waarde in de taal van deze pagina; een lege vertaling valt terug op het Nederlands.
+  function v(item, naam) {
+    if (!item) return '';
+    if (TAAL !== 'nl') {
+      var vert = item[TAAL] && item[TAAL][naam];
+      if (vert !== undefined && vert !== null && vert !== '' &&
+          !(Array.isArray(vert) && !vert.length)) return vert;
+    }
+    var waarde = item[naam];
+    return waarde === undefined || waarde === null ? '' : waarde;
+  }
+
   function laadJSON(pad) {
-    return fetch(pad, { cache: 'no-store' }).then(function (r) {
+    return fetch(BASIS + pad, { cache: 'no-store' }).then(function (r) {
       if (!r.ok) throw new Error(pad + ' kon niet worden geladen (' + r.status + ')');
       return r.json();
     });
@@ -13,17 +144,30 @@
     });
   }
   function br(v) { return esc(v).replace(/\n/g, '<br>'); }
+  // Titels mogen een regelafbreking bevatten voor de hero; in het menu, de
+  // paginatitel en alt-teksten wordt dat weer één doorlopende regel.
+  function eenRegel(v) { return String(v == null ? '' : v).replace(/\s*\n\s*/g, ' ').trim(); }
   // Beeldpad opschonen: de site draait in een submap (…/campagne-website/), dus een
   // pad met beginslash wijst naar de domeinroot en geeft een 404. Sveltia kan zo'n
   // pad wegschrijven als public_folder ooit weer absoluut wordt gezet; dit vangt dat af.
   function beeldpad(p, terugval) {
     var s = String(p == null ? '' : p).trim().replace(/^\/+/, '');
-    return s || (terugval === undefined ? 'images/placeholder.webp' : terugval);
+    return BASIS + (s || (terugval === undefined ? 'images/placeholder.webp' : terugval));
   }
   function svgPijl() { return '<span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>'; }
   // Zelfde regel als tools/genereer-paginas.py: een eigen bestandsnaam wint,
   // anders wordt hij afgeleid van de slug. Zo linken tegels altijd naar de
   // pagina die de generator daadwerkelijk aanmaakt.
+  // Link naar een onderwerp: eigen bestandsnaam, anders afgeleid van de slug —
+  // exact zoals tools/genereer-paginas.py het doet. Zonder eigen pagina wijzen
+  // we naar het anker op de overzichtspagina van de groep.
+  function dienstLink(d, g) {
+    var eigen = String((d && d.detailpagina) || '').trim();
+    if (eigen) return eigen.slice(-5) === '.html' ? eigen : eigen + '.html';
+    if (d && d.pagina_aanmaken && d.slug) return d.slug + '.html';
+    return (g && g.overzicht_url ? g.overzicht_url : '') + '#' + (d && d.slug ? d.slug : '');
+  }
+
   function geldigLink(c) {
     if (!c || c.pagina_aanmaken === false) return '';
     var eigen = String(c.detailpagina || '').trim();
@@ -61,10 +205,10 @@
     var open=link ? '<a class="case-blok" href="'+esc(link)+'"'+video+'>' : '<article class="case-blok"'+video+'>';
     var close=link ? '</a>' : '</article>';
     return open+
-      '<img loading="lazy" decoding="async" src="'+esc(beeldpad(c.tegelbeeld))+'" alt="Case '+esc(c.klantnaam)+'">'+
-      '<div class="case-inhoud"><span class="case-eyebrow">'+esc(c.klantnaam)+'</span>'+
-      '<'+heading+' class="case-titel">'+br(c.titel)+'</'+heading+'>'+
-      '<p class="case-resultaat">'+svgPijl()+br(c.resultaatregel)+'</p></div>'+close;
+      '<img loading="lazy" decoding="async" src="'+esc(beeldpad(c.tegelbeeld))+'" alt="'+esc(v(c,'tegelbeeld_alt')||('Case '+eenRegel(v(c,'naam'))))+'">'+
+      '<div class="case-inhoud"><span class="case-eyebrow">'+esc(eenRegel(v(c,'naam')))+'</span>'+
+      '<'+heading+' class="case-titel">'+br(v(c,'titel'))+'</'+heading+'>'+
+      '<p class="case-resultaat">'+svgPijl()+br(v(c,'resultaat'))+'</p></div>'+close;
   }
 
   function tagsHtml(c, knoppen) {
@@ -78,8 +222,8 @@
     var link=geldigLink(c);
     var video=c.hover_video ? ' data-video="'+esc(c.hover_video)+'"' : '';
     var disc=(c.disciplines || []).join(' ');
-    var title=c.overzicht_titel || c.klantnaam;
-    var result=c.overzicht_resultaat || c.resultaatregel;
+    var title=eenRegel(v(c,'naam'));
+    var result=v(c,'resultaat');
     var attrs=' class="tegel" style="--hover-kleur:'+esc(c.merkkleur || '#d72655')+'"'+video;
     if (overzicht) attrs+=' data-disciplines="'+esc(disc)+'"';
     if (!overzicht) attrs=' class="tegel"'+(link ? ' href="'+esc(link)+'"' : '')+' style="--hover-kleur:'+esc(c.merkkleur || '#d72655')+'"'+video;
@@ -120,9 +264,9 @@
     groups.filter(function(g){return g.actief!==false;}).forEach(function(g){
       var wrap=document.getElementById(mapping[g.slug]); if(!wrap) return;
       var ul=wrap.querySelector('.menu-sub-lijst'); if(!ul) return;
-      var html=menuLink(g.naam+' overzicht',g.overzicht_url);
+      var html=menuLink(eenRegel(v(g,'naam'))+(TAAL==='nl'?' overzicht':' overview'),g.overzicht_url);
       diensten.filter(function(d){return String(d.groep).toLowerCase()===g.slug;}).forEach(function(d){
-        html+=menuLink(d.titel,d.detailpagina || g.overzicht_url+'#'+d.slug);
+        html+=menuLink(eenRegel(v(d,'titel')),dienstLink(d,g));
       });
       ul.innerHTML=html;
     });
@@ -134,8 +278,11 @@
     root.innerHTML=groups.map(function(g){
       var items=diensten.filter(function(d){return String(d.groep).toLowerCase()===g.slug;});
       var icon=g.slug==='strategie'?'strategie':(g.slug==='branding'?'branding':'activatie');
-      return '<div class="dienst-groep"><h2 class="dienst-kop"><a href="'+esc(g.overzicht_url)+'">'+esc(g.naam)+'<svg class="icoon" aria-hidden="true"><use href="#icoon-'+icon+'"></use></svg></a></h2>'+
-        '<div class="dienst-items">'+items.map(function(d){return '<a class="dienst-item" href="'+esc(d.detailpagina || g.overzicht_url+'#'+d.slug)+'"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>'+esc(d.titel)+'</a>';}).join('')+'</div></div>';
+      // Elk icoon heeft zijn eigen maatklasse; zonder die klasse valt de SVG
+      // terug op het standaardformaat en staat hij veel te groot in de kop.
+      var maat=g.slug==='strategie'?'icoon-s':(g.slug==='branding'?'icoon-b':'icoon-a');
+      return '<div class="dienst-groep"><h2 class="dienst-kop"><a href="'+esc(g.overzicht_url)+'">'+esc(eenRegel(v(g,'naam')))+' <svg class="icoon '+maat+'" aria-hidden="true"><use href="#icoon-'+icon+'"></use></svg></a></h2>'+
+        '<div class="dienst-items">'+items.map(function(d){return '<a class="dienst-item" href="'+esc(dienstLink(d,g))+'"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>'+esc(eenRegel(v(d,'titel')))+'</a>';}).join('')+'</div></div>';
     }).join('');
   }
 
@@ -143,21 +290,21 @@
     var slug=document.body.getAttribute('data-diensten-groep'); if(!slug) return;
     var groep=(data.groepen||[]).find(function(g){return g.slug===slug;}); if(!groep) return;
     var diensten=actieveDiensten(data).filter(function(d){return String(d.groep).toLowerCase()===slug;});
-    var h1=document.querySelector('.hero-titel'); if(h1) h1.textContent=groep.naam;
-    var heroImg=document.querySelector('.hero-video img'); if(heroImg && groep.headerbeeld){heroImg.src=beeldpad(groep.headerbeeld);heroImg.alt=groep.naam;}
-    document.title=groep.naam+' — Campagne';
-    var crumbs=document.querySelectorAll('.hero-kruimels li:last-child span'); if(crumbs.length) crumbs[0].textContent=groep.naam;
+    var h1=document.querySelector('.hero-titel'); if(h1) h1.textContent=eenRegel(v(groep,'naam'));
+    var heroImg=document.querySelector('.hero-video img'); if(heroImg && groep.headerbeeld){heroImg.src=beeldpad(groep.headerbeeld);heroImg.alt=v(groep,'headerbeeld_alt')||eenRegel(v(groep,'naam'));}
+    document.title=eenRegel(v(groep,'naam'))+' — Campagne';
+    var crumbs=document.querySelectorAll('.hero-kruimels li:last-child span'); if(crumbs.length) crumbs[0].textContent=eenRegel(v(groep,'naam'));
     var intro=document.querySelector('.tekstblok.duo .kolommen');
     if(intro){
       var h=intro.querySelector('h2'),p=intro.querySelector('p');
-      if(h) h.textContent=groep.intro_titel || groep.naam;
-      if(p){ p.textContent=groep.intro_tekst || ''; p.hidden=!groep.intro_tekst; }
+      if(h) h.textContent=v(groep,'intro_titel')||eenRegel(v(groep,'naam'));
+      if(p){ var it=v(groep,'intro_tekst'); p.textContent=it; p.hidden=!it; }
     }
     var grid=document.querySelector('.strategie-tegels .strat-grid');
     if(grid){
       var cols=[[],[],[]]; diensten.forEach(function(d,i){cols[i%3].push(d);});
       grid.innerHTML=cols.map(function(col){return '<div class="strat-kolom">'+col.map(function(d){
-        return '<a class="strat-tegel" id="'+esc(d.slug)+'" href="'+esc(d.detailpagina || '#')+'"><h2>'+esc(d.titel)+'</h2><p class="tegel-tekst">'+esc(d.introtekst || '')+'</p><span class="strat-knop"><span class="label">Vertel me meer</span><span class="lijn" aria-hidden="true"></span>'+svgPijl()+'</span></a>';
+        return '<a class="strat-tegel" id="'+esc(d.slug)+'" href="'+esc(dienstLink(d,groep))+'"><h2>'+esc(eenRegel(v(d,'titel')))+'</h2><p class="tegel-tekst">'+esc(v(d,'introtekst'))+'</p><span class="strat-knop"><span class="label">'+(TAAL==='nl'?'Vertel me meer':'Tell me more')+'</span><span class="lijn" aria-hidden="true"></span>'+svgPijl()+'</span></a>';
       }).join('')+'</div>';}).join('');
     }
   }
@@ -165,21 +312,21 @@
   function renderDienstDetail(data, casesData) {
     var slug=document.body.getAttribute('data-dienst-slug'); if(!slug) return;
     var d=actieveDiensten(data).find(function(x){return x.slug===slug;}); if(!d) return;
-    var h=document.querySelector('.hero-titel'); if(h) h.innerHTML=br(d.titel);
-    document.title=d.titel+' — Campagne';
-    var hero=document.querySelector('.hero-video img'); if(hero && d.headerbeeld){hero.src=beeldpad(d.headerbeeld);hero.alt=d.titel;}
+    var h=document.querySelector('.hero-titel'); if(h) h.innerHTML=br(v(d,'titel'));
+    document.title=eenRegel(v(d,'titel'))+' — Campagne';
+    var hero=document.querySelector('.hero-video img'); if(hero && d.headerbeeld){hero.src=beeldpad(d.headerbeeld);hero.alt=v(d,'headerbeeld_alt')||eenRegel(v(d,'titel'));}
     var intro=document.querySelector('.tekstblok.duo .kolommen'); if(intro){
-      var ih=intro.querySelector('h2'),ip=intro.querySelector('p'); if(ih) ih.textContent=d.introtitel||d.titel; if(ip) ip.textContent=d.introtekst||'';
+      var ih=intro.querySelector('h2'),ip=intro.querySelector('p'); if(ih) ih.textContent=v(d,'introtitel')||eenRegel(v(d,'titel')); if(ip) ip.textContent=v(d,'introtekst');
     }
-    var wide=document.querySelector('.beeld-vol img'); if(wide && d.brede_foto){wide.src=beeldpad(d.brede_foto);wide.alt=d.titel;}
-    var q=document.querySelector('.quote blockquote'); if(q){var qp=q.querySelector('p'),qc=q.querySelector('cite'); if(qp) qp.textContent=d.quote||''; if(qc) qc.textContent=d.quote_bron?('– '+d.quote_bron+' –'):''; q.closest('.quote').hidden=!d.quote;}
+    var wide=document.querySelector('.beeld-vol img'); if(wide && d.brede_foto){wide.src=beeldpad(d.brede_foto);wide.alt=v(d,'brede_foto_alt')||eenRegel(v(d,'titel'));}
+    var q=document.querySelector('.quote blockquote'); if(q){var qp=q.querySelector('p'),qc=q.querySelector('cite'); var qt=v(d,'quote'), qb=v(d,'quote_bron'); if(qp) qp.textContent=qt; if(qc) qc.textContent=qb?('– '+qb+' –'):''; q.closest('.quote').hidden=!qt;}
     var text=document.querySelector('.tekst-beeld .tekst'); if(text){
-      var th=text.querySelector('h2'); if(th) th.textContent=d.bloktitel||d.titel;
+      var th=text.querySelector('h2'); if(th) th.textContent=v(d,'bloktitel')||eenRegel(v(d,'titel'));
       text.querySelectorAll(':scope > p').forEach(function(p){p.remove();});
       var cta=text.querySelector('.blok-cta');
-      (d.bloktekst||'').split(/\n\s*\n/).filter(Boolean).forEach(function(p){var el=document.createElement('p');el.textContent=p;text.insertBefore(el,cta);});
+      String(v(d,'bloktekst')).split(/\n\s*\n/).filter(Boolean).forEach(function(p){var el=document.createElement('p');el.textContent=p;text.insertBefore(el,cta);});
     }
-    var portrait=document.querySelector('.tekst-beeld figure img'); if(portrait && d.staand_beeld){portrait.src=beeldpad(d.staand_beeld);portrait.alt=d.titel;}
+    var portrait=document.querySelector('.tekst-beeld figure img'); if(portrait && d.staand_beeld){portrait.src=beeldpad(d.staand_beeld);portrait.alt=v(d,'staand_beeld_alt')||eenRegel(v(d,'titel'));}
     var grid=document.querySelector('.uitgelichte-cases .case-grid');
     if(grid && casesData){
       var bySlug={}; actieveCases(casesData).forEach(function(c){bySlug[c.slug]=c;});
@@ -192,18 +339,20 @@
     var c=actieveCases(data).find(function(x){return x.slug===slug;}); if(!c) return;
     document.documentElement.style.setProperty('--case-kleur', c.merkkleur || '#ffff00');
     document.body.style.backgroundColor=c.merkkleur || '#ffff00';
-    document.title=(c.klantnaam || c.titel)+' — Campagne';
-    var section=document.querySelector('.hero-scroll'); if(section) section.setAttribute('aria-label',c.klantnaam||c.titel);
-    var img=document.querySelector('.hero-video img'); if(img && c.hero_beeld){img.src=beeldpad(c.hero_beeld);img.alt='Case '+(c.klantnaam||c.titel);}
-    var frame=document.querySelector('.hero-video iframe'); if(frame && c.hero_video){frame.src='https://player.vimeo.com/video/'+encodeURIComponent(c.hero_video)+'?background=1&autoplay=1&muted=1&loop=1&autopause=0&title=0&byline=0&portrait=0&badge=0';frame.title=c.klantnaam||c.titel;}
-    var h=document.querySelector('.hero-titel'); if(h) h.innerHTML=br(c.hero_titel||c.titel);
-    var res=document.querySelector('.hero-resultaat span:last-child'); if(res) res.innerHTML=br(c.hero_resultaat||c.resultaatregel);
-    var crumb=document.querySelector('.hero-kruimels li:last-child span'); if(crumb) crumb.textContent=c.klantnaam||c.titel;
+    document.title=eenRegel(v(c,'naam')||v(c,'titel'))+' — Campagne';
+    var section=document.querySelector('.hero-scroll'); if(section) section.setAttribute('aria-label',eenRegel(v(c,'naam')||v(c,'titel')));
+    var img=document.querySelector('.hero-video img'); if(img && c.hero_beeld){img.src=beeldpad(c.hero_beeld);img.alt=v(c,'hero_alt')||v(c,'tegelbeeld_alt')||('Case '+eenRegel(v(c,'naam')));}
+    var frame=document.querySelector('.hero-video iframe'); if(frame && c.hero_video){frame.src='https://player.vimeo.com/video/'+encodeURIComponent(c.hero_video)+'?background=1&autoplay=1&muted=1&loop=1&autopause=0&title=0&byline=0&portrait=0&badge=0';frame.title=eenRegel(v(c,'naam')||v(c,'titel'));}
+    var h=document.querySelector('.hero-titel'); if(h) h.innerHTML=br(v(c,'titel'));
+    var res=document.querySelector('.hero-resultaat span:last-child'); if(res) res.innerHTML=br(v(c,'resultaat'));
+    var crumb=document.querySelector('.hero-kruimels li:last-child span'); if(crumb) crumb.textContent=eenRegel(v(c,'naam')||v(c,'titel'));
     var dl=document.querySelector('.case-kenmerken'); if(dl){
-      dl.innerHTML='<dt>Klant</dt><dd>'+esc(c.klantnaam)+'</dd><dt>Onderwerp</dt><dd>'+br(c.onderwerp)+'</dd><dt>Tags</dt><dd class="tags">'+(c.tags||[]).map(esc).join('<br>')+'</dd>';
+      dl.innerHTML='<dt>'+(TAAL==='nl'?'Klant':'Client')+'</dt><dd>'+esc(v(c,'klant')||v(c,'naam'))+'</dd>'+
+        '<dt>'+(TAAL==='nl'?'Onderwerp':'Subject')+'</dt><dd>'+br(v(c,'onderwerp'))+'</dd>'+
+        '<dt>Tags</dt><dd class="tags">'+(c.tags||[]).map(esc).join('<br>')+'</dd>';
     }
-    var story=document.querySelector('.case-verhaal > p'); if(story) story.textContent=c.verhaal||'';
-    var disc=document.querySelector('.case-disciplines'); if(disc) disc.innerHTML=(c.disciplines_detail||[]).map(function(x){return '<div class="rij"><h2>'+esc(x.titel)+'</h2><p>'+esc(x.tekst)+'</p></div>';}).join('');
+    var story=document.querySelector('.case-verhaal > p'); if(story) story.textContent=v(c,'verhaal');
+    var disc=document.querySelector('.case-disciplines'); if(disc) disc.innerHTML=(v(c,'disciplines_detail')||[]).map(function(x){return '<div class="rij"><h2>'+esc(x.titel)+'</h2><p>'+esc(x.tekst)+'</p></div>';}).join('');
   }
 
   function initDynamicVideoHover(scope) {

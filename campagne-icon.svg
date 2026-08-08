@@ -1,0 +1,14 @@
+<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Campagne">
+<!-- Favicon van Campagne. De achtergrond is bewust transparant en het merkteken
+     kleurt mee met de browserinstelling: donker op een lichte balk, wit zodra de
+     browser in donkere modus staat. Browsers die dat niet ondersteunen tonen
+     gewoon de donkere versie. -->
+<style>
+  .merkteken { fill: #121212; }
+  @media (prefers-color-scheme: dark) {
+    .merkteken { fill: #ffffff; }
+  }
+</style>
+<path class="merkteken" fill-rule="evenodd" clip-rule="evenodd" d="M34.3357 7.81333C34.3357 6.26002 33.0898 5.00059 31.5533 5.00059C30.0154 5.00059 28.7695 6.26002 28.7695 7.81333C28.7695 9.36663 30.0154 10.6261 31.5533 10.6261C33.0898 10.6261 34.3357 9.36663 34.3357 7.81333"/>
+<path class="merkteken" fill-rule="evenodd" clip-rule="evenodd" d="M28.734 17.2842V20.1159C28.734 25.086 24.7514 28.9807 19.6675 28.9807C14.668 28.9807 10.601 24.8693 10.601 19.8153C10.601 14.5974 14.2608 10.662 19.1129 10.662H21.6193C23.2389 10.662 24.3307 9.26312 24.3307 7.8317C24.3307 6.39892 23.2322 5 21.6193 5H19.1129C11.1984 5 5 11.5071 5 19.8153C5 27.9908 11.5802 34.6428 19.6675 34.6428C27.8928 34.6428 34.3363 28.2616 34.3363 20.1159V17.2842H28.734Z"/>
+</svg>
