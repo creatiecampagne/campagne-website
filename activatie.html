@@ -3,8 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="images/campagne-icon.svg" type="image/svg+xml">
+<!-- CAMPAGNE:DEELKAART-START -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Campagne">
+<meta property="og:locale" content="nl_NL">
+<meta property="og:title" content="Activatie">
+<meta property="og:description" content="Breng je merk tot leven. Customer experience, events en contentproductie door Campagne — activatie die je doelgroep raakt en engagement oplevert.">
+<meta property="og:url" content="https://creatiecampagne.github.io/campagne-website/activatie.html">
+<meta property="og:image" content="https://creatiecampagne.github.io/campagne-website/images/deelbeeld.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<!-- CAMPAGNE:DEELKAART-EINDE -->
 <title>Activatie &mdash; Campagne</title>
-<meta name="description" content="Merk-, marketing-, social- en creatieve strategie. Campagne maakt professionele strategie&euml;n op maat voor complexe vraagstukken.">
+<meta name="description" content="Breng je merk tot leven. Customer experience, events en contentproductie door Campagne — activatie die je doelgroep raakt en engagement oplevert.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://player.vimeo.com">
 <link rel="preconnect" href="https://i.vimeocdn.com">
@@ -137,15 +148,20 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   height: 36px; border-radius: 19px;
   padding: 3px;
 }
-.taalswitch button {
+.taalswitch button,
+.taalswitch a {                     /* op gegenereerde pagina's zijn het echte links */
   position: relative; z-index: 1;
+  display: grid; place-items: center;
   width: 32px; height: 30px;
   font-size: 14px; font-weight: 500;
   color: var(--zwart);
+  text-decoration: none;
   border-radius: 15px;
   transition: color .2s ease;
 }
-.taalswitch button.actief { color: var(--wit); }
+.taalswitch button.actief,
+.taalswitch a.actief { color: var(--wit); }
+.taalswitch a:hover { text-decoration: none; }
 .taalswitch::before {
   content: '';
   position: absolute;
@@ -192,6 +208,12 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   width: max(100cqw, calc(100cqh * 1.7778));
   height: max(100cqh, calc(100cqw * 0.5625));
 }
+
+/* Hero-video: het stilstaande beeld blijft staan tot de video echt speelt.
+   Zonder dit zie je bij het wisselen van pagina een zwart kader terwijl de
+   Vimeo-player nog laadt. De iframe vervangt het beeld pas als er beeld is. */
+.hero-video iframe { opacity: 0; transition: opacity .4s ease; }
+.hero-video.video-speelt iframe { opacity: 1; }
 .hero-kader::before {
   /* Overlay verloop (boven) — Figma 163:420: 1404x182 */
   content: '';
@@ -858,9 +880,9 @@ body.menu-open { overflow: hidden; }
             <ul class="menu-sub-lijst">
             <li><a href="strategy.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Strategie overzicht</a></li>
             <li><a href="merk-strategie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Merk strategie</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Marketing strategie</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Social strategie</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Creatieve strategie</a></li>
+            <li><a href="marketing-strategie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Marketing strategie</a></li>
+            <li><a href="social-strategie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Social strategie</a></li>
+            <li><a href="creatieve-strategie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Creatieve strategie</a></li>
             </ul>
           </div></div>
         </li>
@@ -869,10 +891,10 @@ body.menu-open { overflow: hidden; }
           <div class="menu-sub-wrap" id="menu-sub-branding"><div class="menu-sub">
             <ul class="menu-sub-lijst">
             <li><a href="branding.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Branding overzicht</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Employer branding</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Corporate identity</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Brand positionering</a></li>
-            <li><a href="branding.html#campagne-design"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Campagne design</a></li>
+            <li><a href="employer-branding.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Employer branding</a></li>
+            <li><a href="corporate-identity.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Corporate identity</a></li>
+            <li><a href="brand-positionering.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Brand positionering</a></li>
+            <li><a href="campagne-design.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Campagne design</a></li>
             </ul>
           </div></div>
         </li>
@@ -881,9 +903,10 @@ body.menu-open { overflow: hidden; }
           <div class="menu-sub-wrap" id="menu-sub-activation"><div class="menu-sub">
             <ul class="menu-sub-lijst">
             <li><a href="activatie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Activatie overzicht</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Customer experience</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Content productie</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Events</a></li>
+            <li><a href="customer-experience.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Customer experience</a></li>
+            <li><a href="content-productie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Content productie</a></li>
+            <li><a href="events.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Events</a></li>
+            <li><a href="digitale-transformatie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Digitale transformatie</a></li>
             </ul>
           </div></div>
         </li>
@@ -897,7 +920,7 @@ body.menu-open { overflow: hidden; }
         <p class="kolom-label">Navigatie</p>
         <ul class="menu-lijst middel">
           <li class="menu-item"><a class="menu-titel" href="cases.html">Cases</a></li>
-          <li class="menu-item"><a class="menu-titel" href="about.html">Over ons</a></li>
+          <li class="menu-item"><a class="menu-titel" href="over-ons.html">Over ons</a></li>
           <li class="menu-item">
             <button class="menu-titel" type="button" aria-expanded="false" aria-controls="menu-sub-netwerk">Netwerk</button>
             <div class="menu-sub-wrap" id="menu-sub-netwerk"><div class="menu-sub">
@@ -923,7 +946,7 @@ body.menu-open { overflow: hidden; }
           3012 NJ Rotterdam
         </address>
         <ul class="menu-sub-lijst">
-          <li><a href="tel:0102928333"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>010 - 292 83 33</a></li>
+          <li><a href="tel:+31102928333"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>010 - 292 83 33</a></li>
           <li><a href="mailto:hello@campagne.nl"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>hello@campagne.nl</a></li>
         </ul>
         <div class="socials">
@@ -947,7 +970,7 @@ body.menu-open { overflow: hidden; }
     <div class="hero-video">
       <!-- Posterbeeld: exporteer het headerbeeld uit Figma (163:419) als images/placeholder.webp -->
       <img loading="eager" decoding="async" src="images/placeholder.webp" alt="Roze folieballon in de vorm van het Campagne-logo tegen een wolkenlucht">
-      <iframe src="https://player.vimeo.com/video/1216475290?background=1&autoplay=1&muted=1&loop=1&autopause=0&title=0&byline=0&portrait=0&badge=0&player_id=0&app_id=58479" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" referrerpolicy="strict-origin-when-cross-origin" title="Campagne strategie" loading="lazy"></iframe>
+      <iframe src="https://player.vimeo.com/video/1216475290?background=1&autoplay=1&muted=1&loop=1&autopause=0&title=0&byline=0&portrait=0&badge=0&player_id=0&app_id=58479" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" referrerpolicy="strict-origin-when-cross-origin" title="Campagne strategie" loading="eager"></iframe>
     </div>
     <div class="hero-inhoud">
       <nav class="hero-kruimels" aria-label="Kruimelpad">
@@ -979,18 +1002,18 @@ body.menu-open { overflow: hidden; }
 
     <!-- Kolom 1 -->
     <div class="strat-kolom">
-      <a class="strat-tegel" href="merk-strategie.html">
-        <h2>Merk strategie</h2>
-        <p class="tegel-tekst">We bouwen sterke merken met een heldere visie, een overtuigend verhaal en een strategische aanpak die echt impact maakt...</p>
+      <a class="strat-tegel" href="customer-experience.html">
+        <h2>Customer experience</h2>
+        <p class="tegel-tekst">Breng je merk tot leven met strategische activatie. Van het creëren van onvergetelijke klantbelevingen tot het organiseren van spectaculaire...</p>
         <span class="strat-knop">
           <span class="label">Vertel me meer</span>
           <span class="lijn" aria-hidden="true"></span>
           <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
         </span>
       </a>
-      <a class="strat-tegel" href="#">
-        <h2>Creatieve strategie</h2>
-        <p class="tegel-tekst">Creativiteit zonder strategie is kunst. Creativiteit met strategie is effectiviteit. Wij combineren creatief denken met strategisch inzicht om...</p>
+      <a class="strat-tegel" href="content-productie.html">
+        <h2>Content productie</h2>
+        <p class="tegel-tekst">Vergroot de impact van je merk met content die gezien en gedeeld wordt. Ons expertteam produceert boeiende social media content, opvallende banners...</p>
         <span class="strat-knop">
           <span class="label">Vertel me meer</span>
           <span class="lijn" aria-hidden="true"></span>
@@ -1001,9 +1024,9 @@ body.menu-open { overflow: hidden; }
 
     <!-- Kolom 2 -->
     <div class="strat-kolom">
-      <a class="strat-tegel" href="#">
-        <h2>Marketing strategie</h2>
-        <p class="tegel-tekst">Wij maken je marketing onweerstaanbaar. Met slimme, resultaatgerichte strategie&euml;n verbinden wij jouw merk met de juiste...</p>
+      <a class="strat-tegel" href="events.html">
+        <h2>Events</h2>
+        <p class="tegel-tekst">Maak van elk moment een hoogtepunt met evenementen die indruk maken. Ons team ontwerpt en produceert meeslepende ervaringen die boeien en betrekken.</p>
         <span class="strat-knop">
           <span class="label">Vertel me meer</span>
           <span class="lijn" aria-hidden="true"></span>
@@ -1014,9 +1037,9 @@ body.menu-open { overflow: hidden; }
 
     <!-- Kolom 3 -->
     <div class="strat-kolom">
-      <a class="strat-tegel" href="#">
-        <h2>Social strategie</h2>
-        <p class="tegel-tekst">Be connected. Social media draait om betekenisvolle connecties. Wij brengen je merkverhaal tot leven om je doelgroep te...</p>
+      <a class="strat-tegel" href="digitale-transformatie.html">
+        <h2>Digitale transformatie</h2>
+        <p class="tegel-tekst">In de snelle digitale wereld van vandaag helpen wij je versnellen. Van slimme automatisering tot datagedreven besluitvorming: we ontwikkelen digitale...</p>
         <span class="strat-knop">
           <span class="label">Vertel me meer</span>
           <span class="lijn" aria-hidden="true"></span>
@@ -1024,8 +1047,8 @@ body.menu-open { overflow: hidden; }
         </span>
       </a>
       <a class="strat-tegel uitgelicht" href="contact.html">
-        <h2>Benieuwd wat strategie voor jouw merk doet?</h2>
-        <p class="tegel-tekst">Strategisch inzicht, creatieve genialiteit en resultaten die er toe doen. Wij geven jouw merk met energie en precisie vorm voor succes.</p>
+        <h2>Benieuwd wat activatie voor jouw merk doet?</h2>
+        <p class="tegel-tekst">Breng je merk tot leven en zet aan tot actie. Van het creëren van onvergetelijke klantbelevingen en het organiseren van evenementen tot het leveren...</p>
         <span class="strat-knop">
           <span class="label">Vertel me meer</span>
           <span class="lijn" aria-hidden="true"></span>
@@ -1040,7 +1063,7 @@ body.menu-open { overflow: hidden; }
 <!-- ============================================================ UITGELICHTE CASES (Figma 164:811)
      Layout overgenomen van het partnerblok op de teampagina, nu gevuld met cases. -->
 <section class="uitgelichte-cases" id="cases">
-  <h2 class="sectie-kop">Strategie in actie: succesverhalen.</h2>
+  <h2 class="sectie-kop">Activatie in actie: succesverhalen.</h2>
   <div class="case-grid">
     <a class="case-blok" href="case-tdff.html" data-video="1208112683">
       <img loading="lazy" decoding="async" src="images/cases/tour.webp" alt="Wielrenners rijden door Rotterdam tijdens de Tour de France Femmes">
@@ -1082,11 +1105,12 @@ body.menu-open { overflow: hidden; }
     <div>
       <h3>Contact</h3>
       <address>
-        Charloisse Lagedijk 536<br>
-        3084 LG Rotterdam
+        Weena 250 (gebouw Weena 200)<br>
+        Toren C, 12e verdieping<br>
+        3012 NJ Rotterdam
       </address>
       <div class="footer-links">
-        <a href="tel:0102928333"><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-klein"></use></svg></span> 010 - 292 83 33</a>
+        <a href="tel:+31102928333"><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-klein"></use></svg></span> 010 - 292 83 33</a>
         <a href="mailto:hello@campagne.nl"><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-klein"></use></svg></span> hello@campagne.nl</a>
       </div>
     </div>

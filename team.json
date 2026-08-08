@@ -1,6 +1,78 @@
 {
   "leden": [
     {
+      "naam": "Hein Strijker",
+      "functie": "Managing Director | Communicatie Specialist",
+      "eigenschappen": [],
+      "mail": "hein@campagne.nl",
+      "telefoon": "+31 6 42 70 88 18",
+      "foto": "images/team/hein-strijker.webp"
+    },
+    {
+      "naam": "André van der Meer",
+      "functie": "Strategy",
+      "eigenschappen": [],
+      "mail": "andre@campagne.nl",
+      "telefoon": "+31 6 53104553",
+      "foto": "images/team/andre-van-der-meer.webp"
+    },
+    {
+      "naam": "Marloes Kalsbeek",
+      "functie": "Client Service Director",
+      "eigenschappen": [],
+      "mail": "marloes@campagne.nl",
+      "telefoon": "+31 6 31639125",
+      "foto": "images/team/marloes-kalsbeek.webp"
+    },
+    {
+      "naam": "Veronique Gorter",
+      "functie": "Account Director",
+      "eigenschappen": [],
+      "mail": "veronique@campagne.nl",
+      "telefoon": "+31 6 42604545",
+      "foto": "images/team/veronique-gorter.webp"
+    },
+    {
+      "naam": "Bart van Wageningen",
+      "functie": "Creative Director",
+      "eigenschappen": [],
+      "mail": "bart@campagne.nl",
+      "telefoon": "",
+      "foto": "images/team/bart-van-wageningen.webp"
+    },
+    {
+      "naam": "Marieke Brekelmans",
+      "functie": "Senior Account Manager",
+      "eigenschappen": [],
+      "mail": "marieke@campagne.nl",
+      "telefoon": "+31 6 13770433",
+      "foto": "images/team/marieke-brekelmans.webp"
+    },
+    {
+      "naam": "Annelein Emmen",
+      "functie": "Project Manager",
+      "eigenschappen": [],
+      "mail": "annelein@campagne.nl",
+      "telefoon": "+31 6 21388160",
+      "foto": "images/team/annelein-emmen.webp"
+    },
+    {
+      "naam": "Fleur van Buuren",
+      "functie": "Project Manager",
+      "eigenschappen": [],
+      "mail": "fleur@campagne.nl",
+      "telefoon": "+31 6 15264762",
+      "foto": "images/team/fleur-van-buuren.webp"
+    },
+    {
+      "naam": "Tessa de Jong",
+      "functie": "Project and Traffic Manager",
+      "eigenschappen": [],
+      "mail": "tessa@campagne.nl",
+      "telefoon": "+31 6 46013334",
+      "foto": "images/team/tessa-de-jong.webp"
+    },
+    {
       "naam": "Vincent Loopstra",
       "functie": "Creative",
       "eigenschappen": [
@@ -9,92 +81,48 @@
         "kleurrijke sokken"
       ],
       "mail": "vincent@campagne.nl",
-      "telefoon": "010 - 292 83 33",
-      "foto": "images/team/Vincent-819x1024.jpg"
+      "telefoon": "",
+      "foto": "images/team/vincent-loopstra.webp"
     },
     {
-      "naam": "Teamlid Twee",
-      "functie": "Strateeg",
-      "eigenschappen": [
-        "merkstrategie",
-        "onderzoek",
-        "koffie"
-      ],
-      "mail": "twee@campagne.nl",
-      "telefoon": "010 - 292 83 33",
-      "foto": ""
+      "naam": "Anne Pijnenburg",
+      "functie": "Creative designer",
+      "eigenschappen": [],
+      "mail": "anne@campagne.nl",
+      "telefoon": "",
+      "foto": "images/team/anne-pijnenburg.webp"
     },
     {
-      "naam": "Teamlid Drie",
+      "naam": "Stephan Butter",
       "functie": "Designer",
-      "eigenschappen": [
-        "branding",
-        "motion",
-        "typografie"
-      ],
-      "mail": "drie@campagne.nl",
+      "eigenschappen": [],
+      "mail": "stephan@campagne.nl",
       "telefoon": "",
-      "foto": ""
+      "foto": "images/team/stephan-butter.webp"
     },
     {
-      "naam": "Teamlid Vier",
-      "functie": "Content creator",
-      "eigenschappen": [
-        "video",
-        "social",
-        "fotografie"
-      ],
-      "mail": "vier@campagne.nl",
-      "telefoon": "010 - 292 83 33",
-      "foto": ""
-    },
-    {
-      "naam": "Teamlid Vijf",
-      "functie": "Accountmanager",
-      "eigenschappen": [
-        "klantcontact",
-        "planning",
-        "bakkies"
-      ],
-      "mail": "vijf@campagne.nl",
-      "telefoon": "010 - 292 83 33",
-      "foto": ""
-    },
-    {
-      "naam": "Teamlid Zes",
-      "functie": "Copywriter",
-      "eigenschappen": [
-        "concept",
-        "copy",
-        "woordgrappen"
-      ],
-      "mail": "zes@campagne.nl",
+      "naam": "Coen Markus",
+      "functie": "Multimedia Designer",
+      "eigenschappen": [],
+      "mail": "coen@campagne.nl",
       "telefoon": "",
-      "foto": ""
+      "foto": "images/team/coen-markus.webp"
     },
     {
-      "naam": "Teamlid Zeven",
-      "functie": "Developer",
-      "eigenschappen": [
-        "website",
-        "techniek",
-        "pixels"
-      ],
-      "mail": "zeven@campagne.nl",
-      "telefoon": "010 - 292 83 33",
-      "foto": ""
+      "naam": "Lotte Reissenweber",
+      "functie": "Content Creator",
+      "eigenschappen": [],
+      "mail": "lotte@campagne.nl",
+      "telefoon": "+31 6 40819460",
+      "foto": "images/team/lotte-reissenweber.webp"
     },
     {
-      "naam": "Teamlid Acht",
-      "functie": "Producer",
-      "eigenschappen": [
-        "events",
-        "productie",
-        "regelneef"
-      ],
-      "mail": "acht@campagne.nl",
-      "telefoon": "010 - 292 83 33",
-      "foto": ""
+      "naam": "Mischa Lima",
+      "functie": "Stagiaire",
+      "eigenschappen": [],
+      "mail": "mischa@campagne.nl",
+      "telefoon": "",
+      "foto": "images/team/mischa-lima.webp"
     }
   ]
 }

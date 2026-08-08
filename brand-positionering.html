@@ -1,16 +1,23 @@
 <!DOCTYPE html>
-<html lang="nl" style="--case-kleur: {{KLEUR}}">
+<html lang="nl">
 <head>
-<!-- CAMPAGNE:GEGENEREERD — deze pagina wordt automatisch gemaakt uit cases.json.
+<!-- CAMPAGNE:GEGENEREERD — deze pagina wordt automatisch gemaakt uit diensten.json.
      Bewerk alleen het blok tussen de EIGEN-INHOUD-markers; de rest wordt overschreven. -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="images/campagne-icon.svg" type="image/svg+xml">
 <!-- Deelkaart (Open Graph): wat WhatsApp, LinkedIn en Slack tonen bij een link.
      Wordt automatisch gevuld door tools/genereer-paginas.py. -->
-{{OPENGRAPH}}
-<title>{{PAGINATITEL}} &mdash; Campagne</title>
-<meta name="description" content="{{OMSCHRIJVING}}">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Campagne">
+<meta property="og:locale" content="nl_NL">
+<meta property="og:title" content="Brand positionering">
+<meta property="og:description" content="Wees onderscheidend en verover de harten van je doelgroep. Wij zijn gespecialiseerd in strategische merkpositionering, waarbij we jouw unieke plek in de m…">
+<meta property="og:url" content="https://creatiecampagne.github.io/campagne-website/brand-positionering.html">
+<meta property="og:image" content="https://creatiecampagne.github.io/campagne-website/images/diensten/brand-positionering-header.webp">
+<meta name="twitter:card" content="summary_large_image">
+<title>Brand positionering &mdash; Campagne</title>
+<meta name="description" content="Wees onderscheidend en verover de harten van je doelgroep. Wij zijn gespecialiseerd in strategische merkpositionering, waarbij we jouw unieke plek in de m…">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://player.vimeo.com">
 <link rel="preconnect" href="https://i.vimeocdn.com">
@@ -18,6 +25,7 @@
 <link rel="preconnect" href="https://vod-adaptive-ak.vimeocdn.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="prefetch" href="strategy.html">
 <link rel="prefetch" href="index.html">
 <style>
 /* ==========================================================================
@@ -25,7 +33,6 @@
    ========================================================================== */
 :root {
   --geel: #f9e000;
-  --geel-case: var(--case-kleur, #ffff00);          /* Figma gebruikt hier zuiver geel, niet het merkgeel */
   --roze: #d72655;
   --bordeaux: #460f22;
   --zwart: #000000;
@@ -49,7 +56,7 @@ body {
   font-family: var(--font);
   font-weight: 400;
   color: var(--zwart);
-  background: var(--geel-case);            /* geel loopt door achter het herokader */
+  background: var(--wit);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -106,8 +113,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 }
 .header.scrolled::before { opacity: 1; }
 .header.verborgen { transform: translateY(-160%); }
-/* Duw-staat: de herotitel duwt de header 1:1 het beeld uit; transform volgt de scroll direct */
-.header.duwt { transition: none; }
 body.menu-open .header::before { opacity: 0; }
 body.menu-open .logo { color: #000; }
 .logo { color: var(--wit); }
@@ -176,32 +181,21 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
    Geen scroll-animatie: titel en intro staan meteen op hun plek. Rechtsonder
    in het beeld staat het kruimelpad (Figma 168:300).
    ========================================================================== */
-/* De scroll-sectie is hoog; de sticky laag blijft in beeld terwijl je scrollt.
-   --p (0..1) wordt door JS gezet op basis van hoever je door de sectie bent.
-   Zelfde mechaniek als de homepage: het kader krimpt van fullscreen naar
-   geboxed, en het geel van de pagina komt in de marges tevoorschijn. */
-.hero-scroll {
-  position: relative;
-  height: 220vh;                           /* scroll-lengte van de animatie */
-  --p: 0;
-}
-.hero-sticky {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-  overflow: hidden;
+.hero { position: relative; padding: 18px var(--marge-beeld) 0; }
+.hero-vorm {
+  /* Achtergrondvorm (Figma 163:413) — 1440x632, steekt uit in de marges */
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: auto;
+  display: block;
+  pointer-events: none;
 }
 .hero-kader {
-  position: absolute;
-  /* Interpoleer van fullscreen (0 marge, 0 radius) naar geboxed (18px, 20px) */
-  top: calc(var(--p) * 18px);
-  bottom: calc(var(--p) * 18px);
-  left: calc(var(--p) * var(--marge-beeld));
-  right: calc(var(--p) * var(--marge-beeld));
-  border-radius: calc(var(--p) * var(--radius));
+  position: relative;
+  aspect-ratio: 1404 / 620;                /* Figma: beeldcontainer 1404x620 */
+  border-radius: var(--radius);
   overflow: hidden;
   background: var(--donker);
-  will-change: top, bottom, left, right;
 }
 .hero-video { position: absolute; inset: 0; overflow: hidden; container-type: size; }
 .hero-video img {
@@ -224,11 +218,11 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
 .hero-video iframe { opacity: 0; transition: opacity .4s ease; }
 .hero-video.video-speelt iframe { opacity: 1; }
 .hero-kader::before {
-  /* Overlay verloop (links) — Figma 177:69: 601px breed, zwart -> transparant */
+  /* Overlay verloop (boven) — Figma 163:420: 1404x182 */
   content: '';
-  position: absolute; top: 0; bottom: 0; left: 0;
-  width: 601px; max-width: 62%;
-  background: linear-gradient(90deg, rgba(0,0,0,.62) 0%, rgba(0,0,0,.3) 48%, rgba(0,0,0,0) 100%);
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 182px;
+  background: linear-gradient(to bottom, rgba(0,0,0,.27), rgba(0,0,0,0));
   z-index: 1;
 }
 .hero-inhoud {
@@ -237,15 +231,21 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: clamp(96px, 12vw, 140px) clamp(24px, 3.75vw, 54px) clamp(28px, 4.3vw, 62px);
+  padding: 0 clamp(24px, 3.75vw, 54px) clamp(24px, 2.9vw, 42px);   /* Figma: tekst 54px van de kaderrand */
   color: var(--wit);
 }
 .hero-titel {
-  font-size: clamp(40px, 5.56vw, 80px);    /* Figma: 80px ExtraBold */
+  font-size: clamp(42px, 4.86vw, 70px);    /* Figma: 70px ExtraBold */
   font-weight: 800;
-  line-height: .99;                        /* Figma: 79.2px op 80px */
-  letter-spacing: -0.0231em;               /* Figma: -1.85px op 80px */
-  max-width: 649px;
+  line-height: 1;
+  letter-spacing: -0.0262em;               /* Figma: -1.84px op 70px */
+  max-width: 10em;
+}
+.hero-intro {
+  margin-top: 36px;                        /* Figma: intro 36px onder de titel */
+  font-size: clamp(15px, 1.25vw, 18px);
+  line-height: 1.556;                      /* Figma: 28px op 18px */
+  max-width: 581px;
 }
 
 /* Kruimelpad (Figma 168:300) — rechtsonder in het beeld, op de regelhoogte
@@ -270,64 +270,157 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
 .hero-kruimels a { transition: opacity .2s ease; }
 .hero-kruimels a:hover { text-decoration: underline; }
 .hero-kruimels li:has(a:hover) { opacity: 1; }
-/* Resultaatregel in het herokader (Figma 177:71) */
-.hero-resultaat {
-  display: flex; align-items: center;
-  gap: clamp(14px, 1.46vw, 21px);            /* Figma: 21px tussen pijl en tekst */
-  margin-top: clamp(14px, 1.7vw, 24px);
-  font-size: clamp(17px, 1.67vw, 24px);      /* Figma: 24px Regular */
-  line-height: 1.25;                         /* Figma: 30px op 24px */
+/* ==========================================================================
+   Intro tekst team (Figma 104:3) — 2 kolommen van 581px op 1440
+   ========================================================================== */
+.tekstblok {
+  padding: clamp(64px, 7.8vw, 112px) var(--marge-content) 0;
 }
-.hero-resultaat .pijl-knop {
-  width: clamp(46px, 4.37vw, 63px);          /* Figma: 62.9x62.9 */
-  height: clamp(46px, 4.37vw, 63px);
+.tekstblok .kolommen {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: clamp(20px, 1.74vw, 25px);
+  row-gap: 0;
+}
+.tekstblok h2 {
+  grid-column: 1 / -1;
+  font-size: clamp(26px, 2.92vw, 42px);   /* Figma: 42px ExtraBold */
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;                     /* Figma: tekst 16px onder de kop */
+}
+.tekstblok h3 {
+  grid-column: 1 / -1;
+  font-size: clamp(19px, 1.67vw, 24px);   /* Figma: 24px ExtraBold */
+  font-weight: 800;
+  line-height: 1.3;
+  margin-top: clamp(36px, 4vw, 57px);      /* Figma: 57px boven 'Wanna be loved?' */
+  margin-bottom: 16px;
+}
+.tekstblok p {
+  font-size: 16px;
+  line-height: 1.75;                       /* Figma: 28px op 16px */
+  max-width: 581px;
+}
+.tekstblok p.zwaar { font-weight: 600; }   /* Figma: eerste alinea SemiBold */
+
+/* Variant 'duo' (Figma 163:548): kop links (555px), tekst rechts (581px) */
+.tekstblok.duo h2 { grid-column: 1; align-self: start; margin-bottom: 0; }
+.tekstblok.duo p  { grid-column: 2; }
+
+
+/* ==========================================================================
+   Smalle contentkolom (Figma: blokken op x=228 t/m 1213 = 985px breed)
+   ========================================================================== */
+.smal {
+  width: min(985px, 100% - (2 * var(--marge-content)));
+  margin-inline: auto;
 }
 
 /* ==========================================================================
-   Case-info (Figma 179:x) — geel vlak. Links de kenmerken (303px), rechts het
-   verhaal en de disciplines (682px), met 202px ertussen.
+   Vol beeld (Figma 173:254) — 1404x581 binnen de beeldmarge van 18px
    ========================================================================== */
-.case-info {
-  background: var(--geel-case);
-  padding: clamp(56px, 7vw, 101px) var(--marge-content) clamp(64px, 6.9vw, 99px);
+.beeld-vol { padding: clamp(48px, 6.7vw, 97px) var(--marge-beeld) 0; }
+.beeld-vol figure {
+  position: relative;
+  aspect-ratio: 1404 / 581;                 /* Figma: 1404x581 */
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #f2f2f2;
 }
-.case-info .kolommen {
-  display: grid;
-  grid-template-columns: 303fr 682fr;        /* Figma: 303 en 682 */
-  column-gap: clamp(32px, 14vw, 202px);      /* Figma: 632 - 430 = 202px */
-  align-items: start;
+.beeld-vol img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
 }
 
-/* Kenmerken: label klein, waarde groot */
-.case-kenmerken dt {
-  font-size: 15px; font-weight: 800;         /* Figma: 15px ExtraBold */
-  line-height: 1.33;
+/* ==========================================================================
+   Quote (Figma 175:286 / 175:287) — 878px breed, gecentreerd, 42px ExtraBold
+   ========================================================================== */
+.quote { padding: clamp(56px, 8.2vw, 118px) var(--marge-content) 0; }
+.quote blockquote {
+  max-width: 878px;                         /* Figma: 878px */
+  margin-inline: auto;
+  text-align: center;
 }
-.case-kenmerken dd {
-  margin: 9px 0 0;                           /* Figma: waarde 9px onder het label */
-  font-size: clamp(22px, 1.94vw, 28px);      /* Figma: 28px Bold */
-  font-weight: 700;
-  line-height: 1.072;                        /* Figma: 30px op 28px */
-}
-.case-kenmerken dd + dt { margin-top: clamp(34px, 4.7vw, 68px); }
-.case-kenmerken .tags { line-height: 1.5; }  /* Figma: 42px op 28px */
-
-/* Verhaal + disciplines */
-.case-verhaal > p { font-size: 16px; line-height: 1.75; }   /* Figma: 28px op 16px */
-.case-disciplines { margin-top: clamp(28px, 3.1vw, 44px); }
-.case-disciplines .rij {
-  display: grid;
-  grid-template-columns: 202fr 480fr;        /* Figma: kop op x=630, tekst op x=834 */
-  align-items: start;
-}
-.case-disciplines .rij + .rij { margin-top: clamp(26px, 3vw, 43px); }
-.case-disciplines h2 {
-  font-size: clamp(22px, 1.94vw, 28px);      /* Figma: 28px ExtraBold */
+.quote blockquote p {
+  font-size: clamp(26px, 2.92vw, 42px);     /* Figma: 42px ExtraBold */
   font-weight: 800;
-  line-height: 1;
-  padding-right: 16px;
+  line-height: 1.386;                       /* Figma: 58.2px op 42px */
+  letter-spacing: -0.01em;
 }
-.case-disciplines p { font-size: 16px; line-height: 1.75; }
+.quote blockquote cite {
+  display: block;
+  margin-top: clamp(28px, 4.7vw, 67px);     /* Figma: 67px onder de quote */
+  font-style: normal;
+  font-size: 17px; font-weight: 400;        /* Figma: 17px Regular */
+  line-height: 1.7;
+}
+
+/* ==========================================================================
+   Tekst + staand beeld (Figma 173:262 / 173:274)
+   Tekst 437px links, beeld 476px rechts, 71px ertussen. De contactregel staat
+   onderaan de kolom, gelijk met de onderkant van het beeld.
+   ========================================================================== */
+.tekst-beeld { padding: clamp(56px, 6.7vw, 97px) 0 0; }
+.tekst-beeld .kolommen {
+  display: grid;
+  grid-template-columns: 437fr 476fr;       /* Figma: 437 en 476 */
+  column-gap: clamp(28px, 4.9vw, 71px);     /* Figma: 736 - 665 = 71px */
+  align-items: stretch;
+}
+.tekst-beeld .tekst {
+  display: flex;
+  flex-direction: column;
+  padding-top: clamp(0px, 1.8vw, 26px);     /* Figma: kop 26px onder de beeldbovenkant */
+  padding-bottom: clamp(0px, 1.8vw, 26px);  /* zelfde marge onderaan: knop 26px boven de beeldonderkant */
+}
+.tekst-beeld h2 {
+  font-size: clamp(22px, 1.94vw, 28px);     /* Figma: 28px Bold */
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 24px;                      /* Figma: tekst 24px onder de kop */
+}
+.tekst-beeld p {
+  font-size: 16px;
+  line-height: 1.75;                        /* Figma: 28px op 16px */
+}
+.tekst-beeld p + p { margin-top: 28px; }
+.tekst-beeld figure {
+  position: relative;
+  aspect-ratio: 476 / 599;                  /* Figma: 476x599 */
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #f2f2f2;
+}
+.tekst-beeld figure img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* Contactregel onder de tekstkolom (Figma 173:275/173:276) */
+.blok-cta {
+  display: inline-flex; align-items: center; gap: clamp(14px, 1.3vw, 19px);
+  align-self: flex-start;
+  margin-top: auto;
+  padding-top: clamp(32px, 5vw, 72px);
+  font-size: 18px; font-weight: 700;        /* Figma: 18px Bold */
+  line-height: 1.33;                        /* Figma: 24px op 18px */
+  max-width: 410px;
+}
+.blok-cta .pijl-knop { width: clamp(44px, 3.8vw, 55px); height: clamp(44px, 3.8vw, 55px); }  /* Figma: 55x55 */
+.blok-cta:hover { text-decoration: none; }
+.blok-cta:hover .pijl-svg { transform: rotate(45deg); }
+
+/* Scheidingslijn (Figma 173:256) — 983px, gecentreerd */
+.scheiding-lijn {
+  height: 1px;
+  background: var(--zwart);
+  margin: clamp(32px, 3.1vw, 44px) auto 0;  /* Figma: 44px onder het beeld */
+  border: 0;
+}
 
 
 /* Pijlknoppen — gedeelde basis (Figma: cirkel 47px, draait 45deg bij hover) */
@@ -337,8 +430,195 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   display: grid; place-items: center;
 }
 .pijl-svg { width: 100%; height: 100%; display: block; transition: transform .25s ease; }
-.footer a:hover .pijl-svg { transform: rotate(45deg); }
+.strat-tegel:hover .pijl-svg,
+.more-cases:hover .pijl-svg,
+.case-blok:hover .case-resultaat .pijl-svg { transform: rotate(45deg); }
 
+
+/* ==========================================================================
+   Strategie-tegels (Figma 163:555 e.v.) — witte kaarten met zwarte rand,
+   drie onafhankelijke kolommen van 456px met 18px tussenruimte. De 'Vertel me
+   meer'-regel schuift open bij hover; alleen de tegel eronder in dezelfde
+   kolom schuift mee, de andere kolommen blijven staan. De roze tegel toont
+   de regel altijd.
+   ========================================================================== */
+.strategie-tegels { padding: clamp(56px, 6.3vw, 91px) var(--marge-beeld) 0; }
+.strat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--marge-beeld);
+  align-items: start;
+}
+.strat-kolom {
+  display: flex;
+  flex-direction: column;
+  gap: var(--marge-beeld);
+}
+.strat-tegel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 234px;                       /* Figma: rust-hoogte */
+  background: var(--wit);
+  color: var(--zwart);
+  border: 1px solid var(--zwart);
+  border-radius: var(--radius);
+  padding: 42px clamp(24px, 2.5vw, 36px) 26px;   /* Figma: titel op 42 van boven */
+  overflow: hidden;
+}
+.strat-tegel h2 {
+  font-size: clamp(24px, 2.22vw, 32px);    /* Figma: 32px ExtraBold */
+  font-weight: 800;
+  line-height: 1.344;                      /* Figma: 43px op 32px */
+  letter-spacing: -0.013em;                /* Figma: -0.42px op 32px */
+}
+.strat-tegel .tegel-tekst {
+  margin-top: 22px;                        /* Figma: tekst op 100 van boven */
+  max-width: 384px;                        /* Figma: 383px */
+  font-size: 16px;
+  line-height: 1.75;                       /* Figma: 28px op 16px */
+  display: -webkit-box;                    /* Figma: maximaal 3 regels */
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
+.strat-knop {
+  display: flex; align-items: center; gap: 20px;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 12px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height .4s cubic-bezier(.22,.61,.36,1), opacity .3s ease, padding-top .4s cubic-bezier(.22,.61,.36,1);
+}
+.strat-tegel:hover .strat-knop,
+.strat-tegel:focus-visible .strat-knop {
+  max-height: 59px;                        /* Figma: 234 -> 276 = +42px */
+  opacity: 1;
+  transition: max-height .4s cubic-bezier(.22,.61,.36,1), opacity .3s ease .12s, padding-top .4s cubic-bezier(.22,.61,.36,1);
+}
+.strat-knop .label { font-size: 18px; font-weight: 800; white-space: nowrap; }  /* Figma: 18px ExtraBold */
+.strat-knop .lijn { flex: 1; height: 1.5px; background: currentColor; }
+.strat-knop .pijl-knop { color: currentColor; }
+
+/* Uitgelichte tegel (Figma 164:792) — roze vlak, tekst wit, knop altijd zichtbaar */
+.strat-tegel.uitgelicht {
+  min-height: 296px;
+  padding-top: 37px;
+  background: var(--roze);
+  border-color: var(--roze);
+  color: var(--wit);
+}
+.strat-tegel.uitgelicht h2 {
+  font-size: clamp(22px, 1.94vw, 28px);    /* Figma: 28px ExtraBold */
+  line-height: 1.214;                      /* Figma: 34px op 28px */
+  letter-spacing: -0.015em;
+  max-width: 352px;                        /* Figma: 351px */
+}
+.strat-tegel.uitgelicht .tegel-tekst { margin-top: 24px; }
+.strat-tegel.uitgelicht .strat-knop { max-height: 59px; opacity: 1; }
+
+/* Zonder hover (touch) staan alle knoppen open */
+@media (hover: none) {
+  .strat-knop { max-height: 59px; opacity: 1; }
+}
+
+/* ==========================================================================
+   Uitgelichte cases (Figma 164:811) — halve caseblokken (690x472) met
+   video-hover. Zelfde layout als het partnerblok op de teampagina.
+   ========================================================================== */
+.uitgelichte-cases { padding: clamp(64px, 6.5vw, 93px) var(--marge-beeld) 0; }
+.uitgelichte-cases .sectie-kop { margin-bottom: clamp(20px, 2.4vw, 35px); }
+.case-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(18px, 1.67vw, 24px);          /* Figma: 24px tussen de blokken */
+}
+.case-blok {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 690 / 472;
+  background: #000;                        /* achtergrond zolang het beeld laadt */
+  display: block;
+  color: var(--wit);
+}
+.case-blok > img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform .6s ease;
+}
+.case-blok:hover > img { transform: scale(1.03); }
+.case-blok::before {
+  /* Overlay verloop (links) — Figma: zwart → transparant, multiply 38% */
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,.12) 42%, rgba(0,0,0,0) 60%);
+  z-index: 1;
+}
+.case-inhoud {
+  position: absolute; inset: 0;
+  z-index: 2;
+  display: flex; flex-direction: column;
+  padding: clamp(20px, 2.5vw, 33px) clamp(20px, 2.5vw, 36px) clamp(20px, 2.5vw, 36px);
+}
+.case-eyebrow {
+  font-size: clamp(14px, 1.25vw, 18px);    /* Figma: 18px ExtraBold */
+  font-weight: 800;
+  letter-spacing: .02em;
+}
+.case-titel {
+  margin-top: auto;
+  width: fit-content;
+  font-size: clamp(24px, 2.92vw, 42px);    /* Figma: 42px ExtraBold */
+  font-weight: 800;
+  line-height: 1;                          /* Figma: 42px op 42px */
+  letter-spacing: -0.01em;
+  max-width: 452px;
+}
+.case-resultaat {
+  display: flex; align-items: center;
+  gap: clamp(12px, 1.3vw, 19px);           /* Figma: 19px tussen pijl en tekst */
+  margin-top: clamp(10px, 1.2vw, 17px);    /* Figma: 17px onder de titel */
+  font-size: clamp(14px, 1.25vw, 18px);    /* Figma: 18px */
+  line-height: 1.33;                       /* Figma: 24px op 18px */
+  max-width: 26em;
+}
+.case-resultaat .pijl-knop { width: clamp(40px, 3.8vw, 55px); height: clamp(40px, 3.8vw, 55px); }  /* Figma: 55x55 */
+
+/* Video-hover laag (zelfde mechaniek als de homepage) */
+.blok-video {
+  position: absolute; inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  container-type: size;
+  opacity: 0;
+  transition: opacity .5s ease;
+  pointer-events: none;
+}
+.blok-video.zichtbaar { opacity: 1; }
+.blok-video iframe {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  border: 0;
+  width: max(100cqw, calc(100cqh * 1.7778));
+  height: max(100cqh, calc(100cqw * 0.5625));
+}
+
+/* Moooooooore cases (Figma 164:909) — 985px breed, gecentreerd */
+.more-cases {
+  display: flex; align-items: center; gap: 24px;
+  padding: clamp(20px, 2.9vw, 42px) 0 clamp(56px, 6.2vw, 89px);
+  max-width: 985px;
+  margin: 0 auto;
+}
+.more-cases .label { font-size: 18px; font-weight: 400; white-space: nowrap; }  /* Poppins Regular */
+.more-cases .lijn { flex: 1; height: 1px; background: var(--zwart); }
+.more-cases .pijl-knop { width: 45px; height: 45px; color: var(--zwart); }      /* Figma: 45x45 */
+.more-cases:hover { text-decoration: none; }
 
 /* ==========================================================================
    Footer (Figma 4:830)
@@ -543,6 +823,11 @@ body.menu-open { overflow: hidden; }
 /* ==========================================================================
    Responsive
    ========================================================================== */
+@media (max-width: 1180px) {
+  /* Vaste Figma-rijhoogtes loslaten zodra de kolommen te smal worden */
+  .strat-grid { grid-template-rows: auto; }
+  .strat-tegel, .strat-tegel.uitgelicht { min-height: 0; }
+}
 @media (max-width: 1024px) {
   /* Kruimelpad past niet meer naast de intro: boven de titel, links */
   .hero-kruimels {
@@ -553,15 +838,24 @@ body.menu-open { overflow: hidden; }
   }
   .hero-kruimels ol { flex-wrap: wrap; gap: 8px; }
 
+  /* Twee kolommen: de kolomwikkels vervallen zodat de tegels netjes doorlopen */
+  .strat-grid { grid-template-columns: repeat(2, 1fr); }
+  .strat-kolom { display: contents; }
   .footer-kolommen { grid-template-columns: 1fr 1fr; }
   .menu-binnen { grid-template-columns: 1fr 1fr; }
 }
-@media (max-width: 900px) {
-  /* Kenmerken en verhaal onder elkaar */
-  .case-info .kolommen { grid-template-columns: 1fr; row-gap: clamp(36px, 6vw, 56px); }
-}
 @media (max-width: 820px) {
-  .hero-kader::before { max-width: 100%; }
+  /* Kader wordt te laag als de verhouding wordt aangehouden: vaste hoogte */
+  .hero-kader { aspect-ratio: auto; height: min(560px, 78svh); }
+  .case-grid { grid-template-columns: 1fr; }
+  .case-blok { aspect-ratio: 690 / 500; }
+
+  /* Tekst en staand beeld onder elkaar; het beeld houdt zijn verhouding */
+  .tekst-beeld .kolommen { grid-template-columns: 1fr; row-gap: clamp(28px, 5vw, 44px); }
+  .tekst-beeld .tekst { padding-top: 0; padding-bottom: 0; }
+  .blok-cta { margin-top: 0; }
+  .tekst-beeld figure { max-width: 476px; margin-inline: auto; width: 100%; }
+  .beeld-vol figure { aspect-ratio: 4 / 3; }
 }
 @media (max-width: 680px) {
   :root { --marge-beeld: 10px; }
@@ -572,11 +866,12 @@ body.menu-open { overflow: hidden; }
   .taalswitch { display: none; }
   body.menu-open .taalswitch { display: flex; position: absolute; top: 24px; left: 10px; }
 
-  .hero-scroll { height: 170vh; }          /* mobiel: lichter, kortere pin */
-  .hero-kader { top: calc(var(--p) * 10px); bottom: calc(var(--p) * 10px); }
-  .hero-inhoud { padding: 88px 23px 31px; }
-  .hero-titel { font-size: clamp(36px, 10.8vw, 48px); }
-  .hero-resultaat br { display: none; }
+  .hero-inhoud { padding: 0 23px 31px; }
+  .hero-titel { font-size: clamp(36px, 9.6vw, 42px); }
+  .hero-intro { margin-top: 20px; }
+
+  .strat-grid { grid-template-columns: 1fr; }
+  .more-cases .label { font-size: 15px; }
 
   .footer-kolommen { grid-template-columns: 1fr; }
   .menu-binnen { grid-template-columns: 1fr; padding-top: 110px; }
@@ -586,22 +881,23 @@ body.menu-open { overflow: hidden; }
   .nieuwsbrief { max-width: none; }
   .footer-onder .more-cases-klein { font-size: 16px; }
 
-  /* Discipline: kop boven de tekst */
-  .case-disciplines .rij { grid-template-columns: 1fr; row-gap: 10px; }
-  .case-disciplines h2 { padding-right: 0; }
+  .blok-cta br { display: none; }          /* laat de regel zelf afbreken */
+
+  .tekstblok .kolommen { grid-template-columns: 1fr; }
+  .tekstblok.duo h2 { grid-column: 1; margin-bottom: 16px; }
+  .tekstblok.duo p  { grid-column: 1; }   /* 1 kolom: geen impliciete tweede kolom */
 }
 
 /* Reduced motion: animaties uit */
 @media (prefers-reduced-motion: reduce) {
   .logo, .header-knoppen { opacity: 1 !important; transform: none !important; }
   html { scroll-behavior: auto; }
-  .hero-scroll { height: 100svh; }
-  .hero-kader { top: 18px; bottom: 18px; left: var(--marge-beeld); right: var(--marge-beeld); border-radius: var(--radius); }
+  .blok-video { display: none; }
   * { transition-duration: .01ms !important; }
 }
 </style>
 </head>
-<body data-case-slug="{{SLUG}}">
+<body data-dienst-slug="brand-positionering">
 <!-- Inline SVG-symbolen (logo, pijlen, dienst-iconen, contact-iconen) -->
 <svg width="0" height="0" style="position:absolute" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 <symbol id="svg-logo" viewBox="0 0 230 36"><path fill-rule="evenodd" clip-rule="evenodd" d="M82.853 0C79.7082 0 76.8928 1.45241 75.0274 3.72752C73.1631 1.45241 70.3476 0 67.2029 0C61.601 0 57.043 4.60777 57.043 10.2696V24.6843H61.7115V10.2696C61.7115 7.20903 64.1742 4.7195 67.2029 4.7195C70.2304 4.7195 72.6942 7.20903 72.6942 10.2696V24.7429H77.3617V10.2696C77.3617 7.20903 79.8254 4.7195 82.853 4.7195C85.8805 4.7195 88.3443 7.20903 88.3443 10.2696V24.7429H93.0118V10.2696C93.0118 4.60777 88.4548 0 82.853 0Z" fill="currentColor"/>
@@ -688,8 +984,8 @@ body.menu-open { overflow: hidden; }
       <span class="hamburger" aria-hidden="true"><span></span><span></span></span>
     </button>
     <div class="taalswitch" data-taal="nl" role="group" aria-label="Taalkeuze">
-      <button type="button" data-kies="en">EN</button>
-      <button type="button" data-kies="nl" class="actief">NL</button>
+      <a href="en/brand-positioning.html" hreflang="en">EN</a>
+      <a href="brand-positionering.html" hreflang="nl" class="actief">NL</a>
     </div>
   </div>
 </header>
@@ -709,9 +1005,9 @@ body.menu-open { overflow: hidden; }
             <ul class="menu-sub-lijst">
             <li><a href="strategy.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Strategie overzicht</a></li>
             <li><a href="merk-strategie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Merk strategie</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Marketing strategie</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Social strategie</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Creatieve strategie</a></li>
+            <li><a href="marketing-strategie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Marketing strategie</a></li>
+            <li><a href="social-strategie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Social strategie</a></li>
+            <li><a href="creatieve-strategie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Creatieve strategie</a></li>
             </ul>
           </div></div>
         </li>
@@ -720,10 +1016,10 @@ body.menu-open { overflow: hidden; }
           <div class="menu-sub-wrap" id="menu-sub-branding"><div class="menu-sub">
             <ul class="menu-sub-lijst">
             <li><a href="branding.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Branding overzicht</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Employer branding</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Corporate identity</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Brand positionering</a></li>
-            <li><a href="branding.html#campagne-design"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Campagne design</a></li>
+            <li><a href="employer-branding.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Employer branding</a></li>
+            <li><a href="corporate-identity.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Corporate identity</a></li>
+            <li><a href="brand-positionering.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Brand positionering</a></li>
+            <li><a href="campagne-design.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Campagne design</a></li>
             </ul>
           </div></div>
         </li>
@@ -732,9 +1028,10 @@ body.menu-open { overflow: hidden; }
           <div class="menu-sub-wrap" id="menu-sub-activation"><div class="menu-sub">
             <ul class="menu-sub-lijst">
             <li><a href="activatie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Activatie overzicht</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Customer experience</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Content productie</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Events</a></li>
+            <li><a href="customer-experience.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Customer experience</a></li>
+            <li><a href="content-productie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Content productie</a></li>
+            <li><a href="events.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Events</a></li>
+            <li><a href="digitale-transformatie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Digitale transformatie</a></li>
             </ul>
           </div></div>
         </li>
@@ -789,65 +1086,106 @@ body.menu-open { overflow: hidden; }
 </nav>
 
 <main>
-<!-- ============================================================ HERO (Figma 176:15)
-     Sticky pin zoals op de homepage: het kader krimpt tijdens het scrollen van
-     fullscreen naar geboxed en het geel komt in de marges tevoorschijn.
-     Verloop van links, eyebrow boven, titel en resultaat onder, kruimelpad
+<!-- ============================================================ HERO (Figma 172:15)
+     Beeld 1404x620 binnen een marge van 18px. Titel linksonder, kruimelpad
      rechtsonder. -->
-<section class="hero-scroll" id="hero-scroll" aria-label="{{KLANT}}">
-  <div class="hero-sticky">
-    <div class="hero-kader">
+<section class="hero" id="hero" aria-label="Brand positionering">
+  <div class="hero-kader">
     <div class="hero-video">
-      <img loading="eager" decoding="async" src="{{HERO_BEELD}}" alt="{{HERO_ALT}}">
-{{HERO_VIDEO}}
+      <img loading="eager" decoding="async" src="images/diensten/brand-positionering-header.webp" alt="Brand positionering">
     </div>
     <div class="hero-inhoud">
       <nav class="hero-kruimels" aria-label="Kruimelpad">
         <ol>
           <li><a href="index.html">Home</a></li>
           <li class="scheiding" aria-hidden="true">&mdash;</li>
-          <li><a href="cases.html">Cases</a></li>
+          <li><a href="index.html#diensten">Wat wij doen</a></li>
           <li class="scheiding" aria-hidden="true">&mdash;</li>
-          <li><span aria-current="page">{{KLANT}}</span></li>
+          <li><a href="branding.html">Branding</a></li>
+          <li class="scheiding" aria-hidden="true">&mdash;</li>
+          <li><span aria-current="page">Brand positionering</span></li>
         </ol>
       </nav>
-      <h1 class="hero-titel">{{HERO_TITEL}}</h1>
-      <p class="hero-resultaat">
-        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
-        <span>{{HERO_RESULTAAT}}</span>
-      </p>
-      </div>
+      <h1 class="hero-titel">Brand positionering</h1>
     </div>
   </div>
 </section>
 
-<!-- ============================================================ CASE-INFO (Figma 177:80 e.v.) -->
-<section class="case-info">
+<!-- ============================================================ INTRO TEKST (Figma 172:133) -->
+<section class="tekstblok duo">
   <div class="kolommen">
-
-    <!-- Kenmerken -->
-    <dl class="case-kenmerken">
-{{KENMERKEN}}
-    </dl>
-
-    <!-- Verhaal + disciplines -->
-    <div class="case-verhaal">
-      <p>{{VERHAAL}}</p>
-
-      <div class="case-disciplines">
-{{DISCIPLINES}}
-      </div>
-    </div>
-
+    <h2>Brand positionering</h2>
+    <p>Wees onderscheidend en verover de harten van je doelgroep. Wij zijn gespecialiseerd in strategische merkpositionering, waarbij we jouw unieke plek in de markt definiëren.</p>
   </div>
+</section>
+
+<!-- ============================================================ VOL BEELD -->
+<section class="beeld-vol" aria-label="Brand positionering">
+  <figure>
+    <img loading="lazy" decoding="async" src="images/diensten/brand-positionering-breed.webp" alt="Brand positionering">
+  </figure>
+</section>
+
+<!-- geen quote ingesteld in het CMS -->
+
+<!-- ============================================================ TEKST + STAAND BEELD (Figma 173:262 / 173:274) -->
+<section class="tekst-beeld">
+  <div class="smal kolommen">
+    <div class="tekst">
+      <h2>Onderscheidend in een volle markt</h2>
+      <p>Wees onderscheidend en verover de harten van je doelgroep. Wij definiëren jouw unieke plek in de markt en zorgen dat je opvalt tussen de concurrentie.</p>
+      <p>Met insights en scherpe messaging bepalen we hoe de wereld jouw merk ziet. Die positionering is het fundament onder alles wat je daarna maakt en zegt.</p>
+      <a class="blok-cta" href="contact.html">
+        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+        <span>Wil je meer weten? Neem<br>contact op met ons brandingteam!</span>
+      </a>
+    </div>
+    <figure>
+      <img loading="lazy" decoding="async" src="images/diensten/brand-positionering-staand.webp" alt="Brand positionering">
+    </figure>
+  </div>
+  <hr class="scheiding-lijn smal">
+</section>
+
+<!-- ============================================================ UITGELICHTE CASES (Figma 164:811)
+     Layout overgenomen van het partnerblok op de teampagina, nu gevuld met cases. -->
+<section class="uitgelichte-cases" id="cases">
+  <h2 class="sectie-kop">Brand positionering in actie: succesverhalen.</h2>
+  <div class="case-grid">
+    <a class="case-blok" href="case-tdff.html" data-video="1208112683">
+      <img loading="lazy" decoding="async" src="images/cases/tour.webp" alt="Wielrenners rijden door Rotterdam tijdens de Tour de France Femmes">
+      <div class="case-inhoud">
+        <span class="case-eyebrow">Tour de France Femmes</span>
+        <h3 class="case-titel">Rotterdam<br>kleurt geel.</h3>
+        <p class="case-resultaat">
+          <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+          <span>415.000+ bezoekers voor dit iconisch wielerevent.</span>
+        </p>
+      </div>
+    </a>
+    <a class="case-blok" href="case-jun-markl-cvr.html" data-video="1035168613">
+      <img loading="lazy" decoding="async" src="images/cases/jun.webp" alt="Dirigent Jun Märkl in actie">
+      <div class="case-inhoud">
+        <span class="case-eyebrow">Jun Märkl &amp; CVR</span>
+        <h3 class="case-titel">Een wereldberoemde<br>dirigent</h3>
+        <p class="case-resultaat">
+          <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+          <span>Internationale samenwerking tussen CVR (US) en Campagne (NL) via AMIN Worldwide.</span>
+        </p>
+      </div>
+    </a>
+  </div>
+  <a class="more-cases" href="cases.html">
+    <span class="label">Moooooooore cases</span>
+    <span class="lijn" aria-hidden="true"></span>
+    <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+  </a>
 </section>
 
 <!-- ============================================================ EIGEN INHOUD
-     Alles tussen de twee markers hieronder is van jou. De generator laat dit
-     ONGEMOEID bij het opnieuw aanmaken van deze pagina, dus voeg hier gerust
-     eigen HTML toe onder de vouw. Verwijder de markers niet. -->
+     Alles tussen de markers hieronder blijft van jou; de generator raakt het niet aan. -->
 <!-- CAMPAGNE:EIGEN-INHOUD-START -->
-{{EIGEN_INHOUD}}
+
 <!-- CAMPAGNE:EIGEN-INHOUD-EINDE -->
 
 <!-- ============================================================ FOOTER -->
@@ -901,7 +1239,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Nette placeholder als een afbeelding ontbreekt
 function beeldMist(img) {
-  var ouder = img.closest('.hero-video');
+  var ouder = img.closest('.case-blok, .hero-video, .beeld-vol figure, .tekst-beeld figure');
   if (ouder) {
     ouder.classList.add('beeld-mist');
     if (!ouder.hasAttribute('data-label')) {
@@ -948,75 +1286,101 @@ document.querySelectorAll('.taalswitch button').forEach(function (b) {
   });
 });
 
-// Hero scroll-animatie: --p (0..1) over de sectie; het kader en de tekst hangen
-// in CSS direct aan --p. Zelfde mechaniek als de homepage.
-var heroScroll = document.getElementById('hero-scroll');
-function heroProgressie() {
-  if (!heroScroll) return;
-  var top = heroScroll.offsetTop;
-  var totaal = heroScroll.offsetHeight - window.innerHeight;
-  var p = totaal > 0 ? Math.min(Math.max((window.scrollY - top) / totaal, 0), 1) : 0;
-  heroScroll.style.setProperty('--p', p.toFixed(4));
-}
-window.addEventListener('scroll', heroProgressie, { passive: true });
-window.addEventListener('resize', heroProgressie);
-heroProgressie();
-
-// Header-gedrag in drie zones (overgenomen van de homepage):
-// 1. In de hero-pin: transparante header, altijd zichtbaar.
-// 2. Net voorbij de pin: de herotitel duwt de header 1:1 het beeld uit.
-// 3. Voorbij de hero: verborgen bij omlaag scrollen; pas bij omhoog scrollen
-//    verschijnt de losse balk mét achtergrond.
+// Header-gedrag in twee zones: boven de hero transparant, daarna verschijnt de
+// balk bij omhoog scrollen en schuift hij weg bij omlaag scrollen.
 (function () {
   var header = document.querySelector('.header');
-  var heroTitel = document.querySelector('.hero-titel');
+  var hero = document.querySelector('.hero');
   var vorigeY = window.scrollY;
-  var duwActief = true;   // false = header "losgelaten" na omhoog scrollen vanaf beneden
   function bijScroll() {
     var y = window.scrollY;
     var omhoog = y < vorigeY - 2;
     var omlaag = y > vorigeY + 2;
     vorigeY = y;
     if (document.body.classList.contains('menu-open')) return;
-    var heroEinde = heroScroll ? heroScroll.offsetTop + heroScroll.offsetHeight - window.innerHeight : 0;
-    var heroWeg = heroScroll ? y >= heroScroll.offsetTop + heroScroll.offsetHeight : y > 60;
-    if (y <= heroEinde) {
-      // Zone 1: hero-header
-      duwActief = true;
-      header.classList.remove('scrolled', 'verborgen', 'duwt');
-      header.style.transform = '';
-    } else if (!heroWeg) {
-      // Zone 2: duwzone
+    var heroWeg = hero ? y >= hero.offsetTop + hero.offsetHeight - 80 : y > 60;
+    if (!heroWeg) {
+      header.classList.remove('scrolled', 'verborgen');
+    } else if (omhoog) {
+      header.classList.add('scrolled');
       header.classList.remove('verborgen');
-      if (header.classList.contains('scrolled')) {
-        // Van beneden omhoog de hero in: alleen de balk-achtergrond uitfaden.
-        header.classList.remove('scrolled');
-        duwActief = false;
-      }
-      var titelTop = heroTitel ? heroTitel.getBoundingClientRect().top : 0;
-      var hoogte = header.offsetHeight || 100;
-      if (!duwActief && titelTop > hoogte + 10) duwActief = true;
-      header.classList.add('duwt');
-      header.style.transform = duwActief
-        ? 'translateY(' + Math.min(0, titelTop - hoogte).toFixed(1) + 'px)'
-        : '';
-    } else {
-      // Zone 3: voorbij de hero
-      duwActief = true;
-      header.classList.remove('duwt');
-      header.style.transform = '';
-      if (omhoog) {
-        header.classList.add('scrolled');
-        header.classList.remove('verborgen');
-      } else if (omlaag || !header.classList.contains('scrolled')) {
-        header.classList.add('verborgen');
-      }
+    } else if (omlaag || !header.classList.contains('scrolled')) {
+      header.classList.add('verborgen');
     }
   }
   window.addEventListener('scroll', bijScroll, { passive: true });
   window.addEventListener('resize', bijScroll);
   bijScroll();
 })();
+
+// Video-hover op de caseblokken (zelfde mechaniek als de homepage; hier is
+// het hele blok de trigger). Preload gespreid na het laden van de pagina.
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+    window.matchMedia('(hover: hover)').matches) {
+  (function () {
+    function vimeoCommando(f, methode) {
+      try {
+        f.contentWindow.postMessage(JSON.stringify({ method: methode }), 'https://player.vimeo.com');
+      } catch (e) { /* player nog niet klaar */ }
+    }
+    var preloaders = [];
+    document.querySelectorAll('[data-video]').forEach(function (blok) {
+      var laag = null, frame = null, geladen = false, wegTimer = null, hovert = false;
+      function maakFrame() {
+        if (laag) return;
+        laag = document.createElement('div');
+        laag.className = 'blok-video';
+        frame = document.createElement('iframe');
+        frame.src = 'https://player.vimeo.com/video/' + blok.getAttribute('data-video') +
+          '?background=1&autoplay=1&muted=1&loop=1&autopause=0&title=0&byline=0&portrait=0&badge=0';
+        frame.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; encrypted-media');
+        frame.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+        frame.setAttribute('aria-hidden', 'true');
+        frame.tabIndex = -1;
+        frame.addEventListener('load', function () {
+          geladen = true;
+          if (hovert) {
+            vimeoCommando(frame, 'play');
+            if (laag) requestAnimationFrame(function () { if (laag) laag.classList.add('zichtbaar'); });
+          } else {
+            vimeoCommando(frame, 'pause');
+            setTimeout(function () { if (!hovert) vimeoCommando(frame, 'pause'); }, 500);
+            setTimeout(function () { if (!hovert) vimeoCommando(frame, 'pause'); }, 1500);
+          }
+        });
+        laag.appendChild(frame);
+        blok.appendChild(laag);
+      }
+      function speel() {
+        hovert = true;
+        clearTimeout(wegTimer);
+        maakFrame();
+        laag.classList.add('zichtbaar');
+        if (geladen) {
+          vimeoCommando(frame, 'play');
+          setTimeout(function () { if (hovert) vimeoCommando(frame, 'play'); }, 250);
+        }
+      }
+      function stop() {
+        hovert = false;
+        if (!laag) return;
+        laag.classList.remove('zichtbaar');
+        wegTimer = setTimeout(function () {
+          if (frame && geladen) vimeoCommando(frame, 'pause');
+        }, 550);
+      }
+      blok.addEventListener('mouseenter', speel);
+      blok.addEventListener('mouseleave', stop);
+      preloaders.push(maakFrame);
+    });
+    function startPreload() {
+      preloaders.forEach(function (laad, i) { setTimeout(laad, 600 + i * 350); });
+    }
+    if (document.readyState === 'complete') startPreload();
+    else window.addEventListener('load', startPreload);
+  })();
+}
+
 
 // Uitklapmenu: alles staat dicht bij openen; er kan er maar één tegelijk open zijn
 (function () {

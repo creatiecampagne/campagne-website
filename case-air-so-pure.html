@@ -5,8 +5,19 @@
      Bewerk alleen het blok tussen de EIGEN-INHOUD-markers; de rest wordt overschreven. -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="images/campagne-icon.svg" type="image/svg+xml">
+<!-- Deelkaart (Open Graph): wat WhatsApp, LinkedIn en Slack tonen bij een link.
+     Wordt automatisch gevuld door tools/genereer-paginas.py. -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Campagne">
+<meta property="og:locale" content="nl_NL">
+<meta property="og:title" content="Air So Pure">
+<meta property="og:description" content="Air So Pure, marktleider in luchtzuiverende planten, herpositioneerde haar merk voor de B2B-markt met welzijn als kern.">
+<meta property="og:url" content="https://creatiecampagne.github.io/campagne-website/case-air-so-pure.html">
+<meta property="og:image" content="https://creatiecampagne.github.io/campagne-website/images/cases/asp.webp">
+<meta name="twitter:card" content="summary_large_image">
 <title>Air So Pure &mdash; Campagne</title>
-<meta name="description" content="Nieuwe positionering voor marktleider in luchtzuiverende planten.">
+<meta name="description" content="Air So Pure, marktleider in luchtzuiverende planten, herpositioneerde haar merk voor de B2B-markt met welzijn als kern.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://player.vimeo.com">
 <link rel="preconnect" href="https://i.vimeocdn.com">
@@ -142,15 +153,20 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   height: 36px; border-radius: 19px;
   padding: 3px;
 }
-.taalswitch button {
+.taalswitch button,
+.taalswitch a {                     /* op gegenereerde pagina's zijn het echte links */
   position: relative; z-index: 1;
+  display: grid; place-items: center;
   width: 32px; height: 30px;
   font-size: 14px; font-weight: 500;
   color: var(--zwart);
+  text-decoration: none;
   border-radius: 15px;
   transition: color .2s ease;
 }
-.taalswitch button.actief { color: var(--wit); }
+.taalswitch button.actief,
+.taalswitch a.actief { color: var(--wit); }
+.taalswitch a:hover { text-decoration: none; }
 .taalswitch::before {
   content: '';
   position: absolute;
@@ -208,6 +224,12 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   width: max(100cqw, calc(100cqh * 1.7778));
   height: max(100cqh, calc(100cqw * 0.5625));
 }
+
+/* Hero-video: het stilstaande beeld blijft staan tot de video echt speelt.
+   Zonder dit zie je bij het wisselen van pagina een zwart kader terwijl de
+   Vimeo-player nog laadt. De iframe vervangt het beeld pas als er beeld is. */
+.hero-video iframe { opacity: 0; transition: opacity .4s ease; }
+.hero-video.video-speelt iframe { opacity: 1; }
 .hero-kader::before {
   /* Overlay verloop (links) — Figma 177:69: 601px breed, zwart -> transparant */
   content: '';
@@ -673,8 +695,8 @@ body.menu-open { overflow: hidden; }
       <span class="hamburger" aria-hidden="true"><span></span><span></span></span>
     </button>
     <div class="taalswitch" data-taal="nl" role="group" aria-label="Taalkeuze">
-      <button type="button" data-kies="en">EN</button>
-      <button type="button" data-kies="nl" class="actief">NL</button>
+      <a href="en/case-a-world-of-wellbeing.html" hreflang="en">EN</a>
+      <a href="case-air-so-pure.html" hreflang="nl" class="actief">NL</a>
     </div>
   </div>
 </header>
@@ -694,9 +716,9 @@ body.menu-open { overflow: hidden; }
             <ul class="menu-sub-lijst">
             <li><a href="strategy.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Strategie overzicht</a></li>
             <li><a href="merk-strategie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Merk strategie</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Marketing strategie</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Social strategie</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Creatieve strategie</a></li>
+            <li><a href="marketing-strategie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Marketing strategie</a></li>
+            <li><a href="social-strategie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Social strategie</a></li>
+            <li><a href="creatieve-strategie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Creatieve strategie</a></li>
             </ul>
           </div></div>
         </li>
@@ -705,10 +727,10 @@ body.menu-open { overflow: hidden; }
           <div class="menu-sub-wrap" id="menu-sub-branding"><div class="menu-sub">
             <ul class="menu-sub-lijst">
             <li><a href="branding.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Branding overzicht</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Employer branding</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Corporate identity</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Brand positionering</a></li>
-            <li><a href="branding.html#campagne-design"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Campagne design</a></li>
+            <li><a href="employer-branding.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Employer branding</a></li>
+            <li><a href="corporate-identity.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Corporate identity</a></li>
+            <li><a href="brand-positionering.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Brand positionering</a></li>
+            <li><a href="campagne-design.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Campagne design</a></li>
             </ul>
           </div></div>
         </li>
@@ -717,9 +739,10 @@ body.menu-open { overflow: hidden; }
           <div class="menu-sub-wrap" id="menu-sub-activation"><div class="menu-sub">
             <ul class="menu-sub-lijst">
             <li><a href="activatie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Activatie overzicht</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Customer experience</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Content productie</a></li>
-            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Events</a></li>
+            <li><a href="customer-experience.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Customer experience</a></li>
+            <li><a href="content-productie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Content productie</a></li>
+            <li><a href="events.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Events</a></li>
+            <li><a href="digitale-transformatie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Digitale transformatie</a></li>
             </ul>
           </div></div>
         </li>
@@ -733,7 +756,7 @@ body.menu-open { overflow: hidden; }
         <p class="kolom-label">Navigatie</p>
         <ul class="menu-lijst middel">
           <li class="menu-item"><a class="menu-titel" href="cases.html">Cases</a></li>
-          <li class="menu-item"><a class="menu-titel" href="about.html">Over ons</a></li>
+          <li class="menu-item"><a class="menu-titel" href="over-ons.html">Over ons</a></li>
           <li class="menu-item">
             <button class="menu-titel" type="button" aria-expanded="false" aria-controls="menu-sub-netwerk">Netwerk</button>
             <div class="menu-sub-wrap" id="menu-sub-netwerk"><div class="menu-sub">
@@ -759,7 +782,7 @@ body.menu-open { overflow: hidden; }
           3012 NJ Rotterdam
         </address>
         <ul class="menu-sub-lijst">
-          <li><a href="tel:0102928333"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>010 - 292 83 33</a></li>
+          <li><a href="tel:+31102928333"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>010 - 292 83 33</a></li>
           <li><a href="mailto:hello@campagne.nl"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>hello@campagne.nl</a></li>
         </ul>
         <div class="socials">
@@ -796,7 +819,7 @@ body.menu-open { overflow: hidden; }
           <li><span aria-current="page">Air So Pure</span></li>
         </ol>
       </nav>
-      <h1 class="hero-titel">Air So Pure</h1>
+      <h1 class="hero-titel">A World of<br>Wellbeing.</h1>
       <p class="hero-resultaat">
         <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
         <span>Nieuwe positionering voor marktleider in luchtzuiverende planten.</span>
@@ -814,16 +837,29 @@ body.menu-open { overflow: hidden; }
     <dl class="case-kenmerken">
       <dt>Klant</dt>
       <dd>Air So Pure</dd>
+      <dt>Onderwerp</dt>
+      <dd>Positionering</dd>
       <dt>Tags</dt>
       <dd class="tags">Strategie<br>Concept<br>Branding<br>Website<br>Foto</dd>
     </dl>
 
     <!-- Verhaal + disciplines -->
     <div class="case-verhaal">
-      <p></p>
+      <p>Air So Pure, marktleider in luchtzuiverende planten, wilde haar merk herpositioneren voor de B2B-markt.</p>
 
       <div class="case-disciplines">
-
+        <div class="rij">
+          <h2>Strategie</h2>
+          <p>Campagne hielp met een strategie die welzijn centraal stelt, zonder de bestaande merkwaarden te verliezen. In een brand workshop definieerden we ‘welzijn’ als de kern van Air So Pure’s positionering. Deze bredere strategische focus benadrukt hoe planten bijdragen aan een gezonde en inspirerende leefomgeving, thuis en op het werk.</p>
+        </div>
+        <div class="rij">
+          <h2>Branding</h2>
+          <p>De nieuwe positionering werd vertaald naar een vernieuwde visuele identiteit en praktische middelen. Van een corporate website en in-store POS-materialen tot een beeldbank die het verhaal van Air So Pure versterkt.</p>
+        </div>
+        <div class="rij">
+          <h2>Activatie</h2>
+          <p>We ontwikkelden een volledige merkervaring voor de B2B-markt, met tools zoals een merkcatalogus, beursconcept en plantenhoezen.</p>
+        </div>
       </div>
     </div>
 
@@ -848,11 +884,12 @@ body.menu-open { overflow: hidden; }
     <div>
       <h3>Contact</h3>
       <address>
-        Charloisse Lagedijk 536<br>
-        3084 LG Rotterdam
+        Weena 250 (gebouw Weena 200)<br>
+        Toren C, 12e verdieping<br>
+        3012 NJ Rotterdam
       </address>
       <div class="footer-links">
-        <a href="tel:0102928333"><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-klein"></use></svg></span> 010 - 292 83 33</a>
+        <a href="tel:+31102928333"><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-klein"></use></svg></span> 010 - 292 83 33</a>
         <a href="mailto:hello@campagne.nl"><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-klein"></use></svg></span> hello@campagne.nl</a>
       </div>
     </div>

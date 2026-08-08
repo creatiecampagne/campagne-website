@@ -2,63 +2,72 @@
   "cases": [
     {
       "actief": true,
+      "naam": "Tour de France Femmes",
       "slug": "tour-de-france-femmes",
-      "klantnaam": "Tour de France Femmes",
       "klant": "Rotterdam Topsport",
-      "titel": "Rotterdam\nturns yellow.",
-      "resultaatregel": "415.000+ visitors for this legendary cycling event.",
-      "overzicht_titel": "Tour de France Femmes",
-      "overzicht_resultaat": "415.000+ bezoekers voor dit legendarische wielerevenement.",
+      "tegelbeeld": "images/cases/tour.webp",
+      "tegelbeeld_alt": "Wielrenners rijden door Rotterdam tijdens de Tour de France Femmes",
+      "hover_video": "1208112683",
+      "merkkleur": "#f9e000",
       "tags": [
         "strategie",
         "concept",
+        "event",
         "content",
         "video",
-        "social",
-        "media"
+        "social"
       ],
       "disciplines": [
         "strategie",
         "activation"
       ],
-      "merkkleur": "#f9e000",
-      "tegelbeeld": "images/cases/tour.webp",
-      "tegelbeeld_alt": "Wielrenners rijden door Rotterdam tijdens de Tour de France Femmes",
-      "hover_video": "1208112683",
-      "detailpagina": "case-tdff.html",
+      "titel": "Rotterdam\nkleurt geel.",
+      "resultaat": "415.000+ bezoekers voor dit iconisch wielerevent.",
       "pagina_aanmaken": true,
+      "detailpagina": "case-tdff.html",
+      "meta_omschrijving": "Tour de France Femmes avec Zwift 2024 was een historisch moment voor Rotterdam. Citydressing en eventpromotie voor Rotterdam Topsport.",
       "hero_beeld": "",
       "hero_alt": "Wielrenners razen langs het stadhuis van Rotterdam tijdens de Tour de France Femmes, met gele vlaggen aan de gevel",
-      "hero_video": "1208112683",
-      "hero_titel": "Rotterdam\nturns yellow.",
-      "hero_resultaat": "415.000+ visitors for this\nlegendary wheeler event.",
-      "onderwerp": "City dressing and\nevent promotion",
-      "verhaal": "Eén ding is zeker. Geliefder worden als merk gaat niet van vandaag op morgen. Het vergt commitment, een lange termijn visie en een creatieve partner aan je zijde. Daarom werken we met duidelijke parameters die continu worden gevoed, gemonitord en aangescherpt. Altijd langs een overkoepelend toetsingskader, dat alles samenbrengt en scherp houdt met één enkele vraag: Wanna be loved?",
+      "hero_video": "1012007156",
+      "onderwerp": "Citydressing en\neventpromotie",
+      "verhaal": "Tour de France Femmes avec Zwift 2024 was een historisch moment voor Rotterdam. Voor het eerst startte dit iconische wielerevent buiten Frankrijk, met Rotterdam als gaststad voor de Grand Départ.",
       "disciplines_detail": [
         {
           "titel": "Strategie",
-          "tekst": "Project volledig op ons te nemen, van concept tot uitvoering. Bureau en partner van Rotterdam Topsport!"
+          "tekst": "Van concept tot uitvoering, we deden het allemaal, samen met Rotterdam Topsport. Alles was gericht op het overbrengen van een krachtige boodschap: de Tour de France Femmes draait om meer dan alleen wielrennen. Het gaat om powervrouwen, beweging en de verbindende kracht van sport."
         },
         {
           "titel": "Branding",
-          "tekst": "Wij werden gevraagd om de communicatie van dit project volledig op ons te nemen, van concept tot uitvoering. Communicatiebureau en partner van Rotterdam Topsport!"
+          "tekst": "De grafische kunst van de Rotterdamse artiest Eveline Schram werd het campagnebeeld en dit voerden we door in alle communicatiematerialen. Met conceptuele campagnes zoals Rotterdams Peloton, Wijkfeesten en Geef door die fiets! gaven we de boodschap extra kracht en bereikten we een breed publiek."
         },
         {
-          "titel": "Activation",
-          "tekst": "Wij werden gevraagd om de communicatie van dit omvangrijke project volledig op ons te nemen, van concept tot uitvoering. Communicatiebureau en partner van Rotterdam Topsport!"
+          "titel": "Activatie",
+          "tekst": "Onze creatieven kenden de kleuren van de Tour als geen ander en werkten onvermoeibaar om elk detail te perfectioneren. We ontwikkelden alle denkbare communicatiemiddelen, zoals de citydressing en buitenreclame, de website, radiospots, social media content en (online) advertenties."
         }
       ],
-      "meta_omschrijving": "Case Tour de France Femmes: city dressing en eventpromotie voor Rotterdam Topsport. 415.000+ bezoekers voor dit legendarische wielerevenement."
+      "en": {
+        "naam": "",
+        "slug": "rotterdam-turns-yellow",
+        "klant": "Rotterdam Topsport",
+        "titel": "Rotterdam\nturns yellow.",
+        "resultaat": "415.000+ visitors for this legendary wheeler event.",
+        "tegelbeeld_alt": "",
+        "hero_alt": "",
+        "onderwerp": "City dressing and\nevent promotion",
+        "verhaal": "",
+        "meta_omschrijving": "",
+        "disciplines_detail": []
+      }
     },
     {
       "actief": true,
+      "naam": "Jun Märkl & CVR",
       "slug": "jun-markl-cvr",
-      "klantnaam": "Jun Märkl and CVR",
-      "klant": "Jun Märkl and CVR",
-      "titel": "Introducing a\nworld-renowned\nconductor.",
-      "resultaatregel": "Visual portrait for the Indianapolis Orchestra.",
-      "overzicht_titel": "Jun Märkl & CVR",
-      "overzicht_resultaat": "Visueel portret van een wereldberoemde dirigent.",
+      "klant": "CVR",
+      "tegelbeeld": "images/cases/jun.webp",
+      "tegelbeeld_alt": "Dirigent Jun Märkl in actie",
+      "hover_video": "1035168613",
+      "merkkleur": "#7a1f3d",
       "tags": [
         "concept",
         "content",
@@ -68,31 +77,53 @@
       "disciplines": [
         "activation"
       ],
-      "merkkleur": "#7a1f3d",
-      "tegelbeeld": "images/cases/jun.webp",
-      "tegelbeeld_alt": "Dirigent Jun Märkl in actie",
-      "hover_video": "1035168613",
-      "detailpagina": "",
+      "titel": "Een wereldberoemde\ndirigent",
+      "resultaat": "Internationale samenwerking tussen CVR (US) en Campagne (NL) via AMIN Worldwide.",
       "pagina_aanmaken": true,
+      "detailpagina": "",
+      "meta_omschrijving": "Internationale samenwerking tussen CVR (US) en Campagne (NL) via AMIN Worldwide voor de komst van dirigent Jun Märkl.",
       "hero_beeld": "",
       "hero_alt": "",
       "hero_video": "",
-      "hero_titel": "",
-      "hero_resultaat": "",
-      "onderwerp": "",
-      "verhaal": "",
-      "disciplines_detail": [],
-      "meta_omschrijving": ""
+      "onderwerp": "Content en\nstorytelling",
+      "verhaal": "Campagne werkte samen met CVR om de komst van dirigent Jun Märkl naar het Indianapolis Symphony Orchestra in de VS te ondersteunen met krachtige visuals, video en storytelling.",
+      "disciplines_detail": [
+        {
+          "titel": "Strategie",
+          "tekst": "Samen met CVR creëerden we een visuele introductie voor Jun Märkl. Het doel: het Amerikaanse publiek vooraf enthousiasmeren en de band met het orkest en hun nieuwe dirigent versterken."
+        },
+        {
+          "titel": "Branding",
+          "tekst": "We legden Märkl vast tijdens een concert in Theater aan het Vrijthof in Maastricht met fotografie, video en een interview. Het resultaat: authentiek en inspirerend materiaal dat zijn charisma en passie voor klassieke muziek benadrukt."
+        },
+        {
+          "titel": "Activatie",
+          "tekst": "CVR gebruikte het materiaal in persberichten, op social media en de website van het Indianapolis Symphony Orchestra om de komst van Märkl groots te vieren. Het versterkte de verbinding tussen het orkest, het publiek en de nieuwe dirigent."
+        }
+      ],
+      "en": {
+        "naam": "",
+        "slug": "a-world-renowned-conductor",
+        "klant": "",
+        "titel": "A world-renowned\nconductor.",
+        "resultaat": "International collaboration between CVR (US) and Campagne (NL) via AMIN Worldwide.",
+        "tegelbeeld_alt": "",
+        "hero_alt": "",
+        "onderwerp": "Content and\nstorytelling",
+        "verhaal": "",
+        "meta_omschrijving": "",
+        "disciplines_detail": []
+      }
     },
     {
       "actief": true,
+      "naam": "Steinweg",
       "slug": "steinweg",
-      "klantnaam": "Steinweg",
-      "klant": "Steinweg",
-      "titel": "Recruiting\nfor the harbor.",
-      "resultaatregel": "Social campaigning to get the right people working at Steinweg.",
-      "overzicht_titel": "Steinweg",
-      "overzicht_resultaat": "Social campagne om de juiste mensen aan de haven te binden.",
+      "klant": "C. Steinweg Group",
+      "tegelbeeld": "images/cases/steinweg.webp",
+      "tegelbeeld_alt": "Medewerker van Steinweg in de Rotterdamse haven",
+      "hover_video": "1035163552",
+      "merkkleur": "#0f4c81",
       "tags": [
         "arbeidsmarktcommunicatie",
         "strategie",
@@ -103,31 +134,66 @@
         "strategie",
         "activation"
       ],
-      "merkkleur": "#0f4c81",
-      "tegelbeeld": "images/cases/steinweg.webp",
-      "tegelbeeld_alt": "Medewerker van Steinweg in de Rotterdamse haven",
-      "hover_video": "1035163552",
-      "detailpagina": "",
+      "titel": "Join the club!",
+      "resultaat": "Effectieve werving van havenwerkers in Rotterdam.",
       "pagina_aanmaken": true,
+      "detailpagina": "",
+      "meta_omschrijving": "Arbeidsmarktcampagne ‘Join the club’ voor C. Steinweg Group: effectieve werving van havenwerkers in Rotterdam.",
       "hero_beeld": "",
       "hero_alt": "",
       "hero_video": "",
-      "hero_titel": "",
-      "hero_resultaat": "",
-      "onderwerp": "",
-      "verhaal": "",
-      "disciplines_detail": [],
-      "meta_omschrijving": ""
+      "onderwerp": "Arbeidsmarkt-\ncommunicatie",
+      "verhaal": "Steinweg Nederland kampt met een tekort aan havenwerkers voor hun locaties in Rotterdam, zoals veel bedrijven. Samen ontwikkelden en lanceerden we de arbeidsmarktcampagne ‘Join the club’, gericht op het werven van nieuwe medewerkers voor deze logistieke dienstverlener.",
+      "disciplines_detail": [
+        {
+          "titel": "Strategie",
+          "tekst": "De campagne richtte zich op mensen die een carrièreswitch overwegen. We zochten naar mensen met een mbo-diploma tussen de 25-50 jaar, die klaar waren voor een nieuwe uitdaging in de havenlogistiek. We focusten op drie drijfveren: persoonlijke ontwikkeling, werken in de buitenlucht en afwisselend werk."
+        },
+        {
+          "titel": "Branding",
+          "tekst": "Met de slogan ‘Join the club’ brachten we de voordelen van werken bij Steinweg duidelijk naar voren. We creëerden een aantrekkelijke campagne die de doelgroep aanspoorde om zich aan te sluiten bij de energieke en afwisselende wereld van de haven."
+        },
+        {
+          "titel": "Activatie",
+          "tekst": "We lanceerden de campagne met een digitale strategie: conversiegerichte landingspagina’s, social media ads, radiocommercials en banners."
+        }
+      ],
+      "en": {
+        "naam": "",
+        "slug": "social-media-campaign-join-the-club",
+        "klant": "",
+        "titel": "Social media campaign:\njoin the club!",
+        "resultaat": "Effective recruitment of dockworkers in Rotterdam.",
+        "tegelbeeld_alt": "",
+        "hero_alt": "",
+        "onderwerp": "Recruitment\ncommunication",
+        "verhaal": "Like many companies, Steinweg Netherlands faced a shortage of dockworkers for its Rotterdam locations. Together, we developed and launched the recruitment campaign Join the Club, aimed at attracting new employees to this logistics service provider.",
+        "meta_omschrijving": "",
+        "disciplines_detail": [
+          {
+            "titel": "Strategy",
+            "tekst": "The campaign targeted individuals considering a career switch. We focused on people aged 25–50 with vocational diplomas who were ready for a new challenge in port logistics. The strategy centered on three key drivers: personal growth, outdoor work, and job variety."
+          },
+          {
+            "titel": "Branding",
+            "tekst": "With the slogan ‘Join the Club’, we highlighted the benefits of working at Steinweg. The campaign was designed to appeal to the target audience, showcasing the dynamic and exciting opportunities of a career in the port."
+          },
+          {
+            "titel": "Activation",
+            "tekst": "We developed a powerful recruitment campaign for Steinweg, covering everything from concept and branding to conversion-optimized landing pages and media strategies. This ensured maximum visibility and engagement."
+          }
+        ]
+      }
     },
     {
       "actief": true,
+      "naam": "Brugman keukens & badkamers",
       "slug": "brugman",
-      "klantnaam": "Brugman keukens & badkamers",
       "klant": "Brugman keukens & badkamers",
-      "titel": "Brugman keukens & badkamers",
-      "resultaatregel": "Nieuwe positionering Brugman: betrouwbaar, behulpzaam en duurzaam.",
-      "overzicht_titel": "Brugman keukens & badkamers",
-      "overzicht_resultaat": "Nieuwe positionering Brugman: betrouwbaar, behulpzaam en duurzaam.",
+      "tegelbeeld": "images/cases/brugman.webp",
+      "tegelbeeld_alt": "Case Brugman keukens & badkamers",
+      "hover_video": "1208112682",
+      "merkkleur": "#69a63a",
       "tags": [
         "strategie",
         "concept",
@@ -139,31 +205,53 @@
         "strategie",
         "activation"
       ],
-      "merkkleur": "#69a63a",
-      "tegelbeeld": "images/cases/brugman.webp",
-      "tegelbeeld_alt": "Case Brugman keukens & badkamers",
-      "hover_video": "1208112682",
-      "detailpagina": "",
+      "titel": "Het vertrouwde\nBrugmangevoel",
+      "resultaat": "Nieuwe positionering Brugman: betrouwbaar, behulpzaam en duurzaam.",
       "pagina_aanmaken": true,
+      "detailpagina": "",
+      "meta_omschrijving": "Brugman wilde zich sterker positioneren binnen de keuken- en badkamerbranche. Wij gaven het merk een frisse positionering: betrouwbaar, behulpzaam en duurzaam.",
       "hero_beeld": "",
       "hero_alt": "",
-      "hero_video": "",
-      "hero_titel": "",
-      "hero_resultaat": "",
-      "onderwerp": "",
-      "verhaal": "",
-      "disciplines_detail": [],
-      "meta_omschrijving": ""
+      "hero_video": "782580493",
+      "onderwerp": "Repositioning",
+      "verhaal": "Brugman wilde zich sterker positioneren binnen de keuken- en badkamerbranche. Wij gaven het merk Brugman een frisse positionering, waarbij de kernwaarden betrouwbaar, behulpzaam en duurzaam door de klantreis heen voelbaar zijn.",
+      "disciplines_detail": [
+        {
+          "titel": "Strategie",
+          "tekst": "Samen werkten we met Brugman aan een merkstrategie die de kernwaarden duidelijk vertaalt naar elke klantinteractie. Van start tot finish was het doel om vertrouwen en betrokkenheid op te bouwen."
+        },
+        {
+          "titel": "Branding",
+          "tekst": "Brugman staat voor kwaliteit, service en duurzaamheid. We creëerden een visuele identiteit die deze waarden uitdraagt. Zo ervaren klanten meteen het Brugmangevoel – betrouwbaar, betrokken en duurzaam."
+        },
+        {
+          "titel": "Activatie",
+          "tekst": "We brachten het Brugmangevoel overal tot leven. Van een sterke doorlopende retailkalender tot opvallende campagnes rondom populaire programma’s als Fout Maar Goud en The Masked Singer. Zo brachten we de merkbeleving naar de huiskamers van de doelgroep."
+        }
+      ],
+      "en": {
+        "naam": "",
+        "slug": "the-familiar-brugman-feeling",
+        "klant": "",
+        "titel": "The familiar\nBrugman feeling.",
+        "resultaat": "New positioning for Brugman: reliable, helpful, and sustainable.",
+        "tegelbeeld_alt": "",
+        "hero_alt": "",
+        "onderwerp": "Repositioning",
+        "verhaal": "",
+        "meta_omschrijving": "",
+        "disciplines_detail": []
+      }
     },
     {
       "actief": true,
+      "naam": "Air So Pure",
       "slug": "air-so-pure",
-      "klantnaam": "Air So Pure",
       "klant": "Air So Pure",
-      "titel": "Air So Pure",
-      "resultaatregel": "Nieuwe positionering voor marktleider in luchtzuiverende planten.",
-      "overzicht_titel": "Air So Pure",
-      "overzicht_resultaat": "Nieuwe positionering voor marktleider in luchtzuiverende planten.",
+      "tegelbeeld": "images/cases/asp.webp",
+      "tegelbeeld_alt": "Case Air So Pure",
+      "hover_video": "1208112714",
+      "merkkleur": "#004437",
       "tags": [
         "strategie",
         "concept",
@@ -175,31 +263,53 @@
         "strategie",
         "branding"
       ],
-      "merkkleur": "#004437",
-      "tegelbeeld": "images/cases/asp.webp",
-      "tegelbeeld_alt": "Case Air So Pure",
-      "hover_video": "1208112714",
-      "detailpagina": "",
+      "titel": "A World of\nWellbeing.",
+      "resultaat": "Nieuwe positionering voor marktleider in luchtzuiverende planten.",
       "pagina_aanmaken": true,
+      "detailpagina": "",
+      "meta_omschrijving": "Air So Pure, marktleider in luchtzuiverende planten, herpositioneerde haar merk voor de B2B-markt met welzijn als kern.",
       "hero_beeld": "",
       "hero_alt": "",
       "hero_video": "",
-      "hero_titel": "",
-      "hero_resultaat": "",
-      "onderwerp": "",
-      "verhaal": "",
-      "disciplines_detail": [],
-      "meta_omschrijving": ""
+      "onderwerp": "Positionering",
+      "verhaal": "Air So Pure, marktleider in luchtzuiverende planten, wilde haar merk herpositioneren voor de B2B-markt.",
+      "disciplines_detail": [
+        {
+          "titel": "Strategie",
+          "tekst": "Campagne hielp met een strategie die welzijn centraal stelt, zonder de bestaande merkwaarden te verliezen. In een brand workshop definieerden we ‘welzijn’ als de kern van Air So Pure’s positionering. Deze bredere strategische focus benadrukt hoe planten bijdragen aan een gezonde en inspirerende leefomgeving, thuis en op het werk."
+        },
+        {
+          "titel": "Branding",
+          "tekst": "De nieuwe positionering werd vertaald naar een vernieuwde visuele identiteit en praktische middelen. Van een corporate website en in-store POS-materialen tot een beeldbank die het verhaal van Air So Pure versterkt."
+        },
+        {
+          "titel": "Activatie",
+          "tekst": "We ontwikkelden een volledige merkervaring voor de B2B-markt, met tools zoals een merkcatalogus, beursconcept en plantenhoezen."
+        }
+      ],
+      "en": {
+        "naam": "",
+        "slug": "a-world-of-wellbeing",
+        "klant": "",
+        "titel": "A World of\nWellbeing.",
+        "resultaat": "New positioning for the market leader in air-purifying plants.",
+        "tegelbeeld_alt": "",
+        "hero_alt": "",
+        "onderwerp": "Positioning",
+        "verhaal": "",
+        "meta_omschrijving": "",
+        "disciplines_detail": []
+      }
     },
     {
       "actief": true,
+      "naam": "Klimaat Week",
       "slug": "klimaat-week",
-      "klantnaam": "Klimaat Week",
-      "klant": "Klimaat Week",
-      "titel": "Klimaat Week",
-      "resultaatregel": "Nieuwe naam. Nieuw gezicht. Zelfde missie: Nederland in beweging krijgen.",
-      "overzicht_titel": "Klimaat Week",
-      "overzicht_resultaat": "Nieuwe naam. Nieuw gezicht. Zelfde missie: Nederland in beweging krijgen.",
+      "klant": "Klimaatweek",
+      "tegelbeeld": "images/cases/kw.webp",
+      "tegelbeeld_alt": "Case Klimaat Week",
+      "hover_video": "1130950548",
+      "merkkleur": "#7f66f9",
       "tags": [
         "branding",
         "content",
@@ -210,31 +320,53 @@
         "branding",
         "activation"
       ],
-      "merkkleur": "#7f66f9",
-      "tegelbeeld": "images/cases/kw.webp",
-      "tegelbeeld_alt": "Case Klimaat Week",
-      "hover_video": "1130950548",
-      "detailpagina": "",
+      "titel": "Een nieuwe look voor een\ngroeiende beweging!",
+      "resultaat": "Nieuwe naam. Nieuw gezicht. Zelfde missie: Nederland in beweging krijgen.",
       "pagina_aanmaken": true,
+      "detailpagina": "",
+      "meta_omschrijving": "De Klimaatweek groeit. Nieuwe naam, nieuw gezicht, zelfde missie: Nederland in beweging krijgen. Rebranding door Campagne voor Klimaatstichting HIER.",
       "hero_beeld": "",
       "hero_alt": "",
-      "hero_video": "",
-      "hero_titel": "",
-      "hero_resultaat": "",
-      "onderwerp": "",
-      "verhaal": "",
-      "disciplines_detail": [],
-      "meta_omschrijving": ""
+      "hero_video": "1130950548",
+      "onderwerp": "Rebranding",
+      "verhaal": "Nederland gaat voor een beter klimaat. De Klimaatweek groeit, letterlijk en figuurlijk. In 2025 ging de organisatie over van overheid naar Klimaatstichting HIER. Een logische volgende stap voor een initiatief dat steeds dichter bij mensen, organisaties en gemeenten staat. Met die nieuwe fase kwam ook de vraag aan Campagne: begeleid ons in de transitie en geef de Klimaatweek een nieuwe identiteit.",
+      "disciplines_detail": [
+        {
+          "titel": "Strategie",
+          "tekst": "We vertaalden de strategie naar een merk voor persoonlijk initiatief en lokale actie. De nieuwe naam, kort, duidelijk en open, sluit aan bij de beweging die het is geworden: van en voor iedereen die iets wil doen voor het klimaat."
+        },
+        {
+          "titel": "Branding",
+          "tekst": "We ontwikkelden een visuele stijl die zich makkelijk laat toe-eigenen door alle betrokkenen: van Klimaatburgemeesters tot gemeenten en supporters. Een kleurrijk palet, een uitgesproken lettertype en een nieuwe spreektaal in ‘klimaatland’ maken de identiteit uitnodigend en toegankelijk voor meer Nederlanders."
+        },
+        {
+          "titel": "Activatie",
+          "tekst": "Met content die aansluit op de nieuwe koers en een stijl die overal herkenbaar is, maken we het merk zichtbaar op straat, op socials en in video. De Klimaatweek leeft en dat zie je terug in alles wat we maken."
+        }
+      ],
+      "en": {
+        "naam": "",
+        "slug": "a-new-look-for-a-growing-movement",
+        "klant": "",
+        "titel": "A new look for a\ngrowing movement!",
+        "resultaat": "",
+        "tegelbeeld_alt": "",
+        "hero_alt": "",
+        "onderwerp": "Rebranding",
+        "verhaal": "",
+        "meta_omschrijving": "",
+        "disciplines_detail": []
+      }
     },
     {
       "actief": true,
+      "naam": "Netherlands Space Agency",
       "slug": "netherlands-space-agency",
-      "klantnaam": "Netherlands Space Agency",
       "klant": "Netherlands Space Agency",
-      "titel": "Netherlands Space Agency",
-      "resultaatregel": "Lancering nieuwe identiteit NLSA Nederlandse ruimtevaart",
-      "overzicht_titel": "Netherlands Space Agency",
-      "overzicht_resultaat": "Lancering nieuwe identiteit NLSA Nederlandse ruimtevaart",
+      "tegelbeeld": "images/cases/nlsa.webp",
+      "tegelbeeld_alt": "Case Netherlands Space Agency",
+      "hover_video": "",
+      "merkkleur": "#154274",
       "tags": [
         "branding",
         "website"
@@ -242,71 +374,102 @@
       "disciplines": [
         "branding"
       ],
-      "merkkleur": "#154274",
-      "tegelbeeld": "images/cases/nlsa.webp",
-      "tegelbeeld_alt": "Case Netherlands Space Agency",
-      "hover_video": "",
-      "detailpagina": "",
+      "titel": "Netherlands Space Agency",
+      "resultaat": "Lancering nieuwe identiteit NLSA Nederlandse ruimtevaart",
       "pagina_aanmaken": true,
+      "detailpagina": "",
+      "meta_omschrijving": "",
       "hero_beeld": "",
       "hero_alt": "",
       "hero_video": "",
-      "hero_titel": "",
-      "hero_resultaat": "",
       "onderwerp": "",
       "verhaal": "",
       "disciplines_detail": [],
-      "meta_omschrijving": ""
+      "en": {
+        "naam": "",
+        "slug": "netherlands-space-agency",
+        "klant": "",
+        "titel": "",
+        "resultaat": "",
+        "tegelbeeld_alt": "",
+        "hero_alt": "",
+        "onderwerp": "",
+        "verhaal": "",
+        "meta_omschrijving": "",
+        "disciplines_detail": []
+      }
     },
     {
       "actief": true,
+      "naam": "WiZZ",
       "slug": "wizz",
-      "klantnaam": "WiZZ",
       "klant": "WiZZ",
-      "titel": "WiZZ",
-      "resultaatregel": "Medewerkers werven voor Nederlandse openbare zwembaden",
-      "overzicht_titel": "WiZZ",
-      "overzicht_resultaat": "Medewerkers werven voor Nederlandse openbare zwembaden",
+      "tegelbeeld": "images/cases/wizz.webp",
+      "tegelbeeld_alt": "Case WiZZ",
+      "hover_video": "1045329201",
+      "merkkleur": "#ff8a15",
       "tags": [
         "arbeidsmarktcommunicatie",
-        "media",
         "strategie",
-        "concept"
+        "concept",
+        "media"
       ],
       "disciplines": [
         "strategie",
         "activation"
       ],
-      "merkkleur": "#ff8a15",
-      "tegelbeeld": "images/cases/wizz.webp",
-      "tegelbeeld_alt": "Case WiZZ",
-      "hover_video": "1045329201",
-      "detailpagina": "",
+      "titel": "Laat je enthousiasme\nwerken!",
+      "resultaat": "Medewerkers werven voor Nederlandse openbare zwembaden.",
       "pagina_aanmaken": true,
+      "detailpagina": "",
+      "meta_omschrijving": "Wervingscampagne ‘Laat je enthousiasme werken’: medewerkers werven voor Nederlandse openbare zwembaden.",
       "hero_beeld": "",
       "hero_alt": "",
       "hero_video": "",
-      "hero_titel": "",
-      "hero_resultaat": "",
-      "onderwerp": "",
-      "verhaal": "",
-      "disciplines_detail": [],
-      "meta_omschrijving": ""
+      "onderwerp": "Wervingscampagne",
+      "verhaal": "Werken in het zwembad is mensenwerk. Enthousiasme is één van de belangrijkste eigenschappen om andere mensen wat te leren: jong of oud, groot of klein. Jouw enthousiasme is je kracht en dat breng je over op andere mensen.",
+      "disciplines_detail": [
+        {
+          "titel": "Strategie",
+          "tekst": "Zingeving aan je werk toevoegen was de communicatieve basis voor de strategie. Werken in of om het zwembad? Jouw enthousiasme is geld waard en je geeft ze iets voor het leven."
+        },
+        {
+          "titel": "Branding",
+          "tekst": "Plezier overbrengen is wat de medewerkers onderscheidt en het geeft de mensen in het water iets ‘voor het leven’: een zwemdiploma, een fit lichaam of een uurtje sportieve ontspanning. Werken in het zwembad: het plezier spat ervan af!"
+        },
+        {
+          "titel": "Activatie",
+          "tekst": "Onder het motto ‘Laat je enthousiasme werken’ zochten we nieuwe helden voor de zwembaden, via online en offline middelen en een eigen campagnewebsite."
+        }
+      ],
+      "en": {
+        "naam": "",
+        "slug": "let-your-enthusiasm-work",
+        "klant": "",
+        "titel": "Let your enthusiasm\nwork!",
+        "resultaat": "Recruiting employees for Dutch public swimming pools.",
+        "tegelbeeld_alt": "",
+        "hero_alt": "",
+        "onderwerp": "Recruitment campaign",
+        "verhaal": "",
+        "meta_omschrijving": "",
+        "disciplines_detail": []
+      }
     },
     {
       "actief": true,
+      "naam": "Liquin",
       "slug": "liquin",
-      "klantnaam": "Liquin",
       "klant": "Liquin",
-      "titel": "Liquin",
-      "resultaatregel": "Van Vopak naar Liquin. Complete rebranding in 1,5 maand tijd.",
-      "overzicht_titel": "Liquin",
-      "overzicht_resultaat": "Van Vopak naar Liquin. Complete rebranding in 1,5 maand tijd.",
+      "tegelbeeld": "images/cases/liquin.webp",
+      "tegelbeeld_alt": "Case Liquin",
+      "hover_video": "1208112711",
+      "merkkleur": "#0091bb",
       "tags": [
         "strategie",
         "concept",
         "branding",
-        "website",
+        "content",
         "foto",
         "video"
       ],
@@ -315,21 +478,215 @@
         "branding",
         "activation"
       ],
-      "merkkleur": "#0091bb",
-      "tegelbeeld": "images/cases/liquin.webp",
-      "tegelbeeld_alt": "Case Liquin",
-      "hover_video": "1208112711",
-      "detailpagina": "",
+      "titel": "Van Vopak\nnaar Liquin.",
+      "resultaat": "Complete rebranding in 1,5 maand tijd.",
       "pagina_aanmaken": true,
+      "detailpagina": "",
+      "meta_omschrijving": "In 1,5 maand transformeerden we de merkidentiteit van Liquin, de nieuwe naam voor drie chemieterminals in de Rotterdamse Botlek.",
       "hero_beeld": "",
       "hero_alt": "",
       "hero_video": "",
-      "hero_titel": "",
-      "hero_resultaat": "",
+      "onderwerp": "Positionering",
+      "verhaal": "In 1,5 maand transformeerden we de merkidentiteit van Liquin, de nieuwe naam voor drie chemie terminals in de Rotterdamse Botlek. Het resultaat: een frisse, energieke merkpositionering, van concept tot uitvoering.",
+      "disciplines_detail": [
+        {
+          "titel": "Strategie",
+          "tekst": "Samen met Bijl PR ontwikkelden we een nieuwe merkstrategie, met de nadruk op innovatie, duurzaamheid en betrouwbaarheid. De naam Liquin, een combinatie van ‘Liquid’ en ‘Industries’, legt de focus op de vloeistof-opslag en distributie."
+        },
+        {
+          "titel": "Branding",
+          "tekst": "De merkidentiteit reflecteert de dynamische en duurzame cultuur van Liquin. We creëerden een visuele stijl die de kernwaarden van het bedrijf ondersteunt en de naam Liquin tot leven bracht in alle communicatiekanalen."
+        },
+        {
+          "titel": "Activatie",
+          "tekst": "We rolden de nieuwe merkidentiteit razendsnel uit: van website en signage tot interne communicatie en merchandise. Alles werd in 1,5 maand omgezet. Binnen de deadline én met grote impact."
+        }
+      ],
+      "en": {
+        "naam": "",
+        "slug": "from-vopak-to-liquin",
+        "klant": "",
+        "titel": "From Vopak\nto Liquin.",
+        "resultaat": "Complete rebranding in just 1.5 months.",
+        "tegelbeeld_alt": "",
+        "hero_alt": "",
+        "onderwerp": "Positioning",
+        "verhaal": "",
+        "meta_omschrijving": "",
+        "disciplines_detail": []
+      }
+    },
+    {
+      "actief": false,
+      "naam": "NKW",
+      "slug": "samen-voor-een-beter-klimaat",
+      "klant": "NKW",
+      "tegelbeeld": "images/placeholder.webp",
+      "tegelbeeld_alt": "Case NKW",
+      "hover_video": "",
+      "merkkleur": "#3aa657",
+      "tags": [
+        "branding",
+        "content",
+        "social"
+      ],
+      "disciplines": [
+        "branding",
+        "activation"
+      ],
+      "titel": "Samen voor een\nbeter klimaat",
+      "resultaat": "245 lokale helden met een nationale impact.",
+      "pagina_aanmaken": false,
+      "detailpagina": "",
+      "meta_omschrijving": "",
+      "hero_beeld": "",
+      "hero_alt": "",
+      "hero_video": "",
       "onderwerp": "",
       "verhaal": "",
       "disciplines_detail": [],
-      "meta_omschrijving": ""
+      "en": {
+        "naam": "",
+        "slug": "together-for-a-better-climate",
+        "klant": "",
+        "titel": "Together for a\nbetter climate",
+        "resultaat": "",
+        "tegelbeeld_alt": "",
+        "hero_alt": "",
+        "onderwerp": "",
+        "verhaal": "",
+        "meta_omschrijving": "",
+        "disciplines_detail": []
+      }
+    },
+    {
+      "actief": false,
+      "naam": "StiGaM",
+      "slug": "toonaangevende-gebiedsontwikkeling",
+      "klant": "Stichting Gebiedsontwikkeling aan de Maas (StiGaM)",
+      "tegelbeeld": "images/placeholder.webp",
+      "tegelbeeld_alt": "Case StiGaM",
+      "hover_video": "",
+      "merkkleur": "#1f6f8b",
+      "tags": [
+        "strategie",
+        "concept",
+        "branding"
+      ],
+      "disciplines": [
+        "strategie",
+        "branding"
+      ],
+      "titel": "Toonaangevende gebieds-\nontwikkeling in Rotterdam.",
+      "resultaat": "9.500 nieuwe woningen, kantoren, scholen en recreatieve voorzieningen.",
+      "pagina_aanmaken": false,
+      "detailpagina": "",
+      "meta_omschrijving": "",
+      "hero_beeld": "",
+      "hero_alt": "",
+      "hero_video": "",
+      "onderwerp": "",
+      "verhaal": "",
+      "disciplines_detail": [],
+      "en": {
+        "naam": "",
+        "slug": "pioneering-area-development-in-rotterdam",
+        "klant": "",
+        "titel": "Leading area development\nin Rotterdam.",
+        "resultaat": "9,500 new homes, offices, schools, and recreational facilities.",
+        "tegelbeeld_alt": "",
+        "hero_alt": "",
+        "onderwerp": "",
+        "verhaal": "",
+        "meta_omschrijving": "",
+        "disciplines_detail": []
+      }
+    },
+    {
+      "actief": false,
+      "naam": "MRDH",
+      "slug": "welkom-in-2040",
+      "klant": "MRDH",
+      "tegelbeeld": "images/placeholder.webp",
+      "tegelbeeld_alt": "Case MRDH",
+      "hover_video": "",
+      "merkkleur": "#c2532d",
+      "tags": [
+        "concept",
+        "content",
+        "media"
+      ],
+      "disciplines": [
+        "activation"
+      ],
+      "titel": "Welkom in 2040",
+      "resultaat": "Congres over de kansen van de Blankenburgverbinding.",
+      "pagina_aanmaken": false,
+      "detailpagina": "",
+      "meta_omschrijving": "",
+      "hero_beeld": "",
+      "hero_alt": "",
+      "hero_video": "",
+      "onderwerp": "",
+      "verhaal": "",
+      "disciplines_detail": [],
+      "en": {
+        "naam": "",
+        "slug": "welcome-to-2040",
+        "klant": "",
+        "titel": "Welcome to 2040",
+        "resultaat": "Conference on the opportunities of the Blankenburg connection.",
+        "tegelbeeld_alt": "",
+        "hero_alt": "",
+        "onderwerp": "",
+        "verhaal": "",
+        "meta_omschrijving": "",
+        "disciplines_detail": []
+      }
+    },
+    {
+      "actief": false,
+      "naam": "STL",
+      "slug": "werving-op-de-snelweg",
+      "klant": "Sectorinstituut Transport en Logistiek (STL)",
+      "tegelbeeld": "images/placeholder.webp",
+      "tegelbeeld_alt": "Case STL",
+      "hover_video": "",
+      "merkkleur": "#e8b21f",
+      "tags": [
+        "arbeidsmarktcommunicatie",
+        "strategie",
+        "media",
+        "social"
+      ],
+      "disciplines": [
+        "strategie",
+        "activation"
+      ],
+      "titel": "Werving op de snelweg\nen daarbuiten.",
+      "resultaat": "3.100 mensen een droombaan.",
+      "pagina_aanmaken": false,
+      "detailpagina": "",
+      "meta_omschrijving": "",
+      "hero_beeld": "",
+      "hero_alt": "",
+      "hero_video": "",
+      "onderwerp": "",
+      "verhaal": "",
+      "disciplines_detail": [],
+      "en": {
+        "naam": "",
+        "slug": "recruitment-on-the-highway-and-beyond",
+        "klant": "",
+        "titel": "Recruitment on the highway\nand beyond.",
+        "resultaat": "3,100 people found their dream job.",
+        "tegelbeeld_alt": "",
+        "hero_alt": "",
+        "onderwerp": "",
+        "verhaal": "",
+        "meta_omschrijving": "",
+        "disciplines_detail": []
+      }
     }
   ]
 }
