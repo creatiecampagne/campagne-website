@@ -10,7 +10,7 @@
       ],
       "mail": "vincent@campagne.nl",
       "telefoon": "010 - 292 83 33",
-      "foto": "/images/team/Vincent-819x1024.jpg"
+      "foto": "images/team/Vincent-819x1024.jpg"
     },
     {
       "naam": "Teamlid Twee",
@@ -22,7 +22,7 @@
       ],
       "mail": "twee@campagne.nl",
       "telefoon": "010 - 292 83 33",
-      "foto": "images/team/teamlid-twee.webp"
+      "foto": ""
     },
     {
       "naam": "Teamlid Drie",
@@ -34,7 +34,7 @@
       ],
       "mail": "drie@campagne.nl",
       "telefoon": "",
-      "foto": "images/team/teamlid-drie.webp"
+      "foto": ""
     },
     {
       "naam": "Teamlid Vier",
@@ -46,7 +46,7 @@
       ],
       "mail": "vier@campagne.nl",
       "telefoon": "010 - 292 83 33",
-      "foto": "images/team/teamlid-vier.webp"
+      "foto": ""
     },
     {
       "naam": "Teamlid Vijf",
@@ -58,7 +58,7 @@
       ],
       "mail": "vijf@campagne.nl",
       "telefoon": "010 - 292 83 33",
-      "foto": "images/team/teamlid-vijf.webp"
+      "foto": ""
     },
     {
       "naam": "Teamlid Zes",
@@ -70,7 +70,7 @@
       ],
       "mail": "zes@campagne.nl",
       "telefoon": "",
-      "foto": "images/team/teamlid-zes.webp"
+      "foto": ""
     },
     {
       "naam": "Teamlid Zeven",
@@ -82,7 +82,7 @@
       ],
       "mail": "zeven@campagne.nl",
       "telefoon": "010 - 292 83 33",
-      "foto": "images/team/teamlid-zeven.webp"
+      "foto": ""
     },
     {
       "naam": "Teamlid Acht",
@@ -94,7 +94,7 @@
       ],
       "mail": "acht@campagne.nl",
       "telefoon": "010 - 292 83 33",
-      "foto": "images/team/teamlid-acht.webp"
+      "foto": ""
     }
   ]
 }

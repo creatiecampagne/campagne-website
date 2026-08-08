@@ -230,12 +230,39 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   letter-spacing: -0.0262em;               /* Figma: -1.84px op 70px */
   max-width: 10em;
 }
+.hero-onder {
+  display: flex;
+  align-items: flex-end;                   /* Figma: kruimels op de onderlijn van de intro */
+  justify-content: space-between;
+  gap: clamp(24px, 3vw, 48px);
+}
 .hero-intro {
   margin-top: 36px;                        /* Figma: intro op 36px onder de titel */
   font-size: clamp(15px, 1.25vw, 18px);
   line-height: 1.556;                      /* Figma: 28px op 18px */
   max-width: 581px;
 }
+
+/* Kruimelpad (Figma 164:683) — rechtsonder in het hero-kader */
+.hero-kruimels {
+  flex: none;
+  font-size: 14px;
+  line-height: 20px;                       /* Figma: regelhoogte 20px */
+}
+.hero-kruimels ol {
+  display: flex;
+  align-items: center;
+  gap: 10px;                               /* Figma: ~9,7px tussen de delen */
+  list-style: none;
+}
+.hero-kruimels a {
+  font-weight: 500;
+  opacity: .8;
+  transition: opacity .2s ease;
+}
+.hero-kruimels a:hover { opacity: 1; }
+.hero-kruimels .scheiding { font-weight: 500; opacity: .55; }
+.hero-kruimels [aria-current="page"] { font-weight: 800; opacity: .8; }
 
 /* ==========================================================================
    Intro tekst team (Figma 104:3) — 2 kolommen van 581px op 1440
@@ -318,7 +345,7 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   margin-top: 19px;                        /* Figma: tekst op 227 van boven */
   max-width: 384px;                        /* Figma: 383px */
   font-size: 16px;
-  line-height: 2.25;                       /* Figma: 36px op 16px */
+  line-height: 1.75;                       /* Figma: 28px op 16px */
 }
 .sba-knop {
   display: flex; align-items: center; gap: 20px;
@@ -629,90 +656,111 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
 .marquee-rij span { padding-right: 1.4em; }
 
 /* ==========================================================================
-   Footer — identiek aan de homepage; onderste link is 'Contact us!'
+   Footer (Figma 4:830)
    ========================================================================== */
 .footer {
   background: var(--bordeaux);
   color: var(--roze);
-  padding: clamp(48px, 6.9vw, 99px) var(--marge-content) clamp(48px, 6vw, 90px);
+  padding: clamp(52px, 6.4vw, 92px) var(--marge-content) clamp(52px, 6.5vw, 94px);
 }
+/* Pijl-SVG's schalen mee met hun kader (staat niet op elke pagina in de basis-CSS) */
+.footer .pijl-knop { display: grid; place-items: center; flex: none; }
+.footer .pijl-svg { width: 100%; height: 100%; display: block; transition: transform .25s ease; }
+.footer a:hover .pijl-svg { transform: rotate(45deg); }
 .footer-kolommen {
   display: grid;
-  grid-template-columns: 1.65fr 1fr 1.45fr;
+  grid-template-columns: 1.66fr 1fr 1.26fr;   /* Figma: kolommen op x=128 / 631 / 933 */
   gap: clamp(28px, 4vw, 64px);
 }
-.footer h3 { font-size: 22px; font-weight: 800; margin-bottom: 24px; }
-.footer p, .footer address { font-style: normal; font-size: 14px; line-height: 1.7; }
+.footer h3 {
+  font-size: 22px; font-weight: 800;
+  letter-spacing: -0.5px;                     /* Figma: -0.5px */
+  line-height: 1.27;
+  margin-bottom: 24px;
+}
+.footer p, .footer address { font-style: normal; font-size: 14px; line-height: 2; }  /* Figma: 14/28 */
 .footer a:hover { text-decoration: underline; }
-.footer-logo { color: var(--roze); }
-.footer-logo .logo-svg { width: 165px; height: 26px; max-width: 100%; margin-bottom: 22px; }
+.footer-logo .logo-svg { width: 165px; height: 26px; max-width: 100%; margin-bottom: 19px; }
 .footer-intro { max-width: 409px; }
-.footer-links { display: flex; flex-direction: column; gap: 11px; margin-top: 22px; }
+.footer-links { display: flex; flex-direction: column; gap: 8px; margin-top: 26px; }  /* Figma: 36px h-o-h */
 .footer-links a {
   display: inline-flex; align-items: center; gap: 19px;
   font-size: 14px;
 }
-.footer-links .pijl-knop { width: 28px; height: 28px; color: var(--roze); }
-.socials { display: flex; gap: 18px; margin-top: 42px; }
-.socials a {
-  width: 32px; height: 32px;
-  border: 1.5px solid var(--roze);
-  border-radius: 8px;
-  display: grid; place-items: center;
-  transition: background .2s ease, color .2s ease;
-}
-.socials a:hover { background: var(--roze); color: var(--bordeaux); }
-.socials svg { width: 16px; height: 16px; fill: currentColor; }
-.nieuwsbrief-tekst { margin-bottom: 14px; }
-.nieuwsbrief { position: relative; max-width: 366px; }
+.footer-links a:hover { text-decoration: none; }
+.footer-links .pijl-knop { flex: none; width: 28px; height: 28px; }   /* Figma: 28x28 */
+
+/* Nieuwsbrief — Figma: alleen een lijn om het veld, Send-knop erin */
+.footer-nieuwsbrief h3 { margin-bottom: 13px; }
+.nieuwsbrief-tekst { font-weight: 800; margin-bottom: 10px; }
+.nieuwsbrief { position: relative; max-width: 366px; }                /* Figma: 366x48 */
 .nieuwsbrief input {
   width: 100%;
   height: 48px;
-  border: none;
+  border: 1px solid var(--roze);
   border-radius: 24px;
-  background: var(--grijs);
-  padding: 0 106px 0 20px;
+  background: transparent;
+  padding: 0 104px 0 20px;
   font-family: inherit;
   font-size: 14px;
-  color: var(--bordeaux);
+  color: var(--roze);
 }
+.nieuwsbrief input::placeholder { color: var(--roze); opacity: .85; }
 .nieuwsbrief button {
   position: absolute;
   right: 0; top: 0;
   height: 48px;
-  width: 90px;
+  width: 90px;                                                        /* Figma: 90x48 */
   border-radius: 24px;
   background: var(--roze);
   color: var(--bordeaux);
   font-size: 14px; font-weight: 500;
   transition: filter .2s ease;
 }
-.nieuwsbrief button:hover { filter: brightness(1.1); }
-.nieuwsbrief-sub { margin-top: 12px; max-width: 236px; }
-.footer-onder { margin-top: clamp(40px, 5vw, 58px); }
+.nieuwsbrief button:hover { filter: brightness(1.12); }
+.nieuwsbrief-sub { margin-top: 11px; max-width: 236px; }
+
+/* Onderste rij: 'Contact us!' links, socials in de contactkolom (Figma) */
+.footer-onder {
+  margin-top: clamp(36px, 4.5vw, 58px);
+  display: grid;
+  grid-template-columns: 1.66fr 1fr 1.26fr;
+  gap: clamp(28px, 4vw, 64px);
+  align-items: center;
+}
 .footer-onder .more-cases-klein {
-  display: inline-flex; align-items: center; gap: 20px;
-  font-size: 18px; font-weight: 800;
+  display: inline-flex; align-items: center; gap: 15px;
+  font-size: 16px; font-weight: 800;          /* Figma: 16px ExtraBold */
   color: var(--roze);
 }
-.footer-onder .pijl-knop { width: 45px; height: 45px; color: var(--roze); }
+.footer-onder .more-cases-klein:hover { text-decoration: none; }
+.footer-onder .pijl-knop { flex: none; width: 45px; height: 45px; color: var(--roze); }  /* Figma: 45px */
+.footer .socials { color: var(--roze); margin-top: 0; padding-left: 0; }  /* links uitgelijnd met de contact-kolom */
 
-/* Pijl-knoppen (gedeeld) */
+@media (max-width: 900px) {
+  .footer-onder { grid-template-columns: 1fr; gap: 30px; }
+  .footer .socials { padding-left: 0; }
+}
+
+/* ==========================================================================
+   Pijl-knoppen (gedeeld) — bol + pijl, gelijk aan index.html
+   ========================================================================== */
 .pijl-knop {
   flex: none;
   width: 47px; height: 47px;
   display: grid; place-items: center;
 }
-.pijl-svg { width: 100%; height: 100%; transition: transform .25s ease; }
-a:hover .pijl-knop .pijl-svg, .sba-tegel:hover .sba-knop .pijl-svg { transform: rotate(45deg); }
-.mini-pijl {
-  width: 27px; height: 27px;
-  color: var(--zwart);
-  display: grid; place-items: center;
+.pijl-svg { width: 100%; height: 100%; display: block; transition: transform .25s ease; }
+a:hover .pijl-knop .pijl-svg,
+.sba-tegel:hover .sba-knop .pijl-svg { transform: rotate(45deg); }
+
+@media (max-width: 900px) {
+  .footer-onder { grid-template-columns: 1fr; gap: 30px; }
+  .footer .socials { padding-left: 0; }
 }
 
 /* ==========================================================================
-   Menu-overlay — identiek aan de homepage, 'Over ons' gelinkt
+   Menu-overlay (Figma 4:18 — wit 85% over de pagina)
    ========================================================================== */
 .menu-overlay {
   position: fixed; inset: 0;
@@ -727,54 +775,102 @@ a:hover .pijl-knop .pijl-svg, .sba-tegel:hover .sba-knop .pijl-svg { transform: 
 }
 body.menu-open .menu-overlay { opacity: 1; visibility: visible; }
 body.menu-open { overflow: hidden; }
-.menu-binnen {
-  padding: 133px var(--marge-content) 64px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
-}
-.menu-kolom .kolom-label { font-size: 14px; font-weight: 800; margin-bottom: 28px; }
-.menu-kolom .groot a {
-  display: block;
-  font-size: clamp(40px, 4.2vw, 60px);
-  font-weight: 800;
-  line-height: 1.32;
-  letter-spacing: -0.01em;
-  transition: opacity .2s ease;
-}
-.menu-kolom .middel a {
-  display: block;
-  font-size: clamp(30px, 2.8vw, 40px);
-  font-weight: 800;
-  line-height: 1.35;
-  transition: opacity .2s ease;
-}
-.menu-kolom a:hover { opacity: .55; }
-.menu-sub {
-  margin: 10px 0 18px;
-  display: flex; flex-direction: column; gap: 10px;
-  padding-left: 36px;
-}
-.menu-sub a {
-  display: inline-flex; align-items: center; gap: 9px;
-  font-size: 17px;
-  font-weight: 400;
-}
-.menu-contact address { font-style: normal; font-size: 17px; line-height: 1.65; margin-bottom: 24px; }
-.menu-contact .menu-sub { padding-left: 0; }
 
-/* Placeholder-stijl als een beeld (nog) ontbreekt */
-.beeld-mist {
-  background: repeating-linear-gradient(45deg, #f2f2f2, #f2f2f2 12px, #e9e9e9 12px, #e9e9e9 24px);
+/* Figma: kolommen op x=127 / 531 / 935, bovenkant y≈152.
+   De ruimte tússen de kolommen is bewust royaler dan het ontwerp. */
+.menu-binnen {
+  padding: clamp(104px, 10.6vw, 152px) var(--marge-content) clamp(56px, 6vw, 88px);
+  display: grid;
+  grid-template-columns: 1.12fr 1fr 1fr;
+  gap: clamp(32px, 4.4vw, 64px);
+  align-items: start;
 }
-.beeld-mist::before {
-  content: attr(data-label);
-  position: absolute; inset: auto 16px 16px 16px;
-  z-index: 3;
-  font-size: 13px; font-weight: 500;
-  color: #666;
+
+/* Kleine subtitel — staat strak boven de grote paginanamen */
+.menu-kolom .kolom-label {
+  font-size: 15px; font-weight: 800;          /* Figma: 15px ExtraBold */
+  margin-bottom: 6px;
 }
-.team-kaart.beeld-mist::after { display: none; }
+
+/* Losse blokken binnen een kolom krijgen juist extra lucht */
+.menu-groep + .menu-groep { margin-top: clamp(28px, 3.4vw, 48px); }
+
+.menu-lijst { list-style: none; margin: 0; padding: 0; }
+.menu-item { position: relative; }
+
+/* Eén stijl voor zowel links (<a>) als uitklappers (<button>) */
+.menu-titel {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--zwart);
+  transition: opacity .2s ease;
+}
+.menu-titel:hover, .menu-item.open > .menu-titel { opacity: .55; }
+/* Figma: 60px-items 100px h-o-h, 40px-items 70px h-o-h */
+.menu-lijst.groot  .menu-titel { font-size: clamp(40px, 4.2vw, 60px); line-height: 1.66; }
+.menu-lijst.middel .menu-titel { font-size: clamp(30px, 2.8vw, 40px); line-height: 1.75; }
+.kolom-label + .menu-lijst.middel { margin-top: 14px; }   /* eerste regel op één lijn met de 60px-kolom */
+
+/* Uitklappaneel: animeert via grid-rijen (0fr -> 1fr), dus zonder vaste hoogte */
+.menu-sub-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition: grid-template-rows .38s cubic-bezier(.22,.61,.36,1), visibility .38s;
+}
+.menu-item.open > .menu-sub-wrap { grid-template-rows: 1fr; visibility: visible; }
+.menu-sub { overflow: hidden; min-height: 0; }
+.menu-sub-lijst {
+  list-style: none; margin: 0;
+  padding: 10px 0 14px 50px;                  /* Figma 4:18: pijl op x+50, tekst op x+89 */
+  display: flex; flex-direction: column; gap: 18px;   /* Figma: rijen 45px h-o-h (27px pijl + 18px) */
+}
+.menu-sub-lijst a {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-size: 17px; font-weight: 400;          /* Figma: 17px Regular — blijft ook bij hover regular */
+}
+/* Pijl-SVG's schalen mee met hun kader (staat niet op elke pagina in de basis-CSS) */
+.menu-overlay .pijl-svg { width: 100%; height: 100%; display: block; }
+/* Zelfde hover als de rest van de site (Figma 4:18): pijl altijd zichtbaar,
+   wijst naar rechtsboven en draait bij hover naar rechts. Tekst wordt niet dik. */
+.menu-sub-lijst .mini-pijl {
+  flex: none; width: 27px; height: 27px;       /* Figma: 27x27 */
+  color: var(--zwart);
+  display: grid; place-items: center;
+  transition: transform .25s ease;
+}
+.menu-sub-lijst a:hover .mini-pijl,
+.menu-sub-lijst a:focus-visible .mini-pijl { transform: rotate(45deg); }
+
+/* Contactkolom */
+.menu-contact address { font-style: normal; font-size: 17px; line-height: 2; margin-top: 22px; }
+.menu-contact .menu-sub-lijst { padding: 0; margin-top: 30px; gap: 5px; }   /* Figma: 32px h-o-h */
+.menu-contact .menu-sub-lijst a { gap: 11px; }
+.menu-contact .menu-sub-lijst .mini-pijl { width: 27px; height: 27px; }
+
+/* Social-iconen (Figma 151:96 e.v.): 32x32 met eigen omlijning in de SVG */
+.socials { display: flex; gap: 18px; margin-top: 46px; }
+.socials a {
+  width: 32px; height: 32px;
+  display: block;
+  transition: opacity .2s ease;
+}
+.socials a:hover { opacity: .55; text-decoration: none; }
+/* De viewBox heeft 1px marge rondom voor de rand die buiten het 32px-kader valt
+   (Figma: rand van 2 gecentreerd op het kader) — icoon rendert zo exact op 32px */
+.socials svg { width: calc(100% + 2px); height: calc(100% + 2px); margin: -1px 0 0 -1px; display: block; }
+.menu-contact .socials { color: var(--zwart); }
+/* Menu-socials: gevulde zwarte knoppen met wit icoon (Figma 4:18) — knop + glyph zitten in het symbool */
+
+@media (max-width: 680px) {
+  .menu-sub-lijst { padding-left: 22px; gap: 13px; }
+  .menu-contact address { line-height: 1.75; }
+  .socials { margin-top: 30px; }
+}
 
 /* ==========================================================================
    Responsive
@@ -783,9 +879,9 @@ body.menu-open { overflow: hidden; }
   /* SBA: vaste Figma-hoogtes loslaten zodra de kolommen te smal worden */
   .sba-grid { min-height: 0; }
   .sba-tegel { min-height: 0; padding-bottom: 26px; }
-  .sba-tegel .sba-tekst { line-height: 1.9; }
 }
 @media (max-width: 1024px) {
+  .hero-kruimels { display: none; }        /* geen ruimte naast de intro; menu blijft leidend */
   .sba-grid { grid-template-columns: 1fr; }
   .footer-kolommen { grid-template-columns: 1fr 1fr; }
   .menu-binnen { grid-template-columns: 1fr 1fr; }
@@ -817,8 +913,9 @@ body.menu-open { overflow: hidden; }
 
   .footer-kolommen { grid-template-columns: 1fr; }
   .menu-binnen { grid-template-columns: 1fr; padding-top: 110px; }
-  .menu-kolom .groot a { font-size: 40px; }
-  .menu-kolom .middel a { font-size: 30px; }
+  .menu-lijst.groot .menu-titel { font-size: 40px; line-height: 1.45; }
+  .menu-lijst.middel .menu-titel { font-size: 30px; line-height: 1.5; }
+  .menu-groep + .menu-groep { margin-top: 24px; }
   .nieuwsbrief { max-width: none; }
   .footer-onder .more-cases-klein { font-size: 16px; }
 
@@ -853,19 +950,61 @@ body.menu-open { overflow: hidden; }
 <path fill-rule="evenodd" clip-rule="evenodd" d="M24.447 2.52071C24.447 1.22629 23.4088 0.176758 22.1284 0.176758C20.8468 0.176758 19.8086 1.22629 19.8086 2.52071C19.8086 3.81513 20.8468 4.86466 22.1284 4.86466C23.4088 4.86466 24.447 3.81513 24.447 2.52071Z" fill="currentColor"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M19.7784 10.4133V12.773C19.7784 16.9147 16.4595 20.1603 12.2229 20.1603C8.0567 20.1603 4.66746 16.7341 4.66746 12.5225C4.66746 8.17426 7.71733 4.89476 11.7607 4.89476H13.8494C15.1991 4.89476 16.1089 3.72899 16.1089 2.53614C16.1089 1.34216 15.1935 0.176392 13.8494 0.176392H11.7607C5.16535 0.176392 0 5.59896 0 12.5225C0 19.3354 5.48351 24.8787 12.2229 24.8787C19.0773 24.8787 24.4469 19.5611 24.4469 12.773V10.4133H19.7784Z" fill="currentColor"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M210.801 10.4602H225.607C224.831 6.89185 222.087 4.46777 218.536 4.46777C215.967 4.46777 213.616 5.6674 212.087 7.75969C211.486 8.58125 211.055 9.49536 210.801 10.4602ZM218.541 24.8849C213.132 24.8849 208.476 21.4937 206.934 16.4108C205.748 12.5061 206.404 8.44005 208.733 5.2531C211.024 2.12143 214.689 0.251465 218.537 0.251465C225.017 0.251465 229.946 5.49798 230 12.4554C230.004 13.0377 229.773 13.6098 229.367 14.024C228.96 14.4393 228.396 14.6763 227.819 14.6763H210.784C210.825 14.8422 210.87 15.0081 210.92 15.1728C211.921 18.4693 214.978 20.6688 218.544 20.6688C218.574 20.6688 218.604 20.6688 218.635 20.6676C220.482 20.6485 221.98 20.0707 223.088 18.95L224.563 17.4592L227.511 20.4408L226.038 21.9316C224.157 23.832 221.612 24.8533 218.679 24.8838C218.633 24.8849 218.587 24.8849 218.541 24.8849Z" fill="currentColor"/></symbol>
-<symbol id="svg-pijl" viewBox="0 0 65 65">
-<path d="M23.3438 23.0063H41.4367V41.0993" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M21.5859 42.8554L41.435 23.0063" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
-<path d="M32.2203 63.6906C49.6008 63.6906 63.6906 49.6008 63.6906 32.2203C63.6906 14.8397 49.6008 0.75 32.2203 0.75C14.8397 0.75 0.75 14.8397 0.75 32.2203C0.75 49.6008 14.8397 63.6906 32.2203 63.6906Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+<symbol id="svg-pijl" viewBox="-1 -1 47 47">
+<circle cx="22.5" cy="22.5" r="21.787" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
+<path d="M16.35 16.12h12.526v12.526" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+<path d="M15.14 29.862 28.882 16.12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+</symbol>
+<symbol id="svg-pijl-klein" viewBox="0 0 28 28"><!-- Figma footer: cirkel Ø28, lijndikte 1.25 (45px-master met stroke 2, geschaald naar 28) -->
+<circle cx="14" cy="14" r="13.375" fill="none" stroke="currentColor" stroke-width="1.25"/>
+<path d="M10.17 10.03h7.8v7.8" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M9.42 18.58 17.97 10.03" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+</symbol>
+<symbol id="svg-pijl-45" viewBox="0 0 45 45"><!-- Figma footer 'Contact us!': 45px, lijndikte 2 -->
+<circle cx="22.5" cy="22.5" r="21.5" fill="none" stroke="currentColor" stroke-width="2"/>
+<path d="M16.35 16.12h12.53v12.53" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M15.14 29.86 28.88 16.12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+</symbol>
+<symbol id="ico-instagram" viewBox="-1 -1 34 34"><!-- Figma footer: 32px kader r6.5 lijn 2, lens Ø12.9 lijn 2.46, punt r1.6 -->
+<rect width="32" height="32" rx="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
+<circle cx="15.995" cy="16.595" r="6.455" fill="none" stroke="currentColor" stroke-width="2.46"/>
+<circle cx="23.332" cy="8.802" r="1.6" fill="currentColor"/>
+</symbol>
+<symbol id="ico-facebook" viewBox="-1 -1 34 34">
+<rect width="32" height="32" rx="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
+<path transform="translate(11 7)" d="M5.985 9.968 L8.469 9.968 C8.607 8.892 8.742 7.833 8.881 6.751 L6.015 6.751 C5.993 6.725 5.986 6.721 5.986 6.717 C5.987 5.924 5.913 5.127 6.049 4.34 C6.162 3.689 6.478 3.193 7.116 3.024 C7.4 2.949 7.705 2.956 8 2.945 C8.324 2.932 8.648 2.942 8.981 2.942 C8.988 2.874 8.997 2.829 8.997 2.784 C8.997 1.99 8.995 1.195 9 0.401 C9.001 0.275 8.966 0.232 8.846 0.21 C7.871 0.031 6.901 -0.077 5.906 0.066 C3.692 0.382 2.916 2.096 2.763 3.528 C2.669 4.401 2.715 5.291 2.7 6.173 C2.697 6.359 2.7 6.546 2.7 6.748 L0 6.748 L0 9.953 L2.679 9.953 L2.679 18 L5.985 18 L5.985 9.968 Z" fill="currentColor"/>
+</symbol>
+<symbol id="ico-linkedin" viewBox="-1 -1 34 34">
+<rect width="32" height="32" rx="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
+<path transform="translate(13 13)" d="M0 11.992 L0 0.258 C0.419 0.258 0.817 0.258 1.217 0.258 C1.86 0.258 2.504 0.267 3.148 0.256 C3.399 0.252 3.505 0.347 3.502 0.585 C3.497 0.963 3.501 1.34 3.501 1.629 C4.103 1.246 4.705 0.769 5.385 0.447 C7.135 -0.382 9.291 -0.034 10.67 1.295 C11.482 2.077 11.951 3.082 11.973 4.189 C12.023 6.663 11.986 9.14 11.996 11.615 C11.997 11.902 11.897 12 11.609 11.998 C10.636 11.988 9.662 11.987 8.688 12 C8.362 12.004 8.25 11.9 8.253 11.57 C8.268 9.546 8.267 7.521 8.26 5.497 C8.256 4.506 7.791 3.79 6.936 3.524 C5.529 3.086 3.761 3.664 3.72 5.679 C3.683 7.572 3.712 9.466 3.71 11.359 C3.709 11.977 3.707 11.986 3.081 11.99 C2.066 11.997 1.051 11.992 0 11.992 Z" fill="currentColor"/>
+<path transform="translate(7 13)" d="M0 11.938 L0 0.009 C0.523 0.009 1.038 0.009 1.552 0.009 C2.214 0.008 2.877 0.013 3.54 0 C3.842 -0.005 4.001 0.064 4 0.395 C3.992 4.145 3.997 7.894 3.982 11.644 C3.981 11.762 3.802 11.979 3.701 11.982 C2.534 12.006 1.367 12 0.2 11.997 C0.141 11.997 0.082 11.963 0 11.938 Z" fill="currentColor"/>
+<path transform="translate(7 7)" d="M0 1.964 C0.004 0.869 0.894 -0.002 2.009 0 C3.069 0.002 3.99 0.908 4 1.96 C4.01 3.051 3.075 4.001 1.992 4 C0.886 3.998 -0.004 3.089 0 1.964 Z" fill="currentColor"/>
+</symbol>
+<!-- Gevulde menu-varianten: zwarte afgeronde knop + wit merk-icoon (Figma 4:18).
+     Instagram = alleen lens + punt op het gevulde kader, zonder binnenrand (Figma 153:617). -->
+<symbol id="ico-ig-menu" viewBox="-1 -1 34 34">
+<rect width="32" height="32" rx="6.5" fill="#000"/>
+<circle cx="15.995" cy="16.595" r="6.455" fill="none" stroke="#fff" stroke-width="2.46"/>
+<circle cx="23.332" cy="8.802" r="1.6" fill="#fff"/>
+</symbol>
+<symbol id="ico-fb-menu" viewBox="-1 -1 34 34">
+<rect width="32" height="32" rx="6.5" fill="#000"/>
+<path transform="translate(11 7)" d="M5.985 9.968 L8.469 9.968 C8.607 8.892 8.742 7.833 8.881 6.751 L6.015 6.751 C5.993 6.725 5.986 6.721 5.986 6.717 C5.987 5.924 5.913 5.127 6.049 4.34 C6.162 3.689 6.478 3.193 7.116 3.024 C7.4 2.949 7.705 2.956 8 2.945 C8.324 2.932 8.648 2.942 8.981 2.942 C8.988 2.874 8.997 2.829 8.997 2.784 C8.997 1.99 8.995 1.195 9 0.401 C9.001 0.275 8.966 0.232 8.846 0.21 C7.871 0.031 6.901 -0.077 5.906 0.066 C3.692 0.382 2.916 2.096 2.763 3.528 C2.669 4.401 2.715 5.291 2.7 6.173 C2.697 6.359 2.7 6.546 2.7 6.748 L0 6.748 L0 9.953 L2.679 9.953 L2.679 18 L5.985 18 L5.985 9.968 Z" fill="#fff"/>
+</symbol>
+<symbol id="ico-li-menu" viewBox="-1 -1 34 34">
+<rect width="32" height="32" rx="6.5" fill="#000"/>
+<path transform="translate(13 13)" d="M0 11.992 L0 0.258 C0.419 0.258 0.817 0.258 1.217 0.258 C1.86 0.258 2.504 0.267 3.148 0.256 C3.399 0.252 3.505 0.347 3.502 0.585 C3.497 0.963 3.501 1.34 3.501 1.629 C4.103 1.246 4.705 0.769 5.385 0.447 C7.135 -0.382 9.291 -0.034 10.67 1.295 C11.482 2.077 11.951 3.082 11.973 4.189 C12.023 6.663 11.986 9.14 11.996 11.615 C11.997 11.902 11.897 12 11.609 11.998 C10.636 11.988 9.662 11.987 8.688 12 C8.362 12.004 8.25 11.9 8.253 11.57 C8.268 9.546 8.267 7.521 8.26 5.497 C8.256 4.506 7.791 3.79 6.936 3.524 C5.529 3.086 3.761 3.664 3.72 5.679 C3.683 7.572 3.712 9.466 3.71 11.359 C3.709 11.977 3.707 11.986 3.081 11.99 C2.066 11.997 1.051 11.992 0 11.992 Z" fill="#fff"/>
+<path transform="translate(7 13)" d="M0 11.938 L0 0.009 C0.523 0.009 1.038 0.009 1.552 0.009 C2.214 0.008 2.877 0.013 3.54 0 C3.842 -0.005 4.001 0.064 4 0.395 C3.992 4.145 3.997 7.894 3.982 11.644 C3.981 11.762 3.802 11.979 3.701 11.982 C2.534 12.006 1.367 12 0.2 11.997 C0.141 11.997 0.082 11.963 0 11.938 Z" fill="#fff"/>
+<path transform="translate(7 7)" d="M0 1.964 C0.004 0.869 0.894 -0.002 2.009 0 C3.069 0.002 3.99 0.908 4 1.96 C4.01 3.051 3.075 4.001 1.992 4 C0.886 3.998 -0.004 3.089 0 1.964 Z" fill="#fff"/>
 </symbol>
 <symbol id="svg-pijl-dik" viewBox="-1.2 -1.2 67.4 67.4">
 <path d="M23.3438 23.0063H41.4367V41.0993" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M21.5859 42.8554L41.435 23.0063" fill="none" stroke="currentColor" stroke-width="3.4" stroke-miterlimit="10" stroke-linecap="round"/>
 <path d="M32.2203 63.6906C49.6008 63.6906 63.6906 49.6008 63.6906 32.2203C63.6906 14.8397 49.6008 0.75 32.2203 0.75C14.8397 0.75 0.75 14.8397 0.75 32.2203C0.75 49.6008 14.8397 63.6906 32.2203 63.6906Z" fill="none" stroke="currentColor" stroke-width="3.4" stroke-miterlimit="10" stroke-linecap="round"/>
 </symbol>
-<symbol id="icoon-strategie" viewBox="0 0 22 35"><path d="M21.6232 34.6551L21.146 33.8153C19.8231 31.4867 19.379 28.7653 19.8955 26.1511C20.1423 24.9036 20.4022 23.7548 20.6536 22.644C21.4061 19.3217 22.0001 16.6971 21.6262 14.142C20.5931 7.43649 17.2769 2.92104 11.2165 0L11.3903 3.53823C11.3975 3.68461 11.3431 3.82729 11.2405 3.93189C11.1376 4.03599 11.0053 4.09583 10.8488 4.08792C8.82139 4.02264 6.57046 6.3339 3.74957 9.26433C2.72858 10.3251 1.67297 11.4218 0.490021 12.5543C0.155461 12.8748 -0.0265323 13.3265 0.00314046 13.7627C0.112682 15.3613 0.630719 16.459 1.58692 17.118C1.98009 17.389 2.48502 17.4523 2.93679 17.2876C3.91599 16.9305 5.00152 16.2953 6.25519 15.3448C6.41963 15.2199 6.64168 15.2041 6.82144 15.3015C8.85279 16.4019 10.6881 15.7149 12.9548 13.008C13.1286 12.8011 13.432 12.7593 13.6536 12.9123C13.8766 13.0654 13.9466 13.3624 13.8153 13.5988C12.5767 15.8336 10.9432 17.9149 9.36316 19.9277C5.69759 24.5972 2.23156 29.0138 4.16153 34.6548H21.623L21.6232 34.6551Z" fill="currentColor"/></symbol>
-<symbol id="icoon-branding" viewBox="0 0 25 28"><path fill-rule="evenodd" clip-rule="evenodd" d="M25 15.1154C25 15.2509 24.9464 15.3779 24.8557 15.4711L12.7598 27.8539C12.566 28.0487 12.2567 28.0487 12.0628 27.8539L0.144342 15.6447C0.0536128 15.5516 0 15.4203 0 15.289V5.61228C0 5.47677 0.0536128 5.34972 0.144342 5.25655L5.13032 0.14928C5.32415 -0.0497599 5.63345 -0.0497599 5.82728 0.14928L12.4134 6.89545L18.9995 0.14928C19.1933 -0.0497599 19.5026 -0.0497599 19.6965 0.14928L24.8557 5.43018C24.9464 5.52335 25 5.65463 25 5.78591V15.1154Z" fill="currentColor"/></symbol>
-<symbol id="icoon-activatie" viewBox="0 0 32 32"><path d="M30.0945 0.00989415C28.3478 0.198546 21.8722 0.519005 14.5628 7.86325C11.0933 11.3493 8.76535 15.1973 8 18.2982L13.6675 23.9927C16.7526 23.2237 20.5834 20.8847 24.0529 17.3986C30.9776 10.4408 31.7608 3.55133 31.9169 1.80109C32.0098 0.759039 31.1288 -0.102552 30.0945 0.00989415Z" fill="currentColor"/><path d="M10.4259 16.8839L0.421758 15.8515C-0.0249039 15.8458 -0.153369 15.2967 0.214979 14.969L4.95582 10.7505C5.62927 10.1512 6.48159 9.8355 7.28919 9.88614L13.1531 10.2535L10.4259 16.8836V16.8839Z" fill="currentColor"/><path d="M15.0469 21.5239L16.0743 31.5757C16.08 32.0245 16.6265 32.1536 16.9526 31.7835L21.1512 27.0201C21.7475 26.3434 22.0618 25.487 22.0114 24.6756L21.6458 18.7837L15.0471 21.5239H15.0469Z" fill="currentColor"/><path d="M2.23416 30.2044C3.46644 30.0443 6.73191 29.6168 8.19517 29.2611C10.1995 28.7746 11.637 27.0904 11.8898 25.1093C11.9355 24.7503 11.5046 24.5366 11.2519 24.7943C10.5747 25.4848 9.57839 26.2347 8.9289 26.3159H5.68591V23.0577C5.74471 22.5881 6.14715 21.9377 6.62469 21.3564C6.81022 21.1302 7.00737 20.9148 7.19982 20.7244C7.4565 20.4704 7.24379 20.0375 6.88656 20.0835C4.91512 20.3369 3.23915 21.7816 2.75519 23.7944C2.40117 25.2647 1.97526 28.5455 1.81566 29.7839C1.78429 30.0284 1.99082 30.2359 2.23416 30.2044Z" fill="currentColor"/></symbol>
+<symbol id="icoon-strategie" viewBox="0 0 22 35"><path d="M21.6232 34.6551L21.146 33.8153C19.8231 31.4867 19.379 28.7653 19.8955 26.1511C20.1423 24.9036 20.4022 23.7548 20.6536 22.644C21.4061 19.3217 22.0001 16.6971 21.6262 14.142C20.5931 7.43649 17.2769 2.92104 11.2165 0L11.3903 3.53823C11.3975 3.68461 11.3431 3.82729 11.2405 3.93189C11.1376 4.03599 11.0053 4.09583 10.8488 4.08792C8.82139 4.02264 6.57046 6.3339 3.74957 9.26433C2.72858 10.3251 1.67297 11.4218 0.490021 12.5543C0.155461 12.8748 -0.0265323 13.3265 0.00314046 13.7627C0.112682 15.3613 0.630719 16.459 1.58692 17.118C1.98009 17.389 2.48502 17.4523 2.93679 17.2876C3.91599 16.9305 5.00152 16.2953 6.25519 15.3448C6.41963 15.2199 6.64168 15.2041 6.82144 15.3015C8.85279 16.4019 10.6881 15.7149 12.9548 13.008C13.1286 12.8011 13.432 12.7593 13.6536 12.9123C13.8766 13.0654 13.9466 13.3624 13.8153 13.5988C12.5767 15.8336 10.9432 17.9149 9.36316 19.9277C5.69759 24.5972 2.23156 29.0138 4.16153 34.6548H21.623L21.6232 34.6551Z" fill="#D72655"/></symbol>
+<symbol id="icoon-branding" viewBox="0 0 25 28"><path fill-rule="evenodd" clip-rule="evenodd" d="M25 15.1154C25 15.2509 24.9464 15.3779 24.8557 15.4711L12.7598 27.8539C12.566 28.0487 12.2567 28.0487 12.0628 27.8539L0.144342 15.6447C0.0536128 15.5516 0 15.4203 0 15.289V5.61228C0 5.47677 0.0536128 5.34972 0.144342 5.25655L5.13032 0.14928C5.32415 -0.0497599 5.63345 -0.0497599 5.82728 0.14928L12.4134 6.89545L18.9995 0.14928C19.1933 -0.0497599 19.5026 -0.0497599 19.6965 0.14928L24.8557 5.43018C24.9464 5.52335 25 5.65463 25 5.78591V15.1154Z" fill="#D72655"/></symbol>
+<symbol id="icoon-activatie" viewBox="0 0 32 32"><path d="M30.0945 0.00989415C28.3478 0.198546 21.8722 0.519005 14.5628 7.86325C11.0933 11.3493 8.76535 15.1973 8 18.2982L13.6675 23.9927C16.7526 23.2237 20.5834 20.8847 24.0529 17.3986C30.9776 10.4408 31.7608 3.55133 31.9169 1.80109C32.0098 0.759039 31.1288 -0.102552 30.0945 0.00989415Z" fill="#D72655"/><path d="M10.4259 16.8839L0.421758 15.8515C-0.0249039 15.8458 -0.153369 15.2967 0.214979 14.969L4.95582 10.7505C5.62927 10.1512 6.48159 9.8355 7.28919 9.88614L13.1531 10.2535L10.4259 16.8836V16.8839Z" fill="#D72655"/><path d="M15.0469 21.5239L16.0743 31.5757C16.08 32.0245 16.6265 32.1536 16.9526 31.7835L21.1512 27.0201C21.7475 26.3434 22.0618 25.487 22.0114 24.6756L21.6458 18.7837L15.0471 21.5239H15.0469Z" fill="#D72655"/><path d="M2.23416 30.2044C3.46644 30.0443 6.73191 29.6168 8.19517 29.2611C10.1995 28.7746 11.637 27.0904 11.8898 25.1093C11.9355 24.7503 11.5046 24.5366 11.2519 24.7943C10.5747 25.4848 9.57839 26.2347 8.9289 26.3159H5.68591V23.0577C5.74471 22.5881 6.14715 21.9377 6.62469 21.3564C6.81022 21.1302 7.00737 20.9148 7.19982 20.7244C7.4565 20.4704 7.24379 20.0375 6.88656 20.0835C4.91512 20.3369 3.23915 21.7816 2.75519 23.7944C2.40117 25.2647 1.97526 28.5455 1.81566 29.7839C1.78429 30.0284 1.99082 30.2359 2.23416 30.2044Z" fill="#D72655"/></symbol>
 <symbol id="icoon-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3.5 7l8.5 6 8.5-6"/></symbol>
 <symbol id="icoon-tel" viewBox="0 0 24 24"><path d="M5.5 3h3l1.7 4.3-2.1 1.6a13 13 0 0 0 6 6l1.6-2.1L20 14.5v3a2.5 2.5 0 0 1-2.7 2.5C9.6 19.4 4.6 14.4 4 6.7A2.5 2.5 0 0 1 5.5 3z"/></symbol>
 </svg>
@@ -890,47 +1029,94 @@ body.menu-open { overflow: hidden; }
 <!-- ============================================================ MENU-OVERLAY -->
 <nav class="menu-overlay" id="menu-overlay" aria-label="Hoofdmenu" aria-hidden="true">
   <div class="menu-binnen">
+
+    <!-- Kolom 1 — diensten. Alles staat dicht; subkopjes komen van de homepage. -->
     <div class="menu-kolom">
-      <p class="kolom-label">What we do</p>
-      <div class="groot">
-        <a href="index.html#diensten">Strategy</a>
-        <a href="index.html#diensten">Branding</a>
-        <a href="index.html#diensten">Activation</a>
-      </div>
-      <div class="menu-sub">
-        <a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Social content</a>
-        <a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Banners &amp; media</a>
-        <a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Print &amp; more</a>
+      <div class="menu-groep">
+        <p class="kolom-label">What we do</p>
+        <ul class="menu-lijst groot">
+        <li class="menu-item">
+          <button class="menu-titel" type="button" aria-expanded="false" aria-controls="menu-sub-strategy">Strategy</button>
+          <div class="menu-sub-wrap" id="menu-sub-strategy"><div class="menu-sub">
+            <ul class="menu-sub-lijst">
+            <li><a href="strategy.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Strategie overzicht</a></li>
+            <li><a href="merk-strategie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Merk strategie</a></li>
+            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Marketing strategie</a></li>
+            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Social strategie</a></li>
+            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Creatieve strategie</a></li>
+            </ul>
+          </div></div>
+        </li>
+        <li class="menu-item">
+          <button class="menu-titel" type="button" aria-expanded="false" aria-controls="menu-sub-branding">Branding</button>
+          <div class="menu-sub-wrap" id="menu-sub-branding"><div class="menu-sub">
+            <ul class="menu-sub-lijst">
+            <li><a href="branding.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Branding overzicht</a></li>
+            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Employer branding</a></li>
+            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Corporate identity</a></li>
+            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Brand positionering</a></li>
+            <li><a href="branding.html#campagne-design"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Campagne design</a></li>
+            </ul>
+          </div></div>
+        </li>
+        <li class="menu-item">
+          <button class="menu-titel" type="button" aria-expanded="false" aria-controls="menu-sub-activation">Activation</button>
+          <div class="menu-sub-wrap" id="menu-sub-activation"><div class="menu-sub">
+            <ul class="menu-sub-lijst">
+            <li><a href="activatie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Activatie overzicht</a></li>
+            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Customer experience</a></li>
+            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Content productie</a></li>
+            <li><a href="index.html#diensten"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Events</a></li>
+            </ul>
+          </div></div>
+        </li>
+        </ul>
       </div>
     </div>
+
+    <!-- Kolom 2 — navigatie -->
     <div class="menu-kolom">
-      <p class="kolom-label">Navigatie</p>
-      <div class="middel">
-        <a href="index.html#cases">Cases</a>
-        <a href="team.html">Over ons</a>
-        <a href="#">Netwerk</a>
-      </div>
-      <div class="menu-sub">
-        <a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Social content</a>
-        <a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> Banners &amp; media</a>
-      </div>
-      <div class="middel">
-        <a href="#">Vacatures</a>
-        <a href="contact.html">Contact</a>
+      <div class="menu-groep">
+        <p class="kolom-label">Navigatie</p>
+        <ul class="menu-lijst middel">
+          <li class="menu-item"><a class="menu-titel" href="cases.html">Cases</a></li>
+          <li class="menu-item"><a class="menu-titel" href="about.html">Over ons</a></li>
+          <li class="menu-item">
+            <button class="menu-titel" type="button" aria-expanded="false" aria-controls="menu-sub-netwerk">Netwerk</button>
+            <div class="menu-sub-wrap" id="menu-sub-netwerk"><div class="menu-sub">
+              <ul class="menu-sub-lijst">
+            <li><a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Social content</a></li>
+            <li><a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Banners &amp; media</a></li>
+              </ul>
+            </div></div>
+          </li>
+          <li class="menu-item"><a class="menu-titel" href="#">Vacatures</a></li>
+          <li class="menu-item"><a class="menu-titel" href="contact.html">Contact</a></li>
+        </ul>
       </div>
     </div>
+
+    <!-- Kolom 3 — contact -->
     <div class="menu-kolom menu-contact">
-      <p class="kolom-label">Contact</p>
-      <address>
-        Weena 250 (gebouw Weena 200)<br>
-        Toren C, 12e verdieping<br>
-        3012 NJ Rotterdam
-      </address>
-      <div class="menu-sub">
-        <a href="tel:0102928333"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> 010 - 292 83 33</a>
-        <a href="mailto:hello@campagne.nl"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span> hello@campagne.nl</a>
+      <div class="menu-groep">
+        <p class="kolom-label">Contact</p>
+        <address>
+          Weena 250 (gebouw Weena 200)<br>
+          Toren C, 12e verdieping<br>
+          3012 NJ Rotterdam
+        </address>
+        <ul class="menu-sub-lijst">
+          <li><a href="tel:0102928333"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>010 - 292 83 33</a></li>
+          <li><a href="mailto:hello@campagne.nl"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>hello@campagne.nl</a></li>
+        </ul>
+        <div class="socials">
+          <a href="https://www.instagram.com/campagne_/" target="_blank" rel="noopener" aria-label="Instagram"><svg aria-hidden="true"><use href="#ico-ig-menu"></use></svg></a>
+          <a href="https://www.facebook.com/campagnerotterdam" target="_blank" rel="noopener" aria-label="Facebook"><svg aria-hidden="true"><use href="#ico-fb-menu"></use></svg></a>
+          <a href="https://www.linkedin.com/company/campagnerotterdam" target="_blank" rel="noopener" aria-label="LinkedIn"><svg aria-hidden="true"><use href="#ico-li-menu"></use></svg></a>
+        </div>
       </div>
     </div>
+
   </div>
 </nav>
 
@@ -948,7 +1134,16 @@ body.menu-open { overflow: hidden; }
       </div>
       <div class="hero-inhoud">
         <h1 class="hero-titel">Wij maken<br>merken geliefd</h1>
-        <p class="hero-intro">Wij zijn Campagne, creatief communicatiebureau uit hartje Rotterdam. Merken geliefder maken, dat is wat leuk vinden. Als strategische merkkeuze om andere merken voor te blijven. Dat doen we met creativiteit, menselijkheid en aandacht.</p>
+        <div class="hero-onder">
+          <p class="hero-intro">Wij zijn Campagne, creatief communicatiebureau uit hartje Rotterdam. Merken geliefder maken, dat is wat leuk vinden. Als strategische merkkeuze om andere merken voor te blijven. Dat doen we met creativiteit, menselijkheid en aandacht.</p>
+          <nav class="hero-kruimels" aria-label="Kruimelpad">
+            <ol>
+              <li><a href="index.html">Home</a></li>
+              <li class="scheiding" aria-hidden="true">&mdash;</li>
+              <li><span aria-current="page">Over ons</span></li>
+            </ol>
+          </nav>
+        </div>
       </div>
     </div>
   </div>
@@ -969,7 +1164,7 @@ body.menu-open { overflow: hidden; }
 <!-- ============================================================ STRATEGIE / BRANDING / ACTIVATIE (Figma 104:2) -->
 <section class="sba" id="diensten">
   <div class="sba-grid">
-    <a class="sba-tegel" href="index.html#diensten">
+    <a class="sba-tegel" href="strategy.html">
       <span class="sba-icoon"><svg class="icoon-s" aria-hidden="true"><use href="#icoon-strategie"></use></svg></span>
       <h2>Strategie</h2>
       <p class="sba-tekst">Geliefder worden begint met een goed doordacht plan waarin je definieert wie je bent en wat je het beste kunt. Zo positioneer je jezelf slim en stippel je samen een route uit naar het gewenste doel. Vanuit de businesscase werken we je merk verder uit naar een positionering, marketingplan, social strategie, contentplan en communicatieplanning.</p>
@@ -1014,6 +1209,27 @@ body.menu-open { overflow: hidden; }
   </div>
 </section>
 
+<!-- ============================================================ INTRO + LOGO'S (Figma 99:302, kop gecentreerd) -->
+<section class="intro">
+  <h2 class="sectie-kop">Wij helpen merken geliefder te worden.</h2>
+</section>
+<div class="logo-slider" aria-label="Klanten van Campagne">
+  <div class="logo-strip" id="logo-strip">
+    <img loading="lazy" decoding="async" src="images/logos/logo_de.png" style="height:72px" alt="Logo Douwe Egberts">
+    <img loading="lazy" decoding="async" src="images/logos/logo_brugman.png" style="height:36px" alt="Logo Brugman">
+    <img loading="lazy" decoding="async" src="images/logos/logo_allison.png" style="height:36px" alt="Logo Allison">
+    <img loading="lazy" decoding="async" src="images/logos/logo_stl.png" style="height:28px" alt="Logo STL">
+    <img loading="lazy" decoding="async" src="images/logos/logo_rt.png" style="height:45px" alt="Logo Rotterdam Topsport">
+    <img loading="lazy" decoding="async" src="images/logos/logo_mkb.png" style="height:61px" alt="Logo MKB Brandstof">
+    <img loading="lazy" decoding="async" src="images/logos/logo_steinweg.png" style="height:36px" alt="Logo Steinweg">
+    <img loading="lazy" decoding="async" src="images/logos/logo_rijksoverheid.png" style="height:76px" alt="Logo Rijksoverheid">
+    <img loading="lazy" decoding="async" src="images/logos/logo_maasstad.png" style="height:51px" alt="Logo Maasstad Ziekenhuis">
+    <img loading="lazy" decoding="async" src="images/logos/logo_tij.png" style="height:53px" alt="Logo Rotterdams Tij">
+    <img loading="lazy" decoding="async" src="images/logos/logo_svenson.png" style="height:16px" alt="Logo Svensson">
+    <img loading="lazy" decoding="async" src="images/logos/logo_greenchoice.png" style="height:65px" alt="Logo Greenchoice">
+  </div>
+</div>
+
 <!-- ============================================================ PARTNERS (Figma 100:2509) -->
 <section class="partners" id="partners">
   <h2 class="sectie-kop">Met onze partners</h2>
@@ -1043,27 +1259,6 @@ body.menu-open { overflow: hidden; }
   </div>
 </section>
 
-<!-- ============================================================ INTRO + LOGO'S (Figma 99:302, kop gecentreerd) -->
-<section class="intro">
-  <h2 class="sectie-kop">Wij helpen merken geliefder te worden.</h2>
-</section>
-<div class="logo-slider" aria-label="Klanten van Campagne">
-  <div class="logo-strip" id="logo-strip">
-    <img loading="lazy" decoding="async" src="images/logo_de.png" style="height:72px" alt="Logo Douwe Egberts">
-    <img loading="lazy" decoding="async" src="images/logo_brugman.png" style="height:36px" alt="Logo Brugman">
-    <img loading="lazy" decoding="async" src="images/logo_allison.png" style="height:36px" alt="Logo Allison">
-    <img loading="lazy" decoding="async" src="images/logo_stl.png" style="height:28px" alt="Logo STL">
-    <img loading="lazy" decoding="async" src="images/logo_rt.png" style="height:45px" alt="Logo Rotterdam Topsport">
-    <img loading="lazy" decoding="async" src="images/logo_mkb.png" style="height:61px" alt="Logo MKB Brandstof">
-    <img loading="lazy" decoding="async" src="images/logo_steinweg.png" style="height:36px" alt="Logo Steinweg">
-    <img loading="lazy" decoding="async" src="images/logo_rijksoverheid.png" style="height:76px" alt="Logo Rijksoverheid">
-    <img loading="lazy" decoding="async" src="images/logo_maasstad.png" style="height:51px" alt="Logo Maasstad Ziekenhuis">
-    <img loading="lazy" decoding="async" src="images/logo_tij.png" style="height:53px" alt="Logo Rotterdams Tij">
-    <img loading="lazy" decoding="async" src="images/logo_svenson.png" style="height:16px" alt="Logo Svensson">
-    <img loading="lazy" decoding="async" src="images/logo_greenchoice.png" style="height:65px" alt="Logo Greenchoice">
-  </div>
-</div>
-
 <!-- ============================================================ MARQUEE (statements, als homepage) -->
 <div class="marquee" aria-hidden="true">
   <div class="marquee-rij"><span>64 partners</span><span>Wanna be loved?</span><span>64 partners</span><span>Wanna be loved?</span><span>64 partners</span><span>Wanna be loved?</span></div>
@@ -1077,7 +1272,7 @@ body.menu-open { overflow: hidden; }
   <div class="footer-kolommen">
     <div class="footer-logo">
       <svg class="logo-svg" role="img" aria-label="Campagne"><use href="#svg-logo"></use></svg>
-      <p class="footer-intro">Given attention, grabbing it and keeping it is essential. We help brands grow in a connected world &mdash; with strategy, branding and campaigns that make people care.</p>
+      <p class="footer-intro">Given attention, grabbing it and keeping it is essential if you want to communicate effectively. We help organizations by reaching and touching the target audience with creative communication strategies.</p>
     </div>
     <div>
       <h3>Contact</h3>
@@ -1086,16 +1281,11 @@ body.menu-open { overflow: hidden; }
         3084 LG Rotterdam
       </address>
       <div class="footer-links">
-        <a href="tel:0102928333"><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span> 010 - 292 83 33</a>
-        <a href="mailto:hello@campagne.nl"><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span> hello@campagne.nl</a>
-      </div>
-      <div class="socials">
-        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.9-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 4 4 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zm0 3.6a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-10.5a1.4 1.4 0 1 0 0 2.9 1.4 1.4 0 0 0 0-2.9z"/></svg></a>
-        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M13.5 21v-8.2h2.8l.4-3.2h-3.2V7.6c0-.9.3-1.6 1.6-1.6h1.7V3.2c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.4H7.3v3.2h2.8V21h3.4z"/></svg></a>
-        <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1-.02 5 2.5 2.5 0 0 1 .02-5zM3 9h4v12H3zM9 9h3.8v1.7h.1c.5-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21h-4v-5.5c0-1.3 0-3-1.9-3s-2.2 1.4-2.2 2.9V21H9z"/></svg></a>
+        <a href="tel:0102928333"><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-klein"></use></svg></span> 010 - 292 83 33</a>
+        <a href="mailto:hello@campagne.nl"><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-klein"></use></svg></span> hello@campagne.nl</a>
       </div>
     </div>
-    <div>
+    <div class="footer-nieuwsbrief">
       <h3>Stay up to date!</h3>
       <p class="nieuwsbrief-tekst">Sign me up!</p>
       <form class="nieuwsbrief" onsubmit="return false">
@@ -1106,10 +1296,15 @@ body.menu-open { overflow: hidden; }
     </div>
   </div>
   <div class="footer-onder">
-    <a class="more-cases-klein" href="mailto:hello@campagne.nl">
+    <a class="more-cases-klein" href="contact.html">
+      <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-45"></use></svg></span>
       Contact us!
-      <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
     </a>
+    <div class="socials">
+      <a href="https://www.instagram.com/campagne_/" target="_blank" rel="noopener" aria-label="Instagram"><svg aria-hidden="true"><use href="#ico-instagram"></use></svg></a>
+      <a href="https://www.facebook.com/campagnerotterdam" target="_blank" rel="noopener" aria-label="Facebook"><svg aria-hidden="true"><use href="#ico-facebook"></use></svg></a>
+      <a href="https://www.linkedin.com/company/campagnerotterdam" target="_blank" rel="noopener" aria-label="LinkedIn"><svg aria-hidden="true"><use href="#ico-linkedin"></use></svg></a>
+    </div>
   </div>
 </footer>
 </main>
@@ -1118,14 +1313,14 @@ body.menu-open { overflow: hidden; }
      (bijv. bij lokaal openen via dubbelklik). Live leest de pagina team.json. -->
 <script type="application/json" id="team-fallback">
 {"leden":[
-  {"naam":"Vincent Loopstra","functie":"Creative","eigenschappen":["illustrator","kleuren en vormen","kleurrijke sokken"],"mail":"vincent@campagne.nl","telefoon":"010 - 292 83 33","foto":"images/team/vincent-loopstra.webp"},
-  {"naam":"Teamlid Twee","functie":"Strateeg","eigenschappen":["merkstrategie","onderzoek","koffie"],"mail":"twee@campagne.nl","telefoon":"010 - 292 83 33","foto":"images/team/teamlid-twee.webp"},
-  {"naam":"Teamlid Drie","functie":"Designer","eigenschappen":["branding","motion","typografie"],"mail":"drie@campagne.nl","telefoon":"","foto":"images/team/teamlid-drie.webp"},
-  {"naam":"Teamlid Vier","functie":"Content creator","eigenschappen":["video","social","fotografie"],"mail":"vier@campagne.nl","telefoon":"010 - 292 83 33","foto":"images/team/teamlid-vier.webp"},
-  {"naam":"Teamlid Vijf","functie":"Accountmanager","eigenschappen":["klantcontact","planning","bakkies"],"mail":"vijf@campagne.nl","telefoon":"010 - 292 83 33","foto":"images/team/teamlid-vijf.webp"},
-  {"naam":"Teamlid Zes","functie":"Copywriter","eigenschappen":["concept","copy","woordgrappen"],"mail":"zes@campagne.nl","telefoon":"","foto":"images/team/teamlid-zes.webp"},
-  {"naam":"Teamlid Zeven","functie":"Developer","eigenschappen":["website","techniek","pixels"],"mail":"zeven@campagne.nl","telefoon":"010 - 292 83 33","foto":"images/team/teamlid-zeven.webp"},
-  {"naam":"Teamlid Acht","functie":"Producer","eigenschappen":["events","productie","regelneef"],"mail":"acht@campagne.nl","telefoon":"010 - 292 83 33","foto":"images/team/teamlid-acht.webp"}
+  {"naam":"Vincent Loopstra","functie":"Creative","eigenschappen":["illustrator","kleuren en vormen","kleurrijke sokken"],"mail":"vincent@campagne.nl","telefoon":"010 - 292 83 33","foto":""},
+  {"naam":"Teamlid Twee","functie":"Strateeg","eigenschappen":["merkstrategie","onderzoek","koffie"],"mail":"twee@campagne.nl","telefoon":"010 - 292 83 33","foto":""},
+  {"naam":"Teamlid Drie","functie":"Designer","eigenschappen":["branding","motion","typografie"],"mail":"drie@campagne.nl","telefoon":"","foto":""},
+  {"naam":"Teamlid Vier","functie":"Content creator","eigenschappen":["video","social","fotografie"],"mail":"vier@campagne.nl","telefoon":"010 - 292 83 33","foto":""},
+  {"naam":"Teamlid Vijf","functie":"Accountmanager","eigenschappen":["klantcontact","planning","bakkies"],"mail":"vijf@campagne.nl","telefoon":"010 - 292 83 33","foto":""},
+  {"naam":"Teamlid Zes","functie":"Copywriter","eigenschappen":["concept","copy","woordgrappen"],"mail":"zes@campagne.nl","telefoon":"","foto":""},
+  {"naam":"Teamlid Zeven","functie":"Developer","eigenschappen":["website","techniek","pixels"],"mail":"zeven@campagne.nl","telefoon":"010 - 292 83 33","foto":""},
+  {"naam":"Teamlid Acht","functie":"Producer","eigenschappen":["events","productie","regelneef"],"mail":"acht@campagne.nl","telefoon":"010 - 292 83 33","foto":""}
 ]}
 </script>
 
@@ -1159,13 +1354,19 @@ document.querySelectorAll('img[src^="images/"]').forEach(function (img) {
     var open = document.body.classList.toggle('menu-open');
     knop.setAttribute('aria-expanded', open ? 'true' : 'false');
     overlay.setAttribute('aria-hidden', open ? 'false' : 'true');
+    knop.querySelector('.menu-label').textContent = open ? 'Close' : 'Menu';
   });
+  function sluitMenu() {
+    document.body.classList.remove('menu-open');
+    knop.setAttribute('aria-expanded', 'false');
+    overlay.setAttribute('aria-hidden', 'true');
+    knop.querySelector('.menu-label').textContent = 'Menu';
+  }
   overlay.querySelectorAll('a').forEach(function (a) {
-    a.addEventListener('click', function () {
-      document.body.classList.remove('menu-open');
-      knop.setAttribute('aria-expanded', 'false');
-      overlay.setAttribute('aria-hidden', 'true');
-    });
+    a.addEventListener('click', sluitMenu);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') sluitMenu();
   });
 })();
 
@@ -1445,7 +1646,7 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
     if (lid.mail) contact += '<a href="mailto:' + ontsnap(lid.mail) + '" aria-label="Mail ' + ontsnap(lid.naam) + '"><svg aria-hidden="true"><use href="#icoon-mail"></use></svg></a>';
     if (lid.telefoon) contact += '<a href="tel:' + ontsnap(String(lid.telefoon).replace(/[^\d+]/g, '')) + '" aria-label="Bel ' + ontsnap(lid.naam) + '"><svg aria-hidden="true"><use href="#icoon-tel"></use></svg></a>';
     art.innerHTML =
-      '<img class="kaart-foto" loading="lazy" decoding="async" src="' + ontsnap(lid.foto) + '" alt="' + ontsnap(lid.naam) + '">' +
+      '<img class="kaart-foto" loading="lazy" decoding="async" src="' + ontsnap(lid.foto || 'images/placeholder.webp') + '" alt="' + ontsnap(lid.naam) + '">' +
       '<div class="kaart-naam"><span class="naam">' + ontsnap(lid.naam) + '</span><br><span class="functie">' + ontsnap(lid.functie) + '</span></div>' +
       (eig ? '<p class="kaart-labels">' + eig + '</p>' : '') +
       (contact ? '<div class="kaart-contact">' + contact + '</div>' : '') +
@@ -1568,6 +1769,43 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
       .catch(fallback);
   }
 })();
+
+// Uitklapmenu: alles staat dicht bij openen; er kan er maar één tegelijk open zijn
+(function () {
+  var knoppen = Array.prototype.slice.call(
+    document.querySelectorAll('.menu-titel[aria-expanded]')
+  );
+  if (!knoppen.length) return;
+
+  function sluit(knop) {
+    knop.setAttribute('aria-expanded', 'false');
+    knop.closest('.menu-item').classList.remove('open');
+  }
+  function sluitAlles(behalve) {
+    knoppen.forEach(function (k) { if (k !== behalve) sluit(k); });
+  }
+
+  knoppen.forEach(function (knop) {
+    knop.addEventListener('click', function () {
+      var item = knop.closest('.menu-item');
+      var wordtOpen = !item.classList.contains('open');
+      sluitAlles(knop);                       // de vorige klapt automatisch dicht
+      item.classList.toggle('open', wordtOpen);
+      knop.setAttribute('aria-expanded', wordtOpen ? 'true' : 'false');
+    });
+  });
+
+  // Menu dicht (knop of Escape) = alles weer ingeklapt voor de volgende keer
+  function resetAlsDicht() {
+    if (!document.body.classList.contains('menu-open')) sluitAlles(null);
+  }
+  var mk = document.querySelector('.menu-knop');
+  if (mk) mk.addEventListener('click', resetAlsDicht);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') setTimeout(resetAlsDicht, 0);
+  });
+})();
 </script>
+<script src="cms-data.js"></script>
 </body>
 </html>
