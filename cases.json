@@ -517,7 +517,7 @@
       }
     },
     {
-      "actief": false,
+      "actief": true,
       "naam": "NKW",
       "slug": "samen-voor-een-beter-klimaat",
       "klant": "NKW",
@@ -560,7 +560,7 @@
       }
     },
     {
-      "actief": false,
+      "actief": true,
       "naam": "StiGaM",
       "slug": "toonaangevende-gebiedsontwikkeling",
       "klant": "Stichting Gebiedsontwikkeling aan de Maas (StiGaM)",
@@ -603,7 +603,7 @@
       }
     },
     {
-      "actief": false,
+      "actief": true,
       "naam": "MRDH",
       "slug": "welkom-in-2040",
       "klant": "MRDH",
@@ -645,7 +645,7 @@
       }
     },
     {
-      "actief": false,
+      "actief": true,
       "naam": "STL",
       "slug": "werving-op-de-snelweg",
       "klant": "Sectorinstituut Transport en Logistiek (STL)",
