@@ -340,12 +340,12 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
 }
 .tegel-sub {
   display: flex; align-items: flex-end; justify-content: space-between; gap: 14px;
-  font-size: 14px; line-height: 20px;                   /* Figma: Poppins Regular 14/20 */
+  font-size: 16px; line-height: 22px;                   /* was 14/20; iets groter corps in de kleine tegels */
   max-height: 0; margin-top: 0; opacity: 0;
   overflow: hidden;
   transition: max-height .35s ease, margin-top .35s ease, opacity .3s ease;
 }
-.tegel:hover .tegel-sub { max-height: 64px; margin-top: 3px; opacity: 1; }  /* ontwerp: labels 5px lager in de hover */
+.tegel:hover .tegel-sub { max-height: 70px; margin-top: 3px; opacity: 1; }  /* ontwerp: labels 5px lager in de hover */
 .tegel-sub .onderschrift { max-width: 340px; }          /* Figma: subtitel ±339px breed */
 .tegel-sub .pijl-knop { flex: none; width: 45px; height: 45px; color: var(--wit); }  /* Figma: 45x45 */
 .tegel .pijl-svg { transition: transform .6s ease; }
@@ -930,6 +930,16 @@ html.laadscherm-gezien .laadscherm { display: none; }
   .cases-overzicht .tegel-grid { display: grid; grid-template-columns: 1fr; }
   .cases-kop { padding-left: 0; padding-right: 0; }
 }
+
+/* ==========================================================================
+   Evenwichtige regelafbreking — koppen en korte subtitels verdelen hun
+   woorden evenredig over de regels; alinea's vermijden losse laatste woorden.
+   De browser bepaalt de beste afbraak, dus dit klopt op elk schermformaat.
+   ========================================================================== */
+h1, h2, h3, blockquote p,
+.case-resultaat, .hero-resultaat, .tegel-titel, .tegel-sub .onderschrift,
+.tegel-tekst, .partner-resultaat, .hero-intro { text-wrap: balance; }
+p { text-wrap: pretty; }
 </style>
 <script>
 // Laadscherm alleen bij het eerste bezoek in deze browsersessie: is hij al

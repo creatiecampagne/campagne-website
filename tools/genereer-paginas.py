@@ -510,6 +510,100 @@ def bouw_homepage_diensten(html, groepen, diensten):
     return html
 
 
+def homepage_selectie(cases, homepage):
+    """Welke case op welke homepage-plek staat. De plekken komen uit
+    homepage.json (het menu 'Homepage-indeling' in Sveltia); lege of ongeldige
+    plekken worden aangevuld in de volgorde van de caseslijst, zodat de
+    homepage nooit gaten vertoont. Dezelfde logica staat in cms-data.js."""
+    actief = [c for c in cases if c.get('actief') is not False]
+    per_slug = {c['slug']: c for c in actief if c.get('slug')}
+    gekozen = []
+
+    def kies(plek):
+        slug = str((homepage or {}).get(plek) or '').strip()
+        c = per_slug.get(slug)
+        if c is not None and slug not in gekozen:
+            gekozen.append(slug)
+            return c
+        return None
+
+    groot = [kies(p) for p in ('groot_1', 'groot_2', 'groot_3')]
+    klein = [kies(p) for p in ('klein_1', 'klein_2', 'klein_3',
+                               'klein_4', 'klein_5', 'klein_6')]
+    rest = [c for c in actief if c.get('slug') not in gekozen]
+    groot = [c or (rest.pop(0) if rest else None) for c in groot]
+    klein = [c or (rest.pop(0) if rest else None) for c in klein]
+    return [c for c in groot if c], [c for c in klein if c]
+
+
+def case_link(c):
+    """Link van een homepage-blok of -tegel: alleen als er een detailpagina is."""
+    if c.get('pagina_aanmaken') is False:
+        return ''
+    return bestandsnaam(c, 'case-')
+
+
+def homepage_groot_blok(c):
+    naam = een_regel(c.get('naam'))
+    doel = case_link(c)
+    video = f' data-video="{esc(c["hover_video"])}"' if c.get('hover_video') else ''
+    open_tag = (f'  <a class="case-blok" href="{esc(doel)}"{video}>' if doel
+                else f'  <article class="case-blok"{video}>')
+    sluit = '  </a>' if doel else '  </article>'
+    return (
+        f'{open_tag}\n'
+        f'    <img loading="lazy" decoding="async" src="{esc(beeldpad(c.get("tegelbeeld")))}" alt="{esc(c.get("tegelbeeld_alt") or f"Case {naam}")}">\n'
+        f'    <div class="case-inhoud">\n'
+        f'      <span class="case-eyebrow">{esc(naam)}</span>\n'
+        f'      <h2 class="case-titel">{regels(c.get("titel"))}</h2>\n'
+        f'      <p class="case-resultaat">\n'
+        f'        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>\n'
+        f'        {regels(c.get("resultaat"))}\n'
+        f'      </p>\n'
+        f'    </div>\n'
+        f'{sluit}'
+    )
+
+
+def homepage_tegel(c):
+    naam = een_regel(c.get('naam'))
+    doel = case_link(c)
+    video = f' data-video="{esc(c["hover_video"])}"' if c.get('hover_video') else ''
+    stijl = f' style="--hover-kleur:{esc(c.get("merkkleur") or "#d72655")}"'
+    open_tag = (f'    <a class="tegel" href="{esc(doel)}"{stijl}{video}>' if doel
+                else f'    <article class="tegel"{stijl}{video}>')
+    sluit = '</a>' if doel else '</article>'
+    labels = ''.join(f'<span>{esc(t)}</span>' for t in (c.get('tags') or []))
+    return (
+        f'{open_tag}<img loading="lazy" decoding="async" src="{esc(beeldpad(c.get("tegelbeeld")))}" alt="{esc(c.get("tegelbeeld_alt") or f"Case {naam}")}">\n'
+        f'      <div class="tegel-inhoud">\n'
+        f'        <p class="tegel-titel">{esc(naam)}</p>\n'
+        f'        <div class="tegel-onder">\n'
+        f'          <p class="tegel-labels">{labels}</p>\n'
+        f'          <p class="tegel-sub"><span class="onderschrift">{esc(een_regel(c.get("resultaat")))}</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span></p>\n'
+        f'        </div>\n'
+        f'      </div>{sluit}'
+    )
+
+
+def bouw_homepage_cases(html, cases, homepage):
+    """De drie grote blokken en zes kleine tegels op de homepage, volgens de
+    plekken uit homepage.json. cms-data.js doet hetzelfde in de browser; dit
+    is de statische versie voor Google en bezoekers zonder JavaScript."""
+    groot, klein = homepage_selectie(cases, homepage)
+
+    blok = re.search(r'(<section class="cases" id="cases">)(.*?)(</section>)', html, re.S)
+    if blok:
+        binnen = '\n' + '\n'.join(homepage_groot_blok(c) for c in groot) + '\n'
+        html = html[:blok.start(2)] + binnen + html[blok.end(2):]
+
+    grid = re.search(r'(<div class="tegel-grid">)(.*?)(</div>\s*<a class="more-cases")', html, re.S)
+    if grid:
+        binnen = '\n' + '\n'.join(homepage_tegel(c) for c in klein) + '\n  '
+        html = html[:grid.start(2)] + binnen + html[grid.end(2):]
+    return html
+
+
 def inkorten(tekst, lengte=150):
     t = re.sub(r'\s+', ' ', str(tekst or '')).strip()
     return t if len(t) <= lengte else t[:lengte].rsplit(' ', 1)[0] + '...'
@@ -585,9 +679,11 @@ def main():
 
     # Menu en homepage-dienstenblok in index.html (de master) opnieuw opbouwen
     # uit diensten.json, vóórdat de masterblokken worden overgenomen.
+    homepage = lees_json('homepage.json') or {}
     index_html = lees('index.html')
     index_nieuw = bouw_menulijsten(index_html, groepen_lijst, diensten)
     index_nieuw = bouw_homepage_diensten(index_nieuw, groepen_lijst, diensten)
+    index_nieuw = bouw_homepage_cases(index_nieuw, cases, homepage)
     if index_nieuw != index_html and not controle:
         with open(os.path.join(WORTEL, 'index.html'), 'w', encoding='utf-8') as f:
             f.write(index_nieuw)

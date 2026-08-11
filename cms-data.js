@@ -120,6 +120,16 @@
   var BASIS = document.documentElement.getAttribute('data-basis') || '';
   var TAAL = (document.documentElement.lang || 'nl').toLowerCase().slice(0, 2);
 
+  // Op pagina's zonder Engelse versie is de taalknop een button (geen link).
+  // De keuze rendert dan wél alle CMS-teksten om (cases, tegels, menu) en
+  // wordt onthouden voor de rest van het bezoek — zo 'springen' de cases om,
+  // ook al is de pagina zelf (nog) niet vertaald.
+  var TAALKNOPPEN = !!document.querySelector('.taalswitch button');
+  try {
+    var bewaardeTaal = sessionStorage.getItem('cmsTaal');
+    if (TAALKNOPPEN && (bewaardeTaal === 'en' || bewaardeTaal === 'nl')) TAAL = bewaardeTaal;
+  } catch (fout) { /* geen storage — geen probleem */ }
+
   // Waarde in de taal van deze pagina; een lege vertaling valt terug op het Nederlands.
   function v(item, naam) {
     if (!item) return '';
@@ -238,12 +248,33 @@
     return link ? '<a'+attrs+'>'+inner+'</a>' : '<article'+attrs+'>'+inner+'</article>';
   }
 
-  function renderHomepageCases(data) {
-    var cases=actieveCases(data);
+  // Welke case op welke homepage-plek staat: de plekken uit homepage.json
+  // (menu 'Homepage-indeling' in Sveltia). Lege of ongeldige plekken worden
+  // aangevuld in de volgorde van de caseslijst, zodat er nooit gaten vallen.
+  // Zelfde logica als homepage_selectie in tools/genereer-paginas.py.
+  function homepageSelectie(data, hp) {
+    var alle=actieveCases(data);
+    var perSlug={}; alle.forEach(function(c){ if(c.slug) perSlug[c.slug]=c; });
+    var gekozen=[];
+    function kies(plek){
+      var slug=hp ? String(hp[plek]||'').trim() : '';
+      var c=perSlug[slug];
+      if (c && gekozen.indexOf(slug)===-1) { gekozen.push(slug); return c; }
+      return null;
+    }
+    var groot=['groot_1','groot_2','groot_3'].map(kies);
+    var klein=['klein_1','klein_2','klein_3','klein_4','klein_5','klein_6'].map(kies);
+    var rest=alle.filter(function(c){ return gekozen.indexOf(c.slug)===-1; });
+    function vulAan(c){ return c || rest.shift() || null; }
+    return { groot: groot.map(vulAan).filter(Boolean), klein: klein.map(vulAan).filter(Boolean) };
+  }
+
+  function renderHomepageCases(data, hp) {
+    var keuze=homepageSelectie(data, hp);
     var groot=document.querySelector('section.cases#cases');
-    if (groot) groot.innerHTML=cases.slice(0,3).map(function(c){return caseGroot(c,'h2');}).join('');
+    if (groot) groot.innerHTML=keuze.groot.map(function(c){return caseGroot(c,'h2');}).join('');
     var grid=document.querySelector('section.tegels .tegel-grid');
-    if (grid && !document.body.classList.contains('cases-pagina')) grid.innerHTML=cases.slice(3,9).map(function(c){return caseTegel(c,false);}).join('');
+    if (grid && !document.body.classList.contains('cases-pagina')) grid.innerHTML=keuze.klein.map(function(c){return caseTegel(c,false);}).join('');
   }
 
   function renderCasesOverzicht(data) {
@@ -376,15 +407,41 @@
   var casesP=laadJSON('cases.json').catch(function(e){console.warn(e);return null;});
   var logosP=laadJSON('logos.json').catch(function(e){console.warn(e);return null;});
   var dienstenP=laadJSON('diensten.json').catch(function(e){console.warn(e);return null;});
+  var homepageP=laadJSON('homepage.json').catch(function(e){console.warn(e);return null;});
 
-  window.CampagneCMSReady=Promise.all([casesP,logosP,dienstenP]).then(function(all){
-    var cases=all[0],logos=all[1],diensten=all[2];
+  // Taalknop-UI gelijkzetten met de (eventueel onthouden) taal
+  function syncTaalknop() {
+    document.querySelectorAll('.taalswitch').forEach(function(ts){
+      ts.setAttribute('data-taal', TAAL);
+      ts.querySelectorAll('button').forEach(function(b){ b.classList.toggle('actief', b.dataset.kies===TAAL); });
+    });
+  }
+
+  window.CampagneCMSReady=Promise.all([casesP,logosP,dienstenP,homepageP]).then(function(all){
+    var cases=all[0],logos=all[1],diensten=all[2],homepage=all[3];
+
+    function renderAlles(){
+      if(cases){renderHomepageCases(cases,homepage);renderCasesOverzicht(cases);renderCaseDetail(cases);}
+      if(diensten){renderMenu(diensten);renderHomepageDiensten(diensten);renderGroepOverzicht(diensten);if(cases)renderDienstDetail(diensten,cases);}
+      document.querySelectorAll('img').forEach(bindAfbeelding);
+      initDynamicVideoHover(document);
+    }
+
     if(logos) renderLogos(logos);
-    if(cases){renderHomepageCases(cases);renderCasesOverzicht(cases);renderCaseDetail(cases);}
-    if(diensten){renderMenu(diensten);renderHomepageDiensten(diensten);renderGroepOverzicht(diensten);if(cases)renderDienstDetail(diensten,cases);}
-    document.querySelectorAll('img').forEach(bindAfbeelding);
-    initDynamicVideoHover(document);
+    renderAlles();
+    if (TAALKNOPPEN) {
+      syncTaalknop();
+      // Klik op EN/NL: alle CMS-teksten in die taal opnieuw renderen
+      document.querySelectorAll('.taalswitch button').forEach(function(b){
+        b.addEventListener('click', function(){
+          if (b.dataset.kies===TAAL) return;
+          TAAL=b.dataset.kies;
+          try { sessionStorage.setItem('cmsTaal', TAAL); } catch (fout) { /* geen storage */ }
+          renderAlles();
+        });
+      });
+    }
     document.dispatchEvent(new CustomEvent('campagne:cms-ready'));
-    return {cases:cases,logos:logos,diensten:diensten};
+    return {cases:cases,logos:logos,diensten:diensten,homepage:homepage};
   });
 })();

@@ -259,7 +259,9 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
 .hart-houder {
   grid-area: hart;
   position: relative;
-  width: min(45vw, 61svh, 563px);   /* Figma 153:430: beeldmerk-kader 563px */
+  /* Schaalt mee met het venster: op kleine schermen als voorheen, op grote
+     monitors groeit het beeldmerk door (was gemaximeerd op 563px). */
+  width: min(48vw, 64svh, 900px);
   aspect-ratio: 1 / 1;
   justify-self: center;
   z-index: 1;
@@ -756,6 +758,16 @@ body.menu-open { overflow: hidden; }
   html { scroll-behavior: auto; }
   * { transition-duration: .01ms !important; }
 }
+
+/* ==========================================================================
+   Evenwichtige regelafbreking — koppen en korte subtitels verdelen hun
+   woorden evenredig over de regels; alinea's vermijden losse laatste woorden.
+   De browser bepaalt de beste afbraak, dus dit klopt op elk schermformaat.
+   ========================================================================== */
+h1, h2, h3, blockquote p,
+.case-resultaat, .hero-resultaat, .tegel-titel, .tegel-sub .onderschrift,
+.tegel-tekst, .partner-resultaat, .hero-intro { text-wrap: balance; }
+p { text-wrap: pretty; }
 </style>
 </head>
 <body>
@@ -1015,7 +1027,7 @@ body.menu-open { overflow: hidden; }
         <button class="verstuur" type="submit">
           <span class="verstuur-tekst">Send</span>
           <span class="verstuur-lijn" aria-hidden="true"></span>
-          <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-45"></use></svg></span>
+          <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
         </button>
       </div>
       <p class="form-dank" role="status">Dankjewel! Je mailprogramma opent met je bericht &mdash; versturen maar. &#10084;</p>

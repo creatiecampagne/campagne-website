@@ -895,6 +895,16 @@ body.menu-open { overflow: hidden; }
   .blok-video { display: none; }
   * { transition-duration: .01ms !important; }
 }
+
+/* ==========================================================================
+   Evenwichtige regelafbreking — koppen en korte subtitels verdelen hun
+   woorden evenredig over de regels; alinea's vermijden losse laatste woorden.
+   De browser bepaalt de beste afbraak, dus dit klopt op elk schermformaat.
+   ========================================================================== */
+h1, h2, h3, blockquote p,
+.case-resultaat, .hero-resultaat, .tegel-titel, .tegel-sub .onderschrift,
+.tegel-tekst, .partner-resultaat, .hero-intro { text-wrap: balance; }
+p { text-wrap: pretty; }
 </style>
 </head>
 <body data-dienst-slug="employer-branding">

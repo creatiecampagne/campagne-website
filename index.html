@@ -216,7 +216,7 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   display: block;
   pointer-events: none;
 }
-.hero-video { position: absolute; inset: 0; overflow: hidden; container-type: size; }
+.hero-video { position: absolute; inset: 0; overflow: hidden; container-type: size; background: #101010; }  /* donker kader tot de video (of het poster-beeld) er is */
 .hero-video img {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
@@ -375,7 +375,7 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
 .case-resultaat {
   display: flex; align-items: center; gap: 16px;
   margin-top: clamp(10px, 1.4vw, 20px); /* Figma: subtitel direct onder de titel */
-  font-size: clamp(15px, 1.67vw, 24px);  /* Figma: 24px bij de foto-cases */
+  font-size: clamp(15px, 1.46vw, 21px);  /* was 24px; subtiel kleiner corps in de grote blokken */
   line-height: 1.25;
   gap: 21px;                             /* Figma: 21px tussen pijl en tekst */
   max-width: 21em;                       /* Figma: max 449px = 2 regels (ook Steinweg) */
@@ -439,12 +439,12 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
 }
 .tegel-sub {
   display: flex; align-items: flex-end; justify-content: space-between; gap: 14px;
-  font-size: 14px; line-height: 20px;                   /* Figma: Poppins Regular 14/20 */
+  font-size: 16px; line-height: 22px;                   /* was 14/20; iets groter corps in de kleine tegels */
   max-height: 0; margin-top: 0; opacity: 0;
   overflow: hidden;
   transition: max-height .35s ease, margin-top .35s ease, opacity .3s ease;
 }
-.tegel:hover .tegel-sub { max-height: 64px; margin-top: 3px; opacity: 1; }  /* ontwerp: labels 5px lager in de hover */
+.tegel:hover .tegel-sub { max-height: 70px; margin-top: 3px; opacity: 1; }  /* ontwerp: labels 5px lager in de hover */
 .tegel-sub .onderschrift { max-width: 340px; }          /* Figma: subtitel ±339px breed */
 .tegel-sub .pijl-knop { flex: none; width: 45px; height: 45px; color: var(--wit); }  /* Figma: 45x45 */
 .tegel .pijl-svg { transition: transform .6s ease; }
@@ -880,6 +880,16 @@ html.laadscherm-gezien .laadscherm { display: none; }
   .blok-video { display: none; }
   * { transition-duration: .01ms !important; }
 }
+
+/* ==========================================================================
+   Evenwichtige regelafbreking — koppen en korte subtitels verdelen hun
+   woorden evenredig over de regels; alinea's vermijden losse laatste woorden.
+   De browser bepaalt de beste afbraak, dus dit klopt op elk schermformaat.
+   ========================================================================== */
+h1, h2, h3, blockquote p,
+.case-resultaat, .hero-resultaat, .tegel-titel, .tegel-sub .onderschrift,
+.tegel-tekst, .partner-resultaat, .hero-intro { text-wrap: balance; }
+p { text-wrap: pretty; }
 </style>
 <script>
 // Laadscherm alleen bij het eerste bezoek in deze browsersessie: is hij al
@@ -1143,21 +1153,21 @@ try {
     <img loading="lazy" decoding="async" src="images/cases/tour.webp" alt="Wielrenners rijden door Rotterdam tijdens de Tour de France Femmes">
     <div class="case-inhoud">
       <span class="case-eyebrow">Tour de France Femmes</span>
-      <h2 class="case-titel">Rotterdam<br>turns yellow.</h2>
+      <h2 class="case-titel">Rotterdam<br>kleurt geel.</h2>
       <p class="case-resultaat">
         <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
-        415.000+ visitors for this legendary cycling event.
+        415.000+ bezoekers voor dit iconisch wielerevent.
       </p>
     </div>
   </a>
   <a class="case-blok" href="case-jun-markl-cvr.html" data-video="1035168613">
     <img loading="lazy" decoding="async" src="images/cases/jun.webp" alt="Dirigent Jun Märkl in actie">
     <div class="case-inhoud">
-      <span class="case-eyebrow">Jun Märkl and CVR</span>
-      <h2 class="case-titel">Introducing a<br>world-renowned<br>conductor.</h2>
+      <span class="case-eyebrow">Jun Märkl &amp; CVR</span>
+      <h2 class="case-titel">Een wereldberoemde<br>dirigent</h2>
       <p class="case-resultaat">
         <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
-        Visual portrait for the Indianapolis Orchestra.
+        Internationale samenwerking tussen CVR (US) en Campagne (NL) via AMIN Worldwide.
       </p>
     </div>
   </a>
@@ -1165,10 +1175,10 @@ try {
     <img loading="lazy" decoding="async" src="images/cases/steinweg.webp" alt="Medewerker van Steinweg in de Rotterdamse haven">
     <div class="case-inhoud">
       <span class="case-eyebrow">Steinweg</span>
-      <h2 class="case-titel">Recruiting<br>for the harbor.</h2>
+      <h2 class="case-titel">Join the club!</h2>
       <p class="case-resultaat">
         <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
-        Social campaigning to get the right people working at Steinweg.
+        Effectieve werving van havenwerkers in Rotterdam.
       </p>
     </div>
   </a>
@@ -1177,7 +1187,7 @@ try {
 <!-- ============================================================ KLEINE TEGELS -->
 <section class="tegels">
   <div class="tegel-grid">
-    <a class="tegel" href="case-brugman.html" style="--hover-kleur:#69a63a" data-video="1208112682"><img loading="lazy" decoding="async" src="images/cases/brugman.webp" alt="Case Brugman">
+    <a class="tegel" href="case-brugman.html" style="--hover-kleur:#69a63a" data-video="1208112682"><img loading="lazy" decoding="async" src="images/cases/brugman.webp" alt="Case Brugman keukens &amp; badkamers">
       <div class="tegel-inhoud">
         <p class="tegel-titel">Brugman keukens &amp; badkamers</p>
         <div class="tegel-onder">
@@ -1213,16 +1223,16 @@ try {
       <div class="tegel-inhoud">
         <p class="tegel-titel">WiZZ</p>
         <div class="tegel-onder">
-          <p class="tegel-labels"><span>Arbeidsmarktcommunicatie</span><span>media</span><span>strategie</span><span>concept</span></p>
-          <p class="tegel-sub"><span class="onderschrift">Medewerkers werven voor Nederlandse openbare zwembaden</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span></p>
+          <p class="tegel-labels"><span>arbeidsmarktcommunicatie</span><span>strategie</span><span>concept</span><span>media</span></p>
+          <p class="tegel-sub"><span class="onderschrift">Medewerkers werven voor Nederlandse openbare zwembaden.</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span></p>
         </div>
       </div></a>
     <a class="tegel" href="case-liquin.html" style="--hover-kleur:#0091bb" data-video="1208112711"><img loading="lazy" decoding="async" src="images/cases/liquin.webp" alt="Case Liquin">
       <div class="tegel-inhoud">
         <p class="tegel-titel">Liquin</p>
         <div class="tegel-onder">
-          <p class="tegel-labels"><span>strategie</span><span>concept</span><span>branding</span><span>website</span><span>foto</span><span>video</span></p>
-          <p class="tegel-sub"><span class="onderschrift">Van Vopak naar Liquin. Complete rebranding in 1,5 maand tijd.</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span></p>
+          <p class="tegel-labels"><span>strategie</span><span>concept</span><span>branding</span><span>content</span><span>foto</span><span>video</span></p>
+          <p class="tegel-sub"><span class="onderschrift">Complete rebranding in 1,5 maand tijd.</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span></p>
         </div>
       </div></a>
   </div>
@@ -1347,6 +1357,12 @@ try {
 // Nette placeholder tonen als een afbeelding ontbreekt (bijv. bestandsnaam klopt niet)
 function beeldMist(img) {
   var ouder = img.closest('.case-blok, .tegel, .hero-video');
+  if (ouder && ouder.classList.contains('hero-video')) {
+    // Hero: geen placeholder-melding — de video ís de achtergrond. Zodra
+    // images/hero-poster.webp bestaat doet het stilstaande beeld vanzelf mee.
+    img.style.display = 'none';
+    return;
+  }
   if (ouder) {
     ouder.classList.add('beeld-mist');
     if (!ouder.hasAttribute('data-label')) {

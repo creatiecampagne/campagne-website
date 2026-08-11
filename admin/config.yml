@@ -118,6 +118,27 @@ collections:
                       - { label: Titel, name: titel, widget: string }
                       - { label: Tekst, name: tekst, widget: text }
 
+      # ------------------------------------------------------------------
+      # HOMEPAGE-INDELING — welke case op welke plek van de homepage staat.
+      # Elke plek is een dropdown met de cases uit de lijst hierboven.
+      # Leeg gelaten plekken worden automatisch aangevuld in de volgorde
+      # van de caseslijst. Cases die op 'Actief: uit' staan doen niet mee.
+      # ------------------------------------------------------------------
+      - name: homepage
+        label: Homepage-indeling
+        file: homepage.json
+        format: json
+        fields:
+          - { label: "Groot blok 1 (bovenaan)", name: groot_1, widget: relation, collection: website, file: cases, search_fields: ["{{cases.*.naam}}", "{{cases.*.slug}}"], value_field: "{{cases.*.slug}}", display_fields: ["{{cases.*.naam}}"], required: false, hint: "De drie grote blokken staan direct onder de showreel." }
+          - { label: "Groot blok 2", name: groot_2, widget: relation, collection: website, file: cases, search_fields: ["{{cases.*.naam}}", "{{cases.*.slug}}"], value_field: "{{cases.*.slug}}", display_fields: ["{{cases.*.naam}}"], required: false }
+          - { label: "Groot blok 3", name: groot_3, widget: relation, collection: website, file: cases, search_fields: ["{{cases.*.naam}}", "{{cases.*.slug}}"], value_field: "{{cases.*.slug}}", display_fields: ["{{cases.*.naam}}"], required: false }
+          - { label: "Kleine tegel 1 — rij 1, links", name: klein_1, widget: relation, collection: website, file: cases, search_fields: ["{{cases.*.naam}}", "{{cases.*.slug}}"], value_field: "{{cases.*.slug}}", display_fields: ["{{cases.*.naam}}"], required: false, hint: "De zes kleine tegels staan in twee rijen van drie onder de grote blokken." }
+          - { label: "Kleine tegel 2 — rij 1, midden", name: klein_2, widget: relation, collection: website, file: cases, search_fields: ["{{cases.*.naam}}", "{{cases.*.slug}}"], value_field: "{{cases.*.slug}}", display_fields: ["{{cases.*.naam}}"], required: false }
+          - { label: "Kleine tegel 3 — rij 1, rechts", name: klein_3, widget: relation, collection: website, file: cases, search_fields: ["{{cases.*.naam}}", "{{cases.*.slug}}"], value_field: "{{cases.*.slug}}", display_fields: ["{{cases.*.naam}}"], required: false }
+          - { label: "Kleine tegel 4 — rij 2, links", name: klein_4, widget: relation, collection: website, file: cases, search_fields: ["{{cases.*.naam}}", "{{cases.*.slug}}"], value_field: "{{cases.*.slug}}", display_fields: ["{{cases.*.naam}}"], required: false }
+          - { label: "Kleine tegel 5 — rij 2, midden", name: klein_5, widget: relation, collection: website, file: cases, search_fields: ["{{cases.*.naam}}", "{{cases.*.slug}}"], value_field: "{{cases.*.slug}}", display_fields: ["{{cases.*.naam}}"], required: false }
+          - { label: "Kleine tegel 6 — rij 2, rechts", name: klein_6, widget: relation, collection: website, file: cases, search_fields: ["{{cases.*.naam}}", "{{cases.*.slug}}"], value_field: "{{cases.*.slug}}", display_fields: ["{{cases.*.naam}}"], required: false }
+
       - name: logos
         label: Logo-slider
         file: logos.json
