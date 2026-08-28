@@ -11,13 +11,13 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Campagne">
 <meta property="og:locale" content="nl_NL">
-<meta property="og:title" content="Corporate identity">
-<meta property="og:description" content="Maak een blijvende indruk met een corporate identity die je kernwaarden en visie weerspiegelt. Wij ontwerpen samenhangende visuele en verbale identiteiten.">
-<meta property="og:url" content="https://creatiecampagne.github.io/campagne-website/corporate-identity.html">
-<meta property="og:image" content="https://creatiecampagne.github.io/campagne-website/images/diensten/corporate-identity-header.webp">
+<meta property="og:title" content="InHouse">
+<meta property="og:description" content="Marketing- en communicatie-expertise, direct bij jou. Met InHouse wordt een Campagne-collega tijdelijk onderdeel van jouw team: hands-on, van strategie tot uitvoering.">
+<meta property="og:url" content="https://creatiecampagne.github.io/campagne-website/inhouse.html">
+<meta property="og:image" content="https://creatiecampagne.github.io/campagne-website/images/campagne-werkvloer-content-overleg.webp">
 <meta name="twitter:card" content="summary_large_image">
-<title>Corporate identity &mdash; Campagne</title>
-<meta name="description" content="Maak een blijvende indruk met een corporate identity die je kernwaarden en visie weerspiegelt. Wij ontwerpen samenhangende visuele en verbale identiteiten.">
+<title>InHouse &mdash; Campagne</title>
+<meta name="description" content="Marketing- en communicatie-expertise, direct bij jou. Met InHouse wordt een Campagne-collega tijdelijk onderdeel van jouw team: hands-on, van strategie tot uitvoering.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://player.vimeo.com">
 <link rel="preconnect" href="https://i.vimeocdn.com">
@@ -113,6 +113,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 }
 .header.scrolled::before { opacity: 1; }
 .header.verborgen { transform: translateY(-160%); }
+.header.duwt { transition: none; }
 body.menu-open .header::before { opacity: 0; }
 body.menu-open .logo { color: #000; }
 .logo { color: var(--wit); }
@@ -889,7 +890,15 @@ body.menu-open { overflow: hidden; }
 }
 
 /* Reduced motion: animaties uit */
+@media (max-width: 844px) {
+  .hero-scroll { height: 130vh; }
+  .hero-scroll .hero-kader { top: 10px; bottom: 10px; }
+  .hero-scroll .hero-inhoud { padding: 0 23px 31px; }
+  .hero-intro { margin-top: 20px; }
+}
 @media (prefers-reduced-motion: reduce) {
+  .hero-scroll { height: 100svh; }
+  .hero-scroll .hero-inhoud { transform: none !important; }
   .logo, .header-knoppen { opacity: 1 !important; transform: none !important; }
   html { scroll-behavior: auto; }
   .blok-video { display: none; }
@@ -905,9 +914,205 @@ h1, h2, h3, blockquote p,
 .case-resultaat, .hero-resultaat, .tegel-titel, .tegel-sub .onderschrift,
 .tegel-tekst, .partner-resultaat, .hero-intro { text-wrap: balance; }
 p { text-wrap: pretty; }
+
+/* ==========================================================================
+   InHouse (Figma 227:665) — pagina-specifieke opmaak
+   ========================================================================== */
+/* Hero met scroll-animatie en achtergrondvorm — zelfde opzet als de Over ons-pagina */
+.hero-scroll {
+  position: relative;
+  height: 150vh;
+  --p: 0;
+}
+.hero-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+.hero-scroll .hero-vorm {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: auto;
+  display: block;
+  pointer-events: none;
+}
+.hero-scroll .hero-kader {
+  position: absolute;
+  top: 18px; bottom: 18px;
+  left: var(--marge-beeld); right: var(--marge-beeld);
+  aspect-ratio: auto;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--donker);
+}
+.hero-scroll .hero-inhoud {
+  padding: 0 clamp(24px, 3.75vw, 54px) clamp(36px, 4.65vw, 67px);
+  transform: translateY(calc((1 - var(--p, 0)) * 95svh));
+  will-change: transform;
+}
+.inhouse .hero-titel { max-width: 629px; }
+.hero-onder {
+  display: flex;
+  align-items: flex-end;                   /* kruimels op de onderlijn van de intro */
+  justify-content: space-between;
+  gap: clamp(24px, 3vw, 48px);
+}
+.hero-intro {
+  margin-top: 36px;
+  font-size: clamp(15px, 1.25vw, 18px);
+  line-height: 1.556;
+  max-width: 581px;
+}
+.hero-scroll .hero-kruimels { position: static; }
+
+.ih-intro {
+  padding: clamp(64px, 7.6vw, 110px) var(--marge-content) clamp(64px, 8.4vw, 121px);
+  display: flex; gap: clamp(28px, 5vw, 72px); align-items: flex-start; justify-content: space-between;
+}
+.ih-intro-tekst { max-width: 581px; }
+.ih-intro p { font-size: 17px; line-height: 32px; }
+.ih-intro p + p { margin-top: 18px; }
+.ih-lead { font-weight: 700; }
+.ih-intro .ih-lead { font-size: 18px; }
+.ih-wordmark { display: block; margin-top: clamp(24px, 3vw, 44px); width: 195px; height: 37px; }
+.ih-intro-deco { flex: none; width: clamp(160px, 25.5vw, 367px); aspect-ratio: 1; margin-left: clamp(0px, 5.8vw, 84px); }
+.ih-intro-deco svg { width: 100%; height: 100%; display: block; }
+
+/* Band: Hoe werkt InHouse? */
+.ih-band {
+  background: linear-gradient(180deg, rgba(215, 38, 85, .05), rgba(215, 38, 85, .10));
+  padding: clamp(48px, 6.4vw, 92px) var(--marge-content);
+}
+.ih-kaart {
+  position: relative;
+  background: var(--wit);
+  max-width: 1036px; margin: 0 auto;
+  padding: clamp(40px, 5vw, 72px) clamp(24px, 4vw, 60px) clamp(36px, 4.6vw, 66px);
+  text-align: center;
+}
+.ih-kaart-hart {
+  /* Figma: kwartrond in de rechterbovenhoek van het kader, bolling naar links */
+  position: absolute; right: calc(-1 * clamp(8px, 1.53vw, 22px)); top: 0;
+  width: clamp(90px, 12.2vw, 176px); aspect-ratio: 1; pointer-events: none;
+}
+.ih-kaart-hart svg { width: 100%; height: 100%; display: block; }
+.ih-kaart h2 { font-size: clamp(30px, 3.47vw, 50px); font-weight: 800; line-height: 1.1; margin-bottom: clamp(14px, 1.7vw, 24px); }
+.ih-kaart > p { font-size: 16px; line-height: 32px; max-width: 682px; margin: 0 auto; }
+.ih-band-cta {
+  display: flex; align-items: center; gap: 15px;
+  max-width: 510px; margin: clamp(28px, 3.2vw, 46px) auto 0;
+}
+.ih-band-cta .label { font-size: 18px; font-weight: 800; white-space: nowrap; }
+.ih-band-cta .lijn { flex: 1; height: 1.5px; background: var(--zwart); }
+.ih-band-cta:hover { text-decoration: none; }
+.ih-band-cta:hover .pijl-svg { transform: rotate(45deg); }
+.ih-band-cta .pijl-knop { width: 45px; height: 45px; }
+
+/* Onze expertises — tekst links, vormen rechts */
+.ih-expertises {
+  padding: clamp(72px, 10.1vw, 146px) var(--marge-content) clamp(64px, 7.6vw, 110px);
+  display: flex; gap: clamp(28px, 4.8vw, 70px); align-items: flex-start; justify-content: space-between;
+}
+.ih-exp-deco { flex: none; width: clamp(180px, 29.4vw, 423px); aspect-ratio: 1; margin-top: clamp(2px, .35vw, 5px); }
+.ih-exp-deco svg { width: 100%; height: 100%; display: block; }
+.ih-exp-tekst { max-width: 682px; }
+.ih-exp-tekst h2 { font-size: clamp(30px, 3.47vw, 50px); font-weight: 800; line-height: 1.1; margin-bottom: clamp(14px, 1.7vw, 24px); }
+.ih-exp-tekst p { font-size: 16px; line-height: 32px; }
+.ih-exp-tekst .ih-lead + p { margin-top: 14px; }
+.ih-rollen {
+  list-style: none; margin: clamp(20px, 2.4vw, 34px) 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(3, auto); justify-content: start;
+  column-gap: clamp(24px, 4vw, 58px); row-gap: 4px;
+}
+.ih-rollen li { display: flex; align-items: center; gap: 13px; font-size: clamp(16px, 1.25vw, 18px); font-weight: 500; line-height: 2.2; white-space: nowrap; }
+.ih-driehoek { flex: none; width: 17px; height: 17px; display: inline-block; }
+.ih-driehoek svg { width: 100%; height: 100%; display: block; }
+
+/* Fotoslider (zelfde als contactpagina) */
+.werkvloer { padding: 0 0 clamp(48px, 5.5vw, 80px); }
+.werkvloer-box {
+  position: relative;
+  margin: 0 var(--marge-beeld);
+  border-radius: var(--radius);
+  overflow: hidden;
+  height: clamp(300px, 42vw, 560px);
+  background: var(--pill);
+  cursor: grab;
+  touch-action: pan-y;
+}
+.werkvloer-box.sleept { cursor: grabbing; }
+.werkvloer-strip { position: absolute; top: 0; bottom: 0; left: 0; display: flex; will-change: transform; }
+.werkvloer-strip img { height: 100%; width: auto; flex: none; pointer-events: none; user-select: none; -webkit-user-select: none; }
+/* InHouse-cases: Anne & Marloes */
+.ih-blok {
+  margin: 0 var(--marge-content) clamp(40px, 5.2vw, 75px);
+  border-radius: var(--radius);
+  padding: clamp(32px, 4.4vw, 64px) clamp(24px, 5.3vw, 76px);
+  display: flex; gap: clamp(28px, 5.5vw, 80px); align-items: center; justify-content: space-between;
+}
+.ih-blok-lila { background: #f7f6fc; }
+.ih-blok-mint { background: rgba(0, 202, 190, .1); }
+.ih-blok-tekst { max-width: 505px; }
+.ih-blok-tekst h2 { font-size: clamp(28px, 2.92vw, 42px); font-weight: 800; line-height: 1.31; margin-bottom: clamp(12px, 1.5vw, 22px); }
+.ih-blok-tekst > p { font-size: 16px; line-height: 32px; }
+.ih-punten { list-style: none; margin: clamp(14px, 1.7vw, 24px) 0 0; padding: 0; }
+.ih-punten li { display: flex; align-items: center; gap: 13px; font-size: 16px; line-height: 40px; }
+.ih-blok-foto { position: relative; flex: none; width: clamp(220px, 31.3vw, 450px); margin: 0; }
+.ih-blok-foto img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+.foto-rond-lb img { border-radius: 89% 0 0 0; }        /* Figma-masker: grote ronding linksboven */
+.foto-rond-ro img { border-radius: 0 0 89% 0; }        /* gespiegeld: ronding rechtsonder */
+.ih-foto-deco { position: absolute; width: clamp(70px, 11vw, 158px); aspect-ratio: 1; pointer-events: none; }
+.ih-foto-deco.teal-ro { right: calc(-1 * clamp(12px, 2.1vw, 30px)); bottom: calc(-1 * clamp(12px, 2.1vw, 30px)); background: #00cabe; clip-path: polygon(100% 0, 100% 100%, 0 100%); }
+.ih-foto-deco.roze-lb { left: calc(-1 * clamp(11px, 1.95vw, 28px)); top: calc(-1 * clamp(11px, 1.95vw, 28px)); background: var(--roze); border-radius: 0 0 100% 0; }
+
+/* CTA: pilot-week */
+.ih-cta { position: relative; padding: clamp(40px, 5.2vw, 76px) var(--marge-content) clamp(56px, 6.9vw, 100px); overflow: hidden; text-align: center; }
+.ih-cta h2 { font-size: clamp(30px, 3.47vw, 50px); font-weight: 800; line-height: 1.2; }
+.ih-cta h2 em { font-style: normal; color: var(--roze); }
+.ih-cta > p { font-size: clamp(16px, 1.25vw, 18px); line-height: 1.67; margin-top: clamp(10px, 1.3vw, 20px); }
+.ih-cta-link {
+  display: inline-flex; align-items: center; gap: 15px;
+  margin-top: clamp(24px, 3.5vw, 50px);
+  font-size: 18px; font-weight: 800;
+}
+.ih-cta-link .label { white-space: nowrap; }
+.ih-cta-link .lijn { width: clamp(110px, 13.1vw, 189px); height: 1.5px; background: var(--zwart); }
+.ih-cta-link:hover { text-decoration: none; }
+.ih-cta-link:hover .pijl-svg { transform: rotate(45deg); }
+.ih-cta-link .pijl-knop { width: 45px; height: 45px; }
+.ih-golf { position: absolute; left: 0; right: 0; top: clamp(16px, 2.5vw, 36px); width: 100%; pointer-events: none; }
+.ih-golf svg { width: 100%; height: clamp(90px, 11.25vw, 162px); display: block; }
+
+/* Quote */
+.ih-quote {
+  background: var(--roze); color: var(--wit);
+  padding: clamp(56px, 8.2vw, 118px) var(--marge-content);
+  display: flex; gap: clamp(32px, 6vw, 90px); align-items: center; justify-content: space-between; flex-wrap: wrap;
+}
+.ih-quote blockquote { margin: 0; max-width: 640px; }
+.ih-quote blockquote p { font-size: clamp(26px, 2.92vw, 42px); line-height: 1.24; font-weight: 400; }
+.ih-quote-wie { display: flex; align-items: center; gap: 16px; }
+.ih-avatar {
+  flex: none; width: 101px; height: 101px; border-radius: 50%;
+  object-fit: cover; display: block;
+}
+.ih-quote-wie .naam { font-size: 25px; font-weight: 800; line-height: 1.28; }
+.ih-quote-wie .rol { font-size: 14px; line-height: 1.5; max-width: 180px; }
+
+@media (max-width: 900px) {
+  .ih-intro, .ih-expertises { flex-direction: column; }
+  .ih-intro-deco { order: -1; margin: 0 0 8px auto; width: clamp(120px, 30vw, 200px); }
+  .ih-exp-deco { width: clamp(150px, 44vw, 260px); margin: 24px auto 0; }
+  .ih-blok { flex-direction: column; align-items: flex-start; }
+  .ih-blok-mint { flex-direction: column-reverse; }
+  .ih-blok-foto { align-self: center; width: min(70vw, 340px); }
+  .ih-rollen { grid-template-columns: repeat(2, auto); }
+  .ih-kaart-hart { display: none; }
+  }
 </style>
 </head>
-<body data-dienst-slug="corporate-identity">
+<body class="inhouse">
 <!-- Inline SVG-symbolen (logo, pijlen, dienst-iconen, contact-iconen) -->
 <svg width="0" height="0" style="position:absolute" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 <symbol id="svg-logo" viewBox="0 0 230 36"><path fill-rule="evenodd" clip-rule="evenodd" d="M82.853 0C79.7082 0 76.8928 1.45241 75.0274 3.72752C73.1631 1.45241 70.3476 0 67.2029 0C61.601 0 57.043 4.60777 57.043 10.2696V24.6843H61.7115V10.2696C61.7115 7.20903 64.1742 4.7195 67.2029 4.7195C70.2304 4.7195 72.6942 7.20903 72.6942 10.2696V24.7429H77.3617V10.2696C77.3617 7.20903 79.8254 4.7195 82.853 4.7195C85.8805 4.7195 88.3443 7.20903 88.3443 10.2696V24.7429H93.0118V10.2696C93.0118 4.60777 88.4548 0 82.853 0Z" fill="currentColor"/>
@@ -966,11 +1171,6 @@ p { text-wrap: pretty; }
 <path fill-rule="evenodd" clip-rule="evenodd" d="M10 27.9385V16.0088C10.523 16.0088 11.0376 16.0094 11.5515 16.0088C12.214 16.0077 12.8771 16.0133 13.5395 16.0003C13.8425 15.9946 14.0006 16.0644 14 16.3948C13.9916 20.1447 13.997 23.8939 13.982 27.6437C13.9814 27.7616 13.8016 27.9793 13.7012 27.9816C12.5344 28.0065 11.367 27.9997 10.2002 27.9974C10.1407 27.9974 10.0818 27.9634 10 27.9385" fill="#fff"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M10 11.9636C10.0037 10.8687 10.8939 9.99843 12.0086 10C13.0694 10.0016 13.99 10.908 13.9999 11.9605C14.0104 13.0507 13.0751 14.001 11.9919 14C10.8861 13.9984 9.99635 13.0889 10 11.9636" fill="#fff"/>
 </symbol>
-<symbol id="svg-pijl-55" viewBox="0 0 55 55"><!-- Pijlbol middel 55 (Figma 206:498), lijndikte 1.5 -->
-<path d="M20.0193 19.7413H35.2547V34.9767" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M18.5417 36.4555L35.2559 19.7413" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
-<path d="M27.5 54C42.1355 54 54 42.1355 54 27.5C54 12.8645 42.1355 1 27.5 1C12.8645 1 1 12.8645 1 27.5C1 42.1355 12.8645 54 27.5 54Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
-</symbol>
 </svg>
 
 <!-- ============================================================ HEADER -->
@@ -984,8 +1184,8 @@ p { text-wrap: pretty; }
       <span class="hamburger" aria-hidden="true"><span></span><span></span></span>
     </button>
     <div class="taalswitch" data-taal="nl" role="group" aria-label="Taalkeuze">
-      <a href="en/corporate-identity.html" hreflang="en">EN</a>
-      <a href="corporate-identity.html" hreflang="nl" class="actief">NL</a>
+      <a href="inhouse.html" hreflang="en" title="Engelse versie volgt">EN</a>
+      <a href="inhouse.html" hreflang="nl" class="actief">NL</a>
     </div>
   </div>
 </header>
@@ -1090,106 +1290,159 @@ p { text-wrap: pretty; }
 <!-- ============================================================ HERO (Figma 172:15)
      Beeld 1404x620 binnen een marge van 18px. Titel linksonder, kruimelpad
      rechtsonder. -->
-<section class="hero" id="hero" aria-label="Corporate identity">
-  <div class="hero-kader">
-    <div class="hero-video">
-      <img loading="eager" decoding="async" src="images/diensten/corporate-identity-header.webp" alt="Corporate identity">
-    </div>
-    <div class="hero-inhoud">
-      <nav class="hero-kruimels" aria-label="Kruimelpad">
-        <ol>
-          <li><a href="index.html">Home</a></li>
-          <li class="scheiding" aria-hidden="true">&mdash;</li>
-          <li><a href="index.html#diensten">Wat wij doen</a></li>
-          <li class="scheiding" aria-hidden="true">&mdash;</li>
-          <li><a href="branding.html">Branding</a></li>
-          <li class="scheiding" aria-hidden="true">&mdash;</li>
-          <li><span aria-current="page">Corporate identity</span></li>
-        </ol>
-      </nav>
-      <h1 class="hero-titel">Corporate identity</h1>
+<!-- ============================================================ HERO (Figma 227:941) -->
+<section class="hero-scroll" id="hero-scroll" aria-label="InHouse">
+  <div class="hero-sticky">
+    <svg class="hero-vorm" viewBox="0 0 1440 632" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M233.045 527.278C241.389 535.615 255.66 529.702 255.66 517.917V349.614C255.66 340.143 267.126 335.393 273.829 342.101L559.541 627.409C565.677 633.53 575.612 633.53 581.738 627.409L703.621 505.703C712.671 496.67 727.339 496.67 736.379 505.703L858.202 627.399C864.338 633.52 874.273 633.52 880.409 627.399L1166.11 341.992C1172.81 335.294 1184.28 340.034 1184.28 349.504V517.807C1184.28 529.603 1198.54 535.506 1206.9 527.168L1435.96 298.415C1438.45 295.931 1439.84 292.572 1439.85 289.054L1440.02 -0.02H0V289.054C0 292.562 1.39227 295.931 3.87845 298.415L233.045 527.268V527.278Z" fill="#00CABE"/>
+    </svg>
+    <div class="hero-kader">
+      <div class="hero-video">
+        <img loading="eager" decoding="async" src="images/campagne-werkvloer-content-overleg.webp" alt="Twee collega's van Campagne in overleg op de werkvloer">
+      </div>
+      <div class="hero-inhoud">
+        <h1 class="hero-titel">Marketing &amp; communicatie<br>expertise InHouse</h1>
+        <div class="hero-onder">
+          <p class="hero-intro">Geliefder worden begint met een goed doordacht plan waarin je definieert wie je bent en wat je het beste kunt.</p>
+          <nav class="hero-kruimels" aria-label="Kruimelpad">
+            <ol>
+              <li><a href="index.html">Home</a></li>
+              <li class="scheiding" aria-hidden="true">&mdash;</li>
+              <li><span aria-current="page">InHouse</span></li>
+            </ol>
+          </nav>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ============================================================ INTRO TEKST (Figma 172:133) -->
-<section class="tekstblok duo">
-  <div class="kolommen">
-    <h2>Corporate identity</h2>
-    <p>Maak een blijvende indruk met een corporate identity die je kernwaarden en visie weerspiegelt. Wij ontwerpen samenhangende visuele en verbale identiteiten.</p>
+<!-- ============================================================ INTRO (Figma 227:952) — vormen links, tekst rechts -->
+<section class="ih-intro">
+  <div class="ih-intro-deco" aria-hidden="true"><svg viewBox="0 0 367 367" fill="none" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M183.523 182.998V366.045L366.571 182.998H183.523Z" fill="#00CABE"/><path fill-rule="evenodd" clip-rule="evenodd" d="M162.738 0H183.048V183.048H0V161.893C0 72.4818 72.8601 0 162.738 0Z" fill="#D72655"/></svg></div>
+  <div class="ih-intro-tekst">
+    <p class="ih-lead">Het beste werk maken we samen. Wij werken niet v&oacute;&oacute;r klanten, maar samen met jou. Samen komen we tot creatieve oplossingen die &eacute;cht resultaat opleveren.</p>
+    <p>Met InHouse wordt die externe expertise een onderdeel van jouw organisatie. Heb je hulp nodig bij het managen of uitvoeren van een campagne? Of zoek je een marketing- en communicatiespecialist die hands-on werkt en bureaus begrijpt? InHouse is jouw oplossing.</p>
+    <svg class="ih-wordmark" viewBox="0 0 195 37" fill="none" role="img" aria-label="InHouse">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 36.5836H8.95826V7.50452H0V36.5836Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M31.6243 20.7928C31.6243 16.8329 29.4248 14.6435 26.0195 14.6435C22.6142 14.6435 20.4147 16.8329 20.4147 20.7928V36.5834H11.457V7.50424H20.4147V11.361C22.1957 8.91185 25.3392 7.19165 29.268 7.19165C36.0247 7.19165 40.5308 11.7774 40.5308 19.5947V36.5834H31.6243V20.7928Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M65.919 19.8912L59.2851 16.0369L51.9843 19.8912V36.5838H43.0273V0H51.9843V11.3589L58.9517 7.5047L65.919 11.3589V0H74.8766V36.5838H65.919V19.8912Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M91.7612 29.2874C94.956 29.2874 97.9427 26.942 97.9427 22.0437C97.9427 17.0938 95.0084 14.8006 91.8649 14.8006C88.6177 14.8006 85.7891 17.0938 85.7891 22.0437C85.7891 26.942 88.5128 29.2874 91.7612 29.2874ZM91.763 37.0002C83.1715 37.0002 76.6758 31.2673 76.6758 22.0437C76.6758 12.8194 83.3282 7.08838 91.8667 7.08838C100.458 7.08838 107.058 12.8194 107.058 22.0437C107.058 31.2673 100.353 37.0002 91.763 37.0002Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M137.751 36.5835H128.792V32.6224C127.011 35.1237 123.87 36.8967 119.94 36.8967C113.182 36.8967 108.625 32.2582 108.625 24.4931V7.50439H117.53V23.295C117.53 27.2548 119.782 29.4443 123.135 29.4443C126.593 29.4443 128.792 27.2548 128.792 23.295V7.50439H137.751V36.5835Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M153.065 37C145.259 37 140.02 32.6747 139.602 27.0468H148.454C148.664 29.0789 150.498 30.4343 152.959 30.4343C155.264 30.4343 156.469 29.3921 156.469 28.0889C156.469 23.3988 140.544 26.7864 140.544 16.1036C140.544 11.1524 144.788 7.08813 152.435 7.08813C159.979 7.08813 164.169 11.2562 164.745 16.9885H156.469C156.207 15.0092 154.688 13.706 152.174 13.706C150.078 13.706 148.926 14.54 148.926 15.9463C148.926 20.5849 164.745 17.3017 164.903 28.1418C164.903 33.1961 160.398 37 153.065 37Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M174.621 19.2292H185.831C185.831 16.0511 183.316 14.2272 180.332 14.2272C177.397 14.2272 175.145 15.9989 174.621 19.2292ZM180.436 36.9997C171.846 36.9997 165.664 31.2668 165.664 22.0432C165.664 12.8196 171.741 7.08789 180.436 7.08789C188.975 7.08789 195 12.7158 195 21.5746C195 22.4086 194.947 23.2948 194.841 24.1804H174.569C174.883 27.9843 177.241 29.7561 180.122 29.7561C182.637 29.7561 184.05 28.5057 184.784 26.9421H194.317C192.904 32.6222 187.717 36.9997 180.436 36.9997Z" fill="currentColor"/>
+</svg>
   </div>
 </section>
 
-<!-- ============================================================ VOL BEELD -->
-<section class="beeld-vol" aria-label="Corporate identity">
-  <figure>
-    <img loading="lazy" decoding="async" src="images/diensten/corporate-identity-breed.webp" alt="Corporate identity">
+<!-- ============================================================ HOE WERKT INHOUSE? (Figma 227:751) -->
+<section class="ih-band">
+  <div class="ih-kaart">
+    <span class="ih-kaart-hart" aria-hidden="true"><svg viewBox="0 0 176 176" fill="none" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M175.086 176V0H0L0 20.34C0 106.309 69.6912 176 155.66 176H175.086Z" fill="#D72655"/></svg></span>
+    <h2>Hoe werkt InHouse?</h2>
+    <p>Onze InHouse-collega&rsquo;s kunnen je al vanaf twee dagen per week ondersteunen. Afhankelijk van jouw wens, bepalen we samen hoeveel uur per week ideaal is. Heb je nog geen goed beeld van de werkzaamheden? Na een intake maken we graag een helder plan om verder te gaan.</p>
+    <a class="ih-band-cta" href="https://marcom-inhouse.nl/" target="_blank" rel="noopener">
+      <span class="label">Meer lezen over InHouse</span>
+      <span class="lijn" aria-hidden="true"></span>
+      <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-45"></use></svg></span>
+    </a>
+  </div>
+</section>
+
+<!-- ============================================================ ONZE EXPERTISES (Figma 227:846) — tekst links, vormen rechts -->
+<section class="ih-expertises" id="expertises">
+  <div class="ih-exp-tekst">
+    <h2>Onze expertises</h2>
+    <p class="ih-lead">Het beste werk maken we samen. Wij werken niet v&oacute;&oacute;r klanten, maar samen met jou. Samen komen we tot creatieve oplossingen die &eacute;cht resultaat opleveren.</p>
+    <p>Van brandmanagers en communicatieadviseurs tot projectmanagers, contentspecialisten, ontwerpers en DTP&rsquo;ers: welke interim professional je ook zoekt, er staat altijd een InHouse-collega klaar om te helpen. Een InHouse-collega wordt tijdelijk onderdeel van jouw team en werkt nauw samen met je vaste team. Zo behalen we samen de beste resultaten.</p>
+    <ul class="ih-rollen">
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Brandmanager</li>
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Strateeg</li>
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>DTP&rsquo;er</li>
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Projectmanager</li>
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Designer</li>
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Content creator</li>
+    </ul>
+  </div>
+  <div class="ih-exp-deco" aria-hidden="true"><svg viewBox="0 0 423 423" fill="none" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M164.434 0V164.434H0L164.434 0Z" fill="#00CABE"/><path fill-rule="evenodd" clip-rule="evenodd" d="M259.758 423V258.566H95.3242L259.758 423Z" fill="#B0A4E6"/><path fill-rule="evenodd" clip-rule="evenodd" d="M258.566 95.324V259.758H423L258.566 95.324Z" fill="#D72655"/><path fill-rule="evenodd" clip-rule="evenodd" d="M258.566 423V258.566H423L258.566 423Z" fill="#11190A"/></svg></div>
+</section>
+
+<!-- ============================================================ WERKVLOER-SLIDER (van de contactpagina) -->
+<section class="werkvloer" aria-label="De werkvloer van Campagne">
+  <div class="werkvloer-box" id="werkvloer-box">
+    <!-- Vijf foto's zonder tussenruimte: oogt als één lange foto waar je doorheen sleept -->
+    <div class="werkvloer-strip" id="werkvloer-strip">
+      <img src="images/Campagne-werkvloer.webp" alt="De zithoek van Campagne met de groene wand" draggable="false">
+      <img src="images/campagne-werkvloer-creatie.webp" alt="Twee collega's overleggen achter een laptop" draggable="false">
+      <img src="images/campagne-werkvloer-overleg.webp" alt="Gezamenlijk ontbijt op de werkvloer" draggable="false">
+      <img src="images/campagne-werkvloer-content-overleg.webp" alt="Overleg bij een werkplek op kantoor" draggable="false">
+      <img src="images/campagne-werkvloer-lunch.webp" alt="Twee collega's werken samen aan tafel" draggable="false">
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ INHOUSE-CASE: ANNE (Figma 227:747) -->
+<section class="ih-blok ih-blok-lila">
+  <div class="ih-blok-tekst">
+    <h2>Creative designer bij Catharina ziekenhuis</h2>
+    <p>Anne versterkt het communicatieteam van Catharina als creatief designer. Ze werkt nauw samen met de vaste collega&rsquo;s en zorgt dat de visuele uitingen aansluiten bij de huisstijl en de doelgroepen van het ziekenhuis.</p>
+    <ul class="ih-punten">
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Ontwerp van campagnematerialen</li>
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Huisstijlbeheer en doorvertaling naar print en digitaal</li>
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Ondersteuning bij employer branding uitingen</li>
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Afstemming communicatieadviseurs en marketing</li>
+    </ul>
+  </div>
+  <figure class="ih-blok-foto foto-rond-lb">
+    <img loading="lazy" decoding="async" src="images/anne_inhouse.webp" alt="Anne aan het werk als creative designer bij Catharina ziekenhuis">
+    <span class="ih-foto-deco teal-ro" aria-hidden="true"></span>
   </figure>
 </section>
 
-<!-- geen quote ingesteld in het CMS -->
-
-<!-- ============================================================ TEKST + STAAND BEELD (Figma 173:262 / 173:274) -->
-<section class="tekst-beeld">
-  <div class="smal kolommen">
-    <div class="tekst">
-      <h2>Eén merk, overal herkenbaar</h2>
-      <p>Een corporate identity is meer dan een logo. Het is het samenspel van beeld, taal en gedrag dat maakt dat mensen je merk direct herkennen en vertrouwen.</p>
-      <p>Wij ontwerpen samenhangende visuele en verbale identiteiten, met richtlijnen die het team houvast geven. Zo blijft het merk consistent, of het nu op een beurswand staat of in een mailtje.</p>
-      <a class="blok-cta" href="contact.html">
-        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-45"></use></svg></span>
-        <span>Wil je meer weten? Neem<br>contact op met ons brandingteam!</span>
-      </a>
-    </div>
-    <figure>
-      <img loading="lazy" decoding="async" src="images/diensten/corporate-identity-staand.webp" alt="Corporate identity">
-    </figure>
+<!-- ============================================================ INHOUSE-CASE: MARLOES (Figma 227:748) -->
+<section class="ih-blok ih-blok-mint">
+  <figure class="ih-blok-foto foto-rond-ro">
+    <img loading="lazy" decoding="async" src="images/marloes_inhouse.webp" alt="Marloes aan het werk als client service director bij Rotterdam Topsport">
+    <span class="ih-foto-deco roze-lb" aria-hidden="true"></span>
+  </figure>
+  <div class="ih-blok-tekst">
+    <h2>Client Service Director bij Rotterdam Topsport</h2>
+    <p>Marloes is InHouse bij Rotterdam Topsport als vaste aanspreekpartner voor alle marketing- en communicatievraagstukken. Ze regisseert van strategie tot uitvoering en zorgt dat projecten soepel lopen.</p>
+    <ul class="ih-punten">
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Begeleiding marketing- en communicatietrajecten</li>
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Co&ouml;rdinatie rondom topsportevenementen</li>
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Accountmanagement richting partners en sponsoren</li>
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Bewaken van planning, budgetten en kwaliteit</li>
+    </ul>
   </div>
-  <hr class="scheiding-lijn smal">
 </section>
 
-<!-- ============================================================ UITGELICHTE CASES (Figma 164:811)
-     Layout overgenomen van het partnerblok op de teampagina, nu gevuld met cases. -->
-<section class="uitgelichte-cases" id="cases">
-  <h2 class="sectie-kop">Corporate identity in actie: succesverhalen.</h2>
-  <div class="case-grid">
-    <a class="case-blok" href="case-tdff.html" data-video="1208112683">
-      <img loading="lazy" decoding="async" src="images/cases/tour.webp" alt="Wielrenners rijden door Rotterdam tijdens de Tour de France Femmes">
-      <div class="case-inhoud">
-        <span class="case-eyebrow">Tour de France Femmes</span>
-        <h3 class="case-titel">Rotterdam<br>kleurt geel.</h3>
-        <p class="case-resultaat">
-          <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-55"></use></svg></span>
-          <span>415.000+ bezoekers voor dit iconisch wielerevent.</span>
-        </p>
-      </div>
-    </a>
-    <a class="case-blok" href="case-jun-markl-cvr.html" data-video="1035168613">
-      <img loading="lazy" decoding="async" src="images/cases/jun.webp" alt="Dirigent Jun Märkl in actie">
-      <div class="case-inhoud">
-        <span class="case-eyebrow">Jun Märkl &amp; CVR</span>
-        <h3 class="case-titel">Een wereldberoemde<br>dirigent</h3>
-        <p class="case-resultaat">
-          <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-55"></use></svg></span>
-          <span>Internationale samenwerking tussen CVR (US) en Campagne (NL) via AMIN Worldwide.</span>
-        </p>
-      </div>
-    </a>
-  </div>
-  <a class="more-cases" href="cases.html">
-    <span class="label">Moooooooore cases</span>
+<!-- ============================================================ CTA: PILOT-WEEK (Figma 227:903) -->
+<section class="ih-cta">
+  <span class="ih-golf" aria-hidden="true"><svg viewBox="0 0 1440 163" fill="none" preserveAspectRatio="none" aria-hidden="true"><path opacity="0.25" vector-effect="non-scaling-stroke" d="M1440 162.203C1440 162.203 1404.26 169.82 1295.33 107.935C1186.41 46.0526 1075.78 -12.9744 1036.63 3.20989C997.486 19.3956 1103.01 173.627 1021.31 158.395C939.618 143.161 789.844 -5.3575 650.281 8.92292C531.142 19.3956 659.988 170.968 464.765 96.5108C464.765 96.5108 318.395 17.4918 260.527 37.4852C202.662 57.4772 211.171 104.128 -22 89.8473" stroke="currentColor"/></svg></span>
+  <h2>Benieuwd hoe wij jou<br>kunnen <em>ondersteunen?</em></h2>
+  <p>Neem dan contact met ons op. We helpen je graag!</p>
+  <a class="ih-cta-link" href="contact.html">
+    <span class="label">Ja ik wil een pilot-week aanvragen</span>
     <span class="lijn" aria-hidden="true"></span>
     <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-45"></use></svg></span>
   </a>
 </section>
 
-<!-- ============================================================ EIGEN INHOUD
-     Alles tussen de markers hieronder blijft van jou; de generator raakt het niet aan. -->
-<!-- CAMPAGNE:EIGEN-INHOUD-START -->
+<!-- ============================================================ QUOTE (Figma 227:907) -->
+<section class="ih-quote">
+  <blockquote>
+    <p>&ldquo;De taken die werden opgepakt, zijn zelfs verder gebracht dan verwacht. Een geweldige aanvulling op het team.&rdquo;</p>
+  </blockquote>
+  <div class="ih-quote-wie">
+    <img class="ih-avatar" src="images/erik.webp" alt="Erik Rijerkerk">
+    <div>
+      <p class="naam">Erik Rijerkerk</p>
+      <p class="rol">Commercieel Director KeukenMaxx</p>
+    </div>
+  </div>
+</section>
 
-<!-- CAMPAGNE:EIGEN-INHOUD-EINDE -->
-
-<!-- ============================================================ FOOTER -->
 <footer class="footer" id="contact">
   <div class="footer-kolommen">
     <div class="footer-logo">
@@ -1287,26 +1540,52 @@ document.querySelectorAll('.taalswitch button').forEach(function (b) {
   });
 });
 
-// Header-gedrag in twee zones: boven de hero transparant, daarna verschijnt de
-// balk bij omhoog scrollen en schuift hij weg bij omlaag scrollen.
+// Header-gedrag in drie zones (zoals de Over ons-pagina): in de hero blijft
+// het menu staan, daarna duwt de titel hem weg en verderop verschijnt hij
+// alleen bij omhoog scrollen.
 (function () {
   var header = document.querySelector('.header');
-  var hero = document.querySelector('.hero');
+  var heroScroll = document.getElementById('hero-scroll');
+  var heroTitel = document.querySelector('.hero-titel');
   var vorigeY = window.scrollY;
+  var duwActief = true;
   function bijScroll() {
     var y = window.scrollY;
     var omhoog = y < vorigeY - 2;
     var omlaag = y > vorigeY + 2;
     vorigeY = y;
     if (document.body.classList.contains('menu-open')) return;
-    var heroWeg = hero ? y >= hero.offsetTop + hero.offsetHeight - 80 : y > 60;
-    if (!heroWeg) {
-      header.classList.remove('scrolled', 'verborgen');
-    } else if (omhoog) {
-      header.classList.add('scrolled');
+    var heroEinde = heroScroll ? heroScroll.offsetTop + heroScroll.offsetHeight - window.innerHeight : 0;
+    var heroWeg = heroScroll ? y >= heroScroll.offsetTop + heroScroll.offsetHeight : y > 60;
+    if (y <= heroEinde) {
+      duwActief = true;
+      header.classList.remove('scrolled', 'verborgen', 'duwt');
+      header.style.transform = '';
+    } else if (!heroWeg) {
       header.classList.remove('verborgen');
-    } else if (omlaag || !header.classList.contains('scrolled')) {
-      header.classList.add('verborgen');
+      if (header.classList.contains('scrolled')) {
+        header.classList.remove('scrolled');
+        duwActief = false;
+      }
+      var titelTop = heroTitel ? heroTitel.getBoundingClientRect().top : 0;
+      var hoogte = header.offsetHeight || 100;
+      if (!duwActief && titelTop > hoogte + 10) duwActief = true;
+      header.classList.add('duwt');
+      if (duwActief) {
+        header.style.transform = 'translateY(' + Math.min(0, titelTop - hoogte).toFixed(1) + 'px)';
+      } else {
+        header.style.transform = '';
+      }
+    } else {
+      duwActief = true;
+      header.classList.remove('duwt');
+      header.style.transform = '';
+      if (omhoog) {
+        header.classList.add('scrolled');
+        header.classList.remove('verborgen');
+      } else if (omlaag || !header.classList.contains('scrolled')) {
+        header.classList.add('verborgen');
+      }
     }
   }
   window.addEventListener('scroll', bijScroll, { passive: true });
@@ -1418,6 +1697,87 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
     if (e.key === 'Escape') setTimeout(resetAlsDicht, 0);
   });
 })();
+</script>
+<script>
+// Werkvloer: de foto's loopen oneindig door (strip is gedupliceerd voor een
+// naadloze loop) en de beweging loopt gewoon door als je muis over de box
+// gaat. Slepen werkt zoals bij de andere sliders: met momentum, waarna de
+// vaart terugzakt naar de rustige basissnelheid.
+(function () {
+  var box = document.getElementById('werkvloer-box');
+  var strip = document.getElementById('werkvloer-strip');
+  if (!box || !strip) return;
+  strip.innerHTML += strip.innerHTML;   // inhoud dupliceren voor een naadloze loop
+  // Vangnet: mist een foto (nog) in images/, laad dan hetzelfde beeld
+  // rechtstreeks van campagne.nl zodat de strip altijd compleet is.
+  strip.querySelectorAll('img').forEach(function (img) {
+    img.addEventListener('error', function () {
+      if (img.dataset.reserve) return;   // niet blijven proberen
+      img.dataset.reserve = '1';
+      img.src = 'https://campagne.nl/wp-content/uploads/2026/02/' +
+        img.getAttribute('src').split('/').pop();
+    });
+  });
+  var magBewegen = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var basis = -0.35, x = 0, v = basis, halve = 0;
+  var sleepStart = null, sleepBasis = 0, laatsteX = 0, laatsteT = 0, gooiV = 0;
+  function meetHalve() { halve = strip.scrollWidth / 2; }
+  window.addEventListener('load', meetHalve);
+  window.addEventListener('resize', meetHalve);
+  strip.querySelectorAll('img').forEach(function (img) {
+    img.addEventListener('load', meetHalve);   // breedte klopt pas als de foto's er zijn
+  });
+  meetHalve();
+  function stap() {
+    if (sleepStart === null && magBewegen) {
+      x += v;
+      v += (basis - v) * 0.035;   // na een gooi ebt de vaart weg naar de basissnelheid
+    }
+    if (halve > 0) {
+      while (x <= -halve) x += halve;   // naadloos terugzetten: oneindige loop
+      while (x > 0) x -= halve;
+    }
+    strip.style.transform = 'translateX(' + x + 'px)';
+    requestAnimationFrame(stap);
+  }
+  requestAnimationFrame(stap);
+  box.addEventListener('pointerdown', function (e) {
+    sleepStart = e.clientX; sleepBasis = x; v = 0;
+    laatsteX = e.clientX; laatsteT = performance.now(); gooiV = 0;
+    box.classList.add('sleept');
+    box.setPointerCapture(e.pointerId);
+    e.preventDefault();
+  });
+  box.addEventListener('pointermove', function (e) {
+    if (sleepStart === null) return;
+    x = sleepBasis + (e.clientX - sleepStart);
+    var nu = performance.now(), dt = nu - laatsteT;
+    if (dt > 0) gooiV = (e.clientX - laatsteX) / dt * 16.7;
+    laatsteX = e.clientX; laatsteT = nu;
+  });
+  function loslaten() {
+    if (sleepStart === null) return;
+    sleepStart = null;
+    box.classList.remove('sleept');
+    v = Math.max(-30, Math.min(30, gooiV));   // gooi-snelheid meenemen, met een plafond
+  }
+  box.addEventListener('pointerup', loslaten);
+  box.addEventListener('pointercancel', loslaten);
+})();
+</script>
+<script>
+// Hero-scroll: tekst glijdt het kader in tijdens het scrollen (zoals Over ons)
+var heroScroll = document.getElementById('hero-scroll');
+function heroProgressie() {
+  if (!heroScroll) return;
+  var top = heroScroll.offsetTop;
+  var totaal = heroScroll.offsetHeight - window.innerHeight;
+  var p = totaal > 0 ? Math.min(Math.max((window.scrollY - top) / totaal, 0), 1) : 0;
+  heroScroll.style.setProperty('--p', p.toFixed(4));
+}
+window.addEventListener('scroll', heroProgressie, { passive: true });
+window.addEventListener('resize', heroProgressie);
+heroProgressie();
 </script>
 <script src="cms-data.js"></script>
 </body>

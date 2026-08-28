@@ -164,7 +164,7 @@
     var s = String(p == null ? '' : p).trim().replace(/^\/+/, '');
     return BASIS + (s || (terugval === undefined ? 'images/placeholder.webp' : terugval));
   }
-  function svgPijl() { return '<span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>'; }
+  function svgPijl(f) { return '<span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-'+(f||45)+'"></use></svg></span>'; }
   // Zelfde regel als tools/genereer-paginas.py: een eigen bestandsnaam wint,
   // anders wordt hij afgeleid van de slug. Zo linken tegels altijd naar de
   // pagina die de generator daadwerkelijk aanmaakt.
@@ -218,7 +218,7 @@
       '<img loading="lazy" decoding="async" src="'+esc(beeldpad(c.tegelbeeld))+'" alt="'+esc(v(c,'tegelbeeld_alt')||('Case '+eenRegel(v(c,'naam'))))+'">'+
       '<div class="case-inhoud"><span class="case-eyebrow">'+esc(eenRegel(v(c,'naam')))+'</span>'+
       '<'+heading+' class="case-titel">'+br(v(c,'titel'))+'</'+heading+'>'+
-      '<p class="case-resultaat">'+svgPijl()+br(v(c,'resultaat'))+'</p></div>'+close;
+      '<p class="case-resultaat">'+svgPijl(65)+br(v(c,'resultaat'))+'</p></div>'+close;
   }
 
   function tagsHtml(c, knoppen) {
@@ -286,7 +286,7 @@
   }
 
   function menuLink(label, url) {
-    return '<li><a href="'+esc(url || '#')+'"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>'+esc(label)+'</a></li>';
+    return '<li><a href="'+esc(url || '#')+'"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>'+esc(label)+'</a></li>';
   }
   function renderMenu(data) {
     var diensten=actieveDiensten(data);
@@ -313,7 +313,7 @@
       // terug op het standaardformaat en staat hij veel te groot in de kop.
       var maat=g.slug==='strategie'?'icoon-s':(g.slug==='branding'?'icoon-b':'icoon-a');
       return '<div class="dienst-groep"><h2 class="dienst-kop"><a href="'+esc(g.overzicht_url)+'">'+esc(eenRegel(v(g,'naam')))+' <svg class="icoon '+maat+'" aria-hidden="true"><use href="#icoon-'+icon+'"></use></svg></a></h2>'+
-        '<div class="dienst-items">'+items.map(function(d){return '<a class="dienst-item" href="'+esc(dienstLink(d,g))+'"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>'+esc(eenRegel(v(d,'titel')))+'</a>';}).join('')+'</div></div>';
+        '<div class="dienst-items">'+items.map(function(d){return '<a class="dienst-item" href="'+esc(dienstLink(d,g))+'"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>'+esc(eenRegel(v(d,'titel')))+'</a>';}).join('')+'</div></div>';
     }).join('');
   }
 
@@ -444,4 +444,65 @@
     document.dispatchEvent(new CustomEvent('campagne:cms-ready'));
     return {cases:cases,logos:logos,diensten:diensten,homepage:homepage};
   });
+
+  /* --------------------------------------------------------------------------
+     Subtitels (case tiles + detailheaders): altijd 2 gebalanceerde regels,
+     tenzij de tekst 20 tekens of minder heeft (dan 1 regel).
+     Redactionele afbraak (handmatige <br> uit het CMS) wordt gerespecteerd.
+     -------------------------------------------------------------------------- */
+  (function () {
+    var stijl = document.createElement('style');
+    stijl.textContent = '@media (min-width: 845px){.subtitel-2regels{white-space:nowrap}}.subtitel-1regel{white-space:nowrap}';
+    document.head.appendChild(stijl);
+  })();
+
+  function balanceerSubtitels() {
+    var kandidaten = document.querySelectorAll('.case-resultaat, .hero-resultaat, .tegel-sub .onderschrift');
+    Array.prototype.forEach.call(kandidaten, function (el) {
+      var doel = el, i, kids, k;
+      if (!(el.classList && el.classList.contains('onderschrift'))) {
+        var span = null;
+        kids = el.childNodes;
+        for (i = 0; i < kids.length; i++) {
+          k = kids[i];
+          if (k.nodeType === 1 && k.tagName !== 'BR' && !(k.classList && k.classList.contains('pijl-knop'))) span = k;
+        }
+        if (!span) {
+          /* losse tekstknopen (CMS-render) bundelen in een span naast de pijl */
+          span = document.createElement('span');
+          var rest = [];
+          for (i = kids.length - 1; i >= 0; i--) {
+            k = kids[i];
+            if (k.nodeType === 3 || (k.nodeType === 1 && k.tagName === 'BR')) { rest.unshift(k); el.removeChild(k); }
+          }
+          if (!rest.length) return;
+          for (i = 0; i < rest.length; i++) span.appendChild(rest[i]);
+          el.appendChild(span);
+        }
+        doel = span;
+      }
+      if (doel.getAttribute('data-subtitel')) return;
+      doel.setAttribute('data-subtitel', '1');
+      if (doel.querySelector('br')) return;               /* handmatige afbraak laten staan */
+      var tekst = doel.textContent.replace(/\s+/g, ' ').replace(/^\s+|\s+$/g, '');
+      if (!tekst) return;
+      if (tekst.length <= 20) { doel.textContent = tekst; doel.classList.add('subtitel-1regel'); return; }
+      /* splits op de spatie die beide regels het meest in balans brengt */
+      var beste = -1, verschil = Infinity, p = tekst.indexOf(' ');
+      while (p !== -1) {
+        var d = Math.abs(p - (tekst.length - p - 1));
+        if (d < verschil) { verschil = d; beste = p; }
+        p = tekst.indexOf(' ', p + 1);
+      }
+      if (beste === -1) { doel.textContent = tekst; doel.classList.add('subtitel-1regel'); return; }
+      doel.textContent = '';
+      doel.appendChild(document.createTextNode(tekst.slice(0, beste)));
+      doel.appendChild(document.createElement('br'));
+      doel.appendChild(document.createTextNode(tekst.slice(beste + 1)));
+      doel.classList.add('subtitel-2regels');
+    });
+  }
+  balanceerSubtitels();
+  document.addEventListener('campagne:cms-ready', balanceerSubtitels);
+
 })();

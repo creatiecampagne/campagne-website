@@ -64,6 +64,7 @@ collections:
               - { label: Alt-tekst tegelbeeld, name: tegelbeeld_alt, widget: string, required: false, hint: "Korte omschrijving voor schermlezers en Google" }
               - { label: Hover-video Vimeo-ID, name: hover_video, widget: string, required: false }
               - { label: Merkkleur, name: merkkleur, widget: color, default: "#d72655" }
+              - { label: "Tekstkleur basisinformatie", name: info_tekstkleur, widget: select, options: [zwart, wit], default: zwart, required: false, hint: "Tekstkleur op het gekleurde basisinformatie-vlak van de detailpagina. Kies wit bij een donkere merkkleur." }
               - label: Tags
                 name: tags
                 widget: list

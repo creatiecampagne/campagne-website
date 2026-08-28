@@ -252,8 +252,8 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
    van de tweede introregel. 14px Medium; de huidige pagina is ExtraBold. */
 .hero-kruimels {
   position: absolute;
-  right: clamp(20px, 3.85vw, 55px);        /* Figma: 55px van de kaderrand */
-  bottom: clamp(20px, 3.1vw, 45px);        /* Figma: 45px van de onderkant */
+  right: clamp(20px, 3.75vw, 54px);        /* Figma: 54px van de kaderrand */
+  bottom: clamp(20px, 3.5vw, 50px);        /* Figma: 54px tot de baseline van de onderste tekst */
   z-index: 3;
   color: var(--wit);
   font-size: 14px;
@@ -264,9 +264,9 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   gap: 10px;                               /* Figma: ~9.7px tussenruimte */
   list-style: none; margin: 0; padding: 0;
 }
-.hero-kruimels li { font-weight: 500; opacity: .8; }
-.hero-kruimels .scheiding { opacity: .55; }
-.hero-kruimels li:last-child { font-weight: 800; opacity: 1; }
+.hero-kruimels li { font-weight: 400; opacity: .8; }
+.hero-kruimels .scheiding { opacity: .8; }
+.hero-kruimels li:last-child { font-weight: 800; font-size: clamp(15px, 1.25vw, 18px); opacity: 1; }
 .hero-kruimels a { transition: opacity .2s ease; }
 .hero-kruimels a:hover { text-decoration: underline; }
 .hero-kruimels li:has(a:hover) { opacity: 1; }
@@ -426,7 +426,7 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
 /* Pijlknoppen — gedeelde basis (Figma: cirkel 47px, draait 45deg bij hover) */
 .pijl-knop {
   flex: none;
-  width: 47px; height: 47px;
+  width: 45px; height: 45px;
   display: grid; place-items: center;
 }
 .pijl-svg { width: 100%; height: 100%; display: block; transition: transform .25s ease; }
@@ -568,7 +568,7 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
 .case-eyebrow {
   font-size: clamp(14px, 1.25vw, 18px);    /* Figma: 18px ExtraBold */
   font-weight: 800;
-  letter-spacing: .02em;
+  letter-spacing: 0;
 }
 .case-titel {
   margin-top: auto;
@@ -616,7 +616,7 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   margin: 0 auto;
 }
 .more-cases .label { font-size: 18px; font-weight: 400; white-space: nowrap; }  /* Poppins Regular */
-.more-cases .lijn { flex: 1; height: 1px; background: var(--zwart); }
+.more-cases .lijn { flex: 1; height: 1.5px; background: var(--zwart); }
 .more-cases .pijl-knop { width: 45px; height: 45px; color: var(--zwart); }      /* Figma: 45x45 */
 .more-cases:hover { text-decoration: none; }
 
@@ -653,7 +653,7 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   font-size: 14px;
 }
 .footer-links a:hover { text-decoration: none; }
-.footer-links .pijl-knop { flex: none; width: 28px; height: 28px; }   /* Figma: 28x28 */
+.footer-links .pijl-knop { flex: none; width: 25px; height: 25px; }   /* Figma: klein 25 */
 
 /* Nieuwsbrief — Figma: alleen een lijn om het veld, Send-knop erin */
 .footer-nieuwsbrief h3 { margin-bottom: 13px; }
@@ -786,7 +786,7 @@ body.menu-open { overflow: hidden; }
 /* Zelfde hover als de rest van de site (Figma 4:18): pijl altijd zichtbaar,
    wijst naar rechtsboven en draait bij hover naar rechts. Tekst wordt niet dik. */
 .menu-sub-lijst .mini-pijl {
-  flex: none; width: 27px; height: 27px;       /* Figma: 27x27 */
+  flex: none; width: 25px; height: 25px;       /* Figma: klein 25 */
   color: var(--zwart);
   display: grid; place-items: center;
   transition: transform .25s ease;
@@ -798,7 +798,7 @@ body.menu-open { overflow: hidden; }
 .menu-contact address { font-style: normal; font-size: 17px; line-height: 2; margin-top: 22px; }
 .menu-contact .menu-sub-lijst { padding: 0; margin-top: 30px; gap: 5px; }   /* Figma: 32px h-o-h */
 .menu-contact .menu-sub-lijst a { gap: 11px; }
-.menu-contact .menu-sub-lijst .mini-pijl { width: 27px; height: 27px; }
+.menu-contact .menu-sub-lijst .mini-pijl { width: 25px; height: 25px; }
 
 /* Social-iconen (Figma 151:96 e.v.): 32x32 met eigen omlijning in de SVG */
 .socials { display: flex; gap: 18px; margin-top: 46px; }
@@ -924,63 +924,53 @@ p { text-wrap: pretty; }
 <path fill-rule="evenodd" clip-rule="evenodd" d="M24.447 2.52071C24.447 1.22629 23.4088 0.176758 22.1284 0.176758C20.8468 0.176758 19.8086 1.22629 19.8086 2.52071C19.8086 3.81513 20.8468 4.86466 22.1284 4.86466C23.4088 4.86466 24.447 3.81513 24.447 2.52071Z" fill="currentColor"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M19.7784 10.4133V12.773C19.7784 16.9147 16.4595 20.1603 12.2229 20.1603C8.0567 20.1603 4.66746 16.7341 4.66746 12.5225C4.66746 8.17426 7.71733 4.89476 11.7607 4.89476H13.8494C15.1991 4.89476 16.1089 3.72899 16.1089 2.53614C16.1089 1.34216 15.1935 0.176392 13.8494 0.176392H11.7607C5.16535 0.176392 0 5.59896 0 12.5225C0 19.3354 5.48351 24.8787 12.2229 24.8787C19.0773 24.8787 24.4469 19.5611 24.4469 12.773V10.4133H19.7784Z" fill="currentColor"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M210.801 10.4602H225.607C224.831 6.89185 222.087 4.46777 218.536 4.46777C215.967 4.46777 213.616 5.6674 212.087 7.75969C211.486 8.58125 211.055 9.49536 210.801 10.4602ZM218.541 24.8849C213.132 24.8849 208.476 21.4937 206.934 16.4108C205.748 12.5061 206.404 8.44005 208.733 5.2531C211.024 2.12143 214.689 0.251465 218.537 0.251465C225.017 0.251465 229.946 5.49798 230 12.4554C230.004 13.0377 229.773 13.6098 229.367 14.024C228.96 14.4393 228.396 14.6763 227.819 14.6763H210.784C210.825 14.8422 210.87 15.0081 210.92 15.1728C211.921 18.4693 214.978 20.6688 218.544 20.6688C218.574 20.6688 218.604 20.6688 218.635 20.6676C220.482 20.6485 221.98 20.0707 223.088 18.95L224.563 17.4592L227.511 20.4408L226.038 21.9316C224.157 23.832 221.612 24.8533 218.679 24.8838C218.633 24.8849 218.587 24.8849 218.541 24.8849Z" fill="currentColor"/></symbol>
-<symbol id="svg-pijl" viewBox="-1 -1 47 47">
-<circle cx="22.5" cy="22.5" r="21.787" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
-<path d="M16.35 16.12h12.526v12.526" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
-<path d="M15.14 29.862 28.882 16.12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+<symbol id="svg-pijl-25" viewBox="0 0 25 25"><!-- Pijlbol klein 25 (Figma 206:478), lijndikte 1.2 -->
+<path d="M9.14795 9.02332H15.9751V15.8505" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8.48511 16.5131L15.9749 9.02332" fill="none" stroke="currentColor" stroke-width="1.2" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M12.5 24.375C19.0584 24.375 24.375 19.0584 24.375 12.5C24.375 5.94162 19.0584 0.625 12.5 0.625C5.94162 0.625 0.625 5.94162 0.625 12.5C0.625 19.0584 5.94162 24.375 12.5 24.375Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-miterlimit="10" stroke-linecap="round"/>
 </symbol>
-<symbol id="svg-pijl-klein" viewBox="0 0 28 28"><!-- Figma footer: cirkel Ø28, lijndikte 1.25 (45px-master met stroke 2, geschaald naar 28) -->
-<circle cx="14" cy="14" r="13.375" fill="none" stroke="currentColor" stroke-width="1.25"/>
-<path d="M10.17 10.03h7.8v7.8" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M9.42 18.58 17.97 10.03" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+<symbol id="svg-pijl-45" viewBox="0 0 45 45"><!-- Pijlbol middel 45 (Figma 206:483), lijndikte 1.5 -->
+<path d="M16.4307 16.2052H28.7915V28.566" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M15.2319 29.7657L28.7925 16.2052" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M22.5 44C34.3741 44 44 34.3741 44 22.5C44 10.6259 34.3741 1 22.5 1C10.6259 1 1 10.6259 1 22.5C1 34.3741 10.6259 44 22.5 44Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
 </symbol>
-<symbol id="svg-pijl-45" viewBox="0 0 45 45"><!-- Figma footer 'Contact us!': 45px, lijndikte 2 -->
-<circle cx="22.5" cy="22.5" r="21.5" fill="none" stroke="currentColor" stroke-width="2"/>
-<path d="M16.35 16.12h12.53v12.53" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M15.14 29.86 28.88 16.12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+<symbol id="ico-instagram" viewBox="2 2 34 34"><!-- Instagram lijn (Figma 206:566) -->
+<path fill-rule="evenodd" clip-rule="evenodd" d="M31.7009 35H6.2991C4.47669 35 3 33.5233 3 31.7009V6.2991C3 4.47669 4.47669 3 6.2991 3H31.7009C33.5233 3 35 4.47669 35 6.2991V31.7009C35 33.5233 33.5233 35 31.7009 35Z" fill="none" stroke="currentColor" stroke-width="2"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12.5435 19.5948C12.5435 16.0301 15.4338 13.1398 18.9985 13.1398C22.5631 13.1398 25.4535 16.0301 25.4535 19.5948C25.4535 23.1594 22.5631 26.0498 18.9985 26.0498C15.4338 26.0498 12.5435 23.1594 12.5435 19.5948Z" fill="none" stroke="currentColor" stroke-width="2.45949"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M26.921 11.8006C26.921 12.1281 26.6564 12.3926 26.3289 12.3926C26.0028 12.3926 25.7368 12.1281 25.7368 11.8006C25.7368 11.4744 26.0028 11.2085 26.3289 11.2085C26.6564 11.2085 26.921 11.4744 26.921 11.8006Z" fill="currentColor" stroke="currentColor" stroke-width="2"/>
 </symbol>
-<symbol id="ico-instagram" viewBox="-1 -1 34 34"><!-- Figma footer: 32px kader r6.5 lijn 2, lens Ø12.9 lijn 2.46, punt r1.6 -->
-<rect width="32" height="32" rx="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
-<circle cx="15.995" cy="16.595" r="6.455" fill="none" stroke="currentColor" stroke-width="2.46"/>
-<circle cx="23.332" cy="8.802" r="1.6" fill="currentColor"/>
+<symbol id="ico-facebook" viewBox="2 2 34 34"><!-- Facebook lijn (Figma 206:583) -->
+<path fill-rule="evenodd" clip-rule="evenodd" d="M31.7009 35H6.2991C4.47669 35 3 33.5233 3 31.7009V6.2991C3 4.47669 4.47669 3 6.2991 3H31.7009C33.5233 3 35 4.47669 35 6.2991V31.7009C35 33.5233 33.5233 35 31.7009 35Z" fill="none" stroke="currentColor" stroke-width="2"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M19.9851 19.9677H22.4689C22.6067 18.8916 22.7419 17.8333 22.8805 16.7511H20.0145C19.9929 16.725 19.9863 16.7206 19.9863 16.7167C19.9871 15.9235 19.9129 15.1273 20.0494 14.3398C20.1622 13.689 20.4783 13.1932 21.1164 13.0242C21.3998 12.9489 21.7047 12.9559 22.0001 12.9446C22.3237 12.9324 22.6482 12.942 22.9813 12.942C22.9884 12.8741 22.9967 12.8292 22.9967 12.7844C22.9975 11.9899 22.9946 11.195 23 10.4005C23.0008 10.2747 22.9656 10.232 22.8457 10.2098C21.8711 10.0309 20.9007 9.92339 19.9058 10.0657C17.6916 10.3822 16.9162 12.0961 16.7627 13.5279C16.6693 14.4008 16.7154 15.2906 16.7005 16.1725C16.6971 16.3593 16.6996 16.5461 16.6996 16.7485H14V19.9529H16.6793V28H19.9851V19.9677Z" fill="currentColor"/>
 </symbol>
-<symbol id="ico-facebook" viewBox="-1 -1 34 34">
-<rect width="32" height="32" rx="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
-<path transform="translate(11 7)" d="M5.985 9.968 L8.469 9.968 C8.607 8.892 8.742 7.833 8.881 6.751 L6.015 6.751 C5.993 6.725 5.986 6.721 5.986 6.717 C5.987 5.924 5.913 5.127 6.049 4.34 C6.162 3.689 6.478 3.193 7.116 3.024 C7.4 2.949 7.705 2.956 8 2.945 C8.324 2.932 8.648 2.942 8.981 2.942 C8.988 2.874 8.997 2.829 8.997 2.784 C8.997 1.99 8.995 1.195 9 0.401 C9.001 0.275 8.966 0.232 8.846 0.21 C7.871 0.031 6.901 -0.077 5.906 0.066 C3.692 0.382 2.916 2.096 2.763 3.528 C2.669 4.401 2.715 5.291 2.7 6.173 C2.697 6.359 2.7 6.546 2.7 6.748 L0 6.748 L0 9.953 L2.679 9.953 L2.679 18 L5.985 18 L5.985 9.968 Z" fill="currentColor"/>
-</symbol>
-<symbol id="ico-linkedin" viewBox="-1 -1 34 34">
-<rect width="32" height="32" rx="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
-<path transform="translate(13 13)" d="M0 11.992 L0 0.258 C0.419 0.258 0.817 0.258 1.217 0.258 C1.86 0.258 2.504 0.267 3.148 0.256 C3.399 0.252 3.505 0.347 3.502 0.585 C3.497 0.963 3.501 1.34 3.501 1.629 C4.103 1.246 4.705 0.769 5.385 0.447 C7.135 -0.382 9.291 -0.034 10.67 1.295 C11.482 2.077 11.951 3.082 11.973 4.189 C12.023 6.663 11.986 9.14 11.996 11.615 C11.997 11.902 11.897 12 11.609 11.998 C10.636 11.988 9.662 11.987 8.688 12 C8.362 12.004 8.25 11.9 8.253 11.57 C8.268 9.546 8.267 7.521 8.26 5.497 C8.256 4.506 7.791 3.79 6.936 3.524 C5.529 3.086 3.761 3.664 3.72 5.679 C3.683 7.572 3.712 9.466 3.71 11.359 C3.709 11.977 3.707 11.986 3.081 11.99 C2.066 11.997 1.051 11.992 0 11.992 Z" fill="currentColor"/>
-<path transform="translate(7 13)" d="M0 11.938 L0 0.009 C0.523 0.009 1.038 0.009 1.552 0.009 C2.214 0.008 2.877 0.013 3.54 0 C3.842 -0.005 4.001 0.064 4 0.395 C3.992 4.145 3.997 7.894 3.982 11.644 C3.981 11.762 3.802 11.979 3.701 11.982 C2.534 12.006 1.367 12 0.2 11.997 C0.141 11.997 0.082 11.963 0 11.938 Z" fill="currentColor"/>
-<path transform="translate(7 7)" d="M0 1.964 C0.004 0.869 0.894 -0.002 2.009 0 C3.069 0.002 3.99 0.908 4 1.96 C4.01 3.051 3.075 4.001 1.992 4 C0.886 3.998 -0.004 3.089 0 1.964 Z" fill="currentColor"/>
+<symbol id="ico-linkedin" viewBox="2 2 34 34"><!-- LinkedIn lijn (Figma 206:594) -->
+<path fill-rule="evenodd" clip-rule="evenodd" d="M31.7009 35H6.2991C4.47669 35 3 33.5233 3 31.7009V6.2991C3 4.47669 4.47669 3 6.2991 3H31.7009C33.5233 3 35 4.47669 35 6.2991V31.7009C35 33.5233 33.5233 35 31.7009 35Z" fill="none" stroke="currentColor" stroke-width="2"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M16 27.9921V16.2576C16.419 16.2576 16.8175 16.2576 17.2165 16.2576C17.8601 16.2582 18.5043 16.267 19.1484 16.2559C19.3993 16.2515 19.5047 16.3468 19.5019 16.5846C19.4973 16.9626 19.5007 17.3401 19.5007 17.6289C20.1027 17.2459 20.7053 16.7686 21.3854 16.4466C23.1349 15.618 25.2914 15.9661 26.6698 17.2946C27.4816 18.0767 27.9507 19.0816 27.973 20.1885C28.0231 22.6633 27.9861 25.1398 27.9963 27.6152C27.9975 27.9023 27.8966 28.0004 27.6093 27.9976C26.6356 27.9882 25.6619 27.9866 24.6883 27.9999C24.3616 28.0043 24.2505 27.8995 24.2528 27.5697C24.2682 25.5455 24.267 23.5213 24.2596 21.4971C24.2556 20.5061 23.791 19.79 22.9365 19.5245C21.529 19.0861 19.7607 19.6642 19.7202 21.6795C19.6826 23.5723 19.7122 25.4657 19.71 27.3591C19.7094 27.9771 19.7065 27.986 19.0812 27.9904C18.0659 27.9971 17.0506 27.9921 16 27.9921" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10 27.9385V16.0088C10.523 16.0088 11.0376 16.0094 11.5515 16.0088C12.214 16.0077 12.8771 16.0133 13.5395 16.0003C13.8425 15.9946 14.0006 16.0644 14 16.3948C13.9916 20.1447 13.997 23.8939 13.982 27.6437C13.9814 27.7616 13.8016 27.9793 13.7012 27.9816C12.5344 28.0065 11.367 27.9997 10.2002 27.9974C10.1407 27.9974 10.0818 27.9634 10 27.9385" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10 11.9636C10.0037 10.8687 10.8939 9.99843 12.0086 10C13.0694 10.0016 13.99 10.908 13.9999 11.9605C14.0104 13.0507 13.0751 14.001 11.9919 14C10.8861 13.9984 9.99635 13.0889 10 11.9636" fill="currentColor"/>
 </symbol>
 <!-- Gevulde menu-varianten: zwarte afgeronde knop + wit merk-icoon (Figma 4:18).
      Instagram = alleen lens + punt op het gevulde kader, zonder binnenrand (Figma 153:617). -->
-<symbol id="ico-ig-menu" viewBox="-1 -1 34 34">
-<rect width="32" height="32" rx="6.5" fill="#000"/>
-<circle cx="15.995" cy="16.595" r="6.455" fill="none" stroke="#fff" stroke-width="2.46"/>
-<circle cx="23.332" cy="8.802" r="1.6" fill="#fff"/>
+<symbol id="ico-ig-menu" viewBox="2 2 34 34"><!-- Instagram vol (Figma 206:610) -->
+<path fill-rule="evenodd" clip-rule="evenodd" d="M31.7009 35H6.2991C4.47669 35 3 33.5233 3 31.7009V6.2991C3 4.47669 4.47669 3 6.2991 3H31.7009C33.5233 3 35 4.47669 35 6.2991V31.7009C35 33.5233 33.5233 35 31.7009 35Z" fill="currentColor" stroke="currentColor" stroke-width="2"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12.5435 19.5948C12.5435 16.0301 15.4338 13.1398 18.9985 13.1398C22.5631 13.1398 25.4535 16.0301 25.4535 19.5948C25.4535 23.1594 22.5631 26.0498 18.9985 26.0498C15.4338 26.0498 12.5435 23.1594 12.5435 19.5948Z" fill="currentColor" stroke="#fff" stroke-width="2.45949"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M26.921 11.8006C26.921 12.1281 26.6564 12.3926 26.3289 12.3926C26.0028 12.3926 25.7368 12.1281 25.7368 11.8006C25.7368 11.4744 26.0028 11.2085 26.3289 11.2085C26.6564 11.2085 26.921 11.4744 26.921 11.8006Z" fill="#fff" stroke="#fff" stroke-width="2"/>
 </symbol>
-<symbol id="ico-fb-menu" viewBox="-1 -1 34 34">
-<rect width="32" height="32" rx="6.5" fill="#000"/>
-<path transform="translate(11 7)" d="M5.985 9.968 L8.469 9.968 C8.607 8.892 8.742 7.833 8.881 6.751 L6.015 6.751 C5.993 6.725 5.986 6.721 5.986 6.717 C5.987 5.924 5.913 5.127 6.049 4.34 C6.162 3.689 6.478 3.193 7.116 3.024 C7.4 2.949 7.705 2.956 8 2.945 C8.324 2.932 8.648 2.942 8.981 2.942 C8.988 2.874 8.997 2.829 8.997 2.784 C8.997 1.99 8.995 1.195 9 0.401 C9.001 0.275 8.966 0.232 8.846 0.21 C7.871 0.031 6.901 -0.077 5.906 0.066 C3.692 0.382 2.916 2.096 2.763 3.528 C2.669 4.401 2.715 5.291 2.7 6.173 C2.697 6.359 2.7 6.546 2.7 6.748 L0 6.748 L0 9.953 L2.679 9.953 L2.679 18 L5.985 18 L5.985 9.968 Z" fill="#fff"/>
+<symbol id="ico-fb-menu" viewBox="2 2 34 34"><!-- Facebook vol (Figma 206:616) -->
+<path fill-rule="evenodd" clip-rule="evenodd" d="M31.7009 35H6.2991C4.47669 35 3 33.5233 3 31.7009V6.2991C3 4.47669 4.47669 3 6.2991 3H31.7009C33.5233 3 35 4.47669 35 6.2991V31.7009C35 33.5233 33.5233 35 31.7009 35Z" fill="currentColor" stroke="currentColor" stroke-width="2"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M19.9851 19.9677H22.4689C22.6067 18.8916 22.7419 17.8333 22.8805 16.7511H20.0145C19.9929 16.725 19.9863 16.7206 19.9863 16.7167C19.9871 15.9235 19.9129 15.1273 20.0494 14.3398C20.1622 13.689 20.4783 13.1932 21.1164 13.0242C21.3998 12.9489 21.7047 12.9559 22.0001 12.9446C22.3237 12.9324 22.6482 12.942 22.9813 12.942C22.9884 12.8741 22.9967 12.8292 22.9967 12.7844C22.9975 11.9899 22.9946 11.195 23 10.4005C23.0008 10.2747 22.9656 10.232 22.8457 10.2098C21.8711 10.0309 20.9007 9.92339 19.9058 10.0657C17.6916 10.3822 16.9162 12.0961 16.7627 13.5279C16.6693 14.4008 16.7154 15.2906 16.7005 16.1725C16.6971 16.3593 16.6996 16.5461 16.6996 16.7485H14V19.9529H16.6793V28H19.9851V19.9677Z" fill="#fff"/>
 </symbol>
-<symbol id="ico-li-menu" viewBox="-1 -1 34 34">
-<rect width="32" height="32" rx="6.5" fill="#000"/>
-<path transform="translate(13 13)" d="M0 11.992 L0 0.258 C0.419 0.258 0.817 0.258 1.217 0.258 C1.86 0.258 2.504 0.267 3.148 0.256 C3.399 0.252 3.505 0.347 3.502 0.585 C3.497 0.963 3.501 1.34 3.501 1.629 C4.103 1.246 4.705 0.769 5.385 0.447 C7.135 -0.382 9.291 -0.034 10.67 1.295 C11.482 2.077 11.951 3.082 11.973 4.189 C12.023 6.663 11.986 9.14 11.996 11.615 C11.997 11.902 11.897 12 11.609 11.998 C10.636 11.988 9.662 11.987 8.688 12 C8.362 12.004 8.25 11.9 8.253 11.57 C8.268 9.546 8.267 7.521 8.26 5.497 C8.256 4.506 7.791 3.79 6.936 3.524 C5.529 3.086 3.761 3.664 3.72 5.679 C3.683 7.572 3.712 9.466 3.71 11.359 C3.709 11.977 3.707 11.986 3.081 11.99 C2.066 11.997 1.051 11.992 0 11.992 Z" fill="#fff"/>
-<path transform="translate(7 13)" d="M0 11.938 L0 0.009 C0.523 0.009 1.038 0.009 1.552 0.009 C2.214 0.008 2.877 0.013 3.54 0 C3.842 -0.005 4.001 0.064 4 0.395 C3.992 4.145 3.997 7.894 3.982 11.644 C3.981 11.762 3.802 11.979 3.701 11.982 C2.534 12.006 1.367 12 0.2 11.997 C0.141 11.997 0.082 11.963 0 11.938 Z" fill="#fff"/>
-<path transform="translate(7 7)" d="M0 1.964 C0.004 0.869 0.894 -0.002 2.009 0 C3.069 0.002 3.99 0.908 4 1.96 C4.01 3.051 3.075 4.001 1.992 4 C0.886 3.998 -0.004 3.089 0 1.964 Z" fill="#fff"/>
+<symbol id="ico-li-menu" viewBox="2 2 34 34"><!-- LinkedIn vol (Figma 206:622) -->
+<path fill-rule="evenodd" clip-rule="evenodd" d="M31.7009 35H6.2991C4.47669 35 3 33.5233 3 31.7009V6.2991C3 4.47669 4.47669 3 6.2991 3H31.7009C33.5233 3 35 4.47669 35 6.2991V31.7009C35 33.5233 33.5233 35 31.7009 35Z" fill="currentColor" stroke="currentColor" stroke-width="2"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M16 27.9921V16.2576C16.419 16.2576 16.8175 16.2576 17.2165 16.2576C17.8601 16.2582 18.5043 16.267 19.1484 16.2559C19.3993 16.2515 19.5047 16.3468 19.5019 16.5846C19.4973 16.9626 19.5007 17.3401 19.5007 17.6289C20.1027 17.2459 20.7053 16.7686 21.3854 16.4466C23.1349 15.618 25.2914 15.9661 26.6698 17.2946C27.4816 18.0767 27.9507 19.0816 27.973 20.1885C28.0231 22.6633 27.9861 25.1398 27.9963 27.6152C27.9975 27.9023 27.8966 28.0004 27.6093 27.9976C26.6356 27.9882 25.6619 27.9866 24.6883 27.9999C24.3616 28.0043 24.2505 27.8995 24.2528 27.5697C24.2682 25.5455 24.267 23.5213 24.2596 21.4971C24.2556 20.5061 23.791 19.79 22.9365 19.5245C21.529 19.0861 19.7607 19.6642 19.7202 21.6795C19.6826 23.5723 19.7122 25.4657 19.71 27.3591C19.7094 27.9771 19.7065 27.986 19.0812 27.9904C18.0659 27.9971 17.0506 27.9921 16 27.9921" fill="#fff"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10 27.9385V16.0088C10.523 16.0088 11.0376 16.0094 11.5515 16.0088C12.214 16.0077 12.8771 16.0133 13.5395 16.0003C13.8425 15.9946 14.0006 16.0644 14 16.3948C13.9916 20.1447 13.997 23.8939 13.982 27.6437C13.9814 27.7616 13.8016 27.9793 13.7012 27.9816C12.5344 28.0065 11.367 27.9997 10.2002 27.9974C10.1407 27.9974 10.0818 27.9634 10 27.9385" fill="#fff"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10 11.9636C10.0037 10.8687 10.8939 9.99843 12.0086 10C13.0694 10.0016 13.99 10.908 13.9999 11.9605C14.0104 13.0507 13.0751 14.001 11.9919 14C10.8861 13.9984 9.99635 13.0889 10 11.9636" fill="#fff"/>
 </symbol>
-<symbol id="svg-pijl-dik" viewBox="-1.2 -1.2 67.4 67.4">
-<path d="M23.3438 23.0063H41.4367V41.0993" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M21.5859 42.8554L41.435 23.0063" fill="none" stroke="currentColor" stroke-width="3.4" stroke-miterlimit="10" stroke-linecap="round"/>
-<path d="M32.2203 63.6906C49.6008 63.6906 63.6906 49.6008 63.6906 32.2203C63.6906 14.8397 49.6008 0.75 32.2203 0.75C14.8397 0.75 0.75 14.8397 0.75 32.2203C0.75 49.6008 14.8397 63.6906 32.2203 63.6906Z" fill="none" stroke="currentColor" stroke-width="3.4" stroke-miterlimit="10" stroke-linecap="round"/>
+<symbol id="svg-pijl-55" viewBox="0 0 55 55"><!-- Pijlbol middel 55 (Figma 206:498), lijndikte 1.5 -->
+<path d="M20.0193 19.7413H35.2547V34.9767" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18.5417 36.4555L35.2559 19.7413" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M27.5 54C42.1355 54 54 42.1355 54 27.5C54 12.8645 42.1355 1 27.5 1C12.8645 1 1 12.8645 1 27.5C1 42.1355 12.8645 54 27.5 54Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
 </symbol>
-<symbol id="icoon-strategie" viewBox="0 0 22 35"><path d="M21.6232 34.6551L21.146 33.8153C19.8231 31.4867 19.379 28.7653 19.8955 26.1511C20.1423 24.9036 20.4022 23.7548 20.6536 22.644C21.4061 19.3217 22.0001 16.6971 21.6262 14.142C20.5931 7.43649 17.2769 2.92104 11.2165 0L11.3903 3.53823C11.3975 3.68461 11.3431 3.82729 11.2405 3.93189C11.1376 4.03599 11.0053 4.09583 10.8488 4.08792C8.82139 4.02264 6.57046 6.3339 3.74957 9.26433C2.72858 10.3251 1.67297 11.4218 0.490021 12.5543C0.155461 12.8748 -0.0265323 13.3265 0.00314046 13.7627C0.112682 15.3613 0.630719 16.459 1.58692 17.118C1.98009 17.389 2.48502 17.4523 2.93679 17.2876C3.91599 16.9305 5.00152 16.2953 6.25519 15.3448C6.41963 15.2199 6.64168 15.2041 6.82144 15.3015C8.85279 16.4019 10.6881 15.7149 12.9548 13.008C13.1286 12.8011 13.432 12.7593 13.6536 12.9123C13.8766 13.0654 13.9466 13.3624 13.8153 13.5988C12.5767 15.8336 10.9432 17.9149 9.36316 19.9277C5.69759 24.5972 2.23156 29.0138 4.16153 34.6548H21.623L21.6232 34.6551Z" fill="#D72655"/></symbol>
-<symbol id="icoon-branding" viewBox="0 0 25 28"><path fill-rule="evenodd" clip-rule="evenodd" d="M25 15.1154C25 15.2509 24.9464 15.3779 24.8557 15.4711L12.7598 27.8539C12.566 28.0487 12.2567 28.0487 12.0628 27.8539L0.144342 15.6447C0.0536128 15.5516 0 15.4203 0 15.289V5.61228C0 5.47677 0.0536128 5.34972 0.144342 5.25655L5.13032 0.14928C5.32415 -0.0497599 5.63345 -0.0497599 5.82728 0.14928L12.4134 6.89545L18.9995 0.14928C19.1933 -0.0497599 19.5026 -0.0497599 19.6965 0.14928L24.8557 5.43018C24.9464 5.52335 25 5.65463 25 5.78591V15.1154Z" fill="#D72655"/></symbol>
-<symbol id="icoon-activatie" viewBox="0 0 32 32"><path d="M30.0945 0.00989415C28.3478 0.198546 21.8722 0.519005 14.5628 7.86325C11.0933 11.3493 8.76535 15.1973 8 18.2982L13.6675 23.9927C16.7526 23.2237 20.5834 20.8847 24.0529 17.3986C30.9776 10.4408 31.7608 3.55133 31.9169 1.80109C32.0098 0.759039 31.1288 -0.102552 30.0945 0.00989415Z" fill="#D72655"/><path d="M10.4259 16.8839L0.421758 15.8515C-0.0249039 15.8458 -0.153369 15.2967 0.214979 14.969L4.95582 10.7505C5.62927 10.1512 6.48159 9.8355 7.28919 9.88614L13.1531 10.2535L10.4259 16.8836V16.8839Z" fill="#D72655"/><path d="M15.0469 21.5239L16.0743 31.5757C16.08 32.0245 16.6265 32.1536 16.9526 31.7835L21.1512 27.0201C21.7475 26.3434 22.0618 25.487 22.0114 24.6756L21.6458 18.7837L15.0471 21.5239H15.0469Z" fill="#D72655"/><path d="M2.23416 30.2044C3.46644 30.0443 6.73191 29.6168 8.19517 29.2611C10.1995 28.7746 11.637 27.0904 11.8898 25.1093C11.9355 24.7503 11.5046 24.5366 11.2519 24.7943C10.5747 25.4848 9.57839 26.2347 8.9289 26.3159H5.68591V23.0577C5.74471 22.5881 6.14715 21.9377 6.62469 21.3564C6.81022 21.1302 7.00737 20.9148 7.19982 20.7244C7.4565 20.4704 7.24379 20.0375 6.88656 20.0835C4.91512 20.3369 3.23915 21.7816 2.75519 23.7944C2.40117 25.2647 1.97526 28.5455 1.81566 29.7839C1.78429 30.0284 1.99082 30.2359 2.23416 30.2044Z" fill="#D72655"/></symbol>
-<symbol id="icoon-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3.5 7l8.5 6 8.5-6"/></symbol>
-<symbol id="icoon-tel" viewBox="0 0 24 24"><path d="M5.5 3h3l1.7 4.3-2.1 1.6a13 13 0 0 0 6 6l1.6-2.1L20 14.5v3a2.5 2.5 0 0 1-2.7 2.5C9.6 19.4 4.6 14.4 4 6.7A2.5 2.5 0 0 1 5.5 3z"/></symbol>
 </svg>
 
 <!-- ============================================================ HEADER -->
@@ -1013,11 +1003,11 @@ p { text-wrap: pretty; }
           <button class="menu-titel" type="button" aria-expanded="false" aria-controls="menu-sub-strategy">Strategy</button>
           <div class="menu-sub-wrap" id="menu-sub-strategy"><div class="menu-sub">
             <ul class="menu-sub-lijst">
-            <li><a href="../strategy.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Strategie overzicht</a></li>
-            <li><a href="brand-strategy.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Merk strategie</a></li>
-            <li><a href="marketing-strategy.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Marketing strategie</a></li>
-            <li><a href="social-strategy.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Social strategie</a></li>
-            <li><a href="creative-strategy.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Creatieve strategie</a></li>
+            <li><a href="../strategy.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Strategie overzicht</a></li>
+            <li><a href="brand-strategy.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Merk strategie</a></li>
+            <li><a href="marketing-strategy.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Marketing strategie</a></li>
+            <li><a href="social-strategy.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Social strategie</a></li>
+            <li><a href="creative-strategy.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Creatieve strategie</a></li>
             </ul>
           </div></div>
         </li>
@@ -1025,11 +1015,11 @@ p { text-wrap: pretty; }
           <button class="menu-titel" type="button" aria-expanded="false" aria-controls="menu-sub-branding">Branding</button>
           <div class="menu-sub-wrap" id="menu-sub-branding"><div class="menu-sub">
             <ul class="menu-sub-lijst">
-            <li><a href="../branding.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Branding overzicht</a></li>
-            <li><a href="employer-branding.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Employer branding</a></li>
-            <li><a href="corporate-identity.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Corporate identity</a></li>
-            <li><a href="brand-positioning.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Brand positionering</a></li>
-            <li><a href="campaign-design.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Campagne design</a></li>
+            <li><a href="../branding.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Branding overzicht</a></li>
+            <li><a href="employer-branding.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Employer branding</a></li>
+            <li><a href="corporate-identity.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Corporate identity</a></li>
+            <li><a href="brand-positioning.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Brand positionering</a></li>
+            <li><a href="campaign-design.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Campagne design</a></li>
             </ul>
           </div></div>
         </li>
@@ -1037,11 +1027,11 @@ p { text-wrap: pretty; }
           <button class="menu-titel" type="button" aria-expanded="false" aria-controls="menu-sub-activation">Activation</button>
           <div class="menu-sub-wrap" id="menu-sub-activation"><div class="menu-sub">
             <ul class="menu-sub-lijst">
-            <li><a href="../activatie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Activatie overzicht</a></li>
-            <li><a href="customer-experience.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Customer experience</a></li>
-            <li><a href="content-production.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Content productie</a></li>
-            <li><a href="events.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Events</a></li>
-            <li><a href="digital-transformation.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Digitale transformatie</a></li>
+            <li><a href="../activatie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Activatie overzicht</a></li>
+            <li><a href="customer-experience.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Customer experience</a></li>
+            <li><a href="content-production.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Content productie</a></li>
+            <li><a href="events.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Events</a></li>
+            <li><a href="digital-transformation.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Digitale transformatie</a></li>
             </ul>
           </div></div>
         </li>
@@ -1060,11 +1050,12 @@ p { text-wrap: pretty; }
             <button class="menu-titel" type="button" aria-expanded="false" aria-controls="menu-sub-netwerk">Netwerk</button>
             <div class="menu-sub-wrap" id="menu-sub-netwerk"><div class="menu-sub">
               <ul class="menu-sub-lijst">
-            <li><a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Social content</a></li>
-            <li><a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>Banners &amp; media</a></li>
+            <li><a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Social content</a></li>
+            <li><a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Banners &amp; media</a></li>
               </ul>
             </div></div>
           </li>
+          <li class="menu-item"><a class="menu-titel" href="../inhouse.html">InHouse</a></li>
           <li class="menu-item"><a class="menu-titel" href="#">Vacatures</a></li>
           <li class="menu-item"><a class="menu-titel" href="../contact.html">Contact</a></li>
         </ul>
@@ -1081,8 +1072,8 @@ p { text-wrap: pretty; }
           3012 NJ Rotterdam
         </address>
         <ul class="menu-sub-lijst">
-          <li><a href="tel:+31102928333"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>010 - 292 83 33</a></li>
-          <li><a href="mailto:hello@campagne.nl"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-dik"></use></svg></span>hello@campagne.nl</a></li>
+          <li><a href="tel:+31102928333"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>010 - 292 83 33</a></li>
+          <li><a href="mailto:hello@campagne.nl"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>hello@campagne.nl</a></li>
         </ul>
         <div class="socials">
           <a href="https://www.instagram.com/campagne_/" target="_blank" rel="noopener" aria-label="Instagram"><svg aria-hidden="true"><use href="#ico-ig-menu"></use></svg></a>
@@ -1146,7 +1137,7 @@ p { text-wrap: pretty; }
       <p>Een merk wordt geliefd in de optelsom van kleine momenten. Wij brengen de klantreis in kaart en ontwerpen belevingen die op elk contactmoment kloppen.</p>
       <p>Van de eerste kennismaking tot de service achteraf: we maken van passief publiek betrokken ambassadeurs, met interacties die persoonlijk en betekenisvol zijn.</p>
       <a class="blok-cta" href="../contact.html">
-        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-45"></use></svg></span>
         <span>Want to know more?<br>Talk to our activation team!</span>
       </a>
     </div>
@@ -1168,7 +1159,7 @@ p { text-wrap: pretty; }
         <span class="case-eyebrow">Tour de France Femmes</span>
         <h3 class="case-titel">Rotterdam<br>turns yellow.</h3>
         <p class="case-resultaat">
-          <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+          <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-55"></use></svg></span>
           <span>415.000+ visitors for this legendary wheeler event.</span>
         </p>
       </div>
@@ -1179,7 +1170,7 @@ p { text-wrap: pretty; }
         <span class="case-eyebrow">Jun Märkl &amp; CVR</span>
         <h3 class="case-titel">A world-renowned<br>conductor.</h3>
         <p class="case-resultaat">
-          <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+          <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-55"></use></svg></span>
           <span>International collaboration between CVR (US) and Campagne (NL) via AMIN Worldwide.</span>
         </p>
       </div>
@@ -1188,7 +1179,7 @@ p { text-wrap: pretty; }
   <a class="more-cases" href="../cases.html">
     <span class="label">Moooooooore cases</span>
     <span class="lijn" aria-hidden="true"></span>
-    <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>
+    <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-45"></use></svg></span>
   </a>
 </section>
 
@@ -1213,8 +1204,8 @@ p { text-wrap: pretty; }
         3012 NJ Rotterdam
       </address>
       <div class="footer-links">
-        <a href="tel:+31102928333"><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-klein"></use></svg></span> 010 - 292 83 33</a>
-        <a href="mailto:hello@campagne.nl"><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-klein"></use></svg></span> hello@campagne.nl</a>
+        <a href="tel:+31102928333"><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span> 010 - 292 83 33</a>
+        <a href="mailto:hello@campagne.nl"><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span> hello@campagne.nl</a>
       </div>
     </div>
     <div class="footer-nieuwsbrief">

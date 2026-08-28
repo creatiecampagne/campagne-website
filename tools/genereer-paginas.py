@@ -253,6 +253,21 @@ def eigen_inhoud(pad):
 
 
 # ------------------------------------------------------------------- cases
+def info_tekstkleur(c):
+    """Tekstkleur op het basisinformatie-vlak: CMS-veld, anders automatisch op contrast."""
+    keuze = (c.get('info_tekstkleur') or '').strip().lower()
+    if keuze in ('wit', 'zwart'):
+        return '#fff' if keuze == 'wit' else '#000'
+    h = (c.get('merkkleur') or '#ffff00').lstrip('#')
+    if len(h) == 3:
+        h = ''.join(x * 2 for x in h)
+    try:
+        r, g, b = int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
+    except ValueError:
+        return '#000'
+    return '#000' if (299 * r + 587 * g + 114 * b) / 1000 >= 128 else '#fff'
+
+
 def bouw_case(c, blokken, sjabloon, taal, vertaling, inst):
     nl_naam = bestandsnaam(c, 'case-')
     en_naam = bestandsnaam(c, 'case-', 'en')
@@ -295,6 +310,7 @@ def bouw_case(c, blokken, sjabloon, taal, vertaling, inst):
     html = vul(sjabloon, {
         'SLUG': esc(c.get('slug')),
         'KLEUR': esc(c.get('merkkleur') or '#ffff00'),
+        'INFO_TEKSTKLEUR': info_tekstkleur(c),
         'PAGINATITEL': esc(een_regel(klant)),
         'OMSCHRIJVING': omschrijving,
         'HERO_BEELD': esc(beeldpad(c.get('hero_beeld') or c.get('tegelbeeld'))),
@@ -329,7 +345,7 @@ def case_blok(c, taal):
         f'        <span class="case-eyebrow">{esc(een_regel(klant))}</span>\n'
         f'        <h3 class="case-titel">{regels(veld(c, "titel", taal))}</h3>\n'
         f'        <p class="case-resultaat">\n'
-        f'          <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>\n'
+        f'          <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-55"></use></svg></span>\n'
         f'          <span>{regels(veld(c, "resultaat", taal))}</span>\n'
         f'        </p>\n'
         f'      </div>\n{sluit}'
@@ -454,9 +470,9 @@ def og_handgemaakt(inst):
 # overal verschijnt en er niets handmatig bijgezet hoeft te worden.
 
 PIJL_DIK = ('<span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true">'
-            '<use href="#svg-pijl-dik"></use></svg></span>')
+            '<use href="#svg-pijl-25"></use></svg></span>')
 PIJL = ('<span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true">'
-        '<use href="#svg-pijl"></use></svg></span>')
+        '<use href="#svg-pijl-45"></use></svg></span>')
 
 
 def dienstpagina(d):
@@ -557,7 +573,7 @@ def homepage_groot_blok(c):
         f'      <span class="case-eyebrow">{esc(naam)}</span>\n'
         f'      <h2 class="case-titel">{regels(c.get("titel"))}</h2>\n'
         f'      <p class="case-resultaat">\n'
-        f'        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span>\n'
+        f'        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-65"></use></svg></span>\n'
         f'        {regels(c.get("resultaat"))}\n'
         f'      </p>\n'
         f'    </div>\n'
@@ -580,7 +596,7 @@ def homepage_tegel(c):
         f'        <p class="tegel-titel">{esc(naam)}</p>\n'
         f'        <div class="tegel-onder">\n'
         f'          <p class="tegel-labels">{labels}</p>\n'
-        f'          <p class="tegel-sub"><span class="onderschrift">{esc(een_regel(c.get("resultaat")))}</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl"></use></svg></span></p>\n'
+        f'          <p class="tegel-sub"><span class="onderschrift">{esc(een_regel(c.get("resultaat")))}</span><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-45"></use></svg></span></p>\n'
         f'        </div>\n'
         f'      </div>{sluit}'
     )

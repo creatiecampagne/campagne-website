@@ -1,5 +1,6 @@
-<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Campagne">
-<!-- Favicon van Campagne. De achtergrond is bewust transparant en het merkteken
+<svg width="40" height="40" viewBox="4.6 4.7 30.2 30.2" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Campagne">
+<!-- Favicon van Campagne. De viewBox valt strak om het merkteken zodat het
+     icoon het tabblad-vakje vult. De achtergrond is bewust transparant en het merkteken
      kleurt mee met de browserinstelling: donker op een lichte balk, wit zodra de
      browser in donkere modus staat. Browsers die dat niet ondersteunen tonen
      gewoon de donkere versie. -->

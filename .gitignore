@@ -6,3 +6,4 @@
 # Node-hulpbestanden (alleen lokaal, nooit nodig op de server)
 node_modules/
 package-lock.json
+tools/__pycache__/

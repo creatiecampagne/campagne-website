@@ -57,7 +57,8 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      }
+      },
+      "info_tekstkleur": "zwart"
     },
     {
       "actief": true,
@@ -113,7 +114,8 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      }
+      },
+      "info_tekstkleur": "wit"
     },
     {
       "actief": true,
@@ -183,7 +185,8 @@
             "tekst": "We developed a powerful recruitment campaign for Steinweg, covering everything from concept and branding to conversion-optimized landing pages and media strategies. This ensured maximum visibility and engagement."
           }
         ]
-      }
+      },
+      "info_tekstkleur": "wit"
     },
     {
       "actief": true,
@@ -241,7 +244,8 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      }
+      },
+      "info_tekstkleur": "zwart"
     },
     {
       "actief": true,
@@ -299,7 +303,8 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      }
+      },
+      "info_tekstkleur": "wit"
     },
     {
       "actief": true,
@@ -356,7 +361,8 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      }
+      },
+      "info_tekstkleur": "wit"
     },
     {
       "actief": true,
@@ -397,7 +403,8 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      }
+      },
+      "info_tekstkleur": "wit"
     },
     {
       "actief": true,
@@ -454,7 +461,8 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      }
+      },
+      "info_tekstkleur": "zwart"
     },
     {
       "actief": true,
@@ -514,7 +522,8 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      }
+      },
+      "info_tekstkleur": "wit"
     },
     {
       "actief": true,
@@ -557,7 +566,8 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      }
+      },
+      "info_tekstkleur": "wit"
     },
     {
       "actief": true,
@@ -600,7 +610,8 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      }
+      },
+      "info_tekstkleur": "wit"
     },
     {
       "actief": true,
@@ -642,7 +653,8 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      }
+      },
+      "info_tekstkleur": "wit"
     },
     {
       "actief": true,
@@ -686,7 +698,8 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      }
+      },
+      "info_tekstkleur": "zwart"
     }
   ]
 }
