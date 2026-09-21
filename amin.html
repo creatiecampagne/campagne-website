@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="images/campagne-icon.svg" type="image/svg+xml">
+<!-- CAMPAGNE:DEELKAART-START -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Campagne">
+<meta property="og:locale" content="nl_NL">
+<meta property="og:title" content="AMIN Worldwide — Campagne">
+<meta property="og:description" content="Campagne is onderdeel van AMIN Worldwide: een netwerk van 50+ onafhankelijke bureaus verspreid over de hele wereld. Give your marketing global reach.">
+<meta property="og:url" content="https://creatiecampagne.github.io/campagne-website/amin.html">
+<meta property="og:image" content="https://creatiecampagne.github.io/campagne-website/images/amin-header.webp">
+<meta name="twitter:card" content="summary_large_image">
+<!-- CAMPAGNE:DEELKAART-EINDE -->
+<title>AMIN Worldwide — Campagne</title>
+<meta name="description" content="Campagne is onderdeel van AMIN Worldwide: een netwerk van 50+ onafhankelijke bureaus verspreid over de hele wereld. Give your marketing global reach.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://player.vimeo.com">
+<link rel="preconnect" href="https://i.vimeocdn.com">
+<link rel="preconnect" href="https://f.vimeocdn.com">
+<link rel="preconnect" href="https://vod-adaptive-ak.vimeocdn.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="prefetch" href="index.html">
+<link rel="prefetch" href="over-ons.html">
+<style>
+/* ==========================================================================
+   CAMPAGNE — design tokens (identiek aan index.html, 1440px basis)
+   ========================================================================== */
+:root {
+  --geel: #f9e000;
+  --roze: #d72655;
+  --bordeaux: #460f22;
+  --marquee-a: #d82756;
+  --marquee-b: #490d1e;
+  --zwart: #000000;
+  --wit: #ffffff;
+  --grijs: #d8d8d8;
+  --pill: #ebebeb;
+  --donker: #121212;
+  --paars: #904fff;         /* AMIN-pagina (Figma 242:819) */
+  --paars-donker: #3a2363;  /* AMIN netwerken-vlak (Figma 242:666) */
+  --paars-licht: #d3b9ff;   /* AMIN wordmark en vorm */
+
+  --radius: 20px;
+  --radius-knop: 25px;
+  --marge-beeld: 18px;
+  --marge-content: clamp(21px, 8.8vw, 127px);
+  --max-b: 1440px;
+
+  --font: 'Poppins', -apple-system, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  font-weight: 400;
+  color: var(--zwart);
+  background: var(--wit);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 3px solid var(--roze);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Gedeelde sectiekop (Figma: Poppins ExtraBold 42, gecentreerd) */
+.sectie-kop {
+  font-size: clamp(26px, 2.92vw, 42px);
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Header — zelfde balk als de homepage (zonder laadscherm-intro)
+   ========================================================================== */
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  --pad-l: clamp(33px, 3.125vw, 45px);
+  --pad-r: clamp(22px, 2.5vw, 36px);
+  padding: 36px var(--pad-r) 24px var(--pad-l);
+  background: transparent;
+  transition: transform .35s ease;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: calc(var(--pad-l) - 18px);
+  right: calc(var(--pad-r) - 10px);
+  height: 54px;
+  background: rgba(0, 0, 0, .6);
+  border-radius: 30px;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  opacity: 0;
+  transition: opacity .35s ease;
+  z-index: -1;
+  pointer-events: none;
+}
+.header.scrolled::before { opacity: 1; }
+.header.verborgen { transform: translateY(-160%); }
+.header.duwt { transition: none; }
+body.menu-open .header::before { opacity: 0; }
+body.menu-open .logo { color: #000; }
+.logo { color: var(--wit); }
+.logo { opacity: 0; transform: translateX(-28px); }
+.header-knoppen { opacity: 0; transform: translateX(28px); }
+body.intro-klaar .logo,
+body.intro-klaar .header-knoppen {
+  opacity: 1; transform: translateX(0);
+  transition: opacity .9s ease, transform .9s cubic-bezier(.22,.61,.36,1);
+}
+body.intro-klaar .header-knoppen { transition-delay: .05s; }
+.logo-svg { display: block; }
+.logo .logo-svg { width: 175px; height: 27px; display: block; }
+.header .logo-svg { transform: translateY(4px); }
+
+.header-knoppen { display: flex; align-items: center; gap: 10px; }
+
+.menu-knop {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--zwart);
+  color: var(--wit);
+  font-size: 14px; font-weight: 500;
+  height: 36px; padding: 0 16px;
+  border-radius: var(--radius-knop);
+}
+.menu-knop .hamburger { display: inline-flex; flex-direction: column; gap: 6px; width: 18px; }
+.menu-knop .hamburger span { display: block; height: 1px; background: var(--wit); width: 100%; transition: all .25s ease; }
+.menu-knop .hamburger span:last-child { width: 10px; }
+body.menu-open .menu-knop .hamburger span:nth-child(1) { transform: translateY(3.5px) rotate(45deg); }
+body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-3.5px) rotate(-45deg); width: 100%; }
+
+.taalswitch {
+  position: relative;
+  display: flex; align-items: center;
+  background: var(--pill);
+  height: 36px; border-radius: 19px;
+  padding: 3px;
+}
+.taalswitch button,
+.taalswitch a {                     /* op gegenereerde pagina's zijn het echte links */
+  position: relative; z-index: 1;
+  display: grid; place-items: center;
+  width: 32px; height: 30px;
+  font-size: 14px; font-weight: 500;
+  color: var(--zwart);
+  text-decoration: none;
+  border-radius: 15px;
+  transition: color .2s ease;
+}
+.taalswitch button.actief,
+.taalswitch a.actief { color: var(--wit); }
+.taalswitch a:hover { text-decoration: none; }
+.taalswitch::before {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 32px; height: 30px;
+  background: var(--zwart);
+  border-radius: 15px;
+  transition: transform .25s ease;
+}
+.taalswitch[data-taal="nl"]::before { transform: translateX(32px); }
+
+/* ==========================================================================
+   Hero — teampagina (Figma 99:285): kader staat vast in de eindstand
+   (18px marge, radius 20), géén krimp-animatie. Titel + intro scrollen het
+   venster in via --p, zoals de homepage, over een kortere scroll-sectie.
+   ========================================================================== */
+.hero-scroll {
+  position: relative;
+  height: 150vh;
+  --p: 0;
+}
+.hero-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+.hero-vorm {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: auto;
+  display: block;
+  pointer-events: none;
+}
+.hero-kader {
+  position: absolute;
+  top: 18px; bottom: 18px;
+  left: var(--marge-beeld); right: var(--marge-beeld);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--donker);
+}
+.hero-video { position: absolute; inset: 0; overflow: hidden; container-type: size; }
+.hero-video img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.hero-video iframe {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  border: 0;
+  pointer-events: none;
+  width: max(100cqw, calc(100cqh * 1.7778));
+  height: max(100cqh, calc(100cqw * 0.5625));
+}
+
+/* Hero-video: het stilstaande beeld blijft staan tot de video echt speelt.
+   Zonder dit zie je bij het wisselen van pagina een zwart kader terwijl de
+   Vimeo-player nog laadt. De iframe vervangt het beeld pas als er beeld is. */
+.hero-video iframe { opacity: 0; transition: opacity .4s ease; }
+.hero-video.video-speelt iframe { opacity: 1; }
+.hero-kader::before {
+  /* Overlay verloop (boven) — Figma 99:292 */
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 238px;
+  background: linear-gradient(to bottom, rgba(0,0,0,.27), rgba(0,0,0,0));
+  z-index: 1;
+}
+.hero-inhoud {
+  position: absolute; inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 clamp(24px, 3.75vw, 54px) clamp(36px, 4.65vw, 67px);  /* Figma: intro 67px van de kaderrand */
+  color: var(--wit);
+  transform: translateY(calc((1 - var(--p, 0)) * 95svh));
+  will-change: transform;
+}
+.hero-titel {
+  font-size: clamp(42px, 4.86vw, 70px);   /* Figma: 70px */
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.0262em;               /* Figma: -1.84px op 70px */
+  max-width: 10em;
+}
+.hero-onder {
+  display: flex;
+  align-items: flex-end;                   /* Figma: kruimels op de onderlijn van de intro */
+  justify-content: space-between;
+  gap: clamp(24px, 3vw, 48px);
+}
+.hero-intro {
+  margin-top: 36px;                        /* Figma: intro op 36px onder de titel */
+  font-size: clamp(15px, 1.25vw, 18px);
+  line-height: 1.556;                      /* Figma: 28px op 18px */
+  max-width: 581px;
+}
+
+/* Kruimelpad (Figma 164:683) — rechtsonder in het hero-kader */
+.hero-kruimels {
+  flex: none;
+  font-size: 14px;
+  line-height: 20px;                       /* Figma: regelhoogte 20px */
+}
+.hero-kruimels ol {
+  display: flex;
+  align-items: center;
+  gap: 10px;                               /* Figma: ~9,7px tussen de delen */
+  list-style: none;
+}
+.hero-kruimels a {
+  font-weight: 500;
+  opacity: .8;
+  transition: opacity .2s ease;
+}
+.hero-kruimels a:hover { opacity: 1; }
+.hero-kruimels .scheiding { opacity: .8; }
+.hero-kruimels [aria-current="page"] { font-weight: 800; opacity: .8; }
+
+/* ==========================================================================
+   AMIN-pagina — paarse zone (Figma 242:819): hero t/m allies op één paars vlak
+   ========================================================================== */
+.amin-paars { background: var(--paars); color: var(--wit); }
+
+/* Intro (Figma 242:498) — kop links, tekst rechts, 2 kolommen van 581px */
+.amin-intro {
+  padding: clamp(64px, 7.8vw, 112px) var(--marge-content) 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: clamp(20px, 1.74vw, 25px);
+  align-items: start;
+}
+.amin-intro h2 {
+  font-size: clamp(26px, 2.92vw, 42px);   /* Figma: 42px ExtraBold */
+  font-weight: 800;
+  line-height: 1.24;                       /* Figma: 52px op 42px */
+  letter-spacing: -0.02em;
+  max-width: 555px;
+}
+.amin-intro p {
+  font-size: 17px;
+  line-height: 2.12;                       /* Figma: 36px op 17px */
+  max-width: 581px;
+}
+
+/* Cijfers (Figma 242:589 e.v.) — AMIN-vorm links, wordmark met 2x2 cijfers rechts */
+.amin-cijfers {
+  padding: clamp(64px, 9vw, 130px) var(--marge-content) 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: clamp(20px, 1.74vw, 25px);
+  align-items: center;
+}
+.cijfers-binnen { grid-column: 2; grid-row: 1; }
+.amin-vorm {
+  grid-column: 1;
+  grid-row: 1;
+  width: 100%;
+  max-width: 432px;                        /* Figma: 432x477 */
+  height: auto;
+  justify-self: center;
+  color: var(--paars-licht);
+}
+.amin-wordmark {
+  width: clamp(180px, 17vw, 245px);        /* Figma: 245x51 */
+  height: auto;
+  display: block;
+  color: var(--paars-licht);
+}
+.cijfers-grid {
+  margin-top: clamp(48px, 5vw, 72px);      /* Figma: eerste cijfer ±72px onder de wordmark */
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(40px, 4vw, 58px) clamp(24px, 4vw, 58px);
+  max-width: 581px;
+}
+.cijfer-getal {
+  display: block;
+  font-size: clamp(56px, 8.3vw, 120px);    /* Figma: 120px ExtraBold */
+  font-weight: 800;
+  line-height: 0.85;                       /* Figma: 80px op 120px */
+  letter-spacing: -0.02em;
+}
+.cijfer-label {
+  display: block;
+  margin-top: clamp(12px, 1.6vw, 24px);
+  font-size: clamp(20px, 2vw, 29px);       /* Figma: 29px Medium */
+  font-weight: 500;
+  line-height: 1;
+}
+
+/* Global network (Figma 242:663) */
+.amin-netwerk {
+  padding: clamp(64px, 9vw, 130px) var(--marge-content) 0;
+}
+.amin-netwerk h2 {
+  font-size: clamp(26px, 2.92vw, 42px);    /* Figma: 42px ExtraBold */
+  font-weight: 800;
+  line-height: 1.31;                       /* Figma: 55px op 42px */
+  letter-spacing: -0.01em;
+}
+.amin-netwerk p {
+  margin-top: clamp(20px, 2.2vw, 32px);
+  font-size: 17px;
+  line-height: 2.12;                       /* Figma: 36px op 17px */
+  max-width: 679px;
+}
+.amin-knop {
+  display: inline-flex;
+  align-items: center;
+  gap: 19px;
+  margin-top: clamp(28px, 3.5vw, 52px);
+  font-size: 18px; font-weight: 700;       /* Figma: 18px Bold */
+}
+.amin-knop .pijl-knop { width: 55px; height: 55px; color: var(--wit); }  /* Figma: bol 55 */
+
+/* Allies (Figma 242:664/820) — foto tot de linkerrand, tekst rechts */
+.amin-allies {
+  margin-top: clamp(64px, 9vw, 130px);
+  padding-right: var(--marge-content);
+  display: grid;
+  grid-template-columns: minmax(0, 957fr) minmax(0, 483fr);
+  gap: clamp(24px, 3vw, 48px);
+  align-items: center;
+}
+.amin-allies img { width: 100%; height: auto; display: block; }
+.allies-tekst h2 {
+  font-size: clamp(26px, 2.92vw, 42px);    /* Figma: 42px ExtraBold */
+  font-weight: 800;
+  line-height: 1.31;
+  letter-spacing: -0.01em;
+  max-width: 460px;
+}
+.allies-tekst ul { list-style: none; margin-top: clamp(24px, 3vw, 44px); }
+.allies-tekst li { font-size: 17px; line-height: 2.12; }
+
+/* Netwerken per regio (Figma 242:666) — donkerpaars vlak met zachte gloed */
+.amin-netwerken {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--paars-donker);
+  color: var(--wit);
+  padding: clamp(48px, 6vw, 88px) var(--marge-content);
+}
+.amin-netwerken::before {
+  /* zachte paarse gloed (Figma 242:667) */
+  content: '';
+  position: absolute;
+  left: 22%; top: 50%;
+  width: min(1200px, 120vw);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle closest-side, rgba(144, 80, 255, .4), rgba(144, 80, 255, 0) 72%);
+  z-index: -1;
+  pointer-events: none;
+}
+.netwerk-rij {
+  display: grid;
+  grid-template-columns: 1.35fr .78fr .9fr 1fr;   /* Figma: kolommen op x=128 / 531 / 764 / 1034 */
+  gap: clamp(16px, 2vw, 32px);
+  align-items: center;
+  padding: clamp(32px, 4.5vw, 68px) 0;
+}
+.netwerk-rij + .netwerk-rij { border-top: 1px solid rgba(255, 255, 255, .35); }
+.netwerk-rij h3 {
+  font-size: clamp(28px, 3.34vw, 48px);    /* Figma: 48px Bold */
+  font-weight: 700;
+  line-height: 1.15;
+}
+.regio-cijfer .cijfer-getal {
+  font-size: clamp(40px, 5.6vw, 80px);     /* Figma: 80px Bold */
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
+}
+.regio-cijfer .cijfer-label { font-size: clamp(18px, 2vw, 29px); }
+
+/* Directory (Figma 242:759) — witte zone met tabel op x=229 */
+.amin-directory {
+  background: var(--wit);
+  color: var(--zwart);
+  padding: clamp(64px, 8.5vw, 122px) var(--marge-content) 0;
+}
+.directory-kop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.directory-kop h2 {
+  font-size: clamp(28px, 3.34vw, 48px);    /* Figma: 48px Bold */
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.kaart-knop { display: inline-flex; align-items: center; gap: 9px; font-size: 17px; font-weight: 500; }
+.kaart-knop .bol {
+  display: inline-flex;
+  align-items: center;
+  width: 67px; height: 36px;               /* Figma: pill 67x36 */
+  border-radius: 19px;
+  background: var(--pill);
+  padding: 3px;
+}
+.kaart-knop .bol::before {
+  content: '';
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--paars);
+  transition: transform .25s ease;
+}
+.kaart-knop:hover .bol::before { transform: translateX(31px); }
+.directory-tabel {
+  margin-top: clamp(48px, 6vw, 86px);
+  overflow-x: auto;
+}
+.directory-tabel table {
+  width: 100%;
+  min-width: 560px;                        /* op smalle schermen scrollt de tabel binnen zijn kader */
+  table-layout: fixed;                     /* vaste kolommen, gelijkmatig over de volle breedte */
+  border-collapse: collapse;
+}
+.directory-tabel col.kolom-naam { width: 42%; }
+.directory-tabel col.kolom-netwerk { width: 22%; }
+.directory-tabel col.kolom-locatie { width: 36%; }
+.directory-tabel th {
+  text-align: left;
+  font-size: 18px; font-weight: 700;       /* Figma: 18px Bold */
+  padding: 0 16px 22px 0;
+}
+.directory-tabel td {
+  font-size: 17px; font-weight: 500;       /* Figma: 17px Medium */
+  line-height: 1.4;
+  padding: 13px 16px 13px 0;               /* Figma: rijen 52px h-o-h */
+  border-top: 1px solid var(--grijs);
+}
+
+/* Statement (Figma 242:758) — paarse quote met contactregel */
+.amin-statement {
+  background: var(--wit);
+  color: var(--zwart);
+  padding: clamp(80px, 10.5vw, 150px) var(--marge-content) clamp(80px, 11vw, 160px);
+  text-align: center;
+}
+.statement-tekst {
+  margin: 0 auto;
+  max-width: 681px;
+  font-size: clamp(28px, 3.34vw, 48px);    /* Figma: 48px Bold */
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--paars);
+}
+.statement-cta {
+  margin: clamp(48px, 6.4vw, 92px) auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  max-width: 460px;
+}
+.statement-cta .label { font-size: 18px; font-weight: 800; white-space: nowrap; }  /* Figma: 18px ExtraBold */
+.statement-cta .lijn { width: clamp(90px, 13vw, 189px); height: 1.5px; background: var(--zwart); }  /* Figma: 189px */
+.statement-cta .pijl-knop { width: 45px; height: 45px; color: var(--zwart); }
+/* ==========================================================================
+   Footer (Figma 4:830)
+   ========================================================================== */
+.footer {
+  background: var(--bordeaux);
+  color: var(--roze);
+  padding: clamp(52px, 6.4vw, 92px) var(--marge-content) clamp(52px, 6.5vw, 94px);
+}
+/* Pijl-SVG's schalen mee met hun kader (staat niet op elke pagina in de basis-CSS) */
+.footer .pijl-knop { display: grid; place-items: center; flex: none; }
+.footer .pijl-svg { width: 100%; height: 100%; display: block; transition: transform .25s ease; }
+.footer a:hover .pijl-svg { transform: rotate(45deg); }
+.footer-kolommen {
+  display: grid;
+  grid-template-columns: 1.66fr 1fr 1.26fr;   /* Figma: kolommen op x=128 / 631 / 933 */
+  gap: clamp(28px, 4vw, 64px);
+}
+.footer h3 {
+  font-size: 22px; font-weight: 800;
+  letter-spacing: -0.5px;                     /* Figma: -0.5px */
+  line-height: 1.27;
+  margin-bottom: 24px;
+}
+.footer p, .footer address { font-style: normal; font-size: 14px; line-height: 2; }  /* Figma: 14/28 */
+.footer a:hover { text-decoration: underline; }
+.footer-logo .logo-svg { width: 165px; height: 26px; max-width: 100%; margin-bottom: 19px; }
+.footer-intro { max-width: 409px; }
+.footer-links { display: flex; flex-direction: column; gap: 8px; margin-top: 26px; }  /* Figma: 36px h-o-h */
+.footer-links a {
+  display: inline-flex; align-items: center; gap: 19px;
+  font-size: 14px;
+}
+.footer-links a:hover { text-decoration: none; }
+.footer-links .pijl-knop { flex: none; width: 25px; height: 25px; }   /* Figma: klein 25 */
+
+/* Nieuwsbrief — Figma: alleen een lijn om het veld, Send-knop erin */
+.footer-nieuwsbrief h3 { margin-bottom: 13px; }
+.nieuwsbrief-tekst { font-weight: 800; margin-bottom: 10px; }
+.nieuwsbrief { position: relative; max-width: 366px; }                /* Figma: 366x48 */
+.nieuwsbrief input {
+  width: 100%;
+  height: 48px;
+  border: 1px solid var(--roze);
+  border-radius: 24px;
+  background: transparent;
+  padding: 0 104px 0 20px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--roze);
+}
+.nieuwsbrief input::placeholder { color: var(--roze); opacity: .85; }
+.nieuwsbrief button {
+  position: absolute;
+  right: 0; top: 0;
+  height: 48px;
+  width: 90px;                                                        /* Figma: 90x48 */
+  border-radius: 24px;
+  background: var(--roze);
+  color: var(--bordeaux);
+  font-size: 14px; font-weight: 500;
+  transition: filter .2s ease;
+}
+.nieuwsbrief button:hover { filter: brightness(1.12); }
+.nieuwsbrief-sub { margin-top: 11px; max-width: 236px; }
+
+/* Onderste rij: 'Contact us!' links, socials in de contactkolom (Figma) */
+.footer-onder {
+  margin-top: clamp(36px, 4.5vw, 58px);
+  display: grid;
+  grid-template-columns: 1.66fr 1fr 1.26fr;
+  gap: clamp(28px, 4vw, 64px);
+  align-items: center;
+}
+.footer-onder .more-cases-klein {
+  display: inline-flex; align-items: center; gap: 15px;
+  font-size: 16px; font-weight: 800;          /* Figma: 16px ExtraBold */
+  color: var(--roze);
+}
+.footer-onder .more-cases-klein:hover { text-decoration: none; }
+.footer-onder .pijl-knop { flex: none; width: 45px; height: 45px; color: var(--roze); }  /* Figma: 45px */
+.footer .socials { color: var(--roze); margin-top: 0; padding-left: 0; }  /* links uitgelijnd met de contact-kolom */
+
+@media (max-width: 900px) {
+  .footer-onder { grid-template-columns: 1fr; gap: 30px; }
+  .footer .socials { padding-left: 0; }
+}
+
+/* ==========================================================================
+   Pijl-knoppen (gedeeld) — bol + pijl, gelijk aan index.html
+   ========================================================================== */
+.pijl-knop {
+  flex: none;
+  width: 45px; height: 45px;
+  display: grid; place-items: center;
+}
+.pijl-svg { width: 100%; height: 100%; display: block; transition: transform .25s ease; }
+a:hover .pijl-knop .pijl-svg,
+.sba-tegel:hover .sba-knop .pijl-svg { transform: rotate(45deg); }
+
+@media (max-width: 900px) {
+  .footer-onder { grid-template-columns: 1fr; gap: 30px; }
+  .footer .socials { padding-left: 0; }
+}
+
+/* ==========================================================================
+   Menu-overlay (Figma 4:18 — wit 85% over de pagina)
+   ========================================================================== */
+.menu-overlay {
+  position: fixed; inset: 0;
+  z-index: 30;
+  background: rgba(255,255,255,.85);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease, visibility .3s ease;
+  overflow-y: auto;
+}
+body.menu-open .menu-overlay { opacity: 1; visibility: visible; }
+body.menu-open { overflow: hidden; }
+
+/* Figma: kolommen op x=127 / 531 / 935, bovenkant y≈152.
+   De ruimte tússen de kolommen is bewust royaler dan het ontwerp. */
+.menu-binnen {
+  padding: clamp(104px, 10.6vw, 152px) var(--marge-content) clamp(56px, 6vw, 88px);
+  display: grid;
+  grid-template-columns: 1.12fr 1fr 1fr;
+  gap: clamp(32px, 4.4vw, 64px);
+  align-items: start;
+}
+
+/* Kleine subtitel — staat strak boven de grote paginanamen */
+.menu-kolom .kolom-label {
+  font-size: 15px; font-weight: 800;          /* Figma: 15px ExtraBold */
+  margin-bottom: 6px;
+}
+
+/* Losse blokken binnen een kolom krijgen juist extra lucht */
+.menu-groep + .menu-groep { margin-top: clamp(28px, 3.4vw, 48px); }
+
+.menu-lijst { list-style: none; margin: 0; padding: 0; }
+.menu-item { position: relative; }
+
+/* Eén stijl voor zowel links (<a>) als uitklappers (<button>) */
+.menu-titel {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--zwart);
+  transition: opacity .2s ease;
+}
+.menu-titel:hover, .menu-item.open > .menu-titel { opacity: .55; }
+/* Figma: 60px-items 100px h-o-h, 40px-items 70px h-o-h */
+.menu-lijst.groot  .menu-titel { font-size: clamp(40px, 4.2vw, 60px); line-height: 1.66; }
+.menu-lijst.middel .menu-titel { font-size: clamp(30px, 2.8vw, 40px); line-height: 1.75; }
+.kolom-label + .menu-lijst.middel { margin-top: 14px; }   /* eerste regel op één lijn met de 60px-kolom */
+
+/* Uitklappaneel: animeert via grid-rijen (0fr -> 1fr), dus zonder vaste hoogte */
+.menu-sub-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition: grid-template-rows .38s cubic-bezier(.22,.61,.36,1), visibility .38s;
+}
+.menu-item.open > .menu-sub-wrap { grid-template-rows: 1fr; visibility: visible; }
+.menu-sub { overflow: hidden; min-height: 0; }
+.menu-sub-lijst {
+  list-style: none; margin: 0;
+  padding: 10px 0 14px 50px;                  /* Figma 4:18: pijl op x+50, tekst op x+89 */
+  display: flex; flex-direction: column; gap: 18px;   /* Figma: rijen 45px h-o-h (27px pijl + 18px) */
+}
+.menu-sub-lijst a {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-size: 17px; font-weight: 400;          /* Figma: 17px Regular — blijft ook bij hover regular */
+}
+/* Pijl-SVG's schalen mee met hun kader (staat niet op elke pagina in de basis-CSS) */
+.menu-overlay .pijl-svg { width: 100%; height: 100%; display: block; }
+/* Zelfde hover als de rest van de site (Figma 4:18): pijl altijd zichtbaar,
+   wijst naar rechtsboven en draait bij hover naar rechts. Tekst wordt niet dik. */
+.menu-sub-lijst .mini-pijl {
+  flex: none; width: 25px; height: 25px;       /* Figma: klein 25 */
+  color: var(--zwart);
+  display: grid; place-items: center;
+  transition: transform .25s ease;
+}
+.menu-sub-lijst a:hover .mini-pijl,
+.menu-sub-lijst a:focus-visible .mini-pijl { transform: rotate(45deg); }
+
+/* Contactkolom */
+.menu-contact address { font-style: normal; font-size: 17px; line-height: 2; margin-top: 22px; }
+.menu-contact .menu-sub-lijst { padding: 0; margin-top: 30px; gap: 5px; }   /* Figma: 32px h-o-h */
+.menu-contact .menu-sub-lijst a { gap: 11px; }
+.menu-contact .menu-sub-lijst .mini-pijl { width: 25px; height: 25px; }
+
+/* Social-iconen (Figma 151:96 e.v.): 32x32 met eigen omlijning in de SVG */
+.socials { display: flex; gap: 18px; margin-top: 46px; }
+.socials a {
+  width: 32px; height: 32px;
+  display: block;
+  transition: opacity .2s ease;
+}
+.socials a:hover { opacity: .55; text-decoration: none; }
+/* De viewBox heeft 1px marge rondom voor de rand die buiten het 32px-kader valt
+   (Figma: rand van 2 gecentreerd op het kader) — icoon rendert zo exact op 32px */
+.socials svg { width: calc(100% + 2px); height: calc(100% + 2px); margin: -1px 0 0 -1px; display: block; }
+.menu-contact .socials { color: var(--zwart); }
+/* Menu-socials: gevulde zwarte knoppen met wit icoon (Figma 4:18) — knop + glyph zitten in het symbool */
+
+@media (max-width: 680px) {
+  .menu-sub-lijst { padding-left: 22px; gap: 13px; }
+  .menu-contact address { line-height: 1.75; }
+  .socials { margin-top: 30px; }
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .hero-kruimels { display: none; }        /* geen ruimte naast de intro; menu blijft leidend */
+  .footer-kolommen { grid-template-columns: 1fr 1fr; }
+  .menu-binnen { grid-template-columns: 1fr 1fr; }
+  .amin-cijfers { grid-template-columns: 1fr; }
+  .cijfers-binnen { grid-column: 1; grid-row: auto; }
+  .amin-vorm { grid-column: 1; grid-row: auto; justify-self: start; max-width: 280px; margin-top: 48px; }
+  .netwerk-rij { grid-template-columns: 1fr 1fr; row-gap: 28px; }
+}
+@media (max-width: 820px) {
+  .amin-intro { grid-template-columns: 1fr; row-gap: 18px; }
+  .amin-allies { grid-template-columns: 1fr; padding-right: 0; }
+  .allies-tekst { padding: 0 var(--marge-content); }
+  .cijfers-grid { max-width: none; }
+  .directory-kop { flex-wrap: wrap; }
+}
+@media (max-width: 680px) {
+  :root { --marge-beeld: 10px; }
+  .header { padding-top: 24px; padding-left: 29px; padding-right: 23px; }
+  .header::before { top: 19px; left: 17px; right: 17px; height: 46px; border-radius: 23px; }
+  .menu-knop .menu-label { display: none; }
+  .menu-knop { width: 55px; height: 37px; padding: 0; justify-content: center; }
+  .taalswitch { display: none; }
+  body.menu-open .taalswitch { display: flex; position: absolute; top: 24px; left: 10px; }
+
+  .hero-scroll { height: 130vh; }
+  .hero-kader { top: 10px; bottom: 10px; }
+  .hero-inhoud { padding: 0 23px 31px; }
+  .hero-titel { font-size: clamp(36px, 9.6vw, 42px); }
+  .hero-intro { margin-top: 20px; }
+
+  .footer-kolommen { grid-template-columns: 1fr; }
+  .menu-binnen { grid-template-columns: 1fr; padding-top: 110px; }
+  .menu-lijst.groot .menu-titel { font-size: 40px; line-height: 1.45; }
+  .menu-lijst.middel .menu-titel { font-size: 30px; line-height: 1.5; }
+  .menu-groep + .menu-groep { margin-top: 24px; }
+  .nieuwsbrief { max-width: none; }
+  .footer-onder .more-cases-klein { font-size: 16px; }
+
+  .netwerk-rij { padding: 28px 0; }
+  .statement-cta .lijn { display: none; }
+}
+
+/* Reduced motion: animaties uit */
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll { height: 100svh; }
+  .hero-inhoud { transform: none !important; }
+  .logo, .header-knoppen { opacity: 1 !important; transform: none !important; }
+  html { scroll-behavior: auto; }
+  * { transition-duration: .01ms !important; }
+}
+
+/* ==========================================================================
+   Evenwichtige regelafbreking — koppen en korte subtitels verdelen hun
+   woorden evenredig over de regels; alinea's vermijden losse laatste woorden.
+   De browser bepaalt de beste afbraak, dus dit klopt op elk schermformaat.
+   ========================================================================== */
+h1, h2, h3, blockquote p,
+.statement-tekst, .hero-intro { text-wrap: balance; }
+p { text-wrap: pretty; }
+</style>
+</head>
+<body>
+<!-- Inline SVG-symbolen (logo, pijlen, dienst-iconen, contact-iconen) -->
+<svg width="0" height="0" style="position:absolute" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<symbol id="svg-logo" viewBox="0 0 230 36"><path fill-rule="evenodd" clip-rule="evenodd" d="M82.853 0C79.7082 0 76.8928 1.45241 75.0274 3.72752C73.1631 1.45241 70.3476 0 67.2029 0C61.601 0 57.043 4.60777 57.043 10.2696V24.6843H61.7115V10.2696C61.7115 7.20903 64.1742 4.7195 67.2029 4.7195C70.2304 4.7195 72.6942 7.20903 72.6942 10.2696V24.7429H77.3617V10.2696C77.3617 7.20903 79.8254 4.7195 82.853 4.7195C85.8805 4.7195 88.3443 7.20903 88.3443 10.2696V24.7429H93.0118V10.2696C93.0118 4.60777 88.4548 0 82.853 0Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M202.647 24.7136H197.978V10.2696C197.978 7.20903 195.516 4.7195 192.488 4.7195C189.459 4.7195 186.997 7.20903 186.997 10.2696V24.7136H182.328V10.2696C182.328 4.60777 186.886 0 192.488 0C198.089 0 202.647 4.60777 202.647 10.2696V24.7136Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M40.0164 19.9945C35.8502 19.9945 32.4609 16.5683 32.4609 12.3566C32.4609 8.14496 35.8502 4.71875 40.0164 4.71875C44.1826 4.71875 47.5718 8.14496 47.5718 12.3566C47.5718 15.4714 44.6292 19.9945 40.0164 19.9945ZM52.2399 11.9019C52.2399 5.21315 46.6046 0.000488281 40.0159 0.000488281C33.2765 0.000488281 27.793 5.54381 27.793 12.3567C27.793 19.1708 33.2765 24.7141 40.0159 24.7141C42.7922 24.7141 45.4157 23.7232 47.5713 21.8928V24.7434H52.2399V11.9019Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M137.813 19.9945C133.647 19.9945 130.258 16.5683 130.258 12.3566C130.258 8.14496 133.647 4.71875 137.813 4.71875C141.979 4.71875 145.369 8.14496 145.369 12.3566C145.369 15.4714 142.426 19.9945 137.813 19.9945ZM150.037 11.9019C150.037 5.1872 144.401 0.000488281 137.813 0.000488281C131.073 0.000488281 125.59 5.54381 125.59 12.3567C125.59 19.1708 131.073 24.7141 137.813 24.7141C140.589 24.7141 143.213 23.7232 145.368 21.8928V24.7141H150.037V11.9019Z" fill="currentColor"/>
+<mask id="logo-mask-p" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="97" y="0" width="25" height="36">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M97.4727 0.000488281H121.92V36H97.4727V0.000488281Z" fill="white"/>
+</mask>
+<g mask="url(#logo-mask-p)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M109.696 19.9945C105.53 19.9945 102.141 16.5683 102.141 12.3566C102.141 8.14496 105.53 4.71875 109.696 4.71875C113.862 4.71875 117.252 8.14496 117.252 12.3566C117.252 16.5683 113.862 19.9945 109.696 19.9945ZM109.696 0.000488281C103.198 0.000488281 97.4727 5.0845 97.4727 11.6266V36.0005H102.14V22.0598C104.221 23.7199 106.846 24.7141 109.696 24.7141C116.436 24.7141 121.92 19.1708 121.92 12.3567C121.92 5.54381 116.436 0.000488281 109.696 0.000488281Z" fill="currentColor"/>
+</g>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M165.927 19.9945C161.76 19.9945 158.371 16.5683 158.371 12.3566C158.371 8.14496 161.76 4.71875 165.927 4.71875C170.093 4.71875 173.482 8.14496 173.482 12.3566C173.482 16.5683 170.093 19.9945 165.927 19.9945ZM178.15 22.9807V12.1604C178.046 5.43773 172.602 0.000488281 165.927 0.000488281C159.187 0.000488281 153.703 5.54381 153.703 12.3567C153.703 19.1708 159.187 24.7141 165.927 24.7141C168.777 24.7141 171.402 23.7199 173.483 22.0598V23.0213L173.484 23.1071C173.561 25.2185 172.754 27.2894 171.27 28.7892C168.324 31.7674 163.53 31.7674 160.584 28.7892L158.934 27.1212L155.633 30.4572L157.283 32.1263C159.667 34.5345 162.797 35.7398 165.927 35.7398C169.057 35.7398 172.188 34.5345 174.57 32.1263C176.958 29.7123 178.261 26.3821 178.15 22.9807Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M24.447 2.52071C24.447 1.22629 23.4088 0.176758 22.1284 0.176758C20.8468 0.176758 19.8086 1.22629 19.8086 2.52071C19.8086 3.81513 20.8468 4.86466 22.1284 4.86466C23.4088 4.86466 24.447 3.81513 24.447 2.52071Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M19.7784 10.4133V12.773C19.7784 16.9147 16.4595 20.1603 12.2229 20.1603C8.0567 20.1603 4.66746 16.7341 4.66746 12.5225C4.66746 8.17426 7.71733 4.89476 11.7607 4.89476H13.8494C15.1991 4.89476 16.1089 3.72899 16.1089 2.53614C16.1089 1.34216 15.1935 0.176392 13.8494 0.176392H11.7607C5.16535 0.176392 0 5.59896 0 12.5225C0 19.3354 5.48351 24.8787 12.2229 24.8787C19.0773 24.8787 24.4469 19.5611 24.4469 12.773V10.4133H19.7784Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M210.801 10.4602H225.607C224.831 6.89185 222.087 4.46777 218.536 4.46777C215.967 4.46777 213.616 5.6674 212.087 7.75969C211.486 8.58125 211.055 9.49536 210.801 10.4602ZM218.541 24.8849C213.132 24.8849 208.476 21.4937 206.934 16.4108C205.748 12.5061 206.404 8.44005 208.733 5.2531C211.024 2.12143 214.689 0.251465 218.537 0.251465C225.017 0.251465 229.946 5.49798 230 12.4554C230.004 13.0377 229.773 13.6098 229.367 14.024C228.96 14.4393 228.396 14.6763 227.819 14.6763H210.784C210.825 14.8422 210.87 15.0081 210.92 15.1728C211.921 18.4693 214.978 20.6688 218.544 20.6688C218.574 20.6688 218.604 20.6688 218.635 20.6676C220.482 20.6485 221.98 20.0707 223.088 18.95L224.563 17.4592L227.511 20.4408L226.038 21.9316C224.157 23.832 221.612 24.8533 218.679 24.8838C218.633 24.8849 218.587 24.8849 218.541 24.8849Z" fill="currentColor"/></symbol>
+<symbol id="svg-pijl-65" viewBox="0 0 65 65"><!-- Pijlbol groot 65 (Figma 206:508), lijndikte 1.5 -->
+<path d="M23.5938 23.2563H41.6867V41.3493" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M21.8359 43.1054L41.685 23.2563" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M32.4703 63.9406C49.8508 63.9406 63.9406 49.8508 63.9406 32.4703C63.9406 15.0897 49.8508 1 32.4703 1C15.0897 1 1 15.0897 1 32.4703C1 49.8508 15.0897 63.9406 32.4703 63.9406Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+</symbol>
+<symbol id="svg-pijl-25" viewBox="0 0 25 25"><!-- Pijlbol klein 25 (Figma 206:478), lijndikte 1.2 -->
+<path d="M9.14795 9.02332H15.9751V15.8505" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8.48511 16.5131L15.9749 9.02332" fill="none" stroke="currentColor" stroke-width="1.2" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M12.5 24.375C19.0584 24.375 24.375 19.0584 24.375 12.5C24.375 5.94162 19.0584 0.625 12.5 0.625C5.94162 0.625 0.625 5.94162 0.625 12.5C0.625 19.0584 5.94162 24.375 12.5 24.375Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-miterlimit="10" stroke-linecap="round"/>
+</symbol>
+<symbol id="svg-pijl-45" viewBox="0 0 45 45"><!-- Pijlbol middel 45 (Figma 206:483), lijndikte 1.5 -->
+<path d="M16.4307 16.2052H28.7915V28.566" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M15.2319 29.7657L28.7925 16.2052" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M22.5 44C34.3741 44 44 34.3741 44 22.5C44 10.6259 34.3741 1 22.5 1C10.6259 1 1 10.6259 1 22.5C1 34.3741 10.6259 44 22.5 44Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+</symbol>
+<symbol id="ico-instagram" viewBox="2 2 34 34"><!-- Instagram lijn (Figma 206:566) -->
+<path fill-rule="evenodd" clip-rule="evenodd" d="M31.7009 35H6.2991C4.47669 35 3 33.5233 3 31.7009V6.2991C3 4.47669 4.47669 3 6.2991 3H31.7009C33.5233 3 35 4.47669 35 6.2991V31.7009C35 33.5233 33.5233 35 31.7009 35Z" fill="none" stroke="currentColor" stroke-width="2"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12.5435 19.5948C12.5435 16.0301 15.4338 13.1398 18.9985 13.1398C22.5631 13.1398 25.4535 16.0301 25.4535 19.5948C25.4535 23.1594 22.5631 26.0498 18.9985 26.0498C15.4338 26.0498 12.5435 23.1594 12.5435 19.5948Z" fill="none" stroke="currentColor" stroke-width="2.45949"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M26.921 11.8006C26.921 12.1281 26.6564 12.3926 26.3289 12.3926C26.0028 12.3926 25.7368 12.1281 25.7368 11.8006C25.7368 11.4744 26.0028 11.2085 26.3289 11.2085C26.6564 11.2085 26.921 11.4744 26.921 11.8006Z" fill="currentColor" stroke="currentColor" stroke-width="2"/>
+</symbol>
+<symbol id="ico-facebook" viewBox="2 2 34 34"><!-- Facebook lijn (Figma 206:583) -->
+<path fill-rule="evenodd" clip-rule="evenodd" d="M31.7009 35H6.2991C4.47669 35 3 33.5233 3 31.7009V6.2991C3 4.47669 4.47669 3 6.2991 3H31.7009C33.5233 3 35 4.47669 35 6.2991V31.7009C35 33.5233 33.5233 35 31.7009 35Z" fill="none" stroke="currentColor" stroke-width="2"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M19.9851 19.9677H22.4689C22.6067 18.8916 22.7419 17.8333 22.8805 16.7511H20.0145C19.9929 16.725 19.9863 16.7206 19.9863 16.7167C19.9871 15.9235 19.9129 15.1273 20.0494 14.3398C20.1622 13.689 20.4783 13.1932 21.1164 13.0242C21.3998 12.9489 21.7047 12.9559 22.0001 12.9446C22.3237 12.9324 22.6482 12.942 22.9813 12.942C22.9884 12.8741 22.9967 12.8292 22.9967 12.7844C22.9975 11.9899 22.9946 11.195 23 10.4005C23.0008 10.2747 22.9656 10.232 22.8457 10.2098C21.8711 10.0309 20.9007 9.92339 19.9058 10.0657C17.6916 10.3822 16.9162 12.0961 16.7627 13.5279C16.6693 14.4008 16.7154 15.2906 16.7005 16.1725C16.6971 16.3593 16.6996 16.5461 16.6996 16.7485H14V19.9529H16.6793V28H19.9851V19.9677Z" fill="currentColor"/>
+</symbol>
+<symbol id="ico-linkedin" viewBox="2 2 34 34"><!-- LinkedIn lijn (Figma 206:594) -->
+<path fill-rule="evenodd" clip-rule="evenodd" d="M31.7009 35H6.2991C4.47669 35 3 33.5233 3 31.7009V6.2991C3 4.47669 4.47669 3 6.2991 3H31.7009C33.5233 3 35 4.47669 35 6.2991V31.7009C35 33.5233 33.5233 35 31.7009 35Z" fill="none" stroke="currentColor" stroke-width="2"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M16 27.9921V16.2576C16.419 16.2576 16.8175 16.2576 17.2165 16.2576C17.8601 16.2582 18.5043 16.267 19.1484 16.2559C19.3993 16.2515 19.5047 16.3468 19.5019 16.5846C19.4973 16.9626 19.5007 17.3401 19.5007 17.6289C20.1027 17.2459 20.7053 16.7686 21.3854 16.4466C23.1349 15.618 25.2914 15.9661 26.6698 17.2946C27.4816 18.0767 27.9507 19.0816 27.973 20.1885C28.0231 22.6633 27.9861 25.1398 27.9963 27.6152C27.9975 27.9023 27.8966 28.0004 27.6093 27.9976C26.6356 27.9882 25.6619 27.9866 24.6883 27.9999C24.3616 28.0043 24.2505 27.8995 24.2528 27.5697C24.2682 25.5455 24.267 23.5213 24.2596 21.4971C24.2556 20.5061 23.791 19.79 22.9365 19.5245C21.529 19.0861 19.7607 19.6642 19.7202 21.6795C19.6826 23.5723 19.7122 25.4657 19.71 27.3591C19.7094 27.9771 19.7065 27.986 19.0812 27.9904C18.0659 27.9971 17.0506 27.9921 16 27.9921" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10 27.9385V16.0088C10.523 16.0088 11.0376 16.0094 11.5515 16.0088C12.214 16.0077 12.8771 16.0133 13.5395 16.0003C13.8425 15.9946 14.0006 16.0644 14 16.3948C13.9916 20.1447 13.997 23.8939 13.982 27.6437C13.9814 27.7616 13.8016 27.9793 13.7012 27.9816C12.5344 28.0065 11.367 27.9997 10.2002 27.9974C10.1407 27.9974 10.0818 27.9634 10 27.9385" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10 11.9636C10.0037 10.8687 10.8939 9.99843 12.0086 10C13.0694 10.0016 13.99 10.908 13.9999 11.9605C14.0104 13.0507 13.0751 14.001 11.9919 14C10.8861 13.9984 9.99635 13.0889 10 11.9636" fill="currentColor"/>
+</symbol>
+<!-- Gevulde menu-varianten: zwarte afgeronde knop + wit merk-icoon (Figma 4:18).
+     Instagram = alleen lens + punt op het gevulde kader, zonder binnenrand (Figma 153:617). -->
+<symbol id="ico-ig-menu" viewBox="2 2 34 34"><!-- Instagram vol (Figma 206:610) -->
+<path fill-rule="evenodd" clip-rule="evenodd" d="M31.7009 35H6.2991C4.47669 35 3 33.5233 3 31.7009V6.2991C3 4.47669 4.47669 3 6.2991 3H31.7009C33.5233 3 35 4.47669 35 6.2991V31.7009C35 33.5233 33.5233 35 31.7009 35Z" fill="currentColor" stroke="currentColor" stroke-width="2"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12.5435 19.5948C12.5435 16.0301 15.4338 13.1398 18.9985 13.1398C22.5631 13.1398 25.4535 16.0301 25.4535 19.5948C25.4535 23.1594 22.5631 26.0498 18.9985 26.0498C15.4338 26.0498 12.5435 23.1594 12.5435 19.5948Z" fill="currentColor" stroke="#fff" stroke-width="2.45949"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M26.921 11.8006C26.921 12.1281 26.6564 12.3926 26.3289 12.3926C26.0028 12.3926 25.7368 12.1281 25.7368 11.8006C25.7368 11.4744 26.0028 11.2085 26.3289 11.2085C26.6564 11.2085 26.921 11.4744 26.921 11.8006Z" fill="#fff" stroke="#fff" stroke-width="2"/>
+</symbol>
+<symbol id="ico-fb-menu" viewBox="2 2 34 34"><!-- Facebook vol (Figma 206:616) -->
+<path fill-rule="evenodd" clip-rule="evenodd" d="M31.7009 35H6.2991C4.47669 35 3 33.5233 3 31.7009V6.2991C3 4.47669 4.47669 3 6.2991 3H31.7009C33.5233 3 35 4.47669 35 6.2991V31.7009C35 33.5233 33.5233 35 31.7009 35Z" fill="currentColor" stroke="currentColor" stroke-width="2"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M19.9851 19.9677H22.4689C22.6067 18.8916 22.7419 17.8333 22.8805 16.7511H20.0145C19.9929 16.725 19.9863 16.7206 19.9863 16.7167C19.9871 15.9235 19.9129 15.1273 20.0494 14.3398C20.1622 13.689 20.4783 13.1932 21.1164 13.0242C21.3998 12.9489 21.7047 12.9559 22.0001 12.9446C22.3237 12.9324 22.6482 12.942 22.9813 12.942C22.9884 12.8741 22.9967 12.8292 22.9967 12.7844C22.9975 11.9899 22.9946 11.195 23 10.4005C23.0008 10.2747 22.9656 10.232 22.8457 10.2098C21.8711 10.0309 20.9007 9.92339 19.9058 10.0657C17.6916 10.3822 16.9162 12.0961 16.7627 13.5279C16.6693 14.4008 16.7154 15.2906 16.7005 16.1725C16.6971 16.3593 16.6996 16.5461 16.6996 16.7485H14V19.9529H16.6793V28H19.9851V19.9677Z" fill="#fff"/>
+</symbol>
+<symbol id="ico-li-menu" viewBox="2 2 34 34"><!-- LinkedIn vol (Figma 206:622) -->
+<path fill-rule="evenodd" clip-rule="evenodd" d="M31.7009 35H6.2991C4.47669 35 3 33.5233 3 31.7009V6.2991C3 4.47669 4.47669 3 6.2991 3H31.7009C33.5233 3 35 4.47669 35 6.2991V31.7009C35 33.5233 33.5233 35 31.7009 35Z" fill="currentColor" stroke="currentColor" stroke-width="2"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M16 27.9921V16.2576C16.419 16.2576 16.8175 16.2576 17.2165 16.2576C17.8601 16.2582 18.5043 16.267 19.1484 16.2559C19.3993 16.2515 19.5047 16.3468 19.5019 16.5846C19.4973 16.9626 19.5007 17.3401 19.5007 17.6289C20.1027 17.2459 20.7053 16.7686 21.3854 16.4466C23.1349 15.618 25.2914 15.9661 26.6698 17.2946C27.4816 18.0767 27.9507 19.0816 27.973 20.1885C28.0231 22.6633 27.9861 25.1398 27.9963 27.6152C27.9975 27.9023 27.8966 28.0004 27.6093 27.9976C26.6356 27.9882 25.6619 27.9866 24.6883 27.9999C24.3616 28.0043 24.2505 27.8995 24.2528 27.5697C24.2682 25.5455 24.267 23.5213 24.2596 21.4971C24.2556 20.5061 23.791 19.79 22.9365 19.5245C21.529 19.0861 19.7607 19.6642 19.7202 21.6795C19.6826 23.5723 19.7122 25.4657 19.71 27.3591C19.7094 27.9771 19.7065 27.986 19.0812 27.9904C18.0659 27.9971 17.0506 27.9921 16 27.9921" fill="#fff"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10 27.9385V16.0088C10.523 16.0088 11.0376 16.0094 11.5515 16.0088C12.214 16.0077 12.8771 16.0133 13.5395 16.0003C13.8425 15.9946 14.0006 16.0644 14 16.3948C13.9916 20.1447 13.997 23.8939 13.982 27.6437C13.9814 27.7616 13.8016 27.9793 13.7012 27.9816C12.5344 28.0065 11.367 27.9997 10.2002 27.9974C10.1407 27.9974 10.0818 27.9634 10 27.9385" fill="#fff"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10 11.9636C10.0037 10.8687 10.8939 9.99843 12.0086 10C13.0694 10.0016 13.99 10.908 13.9999 11.9605C14.0104 13.0507 13.0751 14.001 11.9919 14C10.8861 13.9984 9.99635 13.0889 10 11.9636" fill="#fff"/>
+</symbol>
+</svg>
+<!-- ============================================================ HEADER -->
+<header class="header">
+  <a class="logo" href="index.html" aria-label="Campagne — home">
+    <svg class="logo-svg" role="img" aria-label="Campagne"><use href="#svg-logo"></use></svg>
+  </a>
+  <div class="header-knoppen">
+    <button class="menu-knop" type="button" aria-expanded="false" aria-controls="menu-overlay">
+      <span class="menu-label">Menu</span>
+      <span class="hamburger" aria-hidden="true"><span></span><span></span></span>
+    </button>
+    <div class="taalswitch" data-taal="nl" role="group" aria-label="Taalkeuze">
+      <button type="button" data-kies="en">EN</button>
+      <button type="button" data-kies="nl" class="actief">NL</button>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================ MENU-OVERLAY -->
+<nav class="menu-overlay" id="menu-overlay" aria-label="Hoofdmenu" aria-hidden="true">
+  <div class="menu-binnen">
+
+    <!-- Kolom 1 — diensten. Alles staat dicht; subkopjes komen van de homepage. -->
+    <div class="menu-kolom">
+      <div class="menu-groep">
+        <p class="kolom-label">What we do</p>
+        <ul class="menu-lijst groot">
+        <li class="menu-item">
+          <button class="menu-titel" type="button" aria-expanded="false" aria-controls="menu-sub-strategy">Strategy</button>
+          <div class="menu-sub-wrap" id="menu-sub-strategy"><div class="menu-sub">
+            <ul class="menu-sub-lijst">
+            <li><a href="strategy.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Strategie overzicht</a></li>
+            <li><a href="merk-strategie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Merk strategie</a></li>
+            <li><a href="marketing-strategie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Marketing strategie</a></li>
+            <li><a href="social-strategie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Social strategie</a></li>
+            <li><a href="creatieve-strategie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Creatieve strategie</a></li>
+            </ul>
+          </div></div>
+        </li>
+        <li class="menu-item">
+          <button class="menu-titel" type="button" aria-expanded="false" aria-controls="menu-sub-branding">Branding</button>
+          <div class="menu-sub-wrap" id="menu-sub-branding"><div class="menu-sub">
+            <ul class="menu-sub-lijst">
+            <li><a href="branding.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Branding overzicht</a></li>
+            <li><a href="employer-branding.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Employer branding</a></li>
+            <li><a href="corporate-identity.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Corporate identity</a></li>
+            <li><a href="brand-positionering.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Brand positionering</a></li>
+            <li><a href="campagne-design.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Campagne design</a></li>
+            </ul>
+          </div></div>
+        </li>
+        <li class="menu-item">
+          <button class="menu-titel" type="button" aria-expanded="false" aria-controls="menu-sub-activation">Activation</button>
+          <div class="menu-sub-wrap" id="menu-sub-activation"><div class="menu-sub">
+            <ul class="menu-sub-lijst">
+            <li><a href="activatie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Activatie overzicht</a></li>
+            <li><a href="customer-experience.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Customer experience</a></li>
+            <li><a href="content-productie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Content productie</a></li>
+            <li><a href="events.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Events</a></li>
+            <li><a href="digitale-transformatie.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Digitale transformatie</a></li>
+            </ul>
+          </div></div>
+        </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Kolom 2 — navigatie -->
+    <div class="menu-kolom">
+      <div class="menu-groep">
+        <p class="kolom-label">Navigatie</p>
+        <ul class="menu-lijst middel">
+          <li class="menu-item"><a class="menu-titel" href="cases.html">Cases</a></li>
+          <li class="menu-item"><a class="menu-titel" href="over-ons.html">Over ons</a></li>
+          <li class="menu-item">
+            <button class="menu-titel" type="button" aria-expanded="false" aria-controls="menu-sub-netwerk">Netwerk</button>
+            <div class="menu-sub-wrap" id="menu-sub-netwerk"><div class="menu-sub">
+              <ul class="menu-sub-lijst">
+            <li><a href="amin.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>AMIN Worldwide</a></li>
+            <li><a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Social content</a></li>
+            <li><a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Banners &amp; media</a></li>
+              </ul>
+            </div></div>
+          </li>
+          <li class="menu-item"><a class="menu-titel" href="inhouse.html">InHouse</a></li>
+          <li class="menu-item"><a class="menu-titel" href="#">Vacatures</a></li>
+          <li class="menu-item"><a class="menu-titel" href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Kolom 3 — contact -->
+    <div class="menu-kolom menu-contact">
+      <div class="menu-groep">
+        <p class="kolom-label">Contact</p>
+        <address>
+          Weena 250 (gebouw Weena 200)<br>
+          Toren C, 12e verdieping<br>
+          3012 NJ Rotterdam
+        </address>
+        <ul class="menu-sub-lijst">
+          <li><a href="tel:+31102928333"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>010 - 292 83 33</a></li>
+          <li><a href="mailto:hello@campagne.nl"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>hello@campagne.nl</a></li>
+        </ul>
+        <div class="socials">
+          <a href="https://www.instagram.com/campagne_/" target="_blank" rel="noopener" aria-label="Instagram"><svg aria-hidden="true"><use href="#ico-ig-menu"></use></svg></a>
+          <a href="https://www.facebook.com/campagnerotterdam" target="_blank" rel="noopener" aria-label="Facebook"><svg aria-hidden="true"><use href="#ico-fb-menu"></use></svg></a>
+          <a href="https://www.linkedin.com/company/campagnerotterdam" target="_blank" rel="noopener" aria-label="LinkedIn"><svg aria-hidden="true"><use href="#ico-li-menu"></use></svg></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+<main>
+<div class="amin-paars">
+<!-- ============================================================ HERO (Figma 242:382) -->
+<section class="hero-scroll" id="hero-scroll" aria-label="AMIN Worldwide">
+  <div class="hero-sticky">
+    <div class="hero-kader">
+      <div class="hero-video">
+        <img loading="eager" decoding="async" src="images/amin-header.webp" alt="AMIN-petjes klaargelegd op stoelen tijdens een netwerkbijeenkomst">
+        <iframe src="https://player.vimeo.com/video/1216475290?background=1&autoplay=1&muted=1&loop=1&autopause=0&title=0&byline=0&portrait=0&badge=0&player_id=0&app_id=58479" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" referrerpolicy="strict-origin-when-cross-origin" title="AMIN Worldwide" loading="eager"></iframe>
+      </div>
+      <div class="hero-inhoud">
+        <h1 class="hero-titel">AMIN geeft<br>je de wereld!</h1>
+        <div class="hero-onder">
+          <p class="hero-intro">Campagne en 50+ partner agencies spread all over the world. To help clients in need of global reach.</p>
+          <nav class="hero-kruimels" aria-label="Kruimelpad">
+            <ol>
+              <li><a href="index.html">Home</a></li>
+              <li class="scheiding" aria-hidden="true">&mdash;</li>
+              <li><span aria-current="page">AMIN Worldwide</span></li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ INTRO (Figma 242:498) -->
+<section class="amin-intro">
+  <h2>Give your marketing global reach</h2>
+  <p>We are part of AMIN, a global community of likeminded agencies that collaborate, share best practice, support one another and develop cutting edge marketing campaigns globally.</p>
+</section>
+
+<!-- ============================================================ CIJFERS (Figma 242:589 e.v.) -->
+<section class="amin-cijfers" aria-label="AMIN Worldwide in cijfers">
+  <div class="cijfers-binnen">
+    <svg class="amin-wordmark" viewBox="0 0 245.001 51" role="img" aria-label="AMIN Worldwide">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M37.9008 27.3148H34.0334C33.6826 27.3148 33.42 27.3674 33.245 27.4724C33.0698 27.5778 32.9695 27.7243 32.9447 27.9132L28.6646 41.1733C28.6141 41.2992 28.5455 41.3573 28.4582 41.3465C28.3699 41.3361 28.3013 41.2575 28.2515 41.1103L23.7085 27.9132C23.6335 27.7243 23.5266 27.5778 23.3893 27.4724C23.2516 27.3674 22.9953 27.3148 22.6197 27.3148H17.964C17.5886 27.3148 17.3194 27.3674 17.1568 27.4724C16.9937 27.5778 16.8876 27.7243 16.8377 27.9132L12.4823 40.9841C12.4319 41.1524 12.3633 41.2313 12.2759 41.2203C12.1877 41.2102 12.107 41.0894 12.0318 40.8582L7.63895 27.9132C7.56401 27.7243 7.4513 27.5778 7.30111 27.4724C7.15093 27.3674 6.90043 27.3148 6.55019 27.3148H1.06858C0.642529 27.3148 0.342159 27.4251 0.167472 27.6457C-0.00808042 27.8659 -0.0455546 28.1337 0.0547609 28.4486L7.71419 49.9606C7.91425 50.444 8.32704 50.6852 8.95314 50.6852H13.7591C14.4347 50.6852 14.8478 50.444 14.998 49.9606L19.2781 37.6456C19.403 37.3731 19.5093 37.2416 19.5972 37.2518C19.6846 37.2628 19.7662 37.3731 19.8414 37.5826L24.1215 49.9606C24.2962 50.444 24.7223 50.6852 25.398 50.6852H30.0162C30.6415 50.6852 31.0675 50.444 31.2926 49.9606L38.9146 28.4486C39.0394 28.1337 39.0143 27.8659 38.8394 27.6457C38.6641 27.4251 38.3513 27.3148 37.9008 27.3148V27.3148ZM52.0542 51C54.7321 51 57.0598 50.5119 59.0376 49.5355C61.0145 48.559 62.5415 47.1786 63.6181 45.3937C64.6939 43.6091 65.2327 41.4989 65.2327 39.0628C65.2327 36.6062 64.6881 34.4754 63.5994 32.6693C62.5106 30.8635 60.9834 29.4674 59.0189 28.4802C57.0535 27.4936 54.7321 27 52.0542 27C49.4007 27 47.0851 27.4936 45.1082 28.4802C43.1304 29.4674 41.5911 30.8635 40.4899 32.6693C39.3882 34.4754 38.8379 36.6062 38.8379 39.0628C38.8379 41.4989 39.3758 43.614 40.4525 45.4094C41.5282 47.2047 43.0618 48.5857 45.0517 49.5511C47.0416 50.5171 49.3753 51 52.0542 51V51ZM52.0925 46.5904C50.2151 46.5904 48.8634 46.0132 48.0375 44.8583C47.2117 43.7037 46.7986 41.803 46.7986 39.1574C46.7986 36.4068 47.2174 34.4225 48.0563 33.2047C48.8945 31.9871 50.2275 31.378 52.0551 31.378C53.8818 31.378 55.2087 31.9871 56.0348 33.2047C56.8607 34.4225 57.2738 36.4068 57.2738 39.1574C57.2738 41.803 56.8667 43.7037 56.0536 44.8583C55.2398 46.0132 53.9193 46.5904 52.0925 46.5904V46.5904ZM92.0409 49.74L87.1975 40.6693C87.0718 40.3753 87.1222 40.1864 87.3477 40.1023C88.2986 39.8086 89.1499 39.373 89.9008 38.7953C90.6517 38.2178 91.2525 37.5092 91.7027 36.6691C92.1533 35.8296 92.3787 34.8952 92.3787 33.866C92.3787 31.7665 91.4147 30.1496 89.4877 29.0156C87.5598 27.8819 84.8444 27.3148 81.3403 27.3148H69.1756C68.7495 27.3148 68.5371 27.5354 68.5371 27.9762V49.9606C68.5371 50.2127 68.5993 50.3967 68.725 50.5119C68.8498 50.6274 69.0753 50.6852 69.4007 50.6852H74.995C75.7459 50.6852 76.1215 50.4016 76.1215 49.8346V41.4882C76.1215 41.4252 76.1524 41.3518 76.2152 41.2676C76.2775 41.184 76.3965 41.1417 76.5721 41.1417H79.1627C79.7635 41.1417 80.1388 41.2992 80.289 41.6141L84.0436 50.0865C84.1938 50.4858 84.5065 50.6852 84.9822 50.6852H91.4026C91.6776 50.6852 91.884 50.5906 92.0221 50.4016C92.1593 50.2127 92.1657 49.9922 92.0409 49.74V49.74ZM80.8518 36.9213H76.6841C76.3088 36.9213 76.1211 36.7115 76.1211 36.2913V32.0709C76.1211 31.6928 76.3837 31.5039 76.9095 31.5039H80.8518C81.8777 31.5039 82.7477 31.7401 83.4611 32.2125C84.1746 32.6849 84.5312 33.373 84.5312 34.2754C84.5312 35.0943 84.2178 35.74 83.5926 36.2127C82.9665 36.6851 82.0533 36.9213 80.8518 36.9213V36.9213ZM95.2324 27.9761V49.9605C95.2324 50.2127 95.2947 50.3967 95.4201 50.5119C95.5452 50.6274 95.7827 50.6851 96.1335 50.6851H114.794C115.094 50.6851 115.313 50.6222 115.451 50.4959C115.588 50.37 115.657 50.2234 115.657 50.0551V46.5904C115.657 46.2337 115.394 46.055 114.869 46.055H103.23C102.954 46.055 102.817 45.9189 102.817 45.6456V27.9132C102.817 27.5148 102.604 27.3148 102.178 27.3148H95.8706C95.4449 27.3148 95.2324 27.5354 95.2324 27.9761V27.9761ZM118.096 27.3148C117.771 27.3148 117.539 27.3673 117.402 27.4724C117.264 27.5777 117.195 27.7666 117.195 28.0391V49.8346C117.195 50.4016 117.52 50.6851 118.171 50.6851H127.22C130.524 50.6851 133.284 50.1918 135.499 49.2046C137.714 48.218 139.366 46.8376 140.455 45.0629C141.543 43.2887 142.088 41.247 142.088 38.9369C142.088 36.6691 141.562 34.6799 140.511 32.9684C139.46 31.2572 137.839 29.9134 135.649 28.9369C133.458 27.9605 130.674 27.4306 127.295 27.3464C126.819 27.3256 126.181 27.3148 125.38 27.3148H122.808H120.18H118.096ZM125.155 31.7557H126.206C128.008 31.7557 129.497 32.0131 130.674 32.5273C131.85 33.0421 132.72 33.8241 133.283 34.874C133.847 35.9242 134.128 37.2677 134.128 38.9055C134.128 40.6904 133.802 42.1233 133.152 43.2045C132.501 44.2863 131.556 45.0629 130.317 45.5353C129.078 46.0077 127.558 46.2442 125.755 46.2442H125.267C124.942 46.2442 124.779 46.0974 124.779 45.8031V32.1968C124.779 31.9029 124.904 31.7557 125.155 31.7557V31.7557ZM179.559 27.3148H175.692C175.341 27.3148 175.078 27.3674 174.903 27.4724C174.728 27.5778 174.628 27.7243 174.603 27.9132L170.323 41.1733C170.272 41.2992 170.204 41.3573 170.116 41.3465C170.028 41.3361 169.959 41.2575 169.91 41.1103L165.367 27.9132C165.292 27.7243 165.185 27.5778 165.047 27.4724C164.91 27.3674 164.653 27.3148 164.278 27.3148H159.622C159.247 27.3148 158.977 27.3674 158.815 27.4724C158.652 27.5778 158.546 27.7243 158.496 27.9132L154.14 40.9841C154.09 41.1524 154.021 41.2313 153.934 41.2203C153.846 41.2102 153.765 41.0894 153.69 40.8582L149.297 27.9132C149.222 27.7243 149.109 27.5778 148.959 27.4724C148.809 27.3674 148.559 27.3148 148.208 27.3148H142.727C142.301 27.3148 142 27.4251 141.826 27.6457C141.65 27.8659 141.613 28.1337 141.713 28.4486L149.372 49.9606C149.572 50.444 149.985 50.6852 150.611 50.6852H155.417C156.093 50.6852 156.506 50.444 156.656 49.9606L160.936 37.6456C161.061 37.3731 161.167 37.2416 161.255 37.2518C161.343 37.2628 161.424 37.3731 161.5 37.5826L165.78 49.9606C165.955 50.444 166.38 50.6852 167.056 50.6852H171.674C172.3 50.6852 172.726 50.444 172.951 49.9606L180.573 28.4486C180.698 28.1337 180.672 27.8659 180.497 27.6457C180.322 27.4251 180.009 27.3148 179.559 27.3148V27.3148ZM183.539 27.3148C183.113 27.3148 182.9 27.5354 182.9 27.9761V49.9605C182.9 50.2127 182.963 50.3967 183.088 50.5119C183.213 50.6274 183.451 50.6851 183.802 50.6851H189.358C189.734 50.6851 190.015 50.6222 190.203 50.4959C190.391 50.37 190.485 50.1495 190.485 49.8346V27.9132C190.485 27.5148 190.272 27.3148 189.846 27.3148H183.539ZM196.417 27.3148C196.091 27.3148 195.86 27.3673 195.722 27.4724C195.584 27.5777 195.516 27.7666 195.516 28.0391V49.8346C195.516 50.4016 195.841 50.6851 196.492 50.6851H205.541C208.844 50.6851 211.604 50.1918 213.819 49.2046C216.034 48.218 217.686 46.8376 218.775 45.0629C219.864 43.2887 220.409 41.247 220.409 38.9369C220.409 36.6691 219.883 34.6799 218.831 32.9684C217.78 31.2572 216.159 29.9134 213.969 28.9369C211.779 27.9605 208.995 27.4306 205.615 27.3464C205.14 27.3256 204.501 27.3148 203.701 27.3148H201.129H198.501H196.417ZM203.475 31.7557H204.527C206.329 31.7557 207.818 32.0131 208.994 32.5273C210.171 33.0421 211.041 33.8241 211.604 34.874C212.167 35.9242 212.449 37.2677 212.449 38.9055C212.449 40.6904 212.123 42.1233 211.472 43.2045C210.821 44.2863 209.877 45.0629 208.638 45.5353C207.399 46.0077 205.878 46.2442 204.076 46.2442H203.588C203.262 46.2442 203.1 46.0974 203.1 45.8031V32.1968C203.1 31.9029 203.225 31.7557 203.475 31.7557V31.7557ZM223.75 27.9761V49.9605C223.75 50.444 224.05 50.6851 224.651 50.6851H244.212C244.488 50.6851 244.688 50.6222 244.813 50.4959C244.938 50.37 245.001 50.2234 245.001 50.0551V46.5904C245.001 46.2337 244.75 46.055 244.25 46.055H231.747C231.471 46.055 231.334 45.9189 231.334 45.6456V41.6457C231.334 41.3517 231.522 41.2046 231.897 41.2046H239.369C239.594 41.2046 239.75 41.1573 239.838 41.063C239.926 40.9684 239.97 40.8581 239.97 40.7322V37.2361C239.97 36.8583 239.732 36.6691 239.256 36.6691H231.935C231.534 36.6691 231.334 36.47 231.334 36.0707V32.5117C231.334 32.1339 231.597 31.9447 232.123 31.9447H243.724C244.325 31.9447 244.625 31.6928 244.625 31.1887V27.9132C244.625 27.5148 244.425 27.3148 244.025 27.3148H224.388C223.962 27.3148 223.75 27.5354 223.75 27.9761V27.9761Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0.625395 23H5.7008C5.95106 23 6.13926 22.9589 6.26483 22.8761C6.3901 22.7938 6.47757 22.6901 6.52808 22.5659L8.29522 18.4744C8.37027 18.2473 8.54548 18.1334 8.82144 18.1334H17.3558C17.5561 18.1334 17.6877 18.1696 17.7507 18.2419C17.813 18.3144 17.8693 18.3921 17.9198 18.4744L19.5741 22.5039C19.6991 22.8349 19.9623 23 20.3636 23H26.8303C27.1056 23 27.2814 22.8866 27.3565 22.659C27.4318 22.432 27.4318 22.2249 27.3565 22.039L18.2206 0.775072C17.9951 0.258738 17.5685 0 16.9424 0H10.4004C10.0996 0 9.87416 0.0519761 9.72377 0.155072C9.57338 0.258738 9.44782 0.423805 9.34794 0.651129L0.0991785 21.977C-0.0266746 22.2666 -0.0324477 22.5094 0.0801273 22.7056C0.192991 22.902 0.374554 23 0.625395 23V23ZM10.4382 13.4218C10.037 13.4218 9.92409 13.2256 10.0996 12.833L12.8444 6.60239C12.8943 6.4993 12.9694 6.44761 13.0698 6.44761C13.1697 6.44761 13.2451 6.4993 13.2956 6.60239L16.0023 12.833C16.1276 13.2256 16.0147 13.4218 15.664 13.4218H10.4382ZM30.4758 23H34.9125C35.2378 23 35.4511 22.9589 35.5515 22.8761C35.6514 22.7938 35.7019 22.6282 35.7019 22.38V7.9355C35.7019 7.7493 35.7452 7.6462 35.8336 7.62535C35.921 7.60508 36.0027 7.69818 36.0778 7.90437L42.0183 22.4731C42.1686 22.8247 42.4694 23 42.9203 23H46.4546C46.8552 23 47.1436 22.8247 47.3194 22.4731L53.2596 7.68732C53.3346 7.52226 53.4221 7.43944 53.5226 7.43944C53.6224 7.43944 53.6729 7.51198 53.6729 7.65648V22.2872C53.6729 22.5351 53.7353 22.7161 53.8612 22.8295C53.9861 22.9435 54.224 23 54.5753 23H60.1772C60.904 23 61.2677 22.7316 61.2677 22.1941V0.589158C61.2677 0.196767 61.0544 0 60.6284 0H51.1166C50.69 0 50.3768 0.269019 50.1765 0.805915L45.7777 11.872C45.7026 12.0168 45.6146 12.0944 45.5147 12.1044C45.4143 12.115 45.3265 12.0376 45.2515 11.872L40.5144 0.527186C40.4139 0.299862 40.3011 0.155072 40.1758 0.0931001C40.0502 0.0311285 39.8375 0 39.5367 0H30.3255C29.8492 0 29.6113 0.217043 29.6113 0.651129V22.1941C29.6113 22.7316 29.8991 23 30.4758 23V23ZM66.9826 0C66.556 0 66.3435 0.217043 66.3435 0.651129V22.2872C66.3435 22.5351 66.4056 22.7161 66.5315 22.8295C66.6564 22.9435 66.8946 23 67.2459 23H72.81C73.1861 23 73.4681 22.938 73.656 22.8141C73.8439 22.6901 73.938 22.4731 73.938 22.163V0.589158C73.938 0.196767 73.7247 0 73.2987 0H66.9826ZM97.6245 0C97.1228 0 96.8725 0.196767 96.8725 0.589158V11.9959C96.8725 12.2235 96.816 12.3478 96.7034 12.368C96.5905 12.3889 96.4459 12.3061 96.271 12.1199L86.2703 0.496058C86.0945 0.289581 85.932 0.155072 85.7816 0.0931001C85.6312 0.0311285 85.4055 0 85.1047 0H79.7285C79.2268 0 78.9766 0.217043 78.9766 0.651129V22.4111C78.9766 22.8038 79.2519 23 79.8036 23H84.3527C84.9292 23 85.2046 22.7938 85.18 22.38V9.95028C85.18 9.8469 85.2176 9.78493 85.2926 9.76408C85.3679 9.74381 85.4554 9.79521 85.5559 9.91916L96.6846 22.5659C96.8847 22.773 97.0541 22.8969 97.1921 22.938C97.3295 22.9797 97.4862 23 97.662 23H102.211C102.437 23 102.625 22.9535 102.775 22.8606C102.926 22.7675 103.001 22.6387 103.001 22.4731V0.496058C103.001 0.165638 102.813 0 102.437 0H97.6245Z" fill="currentColor"/>
+    </svg>
+    <div class="cijfers-grid">
+      <div class="cijfer"><span class="cijfer-getal">56</span><span class="cijfer-label">Agencies</span></div>
+      <div class="cijfer"><span class="cijfer-getal">27</span><span class="cijfer-label">Countries</span></div>
+      <div class="cijfer"><span class="cijfer-getal">101</span><span class="cijfer-label">Offices</span></div>
+      <div class="cijfer"><span class="cijfer-getal">5k</span><span class="cijfer-label">People</span></div>
+    </div>
+  </div>
+  <svg class="amin-vorm" viewBox="0 0 432 477.001" aria-hidden="true">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M72.5781 342.575C60.5257 342.575 50.7557 332.814 50.7557 320.771C50.7557 308.729 60.5257 298.967 72.5781 298.967C84.6305 298.967 94.4005 308.729 94.4005 320.771C94.4005 332.814 84.6305 342.575 72.5781 342.575M72.5781 248.253C32.4949 248.253 0 280.72 0 320.771C0 360.821 32.4949 393.289 72.5781 393.289C112.661 393.289 145.156 360.821 145.156 320.771C145.156 280.72 112.661 248.253 72.5781 248.253" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M72.5781 177.355C60.5257 177.355 50.7557 167.593 50.7557 155.55C50.7557 143.508 60.5257 133.746 72.5781 133.746C84.6305 133.746 94.4005 143.508 94.4005 155.55C94.4005 167.593 84.6305 177.355 72.5781 177.355M72.5781 83.0319C32.4949 83.0319 0 115.499 0 155.55C0 195.6 32.4949 228.068 72.5781 228.068C112.661 228.068 145.156 195.6 145.156 155.55C145.156 115.499 112.661 83.0319 72.5781 83.0319" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M359.422 342.575C347.369 342.575 337.599 332.814 337.599 320.771C337.599 308.729 347.369 298.967 359.422 298.967C371.474 298.967 381.244 308.729 381.244 320.771C381.244 332.814 371.474 342.575 359.422 342.575M359.422 248.253C319.339 248.253 286.844 280.72 286.844 320.771C286.844 360.821 319.339 393.289 359.422 393.289C399.505 393.289 432 360.821 432 320.771C432 280.72 399.505 248.253 359.422 248.253" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M359.422 177.355C347.369 177.355 337.599 167.593 337.599 155.55C337.599 143.508 347.369 133.746 359.422 133.746C371.474 133.746 381.244 143.508 381.244 155.55C381.244 167.593 371.474 177.355 359.422 177.355M359.422 83.0319C319.339 83.0319 286.844 115.499 286.844 155.55C286.844 195.6 319.339 228.068 359.422 228.068C399.505 228.068 432 195.6 432 155.55C432 115.499 399.505 83.0319 359.422 83.0319" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M216 94.3226C203.948 94.3226 194.178 84.5608 194.178 72.5183C194.178 60.4758 203.948 50.7139 216 50.7139C228.053 50.7139 237.823 60.4758 237.823 72.5183C237.823 84.5608 228.053 94.3226 216 94.3226M216 0C175.917 0 143.422 32.4673 143.422 72.5183C143.422 112.568 175.917 145.036 216 145.036C256.083 145.036 288.578 112.568 288.578 72.5183C288.578 32.4673 256.083 0 216 0" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M216 426.287C203.948 426.287 194.178 416.526 194.178 404.483C194.178 392.441 203.948 382.679 216 382.679C228.053 382.679 237.823 392.441 237.823 404.483C237.823 416.526 228.053 426.287 216 426.287M216 331.965C175.917 331.965 143.422 364.432 143.422 404.483C143.422 444.533 175.917 477.001 216 477.001C256.083 477.001 288.578 444.533 288.578 404.483C288.578 364.432 256.083 331.965 216 331.965" fill="currentColor"/>
+  </svg>
+</section>
+
+<!-- ============================================================ GLOBAL NETWORK (Figma 242:663) -->
+<section class="amin-netwerk">
+  <div class="netwerk-tekst">
+    <h2>A global network<br>of agencies</h2>
+    <p>The Advertising &amp; Marketing Independent Network (AMIN) Worldwide is an alliance of over 50 independent marketing agencies, packed with award-winning talent and experience, across the Americas, Europe, Africa, the Middle East and Asia Pacific. We first put our heads together back in 1932 and have been expanding the reach of our members ever since.</p>
+    <a class="amin-knop" href="https://aminworldwide.com" target="_blank" rel="noopener">
+      <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-65"></use></svg></span>
+      Visit AMIN
+    </a>
+  </div>
+</section>
+
+<!-- ============================================================ ALLIES (Figma 242:664/820) -->
+<section class="amin-allies">
+  <img loading="lazy" decoding="async" src="images/amin.webp" alt="Het AMIN Allies team">
+  <div class="allies-tekst">
+    <h2>Combined experience of 56 agencies worldwide</h2>
+    <ul>
+      <li>10,000 years collective global marketing experience</li>
+      <li>Experience with iconic household brands</li>
+      <li>Global resource of industry expertise</li>
+      <li>Local knowledge in 27 countries</li>
+    </ul>
+  </div>
+</section>
+</div>
+
+<!-- ============================================================ NETWERKEN PER REGIO (Figma 242:666) -->
+<section class="amin-netwerken" aria-label="AMIN-netwerken per regio">
+  <div class="netwerk-rij">
+    <h3>Americas<br>network</h3>
+    <div class="regio-cijfer"><span class="cijfer-getal">3</span><span class="cijfer-label">Countries</span></div>
+    <div class="regio-cijfer"><span class="cijfer-getal">63</span><span class="cijfer-label">Offices</span></div>
+    <div class="regio-cijfer"><span class="cijfer-getal">2800+</span><span class="cijfer-label">Employees</span></div>
+  </div>
+  <div class="netwerk-rij">
+    <h3>Emea<br>network</h3>
+    <div class="regio-cijfer"><span class="cijfer-getal">13</span><span class="cijfer-label">Countries</span></div>
+    <div class="regio-cijfer"><span class="cijfer-getal">24</span><span class="cijfer-label">Offices</span></div>
+    <div class="regio-cijfer"><span class="cijfer-getal">2975</span><span class="cijfer-label">Employees</span></div>
+  </div>
+  <div class="netwerk-rij">
+    <h3>Apac<br>network</h3>
+    <div class="regio-cijfer"><span class="cijfer-getal">8</span><span class="cijfer-label">Countries</span></div>
+    <div class="regio-cijfer"><span class="cijfer-getal">14</span><span class="cijfer-label">Offices</span></div>
+    <div class="regio-cijfer"><span class="cijfer-getal">300+</span><span class="cijfer-label">Employees</span></div>
+  </div>
+</section>
+
+<!-- ============================================================ DIRECTORY (Figma 242:759) -->
+<section class="amin-directory">
+  <div class="directory-kop">
+    <h2>AMIN directory</h2>
+    <a class="kaart-knop" href="https://aminworldwide.com" target="_blank" rel="noopener"><span class="bol" aria-hidden="true"></span>View map</a>
+  </div>
+  <div class="directory-tabel">
+    <table>
+      <colgroup>
+        <col class="kolom-naam"><col class="kolom-netwerk"><col class="kolom-locatie">
+      </colgroup>
+      <thead>
+        <tr><th scope="col">Name</th><th scope="col">Network</th><th scope="col">Location</th></tr>
+      </thead>
+      <tbody>
+      <tr><td>Avidly</td><td>EMEA</td><td>Helsinki, Finland</td></tr>
+      <tr><td>b+g</td><td>EMEA</td><td>Montreux, Switzerland</td></tr>
+      <tr><td>Brave Agency</td><td>EMEA</td><td>Gothenburg, Sweden</td></tr>
+      <tr><td>Campagne</td><td>EMEA</td><td>Rotterdam, The Netherlands</td></tr>
+      <tr><td>ComOn</td><td>EMEA</td><td>Lisbon, Portugal</td></tr>
+      <tr><td>Embryo</td><td>EMEA</td><td>Manchester, United Kingdom</td></tr>
+      <tr><td>Glow Communication</td><td>EMEA</td><td>Berlin, Germany</td></tr>
+      <tr><td>GMA Creative Firm</td><td>EMEA</td><td>Lisbon, Portugal</td></tr>
+      <tr><td>Intarget</td><td>EMEA</td><td>Milan, Italy</td></tr>
+      <tr><td>iO</td><td>EMEA</td><td>Herentals, Belgium</td></tr>
+      <tr><td>Maya Group</td><td>EMEA</td><td>Casablanca, Morocco</td></tr>
+      <tr><td>Neon Shake</td><td>EMEA</td><td>Wroclaw, Poland</td></tr>
+      <tr><td>Public</td><td>EMEA</td><td>Copenhagen, Denmark</td></tr>
+      <tr><td>SJM Tech</td><td>EMEA</td><td>Cagliari, Italy</td></tr>
+      <tr><td>StrategiQ</td><td>EMEA</td><td>Ipswich, United Kingdom</td></tr>
+      <tr><td>Stratitude</td><td>EMEA</td><td>Johannesburg, South Africa</td></tr>
+      <tr><td>tmwi</td><td>EMEA</td><td>Stratford-upon-Avon, United Kingdom</td></tr>
+      <tr><td>Wordsmith Advertising</td><td>EMEA</td><td>Izmir, Turkey</td></tr>
+      <tr><td>Bailey Lauerman</td><td>Americas</td><td>Omaha, United States</td></tr>
+      <tr><td>Cayenne</td><td>Americas</td><td>Birmingham, United States</td></tr>
+      <tr><td>Cronin</td><td>Americas</td><td>Glastonbury, United States</td></tr>
+      <tr><td>Crowley Webb</td><td>Americas</td><td>Buffalo, United States</td></tr>
+      <tr><td>CVR</td><td>Americas</td><td>Indianapolis, United States</td></tr>
+      <tr><td>Dalton Agency</td><td>Americas</td><td>Jacksonville, United States</td></tr>
+      <tr><td>Davis Elen</td><td>Americas</td><td>Los Angeles, United States</td></tr>
+      <tr><td>DCG ONE</td><td>Americas</td><td>Seattle, United States</td></tr>
+      <tr><td>di Paola Agency</td><td>Americas</td><td>Buenos Aires, Argentina</td></tr>
+      <tr><td>Doe Anderson</td><td>Americas</td><td>Louisville, United States</td></tr>
+      <tr><td>EGC Group</td><td>Americas</td><td>Melville, United States</td></tr>
+      <tr><td>Fusion92</td><td>Americas</td><td>Chicago, United States</td></tr>
+      <tr><td>Gatesman</td><td>Americas</td><td>Pittsburgh, United States</td></tr>
+      <tr><td>H&amp;L Partners</td><td>Americas</td><td>Oakland, United States</td></tr>
+      <tr><td>Hoffman York</td><td>Americas</td><td>Milwaukee, United States</td></tr>
+      <tr><td>KC Truth</td><td>Americas</td><td>Minneapolis, United States</td></tr>
+      <tr><td>MaHk Advertising</td><td>Americas</td><td>Salt Lake City, United States</td></tr>
+      <tr><td>Marca Miami</td><td>Americas</td><td>Miami, United States</td></tr>
+      <tr><td>Meyocks</td><td>Americas</td><td>Des Moines, United States</td></tr>
+      <tr><td>Paradowski</td><td>Americas</td><td>St. Louis, United States</td></tr>
+      <tr><td>Pathos</td><td>Americas</td><td>West Palm Beach, United States</td></tr>
+      <tr><td>PlanIt</td><td>Americas</td><td>Baltimore, United States</td></tr>
+      <tr><td>Riester</td><td>Americas</td><td>Phoenix, United States</td></tr>
+      <tr><td>Rinaldi</td><td>Americas</td><td>Montreal, Canada</td></tr>
+      <tr><td>Sasquatch</td><td>Americas</td><td>Portland, United States</td></tr>
+      <tr><td>Signal Theory</td><td>Americas</td><td>Kansas City, United States</td></tr>
+      <tr><td>Simantel</td><td>Americas</td><td>Peoria, United States</td></tr>
+      <tr><td>Slingshot</td><td>Americas</td><td>Dallas, United States</td></tr>
+      <tr><td>Stone Ward</td><td>Americas</td><td>Little Rock, United States</td></tr>
+      <tr><td>Trone Brand Energy</td><td>Americas</td><td>High Point, United States</td></tr>
+      <tr><td>True Media</td><td>Americas</td><td>Columbia, United States</td></tr>
+      <tr><td>White64</td><td>Americas</td><td>Tysons, United States</td></tr>
+      <tr><td>Zehnder</td><td>Americas</td><td>New Orleans, United States</td></tr>
+      <tr><td>AsiaWorks</td><td>APAC</td><td>Bangkok, Thailand</td></tr>
+      <tr><td>BC Webwise</td><td>APAC</td><td>Mumbai, India</td></tr>
+      <tr><td>Brandigo</td><td>APAC</td><td>Shanghai, China</td></tr>
+      <tr><td>Brew Interactive</td><td>APAC</td><td>Singapore</td></tr>
+      <tr><td>Custom Media</td><td>APAC</td><td>Tokyo, Japan</td></tr>
+      <tr><td>DPR&amp;Co</td><td>APAC</td><td>Melbourne, Australia</td></tr>
+      <tr><td>GVN Marketing</td><td>APAC</td><td>Bangkok, Thailand</td></tr>
+      <tr><td>Harper Digital</td><td>APAC</td><td>Auckland, New Zealand</td></tr>
+      <tr><td>M2.0 Communications</td><td>APAC</td><td>Quezon City, Philippines</td></tr>
+      <tr><td>Span Communications</td><td>APAC</td><td>New Delhi, India</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================ STATEMENT (Figma 242:758) -->
+<section class="amin-statement">
+  <p class="statement-tekst">We don&rsquo;t want briefs. We&nbsp;want problems. That&rsquo;s where the magic happens.</p>
+  <a class="statement-cta" href="contact.html">
+    <span class="label">Tell us about your problem</span>
+    <span class="lijn" aria-hidden="true"></span>
+    <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-45"></use></svg></span>
+  </a>
+</section>
+<!-- ============================================================ FOOTER -->
+<footer class="footer" id="contact">
+  <div class="footer-kolommen">
+    <div class="footer-logo">
+      <svg class="logo-svg" role="img" aria-label="Campagne"><use href="#svg-logo"></use></svg>
+      <p class="footer-intro">Given attention, grabbing it and keeping it is essential if you want to communicate effectively. We help organizations by reaching and touching the target audience with creative communication strategies.</p>
+    </div>
+    <div>
+      <h3>Contact</h3>
+      <address>
+        Weena 250 (gebouw Weena 200)<br>
+        Toren C, 12e verdieping<br>
+        3012 NJ Rotterdam
+      </address>
+      <div class="footer-links">
+        <a href="tel:+31102928333"><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span> 010 - 292 83 33</a>
+        <a href="mailto:hello@campagne.nl"><span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span> hello@campagne.nl</a>
+      </div>
+    </div>
+    <div class="footer-nieuwsbrief">
+      <h3>Stay up to date!</h3>
+      <p class="nieuwsbrief-tekst">Sign me up!</p>
+      <form class="nieuwsbrief" onsubmit="return false">
+        <input type="email" placeholder="mymail@company.com" aria-label="Jouw e-mailadres">
+        <button type="submit">Send</button>
+      </form>
+      <p class="nieuwsbrief-sub">And receive our newsletter once every 3 months.</p>
+    </div>
+  </div>
+  <div class="footer-onder">
+    <a class="more-cases-klein" href="contact.html">
+      <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-45"></use></svg></span>
+      Contact us!
+    </a>
+    <div class="socials">
+      <a href="https://www.instagram.com/campagne_/" target="_blank" rel="noopener" aria-label="Instagram"><svg aria-hidden="true"><use href="#ico-instagram"></use></svg></a>
+      <a href="https://www.facebook.com/campagnerotterdam" target="_blank" rel="noopener" aria-label="Facebook"><svg aria-hidden="true"><use href="#ico-facebook"></use></svg></a>
+      <a href="https://www.linkedin.com/company/campagnerotterdam" target="_blank" rel="noopener" aria-label="LinkedIn"><svg aria-hidden="true"><use href="#ico-linkedin"></use></svg></a>
+    </div>
+  </div>
+</footer>
+</main>
+<script>
+// Intro-fade van logo en knoppen (geen laadscherm op deze pagina)
+document.addEventListener('DOMContentLoaded', function () {
+  requestAnimationFrame(function () { document.body.classList.add('intro-klaar'); });
+});
+
+// Nette placeholder als een afbeelding ontbreekt
+function beeldMist(img) {
+  var ouder = img.closest('.hero-video, .amin-allies');
+  if (ouder) {
+    ouder.classList.add('beeld-mist');
+    if (!ouder.hasAttribute('data-label')) {
+      ouder.setAttribute('data-label', 'Beeld: ' + img.getAttribute('src').replace('images/', '') + ' ontbreekt');
+    }
+  }
+  img.style.visibility = 'hidden';
+}
+document.querySelectorAll('img[src^="images/"]').forEach(function (img) {
+  if (img.complete && img.naturalWidth === 0) beeldMist(img);
+  else img.addEventListener('error', function () { beeldMist(img); });
+});
+
+// Menu-overlay openen/sluiten
+(function () {
+  var knop = document.querySelector('.menu-knop');
+  var overlay = document.getElementById('menu-overlay');
+  knop.addEventListener('click', function () {
+    var open = document.body.classList.toggle('menu-open');
+    knop.setAttribute('aria-expanded', open ? 'true' : 'false');
+    overlay.setAttribute('aria-hidden', open ? 'false' : 'true');
+    knop.querySelector('.menu-label').textContent = open ? 'Close' : 'Menu';
+  });
+  function sluitMenu() {
+    document.body.classList.remove('menu-open');
+    knop.setAttribute('aria-expanded', 'false');
+    overlay.setAttribute('aria-hidden', 'true');
+    knop.querySelector('.menu-label').textContent = 'Menu';
+  }
+  overlay.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', sluitMenu);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') sluitMenu();
+  });
+})();
+
+// Taalswitch (visueel, zoals op de homepage)
+document.querySelectorAll('.taalswitch button').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var ts = b.closest('.taalswitch');
+    ts.setAttribute('data-taal', b.getAttribute('data-kies'));
+    ts.querySelectorAll('button').forEach(function (x) { x.classList.toggle('actief', x === b); });
+  });
+});
+
+// Hero scroll-animatie: --p (0..1) over de sectie — zelfde mechaniek als de homepage
+var heroScroll = document.getElementById('hero-scroll');
+function heroProgressie() {
+  if (!heroScroll) return;
+  var top = heroScroll.offsetTop;
+  var totaal = heroScroll.offsetHeight - window.innerHeight;
+  var p = totaal > 0 ? Math.min(Math.max((window.scrollY - top) / totaal, 0), 1) : 0;
+  heroScroll.style.setProperty('--p', p.toFixed(4));
+}
+window.addEventListener('scroll', heroProgressie, { passive: true });
+window.addEventListener('resize', heroProgressie);
+heroProgressie();
+
+// Header-gedrag in drie zones (zoals de homepage)
+(function () {
+  var header = document.querySelector('.header');
+  var heroTitel = document.querySelector('.hero-titel');
+  var vorigeY = window.scrollY;
+  var duwActief = true;
+  function bijScroll() {
+    var y = window.scrollY;
+    var omhoog = y < vorigeY - 2;
+    var omlaag = y > vorigeY + 2;
+    vorigeY = y;
+    if (document.body.classList.contains('menu-open')) return;
+    var heroEinde = heroScroll ? heroScroll.offsetTop + heroScroll.offsetHeight - window.innerHeight : 0;
+    var heroWeg = heroScroll ? y >= heroScroll.offsetTop + heroScroll.offsetHeight : y > 60;
+    if (y <= heroEinde) {
+      duwActief = true;
+      header.classList.remove('scrolled', 'verborgen', 'duwt');
+      header.style.transform = '';
+    } else if (!heroWeg) {
+      header.classList.remove('verborgen');
+      if (header.classList.contains('scrolled')) {
+        header.classList.remove('scrolled');
+        duwActief = false;
+      }
+      var titelTop = heroTitel ? heroTitel.getBoundingClientRect().top : 0;
+      var hoogte = header.offsetHeight || 100;
+      if (!duwActief && titelTop > hoogte + 10) duwActief = true;
+      header.classList.add('duwt');
+      if (duwActief) {
+        header.style.transform = 'translateY(' + Math.min(0, titelTop - hoogte).toFixed(1) + 'px)';
+      } else {
+        header.style.transform = '';
+      }
+    } else {
+      duwActief = true;
+      header.classList.remove('duwt');
+      header.style.transform = '';
+      if (omhoog) {
+        header.classList.add('scrolled');
+        header.classList.remove('verborgen');
+      } else if (omlaag || !header.classList.contains('scrolled')) {
+        header.classList.add('verborgen');
+      }
+    }
+  }
+  window.addEventListener('scroll', bijScroll, { passive: true });
+  bijScroll();
+})();
+
+// ============================================================ CIJFER-TELLERS
+// De grote cijfers tellen op zodra ze in beeld komen (eenmalig). Toevoegingen
+// als 'k' en '+' blijven staan; bij reduced motion staat het eindgetal er direct.
+(function () {
+  var getallen = Array.prototype.slice.call(document.querySelectorAll('.cijfer-getal'));
+  if (!getallen.length) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      !('IntersectionObserver' in window)) return;
+
+  function tel(el) {
+    var eindTekst = el.textContent.trim();
+    var m = eindTekst.match(/^(\d[\d.,]*)(.*)$/);
+    if (!m) return;
+    var eind = parseInt(m[1].replace(/[.,]/g, ''), 10);
+    var suffix = m[2] || '';
+    var duur = 1600;
+    var beginTijd = null;
+    el.style.minWidth = el.offsetWidth + 'px';   // kolommen verspringen niet tijdens het tellen
+    function stap(nu) {
+      if (beginTijd === null) beginTijd = nu;
+      var t = Math.min((nu - beginTijd) / duur, 1);
+      var vloeiend = 1 - Math.pow(1 - t, 3);     // easeOutCubic: vlot op gang, zacht uit
+      el.textContent = Math.round(eind * vloeiend) + suffix;
+      if (t < 1) { requestAnimationFrame(stap); }
+      else { el.textContent = eindTekst; el.style.minWidth = ''; }
+    }
+    el.textContent = '0' + suffix;
+    requestAnimationFrame(stap);
+  }
+
+  var kijker = new IntersectionObserver(function (items) {
+    items.forEach(function (item) {
+      if (!item.isIntersecting) return;
+      kijker.unobserve(item.target);
+      tel(item.target);
+    });
+  }, { threshold: 0.5 });
+  getallen.forEach(function (el) { kijker.observe(el); });
+})();
+
+// Uitklapmenu: alles staat dicht bij openen; er kan er maar één tegelijk open zijn
+(function () {
+  var knoppen = Array.prototype.slice.call(
+    document.querySelectorAll('.menu-titel[aria-expanded]')
+  );
+  if (!knoppen.length) return;
+
+  function sluit(knop) {
+    knop.setAttribute('aria-expanded', 'false');
+    knop.closest('.menu-item').classList.remove('open');
+  }
+  function sluitAlles(behalve) {
+    knoppen.forEach(function (k) { if (k !== behalve) sluit(k); });
+  }
+
+  knoppen.forEach(function (knop) {
+    knop.addEventListener('click', function () {
+      var item = knop.closest('.menu-item');
+      var wordtOpen = !item.classList.contains('open');
+      sluitAlles(knop);                       // de vorige klapt automatisch dicht
+      item.classList.toggle('open', wordtOpen);
+      knop.setAttribute('aria-expanded', wordtOpen ? 'true' : 'false');
+    });
+  });
+
+  // Menu dicht (knop of Escape) = alles weer ingeklapt voor de volgende keer
+  function resetAlsDicht() {
+    if (!document.body.classList.contains('menu-open')) sluitAlles(null);
+  }
+  var mk = document.querySelector('.menu-knop');
+  if (mk) mk.addEventListener('click', resetAlsDicht);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') setTimeout(resetAlsDicht, 0);
+  });
+})();
+</script>
+<script src="cms-data.js"></script>
+</body>
+</html>
