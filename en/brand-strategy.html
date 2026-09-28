@@ -1048,17 +1048,25 @@ p { text-wrap: pretty; }
         <p class="kolom-label">Navigatie</p>
         <ul class="menu-lijst middel">
           <li class="menu-item"><a class="menu-titel" href="../cases.html">Cases</a></li>
-          <li class="menu-item"><a class="menu-titel" href="../over-ons.html">Over ons</a></li>
+          <li class="menu-item">
+            <a class="menu-titel" href="../over-ons.html" aria-expanded="false" aria-controls="menu-sub-over-ons">Over ons</a>
+            <div class="menu-sub-wrap" id="menu-sub-over-ons"><div class="menu-sub">
+              <ul class="menu-sub-lijst">
+            <li><a href="../over-ons.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Over ons</a></li>
+            <li><a href="../inhouse.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>InHouse</a></li>
+            <li><a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Brand workshop</a></li>
+              </ul>
+            </div></div>
+          </li>
           <li class="menu-item">
             <button class="menu-titel" type="button" aria-expanded="false" aria-controls="menu-sub-netwerk">Netwerk</button>
             <div class="menu-sub-wrap" id="menu-sub-netwerk"><div class="menu-sub">
               <ul class="menu-sub-lijst">
-            <li><a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Social content</a></li>
-            <li><a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Banners &amp; media</a></li>
+            <li><a href="#"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Nationaal</a></li>
+            <li><a href="../amin.html"><span class="mini-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-25"></use></svg></span>Internationaal</a></li>
               </ul>
             </div></div>
           </li>
-          <li class="menu-item"><a class="menu-titel" href="../inhouse.html">InHouse</a></li>
           <li class="menu-item"><a class="menu-titel" href="#">Vacatures</a></li>
           <li class="menu-item"><a class="menu-titel" href="../contact.html">Contact</a></li>
         </ul>
@@ -1280,7 +1288,10 @@ document.querySelectorAll('img[src^="images/"]').forEach(function (img) {
     knop.querySelector('.menu-label').textContent = 'Menu';
   }
   overlay.querySelectorAll('a').forEach(function (a) {
-    a.addEventListener('click', sluitMenu);
+    a.addEventListener('click', function (e) {
+      if (a.getAttribute('aria-expanded') === 'false') return;   // eerst uitklappen, menu blijft open
+      sluitMenu(e);
+    });
   });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') sluitMenu();
@@ -1408,8 +1419,14 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
   }
 
   knoppen.forEach(function (knop) {
-    knop.addEventListener('click', function () {
+    knop.addEventListener('click', function (e) {
       var item = knop.closest('.menu-item');
+      // Uitklapbare link (Over ons): eerste klik klapt open, klik je nog eens
+      // op de al geopende titel, dan ga je gewoon naar de pagina
+      if (knop.tagName === 'A') {
+        if (item.classList.contains('open')) return;
+        e.preventDefault();
+      }
       var wordtOpen = !item.classList.contains('open');
       sluitAlles(knop);                       // de vorige klapt automatisch dicht
       item.classList.toggle('open', wordtOpen);

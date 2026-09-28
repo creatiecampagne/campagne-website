@@ -3,15 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Over ons — Campagne</title>
-<meta name="description" content="Wij zijn Campagne, creatief communicatiebureau uit hartje Rotterdam. Maak kennis met de Cupido's achter jouw werk.">
+<link rel="icon" href="images/campagne-icon.svg" type="image/svg+xml">
+<!-- CAMPAGNE:DEELKAART-START -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Campagne">
+<meta property="og:locale" content="nl_NL">
+<meta property="og:title" content="InHouse">
+<meta property="og:description" content="Marketing- en communicatie-expertise, direct bij jou. Met InHouse wordt een Campagne-collega tijdelijk onderdeel van jouw team: hands-on, van strategie tot uitvoering.">
+<meta property="og:url" content="https://creatiecampagne.github.io/campagne-website/inhouse.html">
+<meta property="og:image" content="https://creatiecampagne.github.io/campagne-website/images/deelbeeld.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<!-- CAMPAGNE:DEELKAART-EINDE -->
+<title>InHouse &mdash; Campagne</title>
+<meta name="description" content="Marketing- en communicatie-expertise, direct bij jou. Met InHouse wordt een Campagne-collega tijdelijk onderdeel van jouw team: hands-on, van strategie tot uitvoering.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://player.vimeo.com">
 <link rel="preconnect" href="https://i.vimeocdn.com">
 <link rel="preconnect" href="https://f.vimeocdn.com">
 <link rel="preconnect" href="https://vod-adaptive-ak.vimeocdn.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="prefetch" href="strategy.html">
+<link rel="prefetch" href="index.html">
 <style>
 /* ==========================================================================
    CAMPAGNE — design tokens (identiek aan index.html, 1440px basis)
@@ -20,8 +33,6 @@
   --geel: #f9e000;
   --roze: #d72655;
   --bordeaux: #460f22;
-  --marquee-a: #d82756;
-  --marquee-b: #490d1e;
   --zwart: #000000;
   --wit: #ffffff;
   --grijs: #d8d8d8;
@@ -139,15 +150,20 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   height: 36px; border-radius: 19px;
   padding: 3px;
 }
-.taalswitch button {
+.taalswitch button,
+.taalswitch a {                     /* op gegenereerde pagina's zijn het echte links */
   position: relative; z-index: 1;
+  display: grid; place-items: center;
   width: 32px; height: 30px;
   font-size: 14px; font-weight: 500;
   color: var(--zwart);
+  text-decoration: none;
   border-radius: 15px;
   transition: color .2s ease;
 }
-.taalswitch button.actief { color: var(--wit); }
+.taalswitch button.actief,
+.taalswitch a.actief { color: var(--wit); }
+.taalswitch a:hover { text-decoration: none; }
 .taalswitch::before {
   content: '';
   position: absolute;
@@ -160,22 +176,13 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
 .taalswitch[data-taal="nl"]::before { transform: translateX(32px); }
 
 /* ==========================================================================
-   Hero — teampagina (Figma 99:285): kader staat vast in de eindstand
-   (18px marge, radius 20), géén krimp-animatie. Titel + intro scrollen het
-   venster in via --p, zoals de homepage, over een kortere scroll-sectie.
+   Hero (Figma 163:412) — vast kader van 1404x620 binnen een marge van 18px.
+   Geen scroll-animatie: titel en intro staan meteen op hun plek. Rechtsonder
+   in het beeld staat het kruimelpad (Figma 168:300).
    ========================================================================== */
-.hero-scroll {
-  position: relative;
-  height: 150vh;
-  --p: 0;
-}
-.hero-sticky {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-  overflow: hidden;
-}
+.hero { position: relative; padding: 18px var(--marge-beeld) 0; }
 .hero-vorm {
+  /* Achtergrondvorm (Figma 163:413) — 1440x632, steekt uit in de marges */
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: auto;
@@ -183,9 +190,8 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   pointer-events: none;
 }
 .hero-kader {
-  position: absolute;
-  top: 18px; bottom: 18px;
-  left: var(--marge-beeld); right: var(--marge-beeld);
+  position: relative;
+  aspect-ratio: 1404 / 620;                /* Figma: beeldcontainer 1404x620 */
   border-radius: var(--radius);
   overflow: hidden;
   background: var(--donker);
@@ -204,11 +210,17 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   width: max(100cqw, calc(100cqh * 1.7778));
   height: max(100cqh, calc(100cqw * 0.5625));
 }
+
+/* Hero-video: het stilstaande beeld blijft staan tot de video echt speelt.
+   Zonder dit zie je bij het wisselen van pagina een zwart kader terwijl de
+   Vimeo-player nog laadt. De iframe vervangt het beeld pas als er beeld is. */
+.hero-video iframe { opacity: 0; transition: opacity .4s ease; }
+.hero-video.video-speelt iframe { opacity: 1; }
 .hero-kader::before {
-  /* Overlay verloop (boven) — Figma 99:292 */
+  /* Overlay verloop (boven) — Figma 163:420: 1404x182 */
   content: '';
   position: absolute; top: 0; left: 0; right: 0;
-  height: 238px;
+  height: 182px;
   background: linear-gradient(to bottom, rgba(0,0,0,.27), rgba(0,0,0,0));
   z-index: 1;
 }
@@ -218,52 +230,45 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 0 clamp(24px, 3.75vw, 54px) clamp(36px, 4.65vw, 67px);  /* Figma: intro 67px van de kaderrand */
+  padding: 0 clamp(24px, 3.75vw, 54px) clamp(24px, 2.9vw, 42px);   /* Figma: tekst 54px van de kaderrand */
   color: var(--wit);
-  transform: translateY(calc((1 - var(--p, 0)) * 95svh));
-  will-change: transform;
 }
 .hero-titel {
-  font-size: clamp(42px, 4.86vw, 70px);   /* Figma: 70px */
+  font-size: clamp(42px, 4.86vw, 70px);    /* Figma: 70px ExtraBold */
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.0262em;               /* Figma: -1.84px op 70px */
   max-width: 10em;
 }
-.hero-onder {
-  display: flex;
-  align-items: flex-end;                   /* Figma: kruimels op de onderlijn van de intro */
-  justify-content: space-between;
-  gap: clamp(24px, 3vw, 48px);
-}
 .hero-intro {
-  margin-top: 36px;                        /* Figma: intro op 36px onder de titel */
+  margin-top: 36px;                        /* Figma: intro 36px onder de titel */
   font-size: clamp(15px, 1.25vw, 18px);
   line-height: 1.556;                      /* Figma: 28px op 18px */
   max-width: 581px;
 }
 
-/* Kruimelpad (Figma 164:683) — rechtsonder in het hero-kader */
+/* Kruimelpad (Figma 168:300) — rechtsonder in het beeld, op de regelhoogte
+   van de tweede introregel. 14px Medium; de huidige pagina is ExtraBold. */
 .hero-kruimels {
-  flex: none;
+  position: absolute;
+  right: clamp(20px, 3.75vw, 54px);        /* Figma: 54px van de kaderrand */
+  bottom: clamp(20px, 3.5vw, 50px);        /* Figma: 54px tot de baseline van de onderste tekst */
+  z-index: 3;
+  color: var(--wit);
   font-size: 14px;
-  line-height: 20px;                       /* Figma: regelhoogte 20px */
+  line-height: 20px;
 }
 .hero-kruimels ol {
-  display: flex;
-  align-items: center;
-  gap: 10px;                               /* Figma: ~9,7px tussen de delen */
-  list-style: none;
+  display: flex; align-items: center;
+  gap: 10px;                               /* Figma: ~9.7px tussenruimte */
+  list-style: none; margin: 0; padding: 0;
 }
-.hero-kruimels a {
-  font-weight: 500;
-  opacity: .8;
-  transition: opacity .2s ease;
-}
-.hero-kruimels a:hover { opacity: 1; }
+.hero-kruimels li { font-weight: 400; opacity: .8; }
 .hero-kruimels .scheiding { opacity: .8; }
-.hero-kruimels [aria-current="page"] { font-weight: 800; opacity: .8; }
-
+.hero-kruimels li:last-child { font-weight: 800; font-size: clamp(15px, 1.25vw, 18px); opacity: 1; }
+.hero-kruimels a { transition: opacity .2s ease; }
+.hero-kruimels a:hover { text-decoration: underline; }
+.hero-kruimels li:has(a:hover) { opacity: 1; }
 /* ==========================================================================
    Intro tekst team (Figma 104:3) — 2 kolommen van 581px op 1440
    ========================================================================== */
@@ -299,266 +304,272 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
 }
 .tekstblok p.zwaar { font-weight: 600; }   /* Figma: eerste alinea SemiBold */
 
+/* Variant 'duo' (Figma 163:548): kop links (555px), tekst rechts (581px) */
+.tekstblok.duo h2 { grid-column: 1; align-self: start; margin-bottom: 0; }
+.tekstblok.duo p  { grid-column: 2; }
+
+
 /* ==========================================================================
-   Strategie / Branding / Activatie (Figma 104:2) — drie witte kaarten met
-   zwarte rand; zelfde hoogte in rust (576), bij hover groeit het vlak (647)
-   en verschijnt de 'Vertel me meer'-regel. De rij reserveert de hover-hoogte
-   zodat de rest van de pagina niet verspringt.
+   Smalle contentkolom (Figma: blokken op x=228 t/m 1213 = 985px breed)
    ========================================================================== */
-.sba { padding: clamp(64px, 8vw, 115px) var(--marge-beeld) 0; }
-.sba-grid {
+.smal {
+  width: min(985px, 100% - (2 * var(--marge-content)));
+  margin-inline: auto;
+}
+
+/* ==========================================================================
+   Vol beeld (Figma 173:254) — 1404x581 binnen de beeldmarge van 18px
+   ========================================================================== */
+.beeld-vol { padding: clamp(48px, 6.7vw, 97px) var(--marge-beeld) 0; }
+.beeld-vol figure {
+  position: relative;
+  aspect-ratio: 1404 / 581;                 /* Figma: 1404x581 */
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #f2f2f2;
+}
+.beeld-vol img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* ==========================================================================
+   Quote (Figma 175:286 / 175:287) — 878px breed, gecentreerd, 42px ExtraBold
+   ========================================================================== */
+.quote { padding: clamp(56px, 8.2vw, 118px) var(--marge-content) 0; }
+.quote blockquote {
+  max-width: 878px;                         /* Figma: 878px */
+  margin-inline: auto;
+  text-align: center;
+}
+.quote blockquote p {
+  font-size: clamp(26px, 2.92vw, 42px);     /* Figma: 42px ExtraBold */
+  font-weight: 800;
+  line-height: 1.386;                       /* Figma: 58.2px op 42px */
+  letter-spacing: -0.01em;
+}
+.quote blockquote cite {
+  display: block;
+  margin-top: clamp(28px, 4.7vw, 67px);     /* Figma: 67px onder de quote */
+  font-style: normal;
+  font-size: 17px; font-weight: 400;        /* Figma: 17px Regular */
+  line-height: 1.7;
+}
+
+/* ==========================================================================
+   Tekst + staand beeld (Figma 173:262 / 173:274)
+   Tekst 437px links, beeld 476px rechts, 71px ertussen. De contactregel staat
+   onderaan de kolom, gelijk met de onderkant van het beeld.
+   ========================================================================== */
+.tekst-beeld { padding: clamp(56px, 6.7vw, 97px) 0 0; }
+.tekst-beeld .kolommen {
+  display: grid;
+  grid-template-columns: 437fr 476fr;       /* Figma: 437 en 476 */
+  column-gap: clamp(28px, 4.9vw, 71px);     /* Figma: 736 - 665 = 71px */
+  align-items: stretch;
+}
+.tekst-beeld .tekst {
+  display: flex;
+  flex-direction: column;
+  padding-top: clamp(0px, 1.8vw, 26px);     /* Figma: kop 26px onder de beeldbovenkant */
+  padding-bottom: clamp(0px, 1.8vw, 26px);  /* zelfde marge onderaan: knop 26px boven de beeldonderkant */
+}
+.tekst-beeld h2 {
+  font-size: clamp(22px, 1.94vw, 28px);     /* Figma: 28px Bold */
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 24px;                      /* Figma: tekst 24px onder de kop */
+}
+.tekst-beeld p {
+  font-size: 16px;
+  line-height: 1.75;                        /* Figma: 28px op 16px */
+}
+.tekst-beeld p + p { margin-top: 28px; }
+.tekst-beeld figure {
+  position: relative;
+  aspect-ratio: 476 / 599;                  /* Figma: 476x599 */
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #f2f2f2;
+}
+.tekst-beeld figure img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* Contactregel onder de tekstkolom (Figma 173:275/173:276) */
+.blok-cta {
+  display: inline-flex; align-items: center; gap: clamp(14px, 1.3vw, 19px);
+  align-self: flex-start;
+  margin-top: auto;
+  padding-top: clamp(32px, 5vw, 72px);
+  font-size: 18px; font-weight: 700;        /* Figma: 18px Bold */
+  line-height: 1.33;                        /* Figma: 24px op 18px */
+  max-width: 410px;
+}
+.blok-cta .pijl-knop { width: clamp(44px, 3.8vw, 55px); height: clamp(44px, 3.8vw, 55px); }  /* Figma: 55x55 */
+.blok-cta:hover { text-decoration: none; }
+.blok-cta:hover .pijl-svg { transform: rotate(45deg); }
+
+/* Scheidingslijn (Figma 173:256) — 983px, gecentreerd */
+.scheiding-lijn {
+  height: 1px;
+  background: var(--zwart);
+  margin: clamp(32px, 3.1vw, 44px) auto 0;  /* Figma: 44px onder het beeld */
+  border: 0;
+}
+
+
+/* Pijlknoppen — gedeelde basis (Figma: cirkel 47px, draait 45deg bij hover) */
+.pijl-knop {
+  flex: none;
+  width: 45px; height: 45px;
+  display: grid; place-items: center;
+}
+.pijl-svg { width: 100%; height: 100%; display: block; transition: transform .25s ease; }
+.strat-tegel:hover .pijl-svg,
+.more-cases:hover .pijl-svg,
+.case-blok:hover .case-resultaat .pijl-svg { transform: rotate(45deg); }
+
+
+/* ==========================================================================
+   Strategie-tegels (Figma 163:555 e.v.) — witte kaarten met zwarte rand,
+   drie onafhankelijke kolommen van 456px met 18px tussenruimte. De 'Vertel me
+   meer'-regel schuift open bij hover; alleen de tegel eronder in dezelfde
+   kolom schuift mee, de andere kolommen blijven staan. De roze tegel toont
+   de regel altijd.
+   ========================================================================== */
+.strategie-tegels { padding: clamp(56px, 6.3vw, 91px) var(--marge-beeld) 0; }
+.strat-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--marge-beeld);
   align-items: start;
-  min-height: 647px;                       /* hover-hoogte gereserveerd */
 }
-.sba-tegel {
+.strat-kolom {
+  display: flex;
+  flex-direction: column;
+  gap: var(--marge-beeld);
+}
+.strat-tegel {
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  min-height: 576px;                       /* Figma: rust-hoogte */
+  min-height: 234px;                       /* Figma: rust-hoogte */
   background: var(--wit);
+  color: var(--zwart);
   border: 1px solid var(--zwart);
   border-radius: var(--radius);
-  padding: clamp(48px, 4.7vw, 68px) clamp(24px, 2.5vw, 36px) 26px;  /* Figma: icoon op 68 van boven */
+  padding: 42px clamp(24px, 2.5vw, 36px) 26px;   /* Figma: titel op 42 van boven */
   overflow: hidden;
 }
-.sba-icoon {
-  height: 65px;                            /* Figma: iconen 62–65px hoog */
-  display: grid; place-items: center;
-  color: var(--roze);
-}
-.icoon-s { width: 42px; height: 65px; }    /* Figma 99:371: 41.7x65 */
-.icoon-b { width: 55px; height: 62px; }    /* Figma 100:2265: 55x61.6 */
-.icoon-a { width: 62px; height: 62px; }    /* Figma 100:2267: 62x62 */
-.sba-tegel h2 {
-  margin-top: 6px;                         /* Figma: titel op ~139 van boven */
-  font-size: clamp(30px, 2.92vw, 42px);    /* Figma: 42px ExtraBold */
+.strat-tegel h2 {
+  font-size: clamp(24px, 2.22vw, 32px);    /* Figma: 32px ExtraBold */
   font-weight: 800;
-  line-height: 70px;
-  letter-spacing: -0.01em;
+  line-height: 1.344;                      /* Figma: 43px op 32px */
+  letter-spacing: -0.013em;                /* Figma: -0.42px op 32px */
 }
-.sba-tegel .sba-tekst {
-  margin-top: 19px;                        /* Figma: tekst op 227 van boven */
+.strat-tegel .tegel-tekst {
+  margin-top: 22px;                        /* Figma: tekst op 100 van boven */
   max-width: 384px;                        /* Figma: 383px */
   font-size: 16px;
   line-height: 1.75;                       /* Figma: 28px op 16px */
+  display: -webkit-box;                    /* Figma: maximaal 3 regels */
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
 }
-.sba-knop {
+.strat-knop {
   display: flex; align-items: center; gap: 20px;
   width: 100%;
   margin-top: auto;
-  padding-top: 24px;
+  padding-top: 12px;
   max-height: 0;
   opacity: 0;
   overflow: hidden;
   transition: max-height .4s cubic-bezier(.22,.61,.36,1), opacity .3s ease, padding-top .4s cubic-bezier(.22,.61,.36,1);
 }
-.sba-tegel:hover .sba-knop,
-.sba-tegel:focus-within .sba-knop,
-.sba-tegel:focus .sba-knop {
-  max-height: 71px;                        /* Figma: 576 → 647 = +71px */
+.strat-tegel:hover .strat-knop,
+.strat-tegel:focus-visible .strat-knop {
+  max-height: 59px;                        /* Figma: 234 -> 276 = +42px */
   opacity: 1;
   transition: max-height .4s cubic-bezier(.22,.61,.36,1), opacity .3s ease .12s, padding-top .4s cubic-bezier(.22,.61,.36,1);
 }
-.sba-knop .label { font-size: 18px; font-weight: 800; white-space: nowrap; }  /* Figma: 18px ExtraBold */
-.sba-knop .lijn { flex: 1; height: 1.5px; background: var(--zwart); }
-.sba-knop .pijl-knop { width: 45px; height: 45px; color: var(--zwart); }      /* Figma: middel 45 */
+.strat-knop .label { font-size: 18px; font-weight: 800; white-space: nowrap; }  /* Figma: 18px ExtraBold */
+.strat-knop .lijn { flex: 1; height: 1.5px; background: currentColor; }
+.strat-knop .pijl-knop { color: currentColor; }
+
+/* Uitgelichte tegel (Figma 164:792) — roze vlak, tekst wit, knop altijd zichtbaar */
+.strat-tegel.uitgelicht {
+  min-height: 296px;
+  padding-top: 37px;
+  background: var(--roze);
+  border-color: var(--roze);
+  color: var(--wit);
+}
+.strat-tegel.uitgelicht h2 {
+  font-size: clamp(22px, 1.94vw, 28px);    /* Figma: 28px ExtraBold */
+  line-height: 1.214;                      /* Figma: 34px op 28px */
+  letter-spacing: -0.015em;
+  max-width: 352px;                        /* Figma: 351px */
+}
+.strat-tegel.uitgelicht .tegel-tekst { margin-top: 24px; }
+.strat-tegel.uitgelicht .strat-knop { max-height: 59px; opacity: 1; }
+
+/* Zonder hover (touch) staan alle knoppen open */
+@media (hover: none) {
+  .strat-knop { max-height: 59px; opacity: 1; }
+}
 
 /* ==========================================================================
-   Teamslider (Figma 100:2500) — 'De Cupido's achter jouw werk'
-   Eén kaart actief in het midden (456x560, recht), buren gekanteld -15°
-   (435x490), buitenste -35° (425x441). Oneindige loop: kaarten animeren
-   links en rechts het beeld in en uit. Slepen met de muis of via de pijlen.
-   Alle maten schalen mee via --u (paginabreedte / 1440).
+   Uitgelichte cases (Figma 164:811) — halve caseblokken (690x472) met
+   video-hover. Zelfde layout als het partnerblok op de teampagina.
    ========================================================================== */
-.team {
-  padding: clamp(64px, 8vw, 118px) 0 0;
-  overflow: hidden;
-}
-.team-kop {
-  position: relative;
-  padding: 0 var(--marge-content);
-}
-.team-kop .team-pijl {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: clamp(40px, 4.6vw, 66px);
-  height: clamp(40px, 4.6vw, 66px);
-  display: grid; place-items: center;
-  color: var(--zwart);
-}
-.team-kop .pijl-links  { left: calc(var(--marge-content) - 6px); }
-.team-kop .pijl-rechts { right: calc(var(--marge-content) - 6px); }
-.team-pijl .pijl-svg { width: 45px; height: 45px; max-width: 100%; max-height: 100%; transition: transform .25s ease; }
-.team-pijl.pijl-rechts .pijl-svg { transform: rotate(45deg); }               /* Figma: pijl wijst naar rechts */
-.team-pijl.pijl-links  .pijl-svg { transform: scaleX(-1) rotate(45deg); }    /* gespiegeld: wijst naar links */
-.team-pijl.pijl-rechts:hover .pijl-svg { transform: rotate(45deg); }
-.team-pijl.pijl-links:hover  .pijl-svg { transform: scaleX(-1) rotate(45deg); }
-
-.team-stage {
-  --u: 1;
-  position: relative;
-  height: calc(620px * var(--u));
-  margin-top: clamp(16px, 2.2vw, 31px);    /* Figma: kaarten 31px onder de kop */
-  cursor: grab;
-  touch-action: pan-y;
-}
-.team-stage.sleept { cursor: grabbing; }
-.team-binnen {
-  position: absolute; inset: 0;
-  transition: transform .45s cubic-bezier(.22,.61,.36,1);
-}
-.team-stage.sleept .team-binnen { transition: none; }
-
-.team-kaart {
-  position: absolute;
-  left: 50%; top: 50%;
-  width: calc(var(--w, 456px) * var(--u));
-  height: calc(var(--h, 560px) * var(--u));
-  transform: translate(calc(-50% + var(--x, 0px) * var(--u)), -50%) rotate(var(--rot, 0deg));
-  border-radius: var(--radius);
-  overflow: hidden;
-  background: var(--pill);
-  user-select: none;
-  -webkit-user-select: none;
-  transition: transform .6s cubic-bezier(.22,.61,.36,1), width .6s cubic-bezier(.22,.61,.36,1), height .6s cubic-bezier(.22,.61,.36,1), opacity .45s ease;
-  will-change: transform, width, height, opacity;
-}
-.team-kaart img.kaart-foto {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-.team-kaart::after {
-  /* subtiel verloop onderin voor leesbaarheid van labels/iconen */
-  content: '';
-  position: absolute; left: 0; right: 0; bottom: 0;
-  height: 34%;
-  background: linear-gradient(to top, rgba(0,0,0,.22), rgba(0,0,0,0));
-  pointer-events: none;
-}
-.kaart-naam {
-  position: absolute;
-  top: calc(17px * var(--u));
-  left: calc(18px * var(--u));
-  right: calc(18px * var(--u));
-  z-index: 2;
-  color: var(--wit);
-}
-.kaart-naam .naam { font-weight: 800; font-size: calc(18px * var(--u)); line-height: 2.22; }   /* Figma: 18/40 */
-.kaart-naam .functie { font-weight: 400; font-size: calc(16px * var(--u)); line-height: 1.75; } /* Figma: 16/28 */
-.team-kaart.niveau-1 .kaart-naam .naam { font-size: calc(13.4px * var(--u)); }
-.team-kaart.niveau-1 .kaart-naam .functie { font-size: calc(11.9px * var(--u)); }
-.team-kaart.niveau-2 .kaart-naam .naam, .team-kaart.niveau-3 .kaart-naam .naam { font-size: calc(11px * var(--u)); }
-.team-kaart.niveau-2 .kaart-naam .functie, .team-kaart.niveau-3 .kaart-naam .functie { font-size: calc(9.8px * var(--u)); }
-
-.kaart-labels {
-  position: absolute;
-  left: calc(18px * var(--u));
-  right: calc(72px * var(--u));
-  bottom: calc(28px * var(--u));           /* Figma: labels 31px van onder */
-  z-index: 2;
-  display: flex; flex-wrap: wrap; gap: calc(8px * var(--u));
-  opacity: 0;
-  transition: opacity .35s ease;
-}
-.team-kaart.actief .kaart-labels { opacity: 1; transition-delay: .15s; }
-.kaart-labels span {
-  background: rgba(0, 0, 0, .4);           /* Figma: zwart 40% */
-  border-radius: 4px;                      /* Figma: 3.55px */
-  padding: 1px 8px;
-  font-size: calc(10px * var(--u));        /* Figma: 9.94px */
-  line-height: calc(14.2px * var(--u));
-  color: var(--wit);
-  white-space: nowrap;
-}
-.kaart-contact {
-  position: absolute;
-  right: calc(18px * var(--u));
-  bottom: calc(16px * var(--u));           /* Figma: iconen 46px, 16px van onder */
-  z-index: 2;
-  display: flex; gap: calc(8px * var(--u));
-  opacity: 0;
-  transition: opacity .35s ease;
-}
-.team-kaart.actief .kaart-contact { opacity: 1; transition-delay: .15s; }
-.kaart-contact a {
-  width: calc(46px * var(--u)); height: calc(46px * var(--u));
-  border: 1.5px solid var(--wit);
-  border-radius: 50%;
-  display: grid; place-items: center;
-  color: var(--wit);
-  transition: background .2s ease, color .2s ease;
-}
-.kaart-contact a:hover { background: var(--wit); color: var(--zwart); }
-.kaart-contact svg { width: 45%; height: 45%; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-.kaart-pijl {
-  /* pijltje op de niet-actieve kaarten (Figma: ~40px, rechtsonder) */
-  position: absolute;
-  right: calc(24px * var(--u));
-  bottom: calc(24px * var(--u));
-  z-index: 2;
-  width: calc(45px * var(--u)); height: calc(45px * var(--u));
-  color: var(--wit);
-  opacity: 1;
-  transition: opacity .35s ease;
-  pointer-events: none;
-}
-.team-kaart.actief .kaart-pijl { opacity: 0; }
-.kaart-pijl .pijl-svg { width: 100%; height: 100%; }
-
-/* ==========================================================================
-   Partners blok (Figma 100:2509) — halve caseblokken (690x472) met
-   video-hover, zoals de grote tiles van de homepage
-   ========================================================================== */
-.partners { padding: clamp(64px, 7vw, 100px) var(--marge-beeld) 0; }
-.partners .sectie-kop { margin-bottom: clamp(20px, 2.4vw, 35px); }
-.partners-grid {
+.uitgelichte-cases { padding: clamp(64px, 6.5vw, 93px) var(--marge-beeld) 0; }
+.uitgelichte-cases .sectie-kop { margin-bottom: clamp(20px, 2.4vw, 35px); }
+.case-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(18px, 1.67vw, 24px);          /* Figma: 24px tussen de blokken */
 }
-.partner-blok {
+.case-blok {
   position: relative;
   border-radius: var(--radius);
   overflow: hidden;
   aspect-ratio: 690 / 472;
+  background: #000;                        /* achtergrond zolang het beeld laadt */
   display: block;
   color: var(--wit);
 }
-.partner-blok > img {
+.case-blok > img {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
   transition: transform .6s ease;
 }
-.partner-blok:hover > img { transform: scale(1.03); }
-.tcf-blok { background: #000; }
-.partner-blok::before {
+.case-blok:hover > img { transform: scale(1.03); }
+.case-blok::before {
   /* Overlay verloop (links) — Figma: zwart → transparant, multiply 38% */
   content: '';
   position: absolute; inset: 0;
   background: linear-gradient(90deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,.12) 42%, rgba(0,0,0,0) 60%);
   z-index: 1;
 }
-.partner-inhoud {
+.case-inhoud {
   position: absolute; inset: 0;
   z-index: 2;
   display: flex; flex-direction: column;
   padding: clamp(20px, 2.5vw, 33px) clamp(20px, 2.5vw, 36px) clamp(20px, 2.5vw, 36px);
 }
-.partner-eyebrow {
+.case-eyebrow {
   font-size: clamp(14px, 1.25vw, 18px);    /* Figma: 18px ExtraBold */
   font-weight: 800;
   letter-spacing: 0;
 }
-.partner-titel {
+.case-titel {
   margin-top: auto;
   width: fit-content;
   font-size: clamp(24px, 2.92vw, 42px);    /* Figma: 42px ExtraBold */
@@ -567,7 +578,7 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   letter-spacing: -0.01em;
   max-width: 452px;
 }
-.partner-resultaat {
+.case-resultaat {
   display: flex; align-items: center;
   gap: clamp(12px, 1.3vw, 19px);           /* Figma: 19px tussen pijl en tekst */
   margin-top: clamp(10px, 1.2vw, 17px);    /* Figma: 17px onder de titel */
@@ -575,7 +586,7 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   line-height: 1.33;                       /* Figma: 24px op 18px */
   max-width: 26em;
 }
-.partner-resultaat .pijl-knop { width: clamp(40px, 3.8vw, 55px); height: clamp(40px, 3.8vw, 55px); }  /* Figma: 55x55 */
+.case-resultaat .pijl-knop { width: clamp(40px, 3.8vw, 55px); height: clamp(40px, 3.8vw, 55px); }  /* Figma: 55x55 */
 
 /* Video-hover laag (zelfde mechaniek als de homepage) */
 .blok-video {
@@ -596,64 +607,17 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   height: max(100cqh, calc(100cqw * 0.5625));
 }
 
-/* ==========================================================================
-   Logo slider (Figma 99:302) — als homepage, kop gecentreerd
-   ========================================================================== */
-.intro {
-  padding: clamp(64px, 7.3vw, 105px) var(--marge-content) 0;
+/* Moooooooore cases (Figma 164:909) — 985px breed, gecentreerd */
+.more-cases {
+  display: flex; align-items: center; gap: 24px;
+  padding: clamp(20px, 2.9vw, 42px) 0 clamp(56px, 6.2vw, 89px);
+  max-width: 985px;
+  margin: 0 auto;
 }
-.logo-slider {
-  overflow: hidden;
-  padding: clamp(28px, 3vw, 48px) 0 clamp(56px, 6.5vw, 93px);
-  cursor: grab;
-  -webkit-mask-image: linear-gradient(to right, transparent var(--marge-content), black calc(var(--marge-content) + 70px), black calc(100% - var(--marge-content) - 70px), transparent calc(100% - var(--marge-content)));
-  mask-image: linear-gradient(to right, transparent var(--marge-content), black calc(var(--marge-content) + 70px), black calc(100% - var(--marge-content) - 70px), transparent calc(100% - var(--marge-content)));
-}
-.logo-slider.sleept { cursor: grabbing; }
-.logo-strip {
-  display: flex;
-  align-items: center;
-  gap: clamp(110px, 10.5vw, 150px);
-  width: max-content;
-  will-change: transform;
-}
-.logo-strip img { width: auto; pointer-events: none; }
-
-/* ==========================================================================
-   Marquee (statements) — identiek aan de homepage
-   ========================================================================== */
-.marquee {
-  position: relative;
-  overflow: hidden;
-  padding: clamp(40px, 6vw, 80px) 0;
-  background: var(--wit);
-  isolation: isolate;
-  cursor: grab;
-}
-.marquee.sleept { cursor: grabbing; }
-.marquee::after {
-  content: '';
-  position: absolute; inset: 0;
-  z-index: 1;
-  background: linear-gradient(90deg, var(--marquee-a), var(--marquee-b));
-  mix-blend-mode: lighten;
-  pointer-events: none;
-}
-.marquee-rij {
-  display: flex;
-  width: max-content;
-  font-size: clamp(42px, 6.25vw, 90px);
-  font-weight: 800;
-  line-height: 1.19;
-  letter-spacing: -0.022em;
-  white-space: nowrap;
-  color: var(--zwart);
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: pan-y;
-  will-change: transform;
-}
-.marquee-rij span { padding-right: 1.4em; }
+.more-cases .label { font-size: 18px; font-weight: 400; white-space: nowrap; }  /* Poppins Regular */
+.more-cases .lijn { flex: 1; height: 1.5px; background: var(--zwart); }
+.more-cases .pijl-knop { width: 45px; height: 45px; color: var(--zwart); }      /* Figma: 45x45 */
+.more-cases:hover { text-decoration: none; }
 
 /* ==========================================================================
    Footer (Figma 4:830)
@@ -736,23 +700,6 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
 .footer-onder .more-cases-klein:hover { text-decoration: none; }
 .footer-onder .pijl-knop { flex: none; width: 45px; height: 45px; color: var(--roze); }  /* Figma: 45px */
 .footer .socials { color: var(--roze); margin-top: 0; padding-left: 0; }  /* links uitgelijnd met de contact-kolom */
-
-@media (max-width: 900px) {
-  .footer-onder { grid-template-columns: 1fr; gap: 30px; }
-  .footer .socials { padding-left: 0; }
-}
-
-/* ==========================================================================
-   Pijl-knoppen (gedeeld) — bol + pijl, gelijk aan index.html
-   ========================================================================== */
-.pijl-knop {
-  flex: none;
-  width: 45px; height: 45px;
-  display: grid; place-items: center;
-}
-.pijl-svg { width: 100%; height: 100%; display: block; transition: transform .25s ease; }
-a:hover .pijl-knop .pijl-svg,
-.sba-tegel:hover .sba-knop .pijl-svg { transform: rotate(45deg); }
 
 @media (max-width: 900px) {
   .footer-onder { grid-template-columns: 1fr; gap: 30px; }
@@ -876,19 +823,38 @@ body.menu-open { overflow: hidden; }
    Responsive
    ========================================================================== */
 @media (max-width: 1180px) {
-  /* SBA: vaste Figma-hoogtes loslaten zodra de kolommen te smal worden */
-  .sba-grid { min-height: 0; }
-  .sba-tegel { min-height: 0; padding-bottom: 26px; }
+  /* Vaste Figma-rijhoogtes loslaten zodra de kolommen te smal worden */
+  .strat-grid { grid-template-rows: auto; }
+  .strat-tegel, .strat-tegel.uitgelicht { min-height: 0; }
 }
 @media (max-width: 1024px) {
-  .hero-kruimels { display: none; }        /* geen ruimte naast de intro; menu blijft leidend */
-  .sba-grid { grid-template-columns: 1fr; }
+  /* Kruimelpad past niet meer naast de intro: boven de titel, links */
+  .hero-kruimels {
+    position: static;
+    order: -1;
+    margin-bottom: 22px;
+    font-size: 13px;
+  }
+  .hero-kruimels ol { flex-wrap: wrap; gap: 8px; }
+
+  /* Twee kolommen: de kolomwikkels vervallen zodat de tegels netjes doorlopen */
+  .strat-grid { grid-template-columns: repeat(2, 1fr); }
+  .strat-kolom { display: contents; }
   .footer-kolommen { grid-template-columns: 1fr 1fr; }
   .menu-binnen { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 820px) {
-  .partners-grid { grid-template-columns: 1fr; }
-  .partner-blok { aspect-ratio: 690 / 500; }
+  /* Kader wordt te laag als de verhouding wordt aangehouden: vaste hoogte */
+  .hero-kader { aspect-ratio: auto; height: min(560px, 78svh); }
+  .case-grid { grid-template-columns: 1fr; }
+  .case-blok { aspect-ratio: 690 / 500; }
+
+  /* Tekst en staand beeld onder elkaar; het beeld houdt zijn verhouding */
+  .tekst-beeld .kolommen { grid-template-columns: 1fr; row-gap: clamp(28px, 5vw, 44px); }
+  .tekst-beeld .tekst { padding-top: 0; padding-bottom: 0; }
+  .blok-cta { margin-top: 0; }
+  .tekst-beeld figure { max-width: 476px; margin-inline: auto; width: 100%; }
+  .beeld-vol figure { aspect-ratio: 4 / 3; }
 }
 @media (max-width: 680px) {
   :root { --marge-beeld: 10px; }
@@ -899,17 +865,12 @@ body.menu-open { overflow: hidden; }
   .taalswitch { display: none; }
   body.menu-open .taalswitch { display: flex; position: absolute; top: 24px; left: 10px; }
 
-  .hero-scroll { height: 130vh; }
-  .hero-kader { top: 10px; bottom: 10px; }
   .hero-inhoud { padding: 0 23px 31px; }
   .hero-titel { font-size: clamp(36px, 9.6vw, 42px); }
   .hero-intro { margin-top: 20px; }
 
-  .logo-strip { zoom: 0.7; gap: 70px; }
-  .logo-slider {
-    -webkit-mask-image: linear-gradient(to right, transparent 10px, black 72px, black calc(100% - 72px), transparent calc(100% - 10px));
-    mask-image: linear-gradient(to right, transparent 10px, black 72px, black calc(100% - 72px), transparent calc(100% - 10px));
-  }
+  .strat-grid { grid-template-columns: 1fr; }
+  .more-cases .label { font-size: 15px; }
 
   .footer-kolommen { grid-template-columns: 1fr; }
   .menu-binnen { grid-template-columns: 1fr; padding-top: 110px; }
@@ -919,21 +880,237 @@ body.menu-open { overflow: hidden; }
   .nieuwsbrief { max-width: none; }
   .footer-onder .more-cases-klein { font-size: 16px; }
 
+  .blok-cta br { display: none; }          /* laat de regel zelf afbreken */
+
   .tekstblok .kolommen { grid-template-columns: 1fr; }
+  .tekstblok.duo h2 { grid-column: 1; margin-bottom: 16px; }
+  .tekstblok.duo p  { grid-column: 1; }   /* 1 kolom: geen impliciete tweede kolom */
 }
 
 /* Reduced motion: animaties uit */
+@media (max-width: 844px) {
+  .hero-scroll { height: 130vh; }
+  .hero-scroll .hero-kader { top: 10px; bottom: 10px; }
+  .hero-scroll .hero-inhoud { padding: 0 23px 31px; }
+  .hero-intro { margin-top: 20px; }
+}
 @media (prefers-reduced-motion: reduce) {
   .hero-scroll { height: 100svh; }
-  .hero-inhoud { transform: none !important; }
+  .hero-scroll .hero-inhoud { transform: none !important; }
   .logo, .header-knoppen { opacity: 1 !important; transform: none !important; }
   html { scroll-behavior: auto; }
   .blok-video { display: none; }
   * { transition-duration: .01ms !important; }
 }
+
+/* ==========================================================================
+   Evenwichtige regelafbreking — koppen en korte subtitels verdelen hun
+   woorden evenredig over de regels; alinea's vermijden losse laatste woorden.
+   De browser bepaalt de beste afbraak, dus dit klopt op elk schermformaat.
+   ========================================================================== */
+h1, h2, h3, blockquote p,
+.case-resultaat, .hero-resultaat, .tegel-titel, .tegel-sub .onderschrift,
+.tegel-tekst, .partner-resultaat, .hero-intro { text-wrap: balance; }
+p { text-wrap: pretty; }
+
+/* ==========================================================================
+   InHouse (Figma 227:665) — pagina-specifieke opmaak
+   ========================================================================== */
+/* Hero met scroll-animatie en achtergrondvorm — zelfde opzet als de Over ons-pagina */
+.hero-scroll {
+  position: relative;
+  height: 150vh;
+  --p: 0;
+}
+.hero-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+.hero-scroll .hero-vorm {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: auto;
+  display: block;
+  pointer-events: none;
+}
+.hero-scroll .hero-kader {
+  position: absolute;
+  top: 18px; bottom: 18px;
+  left: var(--marge-beeld); right: var(--marge-beeld);
+  aspect-ratio: auto;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--donker);
+}
+.hero-scroll .hero-inhoud {
+  padding: 0 clamp(24px, 3.75vw, 54px) clamp(36px, 4.65vw, 67px);
+  transform: translateY(calc((1 - var(--p, 0)) * 95svh));
+  will-change: transform;
+}
+.inhouse .hero-titel { max-width: 629px; }
+.hero-onder {
+  display: flex;
+  align-items: flex-end;                   /* kruimels op de onderlijn van de intro */
+  justify-content: space-between;
+  gap: clamp(24px, 3vw, 48px);
+}
+.hero-intro {
+  margin-top: 36px;
+  font-size: clamp(15px, 1.25vw, 18px);
+  line-height: 1.556;
+  max-width: 581px;
+}
+.hero-scroll .hero-kruimels { position: static; }
+
+.ih-intro {
+  padding: clamp(64px, 7.6vw, 110px) var(--marge-content) clamp(64px, 8.4vw, 121px);
+  display: flex; gap: clamp(28px, 5vw, 72px); align-items: flex-start; justify-content: space-between;
+}
+.ih-intro-tekst { max-width: 581px; }
+.ih-intro p { font-size: 17px; line-height: 32px; }
+.ih-intro p + p { margin-top: 18px; }
+.ih-lead { font-weight: 700; }
+.ih-intro .ih-lead { font-size: 18px; }
+.ih-wordmark { display: block; margin-top: clamp(24px, 3vw, 44px); width: 195px; height: 37px; }
+.ih-intro-deco { flex: none; width: clamp(160px, 25.5vw, 367px); aspect-ratio: 1; margin-left: clamp(0px, 5.8vw, 84px); }
+.ih-intro-deco svg { width: 100%; height: 100%; display: block; }
+
+/* Band: Hoe werkt InHouse? */
+.ih-band {
+  background: linear-gradient(180deg, rgba(215, 38, 85, .05), rgba(215, 38, 85, .10));
+  padding: clamp(48px, 6.4vw, 92px) var(--marge-content);
+}
+.ih-kaart {
+  position: relative;
+  background: var(--wit);
+  max-width: 1036px; margin: 0 auto;
+  padding: clamp(40px, 5vw, 72px) clamp(24px, 4vw, 60px) clamp(36px, 4.6vw, 66px);
+  text-align: center;
+}
+.ih-kaart-hart {
+  /* Figma: kwartrond in de rechterbovenhoek van het kader, bolling naar links */
+  position: absolute; right: calc(-1 * clamp(8px, 1.53vw, 22px)); top: 0;
+  width: clamp(90px, 12.2vw, 176px); aspect-ratio: 1; pointer-events: none;
+}
+.ih-kaart-hart svg { width: 100%; height: 100%; display: block; }
+.ih-kaart h2 { font-size: clamp(30px, 3.47vw, 50px); font-weight: 800; line-height: 1.1; margin-bottom: clamp(14px, 1.7vw, 24px); }
+.ih-kaart > p { font-size: 16px; line-height: 32px; max-width: 682px; margin: 0 auto; }
+.ih-band-cta {
+  display: flex; align-items: center; gap: 15px;
+  max-width: 510px; margin: clamp(28px, 3.2vw, 46px) auto 0;
+}
+.ih-band-cta .label { font-size: 18px; font-weight: 800; white-space: nowrap; }
+.ih-band-cta .lijn { flex: 1; height: 1.5px; background: var(--zwart); }
+.ih-band-cta:hover { text-decoration: none; }
+.ih-band-cta:hover .pijl-svg { transform: rotate(45deg); }
+.ih-band-cta .pijl-knop { width: 45px; height: 45px; }
+
+/* Onze expertises — tekst links, vormen rechts */
+.ih-expertises {
+  padding: clamp(72px, 10.1vw, 146px) var(--marge-content) clamp(64px, 7.6vw, 110px);
+  display: flex; gap: clamp(28px, 4.8vw, 70px); align-items: flex-start; justify-content: space-between;
+}
+.ih-exp-deco { flex: none; width: clamp(180px, 29.4vw, 423px); aspect-ratio: 1; margin-top: clamp(2px, .35vw, 5px); }
+.ih-exp-deco svg { width: 100%; height: 100%; display: block; }
+.ih-exp-tekst { max-width: 682px; }
+.ih-exp-tekst h2 { font-size: clamp(30px, 3.47vw, 50px); font-weight: 800; line-height: 1.1; margin-bottom: clamp(14px, 1.7vw, 24px); }
+.ih-exp-tekst p { font-size: 16px; line-height: 32px; }
+.ih-exp-tekst .ih-lead + p { margin-top: 14px; }
+.ih-rollen {
+  list-style: none; margin: clamp(20px, 2.4vw, 34px) 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(3, auto); justify-content: start;
+  column-gap: clamp(24px, 4vw, 58px); row-gap: 4px;
+}
+.ih-rollen li { display: flex; align-items: center; gap: 13px; font-size: clamp(16px, 1.25vw, 18px); font-weight: 500; line-height: 2.2; white-space: nowrap; }
+.ih-driehoek { flex: none; width: 17px; height: 17px; display: inline-block; }
+.ih-driehoek svg { width: 100%; height: 100%; display: block; }
+
+/* Fotoslider (zelfde als contactpagina) */
+.werkvloer { padding: 0 0 clamp(48px, 5.5vw, 80px); }
+.werkvloer-box {
+  position: relative;
+  margin: 0 var(--marge-beeld);
+  border-radius: var(--radius);
+  overflow: hidden;
+  height: clamp(300px, 42vw, 560px);
+  background: var(--pill);
+  cursor: grab;
+  touch-action: pan-y;
+}
+.werkvloer-box.sleept { cursor: grabbing; }
+.werkvloer-strip { position: absolute; top: 0; bottom: 0; left: 0; display: flex; will-change: transform; }
+.werkvloer-strip img { height: 100%; width: auto; flex: none; pointer-events: none; user-select: none; -webkit-user-select: none; }
+/* InHouse-cases: Anne & Marloes */
+.ih-blok {
+  margin: 0 var(--marge-content) clamp(40px, 5.2vw, 75px);
+  border-radius: var(--radius);
+  padding: clamp(32px, 4.4vw, 64px) clamp(24px, 5.3vw, 76px);
+  display: flex; gap: clamp(28px, 5.5vw, 80px); align-items: center; justify-content: space-between;
+}
+.ih-blok-lila { background: #f7f6fc; }
+.ih-blok-mint { background: rgba(0, 202, 190, .1); }
+.ih-blok-tekst { max-width: 505px; }
+.ih-blok-tekst h2 { font-size: clamp(28px, 2.92vw, 42px); font-weight: 800; line-height: 1.31; margin-bottom: clamp(12px, 1.5vw, 22px); }
+.ih-blok-tekst > p { font-size: 16px; line-height: 32px; }
+.ih-punten { list-style: none; margin: clamp(14px, 1.7vw, 24px) 0 0; padding: 0; }
+.ih-punten li { display: flex; align-items: center; gap: 13px; font-size: 16px; line-height: 40px; }
+.ih-blok-foto { position: relative; flex: none; width: clamp(220px, 31.3vw, 450px); margin: 0; }
+.ih-blok-foto img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+.foto-rond-lb img { border-radius: 89% 0 0 0; }        /* Figma-masker: grote ronding linksboven */
+.foto-rond-ro img { border-radius: 0 0 89% 0; }        /* gespiegeld: ronding rechtsonder */
+.ih-foto-deco { position: absolute; width: clamp(70px, 11vw, 158px); aspect-ratio: 1; pointer-events: none; }
+.ih-foto-deco.teal-ro { right: calc(-1 * clamp(12px, 2.1vw, 30px)); bottom: calc(-1 * clamp(12px, 2.1vw, 30px)); background: #00cabe; clip-path: polygon(100% 0, 100% 100%, 0 100%); }
+.ih-foto-deco.roze-lb { left: calc(-1 * clamp(11px, 1.95vw, 28px)); top: calc(-1 * clamp(11px, 1.95vw, 28px)); background: var(--roze); border-radius: 0 0 100% 0; }
+
+/* CTA: pilot-week */
+.ih-cta { position: relative; padding: clamp(40px, 5.2vw, 76px) var(--marge-content) clamp(56px, 6.9vw, 100px); overflow: hidden; text-align: center; }
+.ih-cta h2 { font-size: clamp(30px, 3.47vw, 50px); font-weight: 800; line-height: 1.2; }
+.ih-cta h2 em { font-style: normal; color: var(--roze); }
+.ih-cta > p { font-size: clamp(16px, 1.25vw, 18px); line-height: 1.67; margin-top: clamp(10px, 1.3vw, 20px); }
+.ih-cta-link {
+  display: inline-flex; align-items: center; gap: 15px;
+  margin-top: clamp(24px, 3.5vw, 50px);
+  font-size: 18px; font-weight: 800;
+}
+.ih-cta-link .label { white-space: nowrap; }
+.ih-cta-link .lijn { width: clamp(110px, 13.1vw, 189px); height: 1.5px; background: var(--zwart); }
+.ih-cta-link:hover { text-decoration: none; }
+.ih-cta-link:hover .pijl-svg { transform: rotate(45deg); }
+.ih-cta-link .pijl-knop { width: 45px; height: 45px; }
+.ih-golf { position: absolute; left: 0; right: 0; top: clamp(16px, 2.5vw, 36px); width: 100%; pointer-events: none; }
+.ih-golf svg { width: 100%; height: clamp(90px, 11.25vw, 162px); display: block; }
+
+/* Quote */
+.ih-quote {
+  background: var(--roze); color: var(--wit);
+  padding: clamp(56px, 8.2vw, 118px) var(--marge-content);
+  display: flex; gap: clamp(32px, 6vw, 90px); align-items: center; justify-content: space-between; flex-wrap: wrap;
+}
+.ih-quote blockquote { margin: 0; max-width: 640px; }
+.ih-quote blockquote p { font-size: clamp(26px, 2.92vw, 42px); line-height: 1.24; font-weight: 400; }
+.ih-quote-wie { display: flex; align-items: center; gap: 16px; }
+.ih-avatar {
+  flex: none; width: 101px; height: 101px; border-radius: 50%;
+  object-fit: cover; display: block;
+}
+.ih-quote-wie .naam { font-size: 25px; font-weight: 800; line-height: 1.28; }
+.ih-quote-wie .rol { font-size: 14px; line-height: 1.5; max-width: 180px; }
+
+@media (max-width: 900px) {
+  .ih-intro, .ih-expertises { flex-direction: column; }
+  .ih-intro-deco { order: -1; margin: 0 0 8px auto; width: clamp(120px, 30vw, 200px); }
+  .ih-exp-deco { width: clamp(150px, 44vw, 260px); margin: 24px auto 0; }
+  .ih-blok { flex-direction: column; align-items: flex-start; }
+  .ih-blok-mint { flex-direction: column-reverse; }
+  .ih-blok-foto { align-self: center; width: min(70vw, 340px); }
+  .ih-rollen { grid-template-columns: repeat(2, auto); }
+  .ih-kaart-hart { display: none; }
+  }
 </style>
 </head>
-<body>
+<body class="inhouse">
 <!-- Inline SVG-symbolen (logo, pijlen, dienst-iconen, contact-iconen) -->
 <svg width="0" height="0" style="position:absolute" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 <symbol id="svg-logo" viewBox="0 0 230 36"><path fill-rule="evenodd" clip-rule="evenodd" d="M82.853 0C79.7082 0 76.8928 1.45241 75.0274 3.72752C73.1631 1.45241 70.3476 0 67.2029 0C61.601 0 57.043 4.60777 57.043 10.2696V24.6843H61.7115V10.2696C61.7115 7.20903 64.1742 4.7195 67.2029 4.7195C70.2304 4.7195 72.6942 7.20903 72.6942 10.2696V24.7429H77.3617V10.2696C77.3617 7.20903 79.8254 4.7195 82.853 4.7195C85.8805 4.7195 88.3443 7.20903 88.3443 10.2696V24.7429H93.0118V10.2696C93.0118 4.60777 88.4548 0 82.853 0Z" fill="currentColor"/>
@@ -1124,26 +1301,28 @@ body.menu-open { overflow: hidden; }
 </nav>
 
 <main>
-<!-- ============================================================ HERO (Figma 99:285) -->
-<section class="hero-scroll" id="hero-scroll" aria-label="Over ons">
+<!-- ============================================================ HERO (Figma 172:15)
+     Beeld 1404x620 binnen een marge van 18px. Titel linksonder, kruimelpad
+     rechtsonder. -->
+<!-- ============================================================ HERO (Figma 227:941) -->
+<section class="hero-scroll" id="hero-scroll" aria-label="InHouse">
   <div class="hero-sticky">
     <svg class="hero-vorm" viewBox="0 0 1440 632" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M233.045 527.278C241.389 535.615 255.66 529.702 255.66 517.917V349.614C255.66 340.143 267.126 335.393 273.829 342.101L559.541 627.409C565.677 633.53 575.612 633.53 581.738 627.409L703.621 505.703C712.671 496.67 727.339 496.67 736.379 505.703L858.202 627.399C864.338 633.52 874.273 633.52 880.409 627.399L1166.11 341.992C1172.81 335.294 1184.28 340.034 1184.28 349.504V517.807C1184.28 529.603 1198.54 535.506 1206.9 527.168L1435.96 298.415C1438.45 295.931 1439.84 292.572 1439.85 289.054L1440.02 -0.02H0V289.054C0 292.562 1.39227 295.931 3.87845 298.415L233.045 527.268V527.278Z" fill="#EAE3D2"/>
+      <path d="M233.045 527.278C241.389 535.615 255.66 529.702 255.66 517.917V349.614C255.66 340.143 267.126 335.393 273.829 342.101L559.541 627.409C565.677 633.53 575.612 633.53 581.738 627.409L703.621 505.703C712.671 496.67 727.339 496.67 736.379 505.703L858.202 627.399C864.338 633.52 874.273 633.52 880.409 627.399L1166.11 341.992C1172.81 335.294 1184.28 340.034 1184.28 349.504V517.807C1184.28 529.603 1198.54 535.506 1206.9 527.168L1435.96 298.415C1438.45 295.931 1439.84 292.572 1439.85 289.054L1440.02 -0.02H0V289.054C0 292.562 1.39227 295.931 3.87845 298.415L233.045 527.268V527.278Z" fill="#00CABE"/>
     </svg>
     <div class="hero-kader">
       <div class="hero-video">
-        <img loading="eager" decoding="async" src="images/team-header.webp" alt="Het team van Campagne">
-        <iframe src="https://player.vimeo.com/video/1210167864?background=1&autoplay=1&muted=1&loop=1&autopause=0&title=0&byline=0&portrait=0&badge=0&player_id=0&app_id=58479" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" referrerpolicy="strict-origin-when-cross-origin" title="Campagne team" loading="lazy"></iframe>
+        <img loading="eager" decoding="async" src="images/campagne-werkvloer-content-overleg.webp" alt="Twee collega's van Campagne in overleg op de werkvloer">
       </div>
       <div class="hero-inhoud">
-        <h1 class="hero-titel">Wij maken<br>merken geliefd</h1>
+        <h1 class="hero-titel">Marketing &amp; communicatie<br>expertise InHouse</h1>
         <div class="hero-onder">
-          <p class="hero-intro">Wij zijn Campagne, creatief communicatiebureau uit hartje Rotterdam. Merken geliefder maken, dat is wat leuk vinden. Als strategische merkkeuze om andere merken voor te blijven. Dat doen we met creativiteit, menselijkheid en aandacht.</p>
+          <p class="hero-intro">Geliefder worden begint met een goed doordacht plan waarin je definieert wie je bent en wat je het beste kunt.</p>
           <nav class="hero-kruimels" aria-label="Kruimelpad">
             <ol>
               <li><a href="index.html">Home</a></li>
               <li class="scheiding" aria-hidden="true">&mdash;</li>
-              <li><span aria-current="page">Over ons</span></li>
+              <li><span aria-current="page">InHouse</span></li>
             </ol>
           </nav>
         </div>
@@ -1152,125 +1331,132 @@ body.menu-open { overflow: hidden; }
   </div>
 </section>
 
-<!-- ============================================================ INTRO TEKST TEAM (Figma 104:3) -->
-<section class="tekstblok">
-  <div class="kolommen">
-    <h2>Wij zijn campagne</h2>
-    <p class="zwaar">Een merkvoorsprong nemen kan in vele vormen. Je kunt naamsbekendheid opbouwen, voorkeur creëren of gedrag veranderen bij de mensen die je wilt bereiken. In bijzondere situaties willen mensen zelfs meer voor je betalen, komen ze terug en vertellen ze enthousiast over jou bij anderen.</p>
-    <p>Eén ding is zeker. Geliefder worden als merk gaat niet van vandaag op morgen. Het vergt commitment, een lange termijn visie en een creatieve partner aan je zijde. Daarom werken we met duidelijke parameters die continu worden gevoed, gemonitord en aangescherpt. Altijd langs een overkoepelend toetsingskader, dat alles samenbrengt en scherp houdt met één enkele vraag: Wanna be loved?</p>
-    <h3>Wanna be loved?</h3>
-    <p>Niet als inhoudsloze hunker naar snelle likes, maar als uitnodiging aan merken om betekenisvoller te zijn in het leven van mensen. Met een communicatiemethode die creativiteit en menselijkheid toevoegt als doorslaggevende factor. Want creativiteit en menselijkheid maken complexe vraagstukken begrijpelijk, positioneren je merk onderscheidend en laten je opvallen en overtuigen in een wereld van ‘veel van hetzelfde’. Wij geloven dat in een wereld vol technologie en AI, creativiteit en menselijkheid doorslaggevend zijn voor succes. En omgekeerd, dat je technologie/AI heel goed kunt gebruiken om creativiteit te versnellen (effectiever) en processen zo efficiënt mogelijk in te richten (voordeliger).</p>
-    <p>Niet als inhoudsloze hunker naar snelle likes, maar als uitnodiging aan merken om betekenisvoller te zijn in het leven van mensen. Met een communicatiemethode die creativiteit en menselijkheid toevoegt als doorslaggevende factor. Want creativiteit en menselijkheid maken complexe vraagstukken begrijpelijk, positioneren je merk onderscheidend en laten je opvallen en overtuigen in een wereld van ‘veel van hetzelfde’. Wij geloven dat in een wereld vol technologie en AI, creativiteit en menselijkheid doorslaggevend zijn voor succes. En omgekeerd, dat je technologie/AI heel goed kunt gebruiken om creativiteit te versnellen (effectiever) en processen zo efficiënt mogelijk in te richten (voordeliger).</p>
+<!-- ============================================================ INTRO (Figma 227:952) — vormen links, tekst rechts -->
+<section class="ih-intro">
+  <div class="ih-intro-deco" aria-hidden="true"><svg viewBox="0 0 367 367" fill="none" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M183.523 182.998V366.045L366.571 182.998H183.523Z" fill="#00CABE"/><path fill-rule="evenodd" clip-rule="evenodd" d="M162.738 0H183.048V183.048H0V161.893C0 72.4818 72.8601 0 162.738 0Z" fill="#D72655"/></svg></div>
+  <div class="ih-intro-tekst">
+    <p class="ih-lead">Het beste werk maken we samen. Wij werken niet v&oacute;&oacute;r klanten, maar samen met jou. Samen komen we tot creatieve oplossingen die &eacute;cht resultaat opleveren.</p>
+    <p>Met InHouse wordt die externe expertise een onderdeel van jouw organisatie. Heb je hulp nodig bij het managen of uitvoeren van een campagne? Of zoek je een marketing- en communicatiespecialist die hands-on werkt en bureaus begrijpt? InHouse is jouw oplossing.</p>
+    <svg class="ih-wordmark" viewBox="0 0 195 37" fill="none" role="img" aria-label="InHouse">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 36.5836H8.95826V7.50452H0V36.5836Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M31.6243 20.7928C31.6243 16.8329 29.4248 14.6435 26.0195 14.6435C22.6142 14.6435 20.4147 16.8329 20.4147 20.7928V36.5834H11.457V7.50424H20.4147V11.361C22.1957 8.91185 25.3392 7.19165 29.268 7.19165C36.0247 7.19165 40.5308 11.7774 40.5308 19.5947V36.5834H31.6243V20.7928Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M65.919 19.8912L59.2851 16.0369L51.9843 19.8912V36.5838H43.0273V0H51.9843V11.3589L58.9517 7.5047L65.919 11.3589V0H74.8766V36.5838H65.919V19.8912Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M91.7612 29.2874C94.956 29.2874 97.9427 26.942 97.9427 22.0437C97.9427 17.0938 95.0084 14.8006 91.8649 14.8006C88.6177 14.8006 85.7891 17.0938 85.7891 22.0437C85.7891 26.942 88.5128 29.2874 91.7612 29.2874ZM91.763 37.0002C83.1715 37.0002 76.6758 31.2673 76.6758 22.0437C76.6758 12.8194 83.3282 7.08838 91.8667 7.08838C100.458 7.08838 107.058 12.8194 107.058 22.0437C107.058 31.2673 100.353 37.0002 91.763 37.0002Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M137.751 36.5835H128.792V32.6224C127.011 35.1237 123.87 36.8967 119.94 36.8967C113.182 36.8967 108.625 32.2582 108.625 24.4931V7.50439H117.53V23.295C117.53 27.2548 119.782 29.4443 123.135 29.4443C126.593 29.4443 128.792 27.2548 128.792 23.295V7.50439H137.751V36.5835Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M153.065 37C145.259 37 140.02 32.6747 139.602 27.0468H148.454C148.664 29.0789 150.498 30.4343 152.959 30.4343C155.264 30.4343 156.469 29.3921 156.469 28.0889C156.469 23.3988 140.544 26.7864 140.544 16.1036C140.544 11.1524 144.788 7.08813 152.435 7.08813C159.979 7.08813 164.169 11.2562 164.745 16.9885H156.469C156.207 15.0092 154.688 13.706 152.174 13.706C150.078 13.706 148.926 14.54 148.926 15.9463C148.926 20.5849 164.745 17.3017 164.903 28.1418C164.903 33.1961 160.398 37 153.065 37Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M174.621 19.2292H185.831C185.831 16.0511 183.316 14.2272 180.332 14.2272C177.397 14.2272 175.145 15.9989 174.621 19.2292ZM180.436 36.9997C171.846 36.9997 165.664 31.2668 165.664 22.0432C165.664 12.8196 171.741 7.08789 180.436 7.08789C188.975 7.08789 195 12.7158 195 21.5746C195 22.4086 194.947 23.2948 194.841 24.1804H174.569C174.883 27.9843 177.241 29.7561 180.122 29.7561C182.637 29.7561 184.05 28.5057 184.784 26.9421H194.317C192.904 32.6222 187.717 36.9997 180.436 36.9997Z" fill="currentColor"/>
+</svg>
   </div>
 </section>
 
-<!-- ============================================================ STRATEGIE / BRANDING / ACTIVATIE (Figma 104:2) -->
-<section class="sba" id="diensten">
-  <div class="sba-grid">
-    <a class="sba-tegel" href="strategy.html">
-      <span class="sba-icoon"><svg class="icoon-s" aria-hidden="true"><use href="#icoon-strategie"></use></svg></span>
-      <h2>Strategie</h2>
-      <p class="sba-tekst">Geliefder worden begint met een goed doordacht plan waarin je definieert wie je bent en wat je het beste kunt. Zo positioneer je jezelf slim en stippel je samen een route uit naar het gewenste doel. Vanuit de businesscase werken we je merk verder uit naar een positionering, marketingplan, social strategie, contentplan en communicatieplanning.</p>
-      <span class="sba-knop">
-        <span class="label">Vertel me meer</span>
-        <span class="lijn" aria-hidden="true"></span>
-        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-45"></use></svg></span>
-      </span>
-    </a>
-    <a class="sba-tegel" href="index.html#diensten">
-      <span class="sba-icoon"><svg class="icoon-b" aria-hidden="true"><use href="#icoon-branding"></use></svg></span>
-      <h2>Branding</h2>
-      <p class="sba-tekst">Val op in de massa Het verhaal van jouw DNA verbindt, inspireert en laat een blijvende indruk achter. Wij brengen merken tot leven, maken ze onvergetelijk door strategische positionering, visuele aantrekkingskracht en messaging. Of je nu een nieuwe identiteit wilt opbouwen of een bestaande wilt versterken, wij zorgen ervoor dat je merk straalt en impact maakt.</p>
-      <span class="sba-knop">
-        <span class="label">Vertel me meer</span>
-        <span class="lijn" aria-hidden="true"></span>
-        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-45"></use></svg></span>
-      </span>
-    </a>
-    <a class="sba-tegel" href="index.html#diensten">
-      <span class="sba-icoon"><svg class="icoon-a" aria-hidden="true"><use href="#icoon-activatie"></use></svg></span>
-      <h2>Activatie</h2>
-      <p class="sba-tekst">Breng je merk tot leven met strategische activatie. Van het creëren van onvergetelijke klantbelevingen en het organiseren van spectaculaire evenementen tot het leveren van impactvolle content via digitale en traditionele platforms: wij maken jouw merk geliefder. Door verbinding te zoeken met de juiste doelgroep en engagement te stimuleren.</p>
-      <span class="sba-knop">
-        <span class="label">Vertel me meer</span>
-        <span class="lijn" aria-hidden="true"></span>
-        <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-45"></use></svg></span>
-      </span>
+<!-- ============================================================ HOE WERKT INHOUSE? (Figma 227:751) -->
+<section class="ih-band">
+  <div class="ih-kaart">
+    <span class="ih-kaart-hart" aria-hidden="true"><svg viewBox="0 0 176 176" fill="none" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M175.086 176V0H0L0 20.34C0 106.309 69.6912 176 155.66 176H175.086Z" fill="#D72655"/></svg></span>
+    <h2>Hoe werkt InHouse?</h2>
+    <p>Onze InHouse-collega&rsquo;s kunnen je al vanaf twee dagen per week ondersteunen. Afhankelijk van jouw wens, bepalen we samen hoeveel uur per week ideaal is. Heb je nog geen goed beeld van de werkzaamheden? Na een intake maken we graag een helder plan om verder te gaan.</p>
+    <a class="ih-band-cta" href="https://marcom-inhouse.nl/" target="_blank" rel="noopener">
+      <span class="label">Meer lezen over InHouse</span>
+      <span class="lijn" aria-hidden="true"></span>
+      <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-45"></use></svg></span>
     </a>
   </div>
 </section>
 
-<!-- ============================================================ TEAM (Figma 100:2500) — data uit team.json (CMS) -->
-<section class="team" id="team">
-  <div class="team-kop">
-    <h2 class="sectie-kop">De Cupido’s achter jouw werk</h2>
-    <button class="team-pijl pijl-links" type="button" aria-label="Vorig teamlid"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-45"></use></svg></button>
-    <button class="team-pijl pijl-rechts" type="button" aria-label="Volgend teamlid"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-45"></use></svg></button>
+<!-- ============================================================ ONZE EXPERTISES (Figma 227:846) — tekst links, vormen rechts -->
+<section class="ih-expertises" id="expertises">
+  <div class="ih-exp-tekst">
+    <h2>Onze expertises</h2>
+    <p class="ih-lead">Het beste werk maken we samen. Wij werken niet v&oacute;&oacute;r klanten, maar samen met jou. Samen komen we tot creatieve oplossingen die &eacute;cht resultaat opleveren.</p>
+    <p>Van brandmanagers en communicatieadviseurs tot projectmanagers, contentspecialisten, ontwerpers en DTP&rsquo;ers: welke interim professional je ook zoekt, er staat altijd een InHouse-collega klaar om te helpen. Een InHouse-collega wordt tijdelijk onderdeel van jouw team en werkt nauw samen met je vaste team. Zo behalen we samen de beste resultaten.</p>
+    <ul class="ih-rollen">
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Brandmanager</li>
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Strateeg</li>
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>DTP&rsquo;er</li>
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Projectmanager</li>
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Designer</li>
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Content creator</li>
+    </ul>
   </div>
-  <div class="team-stage" id="team-stage" aria-label="Teamleden">
-    <div class="team-binnen" id="team-binnen"><!-- kaarten via JS uit team.json --></div>
+  <div class="ih-exp-deco" aria-hidden="true"><svg viewBox="0 0 423 423" fill="none" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M164.434 0V164.434H0L164.434 0Z" fill="#00CABE"/><path fill-rule="evenodd" clip-rule="evenodd" d="M259.758 423V258.566H95.3242L259.758 423Z" fill="#B0A4E6"/><path fill-rule="evenodd" clip-rule="evenodd" d="M258.566 95.324V259.758H423L258.566 95.324Z" fill="#D72655"/><path fill-rule="evenodd" clip-rule="evenodd" d="M258.566 423V258.566H423L258.566 423Z" fill="#11190A"/></svg></div>
+</section>
+
+<!-- ============================================================ WERKVLOER-SLIDER (van de contactpagina) -->
+<section class="werkvloer" aria-label="De werkvloer van Campagne">
+  <div class="werkvloer-box" id="werkvloer-box">
+    <!-- Vijf foto's zonder tussenruimte: oogt als één lange foto waar je doorheen sleept -->
+    <div class="werkvloer-strip" id="werkvloer-strip">
+      <img src="images/Campagne-werkvloer.webp" alt="De zithoek van Campagne met de groene wand" draggable="false">
+      <img src="images/campagne-werkvloer-creatie.webp" alt="Twee collega's overleggen achter een laptop" draggable="false">
+      <img src="images/campagne-werkvloer-overleg.webp" alt="Gezamenlijk ontbijt op de werkvloer" draggable="false">
+      <img src="images/campagne-werkvloer-content-overleg.webp" alt="Overleg bij een werkplek op kantoor" draggable="false">
+      <img src="images/campagne-werkvloer-lunch.webp" alt="Twee collega's werken samen aan tafel" draggable="false">
+    </div>
   </div>
 </section>
 
-<!-- ============================================================ INTRO + LOGO'S (Figma 99:302, kop gecentreerd) -->
-<section class="intro">
-  <h2 class="sectie-kop">Wij helpen merken geliefder te worden.</h2>
-</section>
-<div class="logo-slider" aria-label="Klanten van Campagne">
-  <div class="logo-strip" id="logo-strip">
-    <img loading="lazy" decoding="async" src="images/logos/logo_de.png" style="height:72px" alt="Logo Douwe Egberts">
-    <img loading="lazy" decoding="async" src="images/logos/logo_brugman.png" style="height:36px" alt="Logo Brugman">
-    <img loading="lazy" decoding="async" src="images/logos/logo_allison.png" style="height:36px" alt="Logo Allison">
-    <img loading="lazy" decoding="async" src="images/logos/logo_stl.png" style="height:28px" alt="Logo STL">
-    <img loading="lazy" decoding="async" src="images/logos/logo_rt.png" style="height:45px" alt="Logo Rotterdam Topsport">
-    <img loading="lazy" decoding="async" src="images/logos/logo_mkb.png" style="height:61px" alt="Logo MKB Brandstof">
-    <img loading="lazy" decoding="async" src="images/logos/logo_steinweg.png" style="height:36px" alt="Logo Steinweg">
-    <img loading="lazy" decoding="async" src="images/logos/logo_rijksoverheid.png" style="height:76px" alt="Logo Rijksoverheid">
-    <img loading="lazy" decoding="async" src="images/logos/logo_maasstad.png" style="height:51px" alt="Logo Maasstad Ziekenhuis">
-    <img loading="lazy" decoding="async" src="images/logos/logo_tij.png" style="height:53px" alt="Logo Rotterdams Tij">
-    <img loading="lazy" decoding="async" src="images/logos/logo_svenson.png" style="height:16px" alt="Logo Svensson">
-    <img loading="lazy" decoding="async" src="images/logos/logo_greenchoice.png" style="height:65px" alt="Logo Greenchoice">
+<!-- ============================================================ INHOUSE-CASE: ANNE (Figma 227:747) -->
+<section class="ih-blok ih-blok-lila">
+  <div class="ih-blok-tekst">
+    <h2>Creative designer bij Catharina ziekenhuis</h2>
+    <p>Anne versterkt het communicatieteam van Catharina als creatief designer. Ze werkt nauw samen met de vaste collega&rsquo;s en zorgt dat de visuele uitingen aansluiten bij de huisstijl en de doelgroepen van het ziekenhuis.</p>
+    <ul class="ih-punten">
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Ontwerp van campagnematerialen</li>
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Huisstijlbeheer en doorvertaling naar print en digitaal</li>
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Ondersteuning bij employer branding uitingen</li>
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Afstemming communicatieadviseurs en marketing</li>
+    </ul>
   </div>
-</div>
+  <figure class="ih-blok-foto foto-rond-lb">
+    <img loading="lazy" decoding="async" src="images/anne_inhouse.webp" alt="Anne aan het werk als creative designer bij Catharina ziekenhuis">
+    <span class="ih-foto-deco teal-ro" aria-hidden="true"></span>
+  </figure>
+</section>
 
-<!-- ============================================================ PARTNERS (Figma 100:2509) -->
-<section class="partners" id="partners">
-  <h2 class="sectie-kop">Met onze partners</h2>
-  <div class="partners-grid">
-    <a class="partner-blok tcf-blok" href="#" data-video="1208112684">
-      <img loading="lazy" decoding="async" src="images/creative-family.webp" alt="Netwerk-illustratie van The Creative Family">
-      <div class="partner-inhoud">
-        <span class="partner-eyebrow">One big stack of creativity</span>
-        <h3 class="partner-titel">It&rsquo;s all in the<br>Creative Family.</h3>
-        <p class="partner-resultaat">
-          <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-55"></use></svg></span>
-          Alle disciplines binnen het<br>creatieve speelveld.
-        </p>
-      </div>
-    </a>
-    <a class="partner-blok amin-blok" href="#" data-video="1208112681">
-      <img loading="lazy" decoding="async" src="images/amin.webp" alt="Het AMIN Allies team">
-      <div class="partner-inhoud">
-        <span class="partner-eyebrow">Campagne and 60+ agencies</span>
-        <h3 class="partner-titel">AMIN gives<br>you the world!</h3>
-        <p class="partner-resultaat">
-          <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-55"></use></svg></span>
-          Collaboration and<br>international reach.
-        </p>
-      </div>
-    </a>
+<!-- ============================================================ INHOUSE-CASE: MARLOES (Figma 227:748) -->
+<section class="ih-blok ih-blok-mint">
+  <figure class="ih-blok-foto foto-rond-ro">
+    <img loading="lazy" decoding="async" src="images/marloes_inhouse.webp" alt="Marloes aan het werk als client service director bij Rotterdam Topsport">
+    <span class="ih-foto-deco roze-lb" aria-hidden="true"></span>
+  </figure>
+  <div class="ih-blok-tekst">
+    <h2>Client Service Director bij Rotterdam Topsport</h2>
+    <p>Marloes is InHouse bij Rotterdam Topsport als vaste aanspreekpartner voor alle marketing- en communicatievraagstukken. Ze regisseert van strategie tot uitvoering en zorgt dat projecten soepel lopen.</p>
+    <ul class="ih-punten">
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Begeleiding marketing- en communicatietrajecten</li>
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Co&ouml;rdinatie rondom topsportevenementen</li>
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Accountmanagement richting partners en sponsoren</li>
+      <li><span class="ih-driehoek" aria-hidden="true"><svg viewBox="0 0 17 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.9707 8.48535L7.27564 1.20986L7.27561 15.7608L16.9707 8.48535Z" fill="#D72655"/></svg></span>Bewaken van planning, budgetten en kwaliteit</li>
+    </ul>
   </div>
 </section>
 
-<!-- ============================================================ MARQUEE (statements, als homepage) -->
-<div class="marquee" aria-hidden="true">
-  <div class="marquee-rij"><span>64 partners</span><span>Wanna be loved?</span><span>64 partners</span><span>Wanna be loved?</span><span>64 partners</span><span>Wanna be loved?</span></div>
-  <div class="marquee-rij rechts"><span>Hartje Rotterdam</span><span>Alles onder 1 dak</span><span>Hartje Rotterdam</span><span>Alles onder 1 dak</span><span>Hartje Rotterdam</span><span>Alles onder 1 dak</span></div>
-  <div class="marquee-rij"><span>32 years of experience</span><span>45 actieve clients</span><span>32 years of experience</span><span>45 actieve clients</span><span>32 years of experience</span><span>45 actieve clients</span></div>
-  <div class="marquee-rij rechts"><span>5.400 bakkies per/jaar</span><span>12 beurs stands</span><span>5.400 bakkies per/jaar</span><span>12 beurs stands</span><span>5.400 bakkies per/jaar</span><span>12 beurs stands</span></div>
-</div>
+<!-- ============================================================ CTA: PILOT-WEEK (Figma 227:903) -->
+<section class="ih-cta">
+  <span class="ih-golf" aria-hidden="true"><svg viewBox="0 0 1440 163" fill="none" preserveAspectRatio="none" aria-hidden="true"><path opacity="0.25" vector-effect="non-scaling-stroke" d="M1440 162.203C1440 162.203 1404.26 169.82 1295.33 107.935C1186.41 46.0526 1075.78 -12.9744 1036.63 3.20989C997.486 19.3956 1103.01 173.627 1021.31 158.395C939.618 143.161 789.844 -5.3575 650.281 8.92292C531.142 19.3956 659.988 170.968 464.765 96.5108C464.765 96.5108 318.395 17.4918 260.527 37.4852C202.662 57.4772 211.171 104.128 -22 89.8473" stroke="currentColor"/></svg></span>
+  <h2>Benieuwd hoe wij jou<br>kunnen <em>ondersteunen?</em></h2>
+  <p>Neem dan contact met ons op. We helpen je graag!</p>
+  <a class="ih-cta-link" href="contact.html">
+    <span class="label">Ja ik wil een pilot-week aanvragen</span>
+    <span class="lijn" aria-hidden="true"></span>
+    <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-45"></use></svg></span>
+  </a>
+</section>
 
-<!-- ============================================================ FOOTER -->
+<!-- ============================================================ QUOTE (Figma 227:907) -->
+<section class="ih-quote">
+  <blockquote>
+    <p>&ldquo;De taken die werden opgepakt, zijn zelfs verder gebracht dan verwacht. Een geweldige aanvulling op het team.&rdquo;</p>
+  </blockquote>
+  <div class="ih-quote-wie">
+    <img class="ih-avatar" src="images/erik.webp" alt="Erik Rijerkerk">
+    <div>
+      <p class="naam">Erik Rijerkerk</p>
+      <p class="rol">Commercieel Director KeukenMaxx</p>
+    </div>
+  </div>
+</section>
+
 <footer class="footer" id="contact">
   <div class="footer-kolommen">
     <div class="footer-logo">
@@ -1313,21 +1499,6 @@ body.menu-open { overflow: hidden; }
 </footer>
 </main>
 
-<!-- Fallback-teamdata: gebruikt als team.json niet geladen kan worden
-     (bijv. bij lokaal openen via dubbelklik). Live leest de pagina team.json. -->
-<script type="application/json" id="team-fallback">
-{"leden":[
-  {"naam":"Vincent Loopstra","functie":"Creative","eigenschappen":["illustrator","kleuren en vormen","kleurrijke sokken"],"mail":"vincent@campagne.nl","telefoon":"010 - 292 83 33","foto":""},
-  {"naam":"Teamlid Twee","functie":"Strateeg","eigenschappen":["merkstrategie","onderzoek","koffie"],"mail":"twee@campagne.nl","telefoon":"010 - 292 83 33","foto":""},
-  {"naam":"Teamlid Drie","functie":"Designer","eigenschappen":["branding","motion","typografie"],"mail":"drie@campagne.nl","telefoon":"","foto":""},
-  {"naam":"Teamlid Vier","functie":"Content creator","eigenschappen":["video","social","fotografie"],"mail":"vier@campagne.nl","telefoon":"010 - 292 83 33","foto":""},
-  {"naam":"Teamlid Vijf","functie":"Accountmanager","eigenschappen":["klantcontact","planning","bakkies"],"mail":"vijf@campagne.nl","telefoon":"010 - 292 83 33","foto":""},
-  {"naam":"Teamlid Zes","functie":"Copywriter","eigenschappen":["concept","copy","woordgrappen"],"mail":"zes@campagne.nl","telefoon":"","foto":""},
-  {"naam":"Teamlid Zeven","functie":"Developer","eigenschappen":["website","techniek","pixels"],"mail":"zeven@campagne.nl","telefoon":"010 - 292 83 33","foto":""},
-  {"naam":"Teamlid Acht","functie":"Producer","eigenschappen":["events","productie","regelneef"],"mail":"acht@campagne.nl","telefoon":"010 - 292 83 33","foto":""}
-]}
-</script>
-
 <script>
 // Intro-fade van logo en knoppen (geen laadscherm op deze pagina)
 document.addEventListener('DOMContentLoaded', function () {
@@ -1336,7 +1507,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Nette placeholder als een afbeelding ontbreekt
 function beeldMist(img) {
-  var ouder = img.closest('.team-kaart, .partner-blok, .hero-video');
+  var ouder = img.closest('.case-blok, .hero-video, .beeld-vol figure, .tekst-beeld figure');
   if (ouder) {
     ouder.classList.add('beeld-mist');
     if (!ouder.hasAttribute('data-label')) {
@@ -1386,22 +1557,12 @@ document.querySelectorAll('.taalswitch button').forEach(function (b) {
   });
 });
 
-// Hero scroll-animatie: --p (0..1) over de sectie — zelfde mechaniek als de homepage
-var heroScroll = document.getElementById('hero-scroll');
-function heroProgressie() {
-  if (!heroScroll) return;
-  var top = heroScroll.offsetTop;
-  var totaal = heroScroll.offsetHeight - window.innerHeight;
-  var p = totaal > 0 ? Math.min(Math.max((window.scrollY - top) / totaal, 0), 1) : 0;
-  heroScroll.style.setProperty('--p', p.toFixed(4));
-}
-window.addEventListener('scroll', heroProgressie, { passive: true });
-window.addEventListener('resize', heroProgressie);
-heroProgressie();
-
-// Header-gedrag in drie zones (zoals de homepage)
+// Header-gedrag in drie zones (zoals de Over ons-pagina): in de hero blijft
+// het menu staan, daarna duwt de titel hem weg en verderop verschijnt hij
+// alleen bij omhoog scrollen.
 (function () {
   var header = document.querySelector('.header');
+  var heroScroll = document.getElementById('hero-scroll');
   var heroTitel = document.querySelector('.hero-titel');
   var vorigeY = window.scrollY;
   var duwActief = true;
@@ -1445,10 +1606,11 @@ heroProgressie();
     }
   }
   window.addEventListener('scroll', bijScroll, { passive: true });
+  window.addEventListener('resize', bijScroll);
   bijScroll();
 })();
 
-// Video-hover op de partnerblokken (zelfde mechaniek als de homepage; hier is
+// Video-hover op de caseblokken (zelfde mechaniek als de homepage; hier is
 // het hele blok de trigger). Preload gespreid na het laden van de pagina.
 if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
     window.matchMedia('(hover: hover)').matches) {
@@ -1516,266 +1678,6 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
   })();
 }
 
-// Logo slider: schuift vanzelf, sleepbaar met momentum (als homepage, halve snelheid)
-(function () {
-  var strip = document.getElementById('logo-strip');
-  if (!strip) return;
-  strip.innerHTML += strip.innerHTML;
-  var houder = strip.parentElement;
-  var magBewegen = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var basis = -0.2, x = 0, v = basis, halve = 0;
-  var sleepStart = null, sleepBasis = 0, laatsteX = 0, laatsteT = 0, gooiV = 0;
-  function meetHalve() { halve = strip.scrollWidth / 2; }
-  window.addEventListener('load', meetHalve);
-  window.addEventListener('resize', meetHalve);
-  meetHalve();
-  function stap() {
-    if (sleepStart === null && magBewegen) {
-      x += v;
-      v += (basis - v) * 0.035;
-    }
-    if (halve > 0) {
-      while (x <= -halve) x += halve;
-      while (x > 0) x -= halve;
-    }
-    strip.style.transform = 'translateX(' + x + 'px)';
-    requestAnimationFrame(stap);
-  }
-  requestAnimationFrame(stap);
-  houder.addEventListener('pointerdown', function (e) {
-    sleepStart = e.clientX; sleepBasis = x;
-    laatsteX = e.clientX; laatsteT = performance.now(); gooiV = 0;
-    houder.classList.add('sleept');
-    houder.setPointerCapture(e.pointerId);
-    e.preventDefault();
-  });
-  houder.addEventListener('pointermove', function (e) {
-    if (sleepStart === null) return;
-    x = sleepBasis + (e.clientX - sleepStart);
-    var nu = performance.now(), dt = nu - laatsteT;
-    if (dt > 0) gooiV = (e.clientX - laatsteX) / dt * 16.7;
-    laatsteX = e.clientX; laatsteT = nu;
-  });
-  function loslaten() {
-    if (sleepStart === null) return;
-    sleepStart = null;
-    houder.classList.remove('sleept');
-    v = Math.max(-30, Math.min(30, gooiV));
-  }
-  houder.addEventListener('pointerup', loslaten);
-  houder.addEventListener('pointercancel', loslaten);
-})();
-
-// Marquee: schuift vanzelf, sleepbaar met momentum (als homepage)
-(function () {
-  var marquee = document.querySelector('.marquee');
-  if (!marquee) return;
-  var magBewegen = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  marquee.querySelectorAll('.marquee-rij').forEach(function (rij) {
-    rij.innerHTML += rij.innerHTML;
-    var basis = (rij.classList.contains('rechts') ? 1 : -1) * 0.6;
-    var x = 0, v = basis, cyclus = 0;
-    var sleepStart = null, sleepBasis = 0, laatsteX = 0, laatsteT = 0, gooiV = 0;
-    function meet() { cyclus = rij.scrollWidth / 6; }
-    window.addEventListener('load', meet);
-    window.addEventListener('resize', meet);
-    meet();
-    function stap() {
-      if (sleepStart === null && magBewegen) {
-        x += v;
-        v += (basis - v) * 0.035;
-      }
-      if (cyclus > 0) {
-        while (x <= -cyclus) x += cyclus;
-        while (x > 0) x -= cyclus;
-      }
-      rij.style.transform = 'translateX(' + x + 'px)';
-      requestAnimationFrame(stap);
-    }
-    requestAnimationFrame(stap);
-    rij.addEventListener('pointerdown', function (e) {
-      sleepStart = e.clientX; sleepBasis = x;
-      laatsteX = e.clientX; laatsteT = performance.now(); gooiV = 0;
-      marquee.classList.add('sleept');
-      rij.setPointerCapture(e.pointerId);
-      e.preventDefault();
-    });
-    rij.addEventListener('pointermove', function (e) {
-      if (sleepStart === null) return;
-      x = sleepBasis + (e.clientX - sleepStart);
-      var nu = performance.now(), dt = nu - laatsteT;
-      if (dt > 0) gooiV = (e.clientX - laatsteX) / dt * 16.7;
-      laatsteX = e.clientX; laatsteT = nu;
-    });
-    function loslaten() {
-      if (sleepStart === null) return;
-      sleepStart = null;
-      marquee.classList.remove('sleept');
-      v = Math.max(-30, Math.min(30, gooiV));
-    }
-    rij.addEventListener('pointerup', loslaten);
-    rij.addEventListener('pointercancel', loslaten);
-  });
-})();
-
-// ============================================================ TEAMSLIDER
-// Oneindig loopende slider (Figma 100:2500): de actieve kaart staat recht in
-// het midden (456x560), de buren staan gekanteld op -15° (435x490), de
-// buitenste op -35° (425x441); alles daarbuiten staat onzichtbaar klaar in de
-// coulissen en animeert het beeld in en uit. Data uit team.json (CMS-bron).
-(function () {
-  var stage = document.getElementById('team-stage');
-  var binnen = document.getElementById('team-binnen');
-  var knopVorige = document.querySelector('.team-kop .pijl-links');
-  var knopVolgende = document.querySelector('.team-kop .pijl-rechts');
-  if (!stage || !binnen) return;
-
-  // Posities per afstand tot de actieve kaart (Figma-maten op 1440-basis)
-  var NIVEAUS = [
-    { w: 456, h: 560, x: 0,   rot: 0,   z: 30, o: 1 },
-    { w: 435, h: 490, x: 342, rot: -15, z: 20, o: 1 },
-    { w: 425, h: 441, x: 560, rot: -35, z: 10, o: 1 },
-    { w: 425, h: 441, x: 800, rot: -35, z: 5,  o: 0 }   // coulissen (onzichtbaar)
-  ];
-
-  var kaarten = [], n = 0, actief = 0;
-
-  function ontsnap(t) {
-    return String(t == null ? '' : t)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
-
-  function maakKaart(lid) {
-    var art = document.createElement('article');
-    art.className = 'team-kaart';
-    var eig = (lid.eigenschappen || []).map(function (e) { return '<span>' + ontsnap(e) + '</span>'; }).join('');
-    var contact = '';
-    if (lid.mail) contact += '<a href="mailto:' + ontsnap(lid.mail) + '" aria-label="Mail ' + ontsnap(lid.naam) + '"><svg aria-hidden="true"><use href="#icoon-mail"></use></svg></a>';
-    if (lid.telefoon) contact += '<a href="tel:' + ontsnap(String(lid.telefoon).replace(/[^\d+]/g, '')) + '" aria-label="Bel ' + ontsnap(lid.naam) + '"><svg aria-hidden="true"><use href="#icoon-tel"></use></svg></a>';
-    art.innerHTML =
-      '<img class="kaart-foto" loading="lazy" decoding="async" src="' + ontsnap(lid.foto || 'images/placeholder.webp') + '" alt="' + ontsnap(lid.naam) + '">' +
-      '<div class="kaart-naam"><span class="naam">' + ontsnap(lid.naam) + '</span><br><span class="functie">' + ontsnap(lid.functie) + '</span></div>' +
-      (eig ? '<p class="kaart-labels">' + eig + '</p>' : '') +
-      (contact ? '<div class="kaart-contact">' + contact + '</div>' : '') +
-      '<span class="kaart-pijl"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-45"></use></svg></span>';
-    var img = art.querySelector('img');
-    img.addEventListener('error', function () { beeldMist(img); });
-    return art;
-  }
-
-  function meetU() {
-    var u = Math.min(1, Math.max(0.5, stage.clientWidth / 1440));
-    stage.style.setProperty('--u', u);
-    return u;
-  }
-
-  function afstandTot(i) {
-    var d = (i - actief) % n;
-    if (d > n / 2) d -= n;
-    if (d < -n / 2) d += n;
-    return d;
-  }
-
-  function leg() {
-    meetU();
-    kaarten.forEach(function (k, i) {
-      var d = afstandTot(i);
-      var niveau = Math.min(Math.abs(d), 3);
-      var s = NIVEAUS[niveau];
-      var kant = d < 0 ? -1 : 1;
-      k.style.setProperty('--w', s.w + 'px');
-      k.style.setProperty('--h', s.h + 'px');
-      k.style.setProperty('--x', (kant * s.x) + 'px');
-      k.style.setProperty('--rot', s.rot + 'deg');
-      k.style.zIndex = s.z;
-      k.style.opacity = s.o;
-      k.classList.remove('niveau-0', 'niveau-1', 'niveau-2', 'niveau-3', 'actief');
-      k.classList.add('niveau-' + niveau);
-      if (d === 0) k.classList.add('actief');
-      k.setAttribute('aria-hidden', d === 0 ? 'false' : 'true');
-      // alleen de actieve kaart is aanklikbaar op de contactlinks
-      k.querySelectorAll('.kaart-contact a').forEach(function (a) { a.tabIndex = d === 0 ? 0 : -1; });
-    });
-  }
-
-  function gaNaar(i) {
-    if (!n) return;
-    actief = ((i % n) + n) % n;
-    leg();
-  }
-
-  function bouw(data) {
-    binnen.innerHTML = '';
-    kaarten = [];
-    (data.leden || []).forEach(function (lid) {
-      var k = maakKaart(lid);
-      binnen.appendChild(k);
-      kaarten.push(k);
-    });
-    n = kaarten.length;
-    kaarten.forEach(function (k, i) {
-      k.addEventListener('click', function (e) {
-        if (versleept) { e.preventDefault(); return; }
-        var d = afstandTot(i);
-        if (d !== 0) { e.preventDefault(); gaNaar(actief + d); }
-      });
-    });
-    gaNaar(0);
-  }
-
-  // Slepen met de muis: de hele groep beweegt mee; bij loslaten schuift de
-  // slider het passende aantal kaarten door (oneindig, met wrap).
-  var sleepStart = null, versleept = false, sleepDx = 0;
-  stage.addEventListener('pointerdown', function (e) {
-    if (!n) return;
-    sleepStart = e.clientX; sleepDx = 0; versleept = false;
-    stage.classList.add('sleept');
-    stage.setPointerCapture(e.pointerId);
-  });
-  stage.addEventListener('pointermove', function (e) {
-    if (sleepStart === null) return;
-    sleepDx = e.clientX - sleepStart;
-    if (Math.abs(sleepDx) > 6) versleept = true;
-    if (versleept) binnen.style.transform = 'translateX(' + (sleepDx * 0.55) + 'px)';
-  });
-  function loslaten() {
-    if (sleepStart === null) return;
-    sleepStart = null;
-    stage.classList.remove('sleept');
-    binnen.style.transform = '';
-    if (!versleept) return;
-    var u = meetU();
-    var stapBreedte = 342 * u;                       // afstand tussen actief en buur
-    var stappen = -Math.round(sleepDx / stapBreedte);
-    if (stappen === 0 && Math.abs(sleepDx) > 50) stappen = sleepDx < 0 ? 1 : -1;
-    if (stappen !== 0) gaNaar(actief + stappen);
-    setTimeout(function () { versleept = false; }, 50);
-  }
-  stage.addEventListener('pointerup', loslaten);
-  stage.addEventListener('pointercancel', loslaten);
-
-  if (knopVorige) knopVorige.addEventListener('click', function () { gaNaar(actief - 1); });
-  if (knopVolgende) knopVolgende.addEventListener('click', function () { gaNaar(actief + 1); });
-  window.addEventListener('resize', leg);
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowLeft') gaNaar(actief - 1);
-    if (e.key === 'ArrowRight') gaNaar(actief + 1);
-  });
-
-  // Data: eerst team.json (CMS-bron), anders de fallback in de pagina
-  function fallback() {
-    try {
-      bouw(JSON.parse(document.getElementById('team-fallback').textContent));
-    } catch (fout) { /* geen data — sectie blijft leeg */ }
-  }
-  if (window.location.protocol === 'file:') { fallback(); }
-  else {
-    fetch('team.json', { cache: 'no-store' })
-      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(bouw)
-      .catch(fallback);
-  }
-})();
 
 // Uitklapmenu: alles staat dicht bij openen; er kan er maar één tegelijk open zijn
 (function () {
@@ -1818,6 +1720,87 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
     if (e.key === 'Escape') setTimeout(resetAlsDicht, 0);
   });
 })();
+</script>
+<script>
+// Werkvloer: de foto's loopen oneindig door (strip is gedupliceerd voor een
+// naadloze loop) en de beweging loopt gewoon door als je muis over de box
+// gaat. Slepen werkt zoals bij de andere sliders: met momentum, waarna de
+// vaart terugzakt naar de rustige basissnelheid.
+(function () {
+  var box = document.getElementById('werkvloer-box');
+  var strip = document.getElementById('werkvloer-strip');
+  if (!box || !strip) return;
+  strip.innerHTML += strip.innerHTML;   // inhoud dupliceren voor een naadloze loop
+  // Vangnet: mist een foto (nog) in images/, laad dan hetzelfde beeld
+  // rechtstreeks van campagne.nl zodat de strip altijd compleet is.
+  strip.querySelectorAll('img').forEach(function (img) {
+    img.addEventListener('error', function () {
+      if (img.dataset.reserve) return;   // niet blijven proberen
+      img.dataset.reserve = '1';
+      img.src = 'https://campagne.nl/wp-content/uploads/2026/02/' +
+        img.getAttribute('src').split('/').pop();
+    });
+  });
+  var magBewegen = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var basis = -0.35, x = 0, v = basis, halve = 0;
+  var sleepStart = null, sleepBasis = 0, laatsteX = 0, laatsteT = 0, gooiV = 0;
+  function meetHalve() { halve = strip.scrollWidth / 2; }
+  window.addEventListener('load', meetHalve);
+  window.addEventListener('resize', meetHalve);
+  strip.querySelectorAll('img').forEach(function (img) {
+    img.addEventListener('load', meetHalve);   // breedte klopt pas als de foto's er zijn
+  });
+  meetHalve();
+  function stap() {
+    if (sleepStart === null && magBewegen) {
+      x += v;
+      v += (basis - v) * 0.035;   // na een gooi ebt de vaart weg naar de basissnelheid
+    }
+    if (halve > 0) {
+      while (x <= -halve) x += halve;   // naadloos terugzetten: oneindige loop
+      while (x > 0) x -= halve;
+    }
+    strip.style.transform = 'translateX(' + x + 'px)';
+    requestAnimationFrame(stap);
+  }
+  requestAnimationFrame(stap);
+  box.addEventListener('pointerdown', function (e) {
+    sleepStart = e.clientX; sleepBasis = x; v = 0;
+    laatsteX = e.clientX; laatsteT = performance.now(); gooiV = 0;
+    box.classList.add('sleept');
+    box.setPointerCapture(e.pointerId);
+    e.preventDefault();
+  });
+  box.addEventListener('pointermove', function (e) {
+    if (sleepStart === null) return;
+    x = sleepBasis + (e.clientX - sleepStart);
+    var nu = performance.now(), dt = nu - laatsteT;
+    if (dt > 0) gooiV = (e.clientX - laatsteX) / dt * 16.7;
+    laatsteX = e.clientX; laatsteT = nu;
+  });
+  function loslaten() {
+    if (sleepStart === null) return;
+    sleepStart = null;
+    box.classList.remove('sleept');
+    v = Math.max(-30, Math.min(30, gooiV));   // gooi-snelheid meenemen, met een plafond
+  }
+  box.addEventListener('pointerup', loslaten);
+  box.addEventListener('pointercancel', loslaten);
+})();
+</script>
+<script>
+// Hero-scroll: tekst glijdt het kader in tijdens het scrollen (zoals Over ons)
+var heroScroll = document.getElementById('hero-scroll');
+function heroProgressie() {
+  if (!heroScroll) return;
+  var top = heroScroll.offsetTop;
+  var totaal = heroScroll.offsetHeight - window.innerHeight;
+  var p = totaal > 0 ? Math.min(Math.max((window.scrollY - top) / totaal, 0), 1) : 0;
+  heroScroll.style.setProperty('--p', p.toFixed(4));
+}
+window.addEventListener('scroll', heroProgressie, { passive: true });
+window.addEventListener('resize', heroProgressie);
+heroProgressie();
 </script>
 <script src="cms-data.js"></script>
 </body>
