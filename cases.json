@@ -530,30 +530,46 @@
       "naam": "NKW",
       "slug": "samen-voor-een-beter-klimaat",
       "klant": "NKW",
-      "tegelbeeld": "images/placeholder.webp",
-      "tegelbeeld_alt": "Case NKW",
-      "hover_video": "",
-      "merkkleur": "#3aa657",
+      "tegelbeeld": "images/cases/nkw.webp",
+      "tegelbeeld_alt": "Klimaatsupporter met een krat plantjes in een Nederlandse woonwijk tijdens de Nationale Klimaatweek",
+      "hover_video": "1231235272",
+      "merkkleur": "#75d1b6",
       "tags": [
-        "branding",
+        "strategie",
+        "concept",
         "content",
+        "video",
         "social"
       ],
       "disciplines": [
+        "strategie",
         "branding",
         "activation"
       ],
       "titel": "Samen voor een\nbeter klimaat",
       "resultaat": "245 lokale helden met een nationale impact.",
-      "pagina_aanmaken": false,
+      "pagina_aanmaken": true,
       "detailpagina": "",
-      "meta_omschrijving": "",
+      "meta_omschrijving": "Nationale Klimaatweek 2023: 245 lokale helden met een nationale impact. Campagne zette met échte verhalen en directe communicatie heel Nederland in beweging voor een beter klimaat.",
       "hero_beeld": "",
-      "hero_alt": "",
-      "hero_video": "",
-      "onderwerp": "",
-      "verhaal": "",
-      "disciplines_detail": [],
+      "hero_alt": "Klimaatsupporter met een krat plantjes in een Nederlandse woonwijk",
+      "hero_video": "1231235272",
+      "onderwerp": "Nationale Klimaatweek 2023 (NKW)",
+      "verhaal": "Voor het derde jaar op rij organiseerden we samen met Bijl PR de Nationale Klimaatweek 2023. Deze editie lag de focus op actie. Hoe krijg je mensen in beweging? Met échte verhalen en directe communicatie.",
+      "disciplines_detail": [
+        {
+          "titel": "Strategie",
+          "tekst": "Na twee jaar ervaring bouwden we dit derde jaar voort op een stevige strategie, met een nieuwe focus: activatie. We kozen voor een directe, minder gepolijste toon met verhalen die aansporen tot actie en interactie."
+        },
+        {
+          "titel": "Branding",
+          "tekst": "We gaven NKW een frisse, dynamische uitstraling die past bij de urgentie van het moment. We brachten de boodschap van duurzame actie duidelijk over via sterke visuele en tekstuele content, zowel lokaal als nationaal."
+        },
+        {
+          "titel": "Activatie",
+          "tekst": "Krachtige social content bracht mensen in beweging. Met formats als ‘Weekje zonder’, straatinterviews en NKW Live inspireerden we een breed publiek om ook iets te doen voor een beter klimaat."
+        }
+      ],
       "en": {
         "naam": "",
         "slug": "together-for-a-better-climate",
