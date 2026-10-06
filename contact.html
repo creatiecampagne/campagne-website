@@ -377,6 +377,11 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
   text-align: center;
 }
 .contactform.verstuurd .form-dank { display: block; }
+.form-dank.fout { color: var(--zwart); }
+.contactform.bezig .verstuur { opacity: .45; pointer-events: none; }
+/* Lokveld: buiten beeld, maar wél in het formulier (bots vullen het in) */
+.hp-veld { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+.cf-turnstile { grid-column: 1 / -1; }
 
 /* ==========================================================================
    Werkvloer — één lange foto in een 'box' (zelfde kaders als de andere
@@ -769,6 +774,8 @@ h1, h2, h3, blockquote p,
 .tegel-tekst, .partner-resultaat, .hero-intro { text-wrap: balance; }
 p { text-wrap: pretty; }
 </style>
+<!-- Cloudflare Turnstile — spamcheck voor het contactformulier (privacyvriendelijk, geen cookies) -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
 <!-- Inline SVG-symbolen (logo, pijlen) — kleur via currentColor -->
@@ -1024,6 +1031,14 @@ p { text-wrap: pretty; }
       <input id="veld-email" name="email" type="email" placeholder="E-mailadres*" autocomplete="email" required>
       <label class="sr-only" for="veld-bericht">Bericht</label>
       <textarea id="veld-bericht" name="bericht" placeholder="Vertel ons over je merk, project of vraag&hellip;"></textarea>
+      <!-- Lokveld tegen spambots: onzichtbaar voor mensen, moet leeg blijven -->
+      <div class="hp-veld" aria-hidden="true">
+        <label for="veld-website">Website</label>
+        <input id="veld-website" name="website" type="text" tabindex="-1" autocomplete="off">
+      </div>
+      <!-- Cloudflare Turnstile: controleert onzichtbaar of hier een mens zit.
+           Alleen als Cloudflare twijfelt, verschijnt er een vinkje. -->
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAAFPNd7M-29lhidna" data-appearance="interaction-only" data-language="nl" data-theme="light"></div>
       <div class="form-onder">
         <p class="form-note">Liever direct contact? Bel <a href="tel:+31102928333"><strong>010 - 292 83 33</strong></a> of mail naar <a href="mailto:hello@campagne.nl"><strong>hello@campagne.nl</strong></a>.</p>
         <button class="verstuur" type="submit">
@@ -1182,20 +1197,74 @@ document.querySelectorAll('.taalswitch button').forEach(function (b) {
   });
 });
 
-// Contactformulier: zolang er geen backend is, opent versturen het
-// mailprogramma met het bericht voor hello@campagne.nl.
+// Contactformulier — verstuurt via /api/contact (Cloudflare Pages Function,
+// zie functions/api/contact.js) met Turnstile als spamcheck. Is die functie er
+// niet (lokaal openen of de oude GitHub Pages-versie), dan valt het terug op de
+// oude manier: het mailprogramma opent met het bericht voor hello@campagne.nl.
 var contactform = document.getElementById('contactform');
+var formStatus = contactform.querySelector('.form-dank');
+var FOUTEN = {
+  email: 'Vul een geldig e-mailadres in.',
+  naam: 'Vul je naam in.',
+  turnstile: 'De spamcheck is niet gelukt. Probeer het nog een keer, of mail ons via hello@campagne.nl.'
+};
+function toonStatus(tekst, fout) {
+  formStatus.textContent = tekst;
+  formStatus.classList.toggle('fout', !!fout);
+  contactform.classList.add('verstuurd');
+}
+function viaMailprogramma(naam, email, bericht) {
+  var onderwerp = 'Wanna be loved? — bericht van ' + naam;
+  var body = bericht + '\n\n' + naam + '\n' + email;
+  window.location.href = 'mailto:hello@campagne.nl?subject=' + encodeURIComponent(onderwerp) + '&body=' + encodeURIComponent(body);
+  toonStatus('Dankjewel! Je mailprogramma opent met je bericht — versturen maar. ❤');
+}
+// Turnstile maakt op de achtergrond een 'bewijs' aan; wacht daar kort op.
+function wachtOpTurnstile(maxMs) {
+  return new Promise(function (klaar) {
+    var start = Date.now();
+    (function kijk() {
+      var token = window.turnstile ? window.turnstile.getResponse() : '';
+      if (token || Date.now() - start > maxMs) return klaar(token || '');
+      setTimeout(kijk, 250);
+    })();
+  });
+}
 contactform.addEventListener('submit', function (e) {
   e.preventDefault();
+  if (contactform.classList.contains('bezig')) return;
   var naam = document.getElementById('veld-naam').value.trim();
   var email = document.getElementById('veld-email').value.trim();
   var bericht = document.getElementById('veld-bericht').value.trim();
   if (!naam) { document.getElementById('veld-naam').focus(); return; }
   if (!email || email.indexOf('@') < 1) { document.getElementById('veld-email').focus(); return; }
-  var onderwerp = 'Wanna be loved? — bericht van ' + naam;
-  var body = bericht + '\n\n' + naam + '\n' + email;
-  window.location.href = 'mailto:hello@campagne.nl?subject=' + encodeURIComponent(onderwerp) + '&body=' + encodeURIComponent(body);
-  contactform.classList.add('verstuurd');
+  if (location.protocol === 'file:') { viaMailprogramma(naam, email, bericht); return; }
+
+  contactform.classList.add('bezig');
+  contactform.classList.remove('verstuurd');
+  wachtOpTurnstile(15000)
+    .then(function () {
+      return fetch('api/contact', { method: 'POST', body: new FormData(contactform) });
+    })
+    .then(function (r) {
+      // 404/405: er draait geen verzendfunctie (bijv. GitHub Pages) — oude route
+      if (r.status === 404 || r.status === 405) { viaMailprogramma(naam, email, bericht); return; }
+      return r.json().catch(function () { return {}; }).then(function (d) {
+        if (r.ok && d.ok) {
+          contactform.reset();
+          toonStatus('Dankjewel! Je bericht is verstuurd — we nemen snel contact met je op. ❤');
+        } else {
+          toonStatus(FOUTEN[d.code] || 'Er ging iets mis bij het versturen. Probeer het later nog eens, of mail ons direct via hello@campagne.nl.', true);
+        }
+      });
+    })
+    .catch(function () {
+      toonStatus('Er ging iets mis bij het versturen. Probeer het later nog eens, of mail ons direct via hello@campagne.nl.', true);
+    })
+    .finally(function () {
+      contactform.classList.remove('bezig');
+      if (window.turnstile) window.turnstile.reset();   // een bewijs is maar één keer geldig
+    });
 });
 
 // Werkvloer: de foto's loopen oneindig door (strip is gedupliceerd voor een
