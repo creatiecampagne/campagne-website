@@ -1,7 +1,9 @@
 # Maakt automatisch de case- en dienstpagina's zodra er iets in het CMS wordt
 # opgeslagen. Sveltia doet een commit op de JSON-bestanden, deze workflow draait
-# de generator en commit de gemaakte pagina's terug. Daarna publiceert GitHub
-# Pages ze zoals altijd.
+# de generator en commit de gemaakte pagina's terug, zodat de repo altijd de
+# actuele pagina's bevat. Cloudflare Pages draait de generator bij het bouwen
+# zelf ook (tools/bouw-site.py), dus de live site is nooit afhankelijk van
+# deze terug-commit.
 #
 # Handmatig draaien kan ook: tabblad Actions → deze workflow → "Run workflow".
 
@@ -14,6 +16,7 @@ on:
       - 'cases.json'
       - 'diensten.json'
       - 'homepage.json'
+      - 'instellingen.json'
       - 'templates/**'
       - 'index.html'
       - 'tools/genereer-paginas.py'
@@ -35,6 +38,11 @@ jobs:
     steps:
       - name: Repo ophalen
         uses: actions/checkout@v4
+        with:
+          # Eigen sleutel (deploy key) van de generator. Alleen die sleutel mag
+          # langs de beschermingsregel op main om de pagina's terug te zetten.
+          # Bestaat het geheim (nog) niet, dan valt hij terug op de standaardsleutel.
+          ssh-key: ${{ secrets.GENERATOR_DEPLOY_KEY }}
 
       - name: Python klaarzetten
         uses: actions/setup-python@v5

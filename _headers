@@ -1,0 +1,47 @@
+# ==========================================================================
+# Beveiligingsheaders — Cloudflare Pages (stappenplan E3)
+# --------------------------------------------------------------------------
+# Deze headers stuurt Cloudflare mee met elke pagina. Ze vertellen de browser
+# wat wel en niet mag, en sluiten zo hele categorieën aanvallen uit.
+#
+#  Strict-Transport-Security  altijd https, nooit terugvallen op http
+#  X-Content-Type-Options     browser mag niet 'raden' wat een bestand is
+#  X-Frame-Options            site mag niet in een frame op een andere site
+#                             (voorkomt clickjacking)
+#  Referrer-Policy            andere sites zien alleen ons domein, niet de
+#                             volledige URL waar de bezoeker vandaan komt
+#  Permissions-Policy         camera, microfoon, locatie e.d. staan uit
+#  Content-Security-Policy    alleen scripts, beelden, fonts en video's van
+#                             deze site en een vaste lijst diensten mogen
+#                             laden (Google Fonts, Vimeo, three.js voor het
+#                             3D-hart, Cloudflare Turnstile voor het formulier)
+#
+# Komt er een nieuwe externe dienst bij (bijv. statistieken of Mailchimp),
+# dan moet het domein hieronder in de Content-Security-Policy worden
+# toegevoegd — anders blokkeert de browser hem.
+# ==========================================================================
+
+/*
+  Strict-Transport-Security: max-age=31536000
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://i.vimeocdn.com https://www.campagne.nl https://campagne.nl; media-src 'self' https://*.vimeocdn.com; frame-src https://player.vimeo.com https://challenges.cloudflare.com; connect-src 'self' data: blob: https://cdn.jsdelivr.net; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests
+  X-Robots-Tag: noindex
+
+# --------------------------------------------------------------------------
+# TESTFASE: 'X-Robots-Tag: noindex' hierboven houdt zoekmachines weg van de
+# preview, zodat Google geen halve site of dubbele inhoud indexeert.
+# >>> BIJ LIVEGANG OP CAMPAGNE.NL DEZE REGEL VERWIJDEREN (stappenplan D1) <<<
+# --------------------------------------------------------------------------
+
+# Het CMS (Sveltia) laadt zijn eigen code en praat met GitHub; daar geldt de
+# strenge Content-Security-Policy van de site niet. Wel: nooit cachen.
+/admin
+  ! Content-Security-Policy
+  Cache-Control: no-store
+
+/admin/*
+  ! Content-Security-Policy
+  Cache-Control: no-store

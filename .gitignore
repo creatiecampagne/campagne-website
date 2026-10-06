@@ -7,3 +7,6 @@
 node_modules/
 package-lock.json
 tools/__pycache__/
+
+# Uitvoer van tools/bouw-site.py (Cloudflare bouwt dit zelf)
+_site/
