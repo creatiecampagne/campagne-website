@@ -2,13 +2,14 @@
   "cases": [
     {
       "actief": true,
-      "naam": "Tour de France Femmes",
+      "naam": "Tour de France Femmes_Test 123",
       "slug": "tour-de-france-femmes",
       "klant": "Rotterdam Topsport",
       "tegelbeeld": "images/cases/tour.webp",
       "tegelbeeld_alt": "Wielrenners rijden door Rotterdam tijdens de Tour de France Femmes",
       "hover_video": "1208112683",
       "merkkleur": "#f9e000",
+      "info_tekstkleur": "zwart",
       "tags": [
         "strategie",
         "concept",
@@ -57,8 +58,7 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      },
-      "info_tekstkleur": "zwart"
+      }
     },
     {
       "actief": true,
@@ -69,6 +69,7 @@
       "tegelbeeld_alt": "Dirigent Jun Märkl in actie",
       "hover_video": "1035168613",
       "merkkleur": "#7a1f3d",
+      "info_tekstkleur": "wit",
       "tags": [
         "concept",
         "content",
@@ -114,8 +115,7 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      },
-      "info_tekstkleur": "wit"
+      }
     },
     {
       "actief": true,
@@ -126,6 +126,7 @@
       "tegelbeeld_alt": "Medewerker van Steinweg in de Rotterdamse haven",
       "hover_video": "1035163552",
       "merkkleur": "#0f4c81",
+      "info_tekstkleur": "wit",
       "tags": [
         "arbeidsmarktcommunicatie",
         "strategie",
@@ -185,8 +186,7 @@
             "tekst": "We developed a powerful recruitment campaign for Steinweg, covering everything from concept and branding to conversion-optimized landing pages and media strategies. This ensured maximum visibility and engagement."
           }
         ]
-      },
-      "info_tekstkleur": "wit"
+      }
     },
     {
       "actief": true,
@@ -197,6 +197,7 @@
       "tegelbeeld_alt": "Case Brugman keukens & badkamers",
       "hover_video": "1208112682",
       "merkkleur": "#69a63a",
+      "info_tekstkleur": "zwart",
       "tags": [
         "strategie",
         "concept",
@@ -244,8 +245,7 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      },
-      "info_tekstkleur": "zwart"
+      }
     },
     {
       "actief": true,
@@ -256,6 +256,7 @@
       "tegelbeeld_alt": "Case Air So Pure",
       "hover_video": "1208112714",
       "merkkleur": "#004437",
+      "info_tekstkleur": "wit",
       "tags": [
         "strategie",
         "concept",
@@ -303,8 +304,7 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      },
-      "info_tekstkleur": "wit"
+      }
     },
     {
       "actief": true,
@@ -315,6 +315,7 @@
       "tegelbeeld_alt": "Case Klimaat Week",
       "hover_video": "1130950548",
       "merkkleur": "#7f66f9",
+      "info_tekstkleur": "wit",
       "tags": [
         "branding",
         "content",
@@ -361,8 +362,7 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      },
-      "info_tekstkleur": "wit"
+      }
     },
     {
       "actief": true,
@@ -373,6 +373,7 @@
       "tegelbeeld_alt": "Case Netherlands Space Agency",
       "hover_video": "",
       "merkkleur": "#154274",
+      "info_tekstkleur": "wit",
       "tags": [
         "branding",
         "website"
@@ -403,8 +404,7 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      },
-      "info_tekstkleur": "wit"
+      }
     },
     {
       "actief": true,
@@ -415,6 +415,7 @@
       "tegelbeeld_alt": "Case WiZZ",
       "hover_video": "1045329201",
       "merkkleur": "#ff8a15",
+      "info_tekstkleur": "zwart",
       "tags": [
         "arbeidsmarktcommunicatie",
         "strategie",
@@ -461,8 +462,7 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      },
-      "info_tekstkleur": "zwart"
+      }
     },
     {
       "actief": true,
@@ -473,6 +473,7 @@
       "tegelbeeld_alt": "Case Liquin",
       "hover_video": "1208112711",
       "merkkleur": "#0091bb",
+      "info_tekstkleur": "wit",
       "tags": [
         "strategie",
         "concept",
@@ -522,8 +523,7 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      },
-      "info_tekstkleur": "wit"
+      }
     },
     {
       "actief": true,
@@ -534,6 +534,7 @@
       "tegelbeeld_alt": "Klimaatsupporter met een krat plantjes in een Nederlandse woonwijk tijdens de Nationale Klimaatweek",
       "hover_video": "1231235272",
       "merkkleur": "#75d1b6",
+      "info_tekstkleur": "wit",
       "tags": [
         "strategie",
         "concept",
@@ -582,8 +583,7 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      },
-      "info_tekstkleur": "wit"
+      }
     },
     {
       "actief": true,
@@ -594,6 +594,7 @@
       "tegelbeeld_alt": "Case StiGaM",
       "hover_video": "",
       "merkkleur": "#1f6f8b",
+      "info_tekstkleur": "wit",
       "tags": [
         "strategie",
         "concept",
@@ -626,8 +627,7 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      },
-      "info_tekstkleur": "wit"
+      }
     },
     {
       "actief": true,
@@ -638,6 +638,7 @@
       "tegelbeeld_alt": "Case MRDH",
       "hover_video": "",
       "merkkleur": "#c2532d",
+      "info_tekstkleur": "wit",
       "tags": [
         "concept",
         "content",
@@ -669,8 +670,7 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      },
-      "info_tekstkleur": "wit"
+      }
     },
     {
       "actief": true,
@@ -681,6 +681,7 @@
       "tegelbeeld_alt": "Case STL",
       "hover_video": "",
       "merkkleur": "#e8b21f",
+      "info_tekstkleur": "zwart",
       "tags": [
         "arbeidsmarktcommunicatie",
         "strategie",
@@ -714,8 +715,7 @@
         "verhaal": "",
         "meta_omschrijving": "",
         "disciplines_detail": []
-      },
-      "info_tekstkleur": "zwart"
+      }
     }
   ]
 }
