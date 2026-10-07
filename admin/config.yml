@@ -1,15 +1,25 @@
 # yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
 # Sveltia CMS — Campagne website
-# Opslaan = commit naar GitHub. Bij een gekoppelde Netlify-site volgt automatisch een nieuwe deploy.
+# Opslaan = commit naar GitHub. Cloudflare Pages bouwt en publiceert daarna automatisch.
 
-# LET OP: de site draait op creatiecampagne.github.io/campagne-website/ (een submap).
-# Alle paden moeten daarom RELATIEF blijven ("images/..."), nooit met een
-# beginslash — die verwijst naar de domeinroot en levert een 404 op.
+# LET OP: houd alle paden RELATIEF ("images/..."), nooit met een beginslash.
+# Zo werkt de site op elk adres: Cloudflare (pages.dev), een testdomein,
+# campagne.nl én de oude GitHub Pages-submap.
 
 backend:
   name: github
   repo: creatiecampagne/campagne-website
   branch: main
+  # Inloggen via de eigen OAuth-Worker op Cloudflare (stappenplan A3).
+  # Collega's loggen in met hun eigen GitHub-account; er loopt niets via
+  # persoonlijke tokens.
+  base_url: https://sveltia-cms-auth.creatie-campagne.workers.dev
+
+# Concept-workflow: elke wijziging in het CMS wordt eerst een concept (eigen
+# branch + pull request) met een preview-link van Cloudflare. Pas met
+# 'Publiceren' in het CMS gaat hij live — zonder dat iemand GitHub hoeft te openen.
+# Nodig omdat main beschermd is: niemand schrijft er rechtstreeks op.
+publish_mode: editorial_workflow
 
 media_folder: images
 public_folder: images

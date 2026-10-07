@@ -1068,8 +1068,8 @@ p { text-wrap: pretty; }
   <div class="formulier-binnen">
     <h2 class="sectie-kop">Hartje Rotterdam</h2>
     <p class="formulier-intro">Strategisch inzicht, creatieve genialiteit en resultaten die er toe doen. Vertel ons waar jouw merk van droomt &mdash; we denken graag met je mee.</p>
-    <!-- Koppel 'action' later aan een formulierdienst (bijv. Formspree) of eigen backend.
-         Zolang die er niet is, opent versturen een e-mail naar hello@campagne.nl. -->
+    <!-- Versturen gaat via /api/contact (functions/api/contact.js) met Turnstile als
+         spamcheck; zie het script onderaan deze pagina. -->
     <form class="contactform" id="contactform" novalidate>
       <div class="form-velden">
         <label class="sr-only" for="veld-naam">Naam</label>
