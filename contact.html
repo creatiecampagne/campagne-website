@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://player.vimeo.com">
 <link rel="preconnect" href="https://i.vimeocdn.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- three.js voor het 3D-beeldmerk (zelfde CDN-aanpak als Google Fonts: extern, licht voor de repo) -->
 <script type="importmap">
 {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"}}
@@ -227,6 +227,19 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
 .contact-info.links  { grid-area: links; justify-self: start; }
 .contact-info.rechts { grid-area: rechts; justify-self: end; }
 .contact-info .kolom-label { font-size: 24px; font-weight: 800; line-height: 1.3; margin-bottom: 22px; }
+/* Figma 153:156 (okt 2026): de contactblokken staan niet meer naast het
+   hartmidden, maar flankeren 'Wanna be loved?' — bovenkant 38px boven de
+   titel, onderkant c. 20px onder de titel. De som volgt exact dezelfde
+   verschuivingen als de titel (hoogte hart + marge-top + translate van
+   .wbl-kop), zodat blokken en titel op elke schermhoogte samen bewegen.
+   Onder 1100px is er naast de titel te weinig ruimte; daar blijft de
+   plaatsing naast het hart staan. */
+@media (min-width: 1100px) {
+  .contact-info {
+    align-self: start;
+    transform: translateY(calc(min(48vw, 64svh, 900px) + clamp(-100px, -9svh, -48px) + clamp(-56px, -5svh, -26px) + 30px - 38px));
+  }
+}
 /* 'Wanna be loved?' op twee regels direct onder het roterende hart (Figma 153:662) */
 .wbl-kop {
   grid-area: wbl;
@@ -369,15 +382,43 @@ body.menu-open .menu-knop .hamburger span:nth-child(2) { transform: translateY(-
 .verstuur .pijl-knop { width: 45px; height: 45px; color: var(--zwart); }  /* Figma: cirkel Ø45 */
 .verstuur:hover .pijl-svg { transform: rotate(45deg); }
 .verstuur:hover .verstuur-lijn { transform: scaleX(1.04); }
-.form-dank {
+/* Velden in een eigen raster, zodat de bedankmelding er precies overheen valt */
+.form-velden {
   grid-column: 1 / -1;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+/* Bedankt (Figma 302:227 + 302:229): witte waas (70%) die iets buiten de
+   velden valt, met de tekst gecentreerd. Eerste regel Bold, tweede Regular
+   met een onderstreepte link om een nieuw bericht te sturen. */
+.form-dank {
+  position: absolute;
+  inset: -14px -18px -10px;
+  z-index: 3;
   display: none;
-  font-size: 16px; font-weight: 600;
-  color: var(--roze);
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  background: rgba(255, 255, 255, .7);
   text-align: center;
 }
-.contactform.verstuurd .form-dank { display: block; }
-.form-dank.fout { color: var(--zwart); }
+.form-dank p { max-width: 752px; font-size: 16px; line-height: 28px; font-weight: 400; color: var(--zwart); }
+.form-dank strong { font-weight: 700; }
+.nieuw-bericht {
+  padding: 0;
+  font: inherit; color: inherit;
+  text-decoration: underline; text-underline-offset: 3px;
+  cursor: pointer;
+}
+.contactform.verstuurd .form-dank { display: flex; }
+/* Foutmeldingen en de mailprogramma-route: één regel onder de knop */
+.form-melding {
+  grid-column: 1 / -1;
+  font-size: 14px; line-height: 1.6; font-weight: 600;
+  color: var(--roze);
+}
 .contactform.bezig .verstuur { opacity: .45; pointer-events: none; }
 /* Lokveld: buiten beeld, maar wél in het formulier (bots vullen het in) */
 .hp-veld { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
@@ -740,7 +781,7 @@ body.menu-open { overflow: hidden; }
   .hart-houder { width: min(88vw, 46svh, 440px); }
   .scroll-cue { display: none; }
 
-  .contactform { grid-template-columns: 1fr; }
+  .contactform, .form-velden { grid-template-columns: 1fr; }
   .form-onder { flex-direction: column; align-items: flex-start; }
 
   .werkvloer-box { height: clamp(240px, 62vw, 340px); }
@@ -809,6 +850,11 @@ p { text-wrap: pretty; }
 <path d="M15.2319 29.7657L28.7925 16.2052" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
 <path d="M22.5 44C34.3741 44 44 34.3741 44 22.5C44 10.6259 34.3741 1 22.5 1C10.6259 1 1 10.6259 1 22.5C1 34.3741 10.6259 44 22.5 44Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
 </symbol>
+<symbol id="svg-pijl-55" viewBox="0 0 55 55"><!-- Pijlbol middel 55 (Figma 206:498), lijndikte 1.5 — gebruikt in o.a. de partnerblokken -->
+    <path d="M20.0193 19.7413H35.2547V34.9767" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M18.5417 36.4555L35.2559 19.7413" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+    <path d="M27.5 54C42.1355 54 54 42.1355 54 27.5C54 12.8645 42.1355 1 27.5 1C12.8645 1 1 12.8645 1 27.5C1 42.1355 12.8645 54 27.5 54Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+  </symbol>
 <symbol id="ico-instagram" viewBox="2 2 34 34"><!-- Instagram lijn (Figma 206:566) -->
 <path fill-rule="evenodd" clip-rule="evenodd" d="M31.7009 35H6.2991C4.47669 35 3 33.5233 3 31.7009V6.2991C3 4.47669 4.47669 3 6.2991 3H31.7009C33.5233 3 35 4.47669 35 6.2991V31.7009C35 33.5233 33.5233 35 31.7009 35Z" fill="none" stroke="currentColor" stroke-width="2"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M12.5435 19.5948C12.5435 16.0301 15.4338 13.1398 18.9985 13.1398C22.5631 13.1398 25.4535 16.0301 25.4535 19.5948C25.4535 23.1594 22.5631 26.0498 18.9985 26.0498C15.4338 26.0498 12.5435 23.1594 12.5435 19.5948Z" fill="none" stroke="currentColor" stroke-width="2.45949"/>
@@ -1025,12 +1071,19 @@ p { text-wrap: pretty; }
     <!-- Koppel 'action' later aan een formulierdienst (bijv. Formspree) of eigen backend.
          Zolang die er niet is, opent versturen een e-mail naar hello@campagne.nl. -->
     <form class="contactform" id="contactform" novalidate>
-      <label class="sr-only" for="veld-naam">Naam</label>
-      <input id="veld-naam" name="naam" type="text" placeholder="Naam*" autocomplete="name" required>
-      <label class="sr-only" for="veld-email">E-mailadres</label>
-      <input id="veld-email" name="email" type="email" placeholder="E-mailadres*" autocomplete="email" required>
-      <label class="sr-only" for="veld-bericht">Bericht</label>
-      <textarea id="veld-bericht" name="bericht" placeholder="Vertel ons over je merk, project of vraag&hellip;"></textarea>
+      <div class="form-velden">
+        <label class="sr-only" for="veld-naam">Naam</label>
+        <input id="veld-naam" name="naam" type="text" placeholder="Naam*" autocomplete="name" required>
+        <label class="sr-only" for="veld-email">E-mailadres</label>
+        <input id="veld-email" name="email" type="email" placeholder="E-mailadres*" autocomplete="email" required>
+        <label class="sr-only" for="veld-bericht">Bericht</label>
+        <textarea id="veld-bericht" name="bericht" placeholder="Vertel ons over je merk, project of vraag&hellip;"></textarea>
+        <!-- Na versturen: witte waas over de velden met de bedankmelding (Figma 302:3) -->
+        <div class="form-dank" role="status" aria-live="polite">
+          <p><strong>Dankjewel! Je bericht is verstuurd &mdash; we nemen snel contact met je op.</strong><br>
+          Foutje gemaakt? Of ben je wat vergeten, verstuur gerust <button type="button" class="nieuw-bericht">een nieuw bericht.</button></p>
+        </div>
+      </div>
       <!-- Lokveld tegen spambots: onzichtbaar voor mensen, moet leeg blijven -->
       <div class="hp-veld" aria-hidden="true">
         <label for="veld-website">Website</label>
@@ -1047,7 +1100,7 @@ p { text-wrap: pretty; }
           <span class="pijl-knop"><svg class="pijl-svg" aria-hidden="true"><use href="#svg-pijl-45"></use></svg></span>
         </button>
       </div>
-      <p class="form-dank" role="status">Dankjewel! Je mailprogramma opent met je bericht &mdash; versturen maar. &#10084;</p>
+      <p class="form-melding" role="alert" hidden></p>
     </form>
   </div>
 </section>
@@ -1202,22 +1255,32 @@ document.querySelectorAll('.taalswitch button').forEach(function (b) {
 // niet (lokaal openen of de oude GitHub Pages-versie), dan valt het terug op de
 // oude manier: het mailprogramma opent met het bericht voor hello@campagne.nl.
 var contactform = document.getElementById('contactform');
-var formStatus = contactform.querySelector('.form-dank');
+var formMelding = contactform.querySelector('.form-melding');
 var FOUTEN = {
   email: 'Vul een geldig e-mailadres in.',
   naam: 'Vul je naam in.',
   turnstile: 'De spamcheck is niet gelukt. Probeer het nog een keer, of mail ons via hello@campagne.nl.'
 };
-function toonStatus(tekst, fout) {
-  formStatus.textContent = tekst;
-  formStatus.classList.toggle('fout', !!fout);
+// Fout of melding: één regel onder de verzendknop
+function toonMelding(tekst) {
+  formMelding.textContent = tekst || '';
+  formMelding.hidden = !tekst;
+}
+// Gelukt: waas met bedankmelding over de (inmiddels lege) velden
+function toonDank() {
+  toonMelding('');
   contactform.classList.add('verstuurd');
 }
+// 'een nieuw bericht.' — waas weg, terug naar het eerste veld
+contactform.querySelector('.nieuw-bericht').addEventListener('click', function () {
+  contactform.classList.remove('verstuurd');
+  document.getElementById('veld-naam').focus();
+});
 function viaMailprogramma(naam, email, bericht) {
   var onderwerp = 'Wanna be loved? — bericht van ' + naam;
   var body = bericht + '\n\n' + naam + '\n' + email;
   window.location.href = 'mailto:hello@campagne.nl?subject=' + encodeURIComponent(onderwerp) + '&body=' + encodeURIComponent(body);
-  toonStatus('Dankjewel! Je mailprogramma opent met je bericht — versturen maar. ❤');
+  toonMelding('Je mailprogramma opent met je bericht — versturen maar.');
 }
 // Turnstile maakt op de achtergrond een 'bewijs' aan; wacht daar kort op.
 function wachtOpTurnstile(maxMs) {
@@ -1232,7 +1295,7 @@ function wachtOpTurnstile(maxMs) {
 }
 contactform.addEventListener('submit', function (e) {
   e.preventDefault();
-  if (contactform.classList.contains('bezig')) return;
+  if (contactform.classList.contains('bezig') || contactform.classList.contains('verstuurd')) return;
   var naam = document.getElementById('veld-naam').value.trim();
   var email = document.getElementById('veld-email').value.trim();
   var bericht = document.getElementById('veld-bericht').value.trim();
@@ -1241,7 +1304,7 @@ contactform.addEventListener('submit', function (e) {
   if (location.protocol === 'file:') { viaMailprogramma(naam, email, bericht); return; }
 
   contactform.classList.add('bezig');
-  contactform.classList.remove('verstuurd');
+  toonMelding('');
   wachtOpTurnstile(15000)
     .then(function () {
       return fetch('api/contact', { method: 'POST', body: new FormData(contactform) });
@@ -1252,14 +1315,14 @@ contactform.addEventListener('submit', function (e) {
       return r.json().catch(function () { return {}; }).then(function (d) {
         if (r.ok && d.ok) {
           contactform.reset();
-          toonStatus('Dankjewel! Je bericht is verstuurd — we nemen snel contact met je op. ❤');
+          toonDank();
         } else {
-          toonStatus(FOUTEN[d.code] || 'Er ging iets mis bij het versturen. Probeer het later nog eens, of mail ons direct via hello@campagne.nl.', true);
+          toonMelding(FOUTEN[d.code] || 'Er ging iets mis bij het versturen. Probeer het later nog eens, of mail ons direct via hello@campagne.nl.');
         }
       });
     })
     .catch(function () {
-      toonStatus('Er ging iets mis bij het versturen. Probeer het later nog eens, of mail ons direct via hello@campagne.nl.', true);
+      toonMelding('Er ging iets mis bij het versturen. Probeer het later nog eens, of mail ons direct via hello@campagne.nl.');
     })
     .finally(function () {
       contactform.classList.remove('bezig');
